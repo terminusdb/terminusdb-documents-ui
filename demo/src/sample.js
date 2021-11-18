@@ -10,3 +10,7 @@ export const DEMO_SCHEMA = {
     "date_of_birth": "xsd:dateTime",
     "name": "xsd:string"
 }
+
+export const DEMO_SCHEMA_UI = {
+  "placeholder": "xsd:dateTime"
+}
