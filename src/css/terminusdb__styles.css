@@ -1,0 +1,11 @@
+
+
+.tdb__subdocument__collapse_headers{
+    background: none !important;
+    padding: 0 !important;
+    max-height: 20px;
+}
+
+.tdb__subdocument__collapse_headers > span {
+    color: #f9d891 !important;
+}

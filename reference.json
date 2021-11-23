@@ -1,0 +1,54 @@
+import React from "react";
+import { render } from "react-dom";
+import Form from "react-jsonschema-form";
+import table from "react-jsonschema-form-extras/lib/table";
+import { TypeaheadField } from "react-jsonschema-form-extras/lib/TypeaheadField";
+import ReactDatePicker from "react-jsonschema-form-extras/lib/ReactDatePicker";
+import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField";
+import "react-day-picker/lib/style.css";
+
+let schema = {
+  type: "object",
+  properties: {
+    firstName: { type: "string" }
+  }
+}
+
+
+let uiSchema = {
+  firstName: {
+      "ui:field": "collapsible",
+      collapse: {
+        field: "StringField",
+        legend: {
+          component: "LanguageLegend",
+          props: {
+            language: "EN"
+          }
+        }
+      }
+  }
+}
+
+let formContext = {
+  legends: {
+    LanguageLegend: (props) => (<h1>Expected {props.language} characters</h1>)
+  }
+}
+
+
+const App = () => (
+  <Form
+    schema={schema}
+    uiSchema={uiSchema}
+    fields={{
+      collapsible: CollapsibleField
+    }}
+    formContext={formContext}
+    onSubmit={data => {
+      console.log(data);
+    }}
+  />
+);
+
+render(<App />, document.getElementById("root"));
