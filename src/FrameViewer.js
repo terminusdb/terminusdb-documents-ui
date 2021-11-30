@@ -9,15 +9,15 @@ import {TDB_SCHEMA} from "./constants"
 **  uiFrame - ui json of a document
 **  mode    - create/ edit/ view
 */
-export function FrameViewer({frame, uiFrame, document, mode}){
+export function FrameViewer({frame, uiFrame, type, mode, documents}){
     const [schema, setSchema]=useState(false)
     const [uiSchema, setUISchema]=useState(false)
 
     if(!frame) return <div>No schema provided!</div>
 
     useEffect(() => {
-        let current = `${TDB_SCHEMA}${document}`
-        let properties = getProperties(frame, uiFrame, current, mode)
+        let current = `${TDB_SCHEMA}${type}`
+        let properties = getProperties(frame, frame[current], uiFrame, documents, mode, false)
         const schema = {
             "type": "object",
             "properties": properties.properties,
@@ -33,10 +33,16 @@ export function FrameViewer({frame, uiFrame, document, mode}){
     }, [frame, uiFrame])
 
 
+    const onSubmit = ({formData}) => {
+        console.log("Data submitted: ",  formData)
+    }
+
+
     return <div>
         {schema && <Form schema={schema}
             uiSchema={uiSchema}
             mode={mode}
+            onSubmit={onSubmit}
             fields={{
                 collapsible: CollapsibleField
             }}

@@ -1,7 +1,7 @@
 
 import React from "react"
 import {Button} from "react-bootstrap"
-import {XSD_DATA_TYPE_PREFIX, XDD_DATA_TYPE_PREFIX, OPTIONAL, SET, TDB_SCHEMA} from "./constants"
+import {XSD_DATA_TYPE_PREFIX, XDD_DATA_TYPE_PREFIX, OPTIONAL, SET, TDB_SCHEMA, DOCUMENT, ENUM} from "./constants"
 import {BiPlus} from "react-icons/bi"
 import {RiDeleteBin5Fill} from "react-icons/ri"
 
@@ -13,8 +13,7 @@ export const isDataType = (property) => {
 }
 
 // returns true for properties which are subdocuments
-export const isSubDocumentType = (property, frame) => {
-    if(!frame) return false
+export const isSubDocumentType = (property) => {
     if(property["@subdocument"]) return true
     return false
 }
@@ -28,11 +27,29 @@ export const isOptionalType = (property) => {
 
 
 // returns true for set
-export const isSetType = (property, documentType) => {
+export const isSetType = (property) => {
     if(typeof property !== "object") return false
     if(property["@type"] === SET) return true
     return false
 }
+
+// returns true for properties pointing to other documents or enums
+export const isDocumentType = (property, frame) => {
+    if(typeof property === "object") return false
+    if(!frame) return false
+    let document = `${TDB_SCHEMA}${property}`
+    if(frame[document]) {
+        if(frame[document]["@type"] === DOCUMENT) return true
+    }
+    return false
+}
+
+// returns true for properties ponting to an enum class
+export const isEnumType = (property) => {
+    if(typeof property !== "object") return false
+    if(property["@type"] === ENUM) return true
+}
+
 
 
 // field array to display field titles
@@ -76,7 +93,7 @@ export function ArrayFieldTemplate(props) {
                 {<div>{element.children}</div>}
 
                 {element.hasMoveDown && (
-                    <Button variant={variant} className="mb-3 set-array-item-list" title="Move Down"  onClick={element.onReorderClick(
+                    <Button variant={variant} className="mb-3 tdb__array__item__list bg-transparent border-0" title="Move Down"  onClick={element.onReorderClick(
                         element.index,
                         element.index + 1
                       )}>
@@ -84,7 +101,7 @@ export function ArrayFieldTemplate(props) {
                     </Button>
                 )}
                 {element.hasMoveUp && (
-                    <Button variant={variant} title="Move Up"  className="mb-3 set-array-item-list" onClick={element.onReorderClick(
+                    <Button variant={variant} title="Move Up"  className="mb-3 tdb__array__item__list bg-transparent border-0" onClick={element.onReorderClick(
                         element.index,
                         element.index - 1
                       )}>
@@ -92,7 +109,7 @@ export function ArrayFieldTemplate(props) {
                 </Button>
                 )}
 
-                {element.hasRemove && <Button  variant={variant} className="mb-3 set-array-item-list" title="Delete" onClick={element.onDropIndexClick(element.index)}>
+                {element.hasRemove && <Button  variant={variant} className="mb-3 tdb__array__item__list bg-transparent border-0" title="Delete" onClick={element.onDropIndexClick(element.index)}>
                     <RiDeleteBin5Fill className="text-danger" style={{fontSize: "25px"}}/>
                 </Button>}
 

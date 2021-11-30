@@ -10,7 +10,7 @@
     color: #f9d891 !important;
 }
 
-.tdb__input > input{
+.tdb__input > input, .tdb__input > select{
     color: #adb5bd !important;
     background-color: transparent !important;
     border-color: rgb(102, 102, 102) !important;
@@ -31,7 +31,17 @@ div.array-item > div {
     width: 100% !important;
 }
 
-.set-array-item-list {
+.tdb__array__item__list {
     height: 60px !important;
     margin-top: 30px !important;
+}
+
+div.array-item > div.array-item-toolbox {
+    margin-left: 20px !important;
+}
+
+.array-item-remove{
+    color: #e74c3c !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
 }
