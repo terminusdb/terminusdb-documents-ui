@@ -9,3 +9,29 @@
 .tdb__subdocument__collapse_headers > span {
     color: #f9d891 !important;
 }
+
+.tdb__input > input{
+    color: #adb5bd !important;
+    background-color: transparent !important;
+    border-color: rgb(102, 102, 102) !important;
+    line-height: 1.5;
+}
+
+.required {
+    font-size: 20px;
+    color: #ffc107!important;
+    margin-left: 10px !important;
+}
+
+div.array-item {
+    display: flex !important;
+}
+
+div.array-item > div {
+    width: 100% !important;
+}
+
+.set-array-item-list {
+    height: 60px !important;
+    margin-top: 30px !important;
+}

@@ -1,31 +1,45 @@
 export const DEMO_SCHEMA = {
-	"@id": "Person",
-	"@key": {
-	  "@fields": [
-		"name"
-	  ],
-	  "@type": "Lexical"
+	"terminusdb:///schema#Address": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "AddressLine1": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "AddressLine2": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "Country": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  }
 	},
-	"@type": "Class",
-	"DOB": "xsd:dateTime",
-	"lives_in": "Address",
-	"name": "xsd:string"
-}
-
-export const SUBDOCUMENT_FRAME = {
-	"@id": "Address",
-	"@key": {
-	  "@fields": [
-		"City"
-	  ],
-	  "@type": "Lexical"
-	},
-	"@subdocument": [],
-	"@type": "Class",
-	"AddressLine1": "xsd:string",
-	"AddressLine2": "xsd:string",
-	"City": "xsd:string",
-	"Country": "xsd:string"
+	"terminusdb:///schema#Person": {
+	  "@key": {
+		"@fields": [
+		  "name"
+		],
+		"@type": "Lexical"
+	  },
+	  "@type": "Class",
+	  "age": {
+		"@class": "xsd:decimal",
+		"@type": "Optional"
+	  },
+	  "lives_in": {
+		"@class": "Address",
+		"@subdocument": []
+	  },
+	  "name": "xsd:string",
+	  "nicknames": {
+		"@class": "xsd:string",
+		"@type": "Set"
+	  }
+	}
   }
 
 export const DEMO_SCHEMA_UI = {

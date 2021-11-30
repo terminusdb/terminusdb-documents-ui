@@ -14,15 +14,13 @@ function DataTypeFrames (frame, item, uiFrame) {
     //schema
     properties[item] = layout
 
-    function test () {
-        return  <input className="bg-info"/>
-    }
 
     //default ui:schema
     propertiesUI[item] = {
         "ui:placeholder": frame[item],
         "ui:disabled": uiDisable,
-        "ui:title": getFieldTitle(item, false)
+        "ui:title": getFieldTitle(item, false),
+        classNames: "tdb__input mb-3 mt-3"
     }
 
     //custom ui:schema

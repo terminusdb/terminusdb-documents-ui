@@ -8,18 +8,59 @@ import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField"
 import "react-day-picker/lib/style.css";
 
 let schema = {
-  type: "object",
-  properties: {
-    firstName: { type: "string" }
+  "title": "A registration form",
+  "description": "A simple form example.",
+  "type": "object",
+  "required": [
+    "firstName",
+    "lastName"
+  ],
+  "properties": {
+    "firstName": {
+      "type": "array",
+      "title": "First name",
+      items: [
+        {
+          type: "object",
+          properties: {
+            "AddressLine1": {
+              "type": "string",
+              "info": "DATA"
+            },
+            "AddressLine2": {
+              "type": "string",
+              "info": "DATA"
+            },
+            "City": {
+              "type": "string",
+              "info": "DATA"
+            },
+            "Country": {
+              "type": "string",
+              "info": "DATA"
+            },
+            "@type": {
+              "type": "string",
+              "title": "Address",
+              "info": "DATA",
+              "default": "Address"
+            }
+          }
+        }
+      ]
+    },
+    "lastName": {
+      "type": "string",
+      "title": "Last name"
+    }
   }
 }
-
 
 let uiSchema = {
   firstName: {
       "ui:field": "collapsible",
       collapse: {
-        field: "StringField",
+        field: "ArrayField",
         legend: {
           component: "LanguageLegend",
           props: {
@@ -35,6 +76,7 @@ let formContext = {
     LanguageLegend: (props) => (<h1>Expected {props.language} characters</h1>)
   }
 }
+
 
 
 const App = () => (
