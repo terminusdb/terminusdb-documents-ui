@@ -45,3 +45,20 @@ div.array-item > div.array-item-toolbox {
     background-color: transparent !important;
     border-color: transparent !important;
 }
+
+
+i.glyphicon-chevron-right::after {
+    content: 'Expand';
+    float: right;
+    font-style: normal;
+    color: #ccc;
+    font-size: 15px;
+}
+
+i.glyphicon-chevron-down::after {
+    content: 'Collapse';
+    float: right;
+    font-style: normal;
+    color: #ccc;
+    font-size: 15px;
+}

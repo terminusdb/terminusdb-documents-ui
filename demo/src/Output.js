@@ -4,6 +4,6 @@ import {DEMO_DOCUMENTS} from "./sample"
 
 export const Output = ({schema, uiSchema}) => {
     return <React.Fragment>
-        <FrameViewer frame={schema} uiFrame={uiSchema} type={"Person"} documents={DEMO_DOCUMENTS}/>
+        <FrameViewer frame={schema} uiFrame={uiSchema} type={"Organization"} documents={DEMO_DOCUMENTS}/>
     </React.Fragment>
 }

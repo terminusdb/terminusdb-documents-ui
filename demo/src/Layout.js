@@ -3,11 +3,11 @@ import {Container, Row} from "react-bootstrap"
 import {SchemaEditors} from "./SchemaEditors"
 import {UIEditors} from "./UIEditors"
 import {Output} from "./Output"
-import {DEMO_SCHEMA, DEMO_SCHEMA_UI} from "./sample"
+import {DEMO_SCHEMA, PROFILE_SCHEMA, DEMO_SCHEMA_UI} from "./sample"
 
 const App= (props) =>{
 
-    const [schema, setSchema]=useState(DEMO_SCHEMA)
+    const [schema, setSchema]=useState(PROFILE_SCHEMA)
     const [uiSchema, setUISchema]=useState(DEMO_SCHEMA_UI)
 
     return <Container fluid className="p-0 h-100 d-flex">
