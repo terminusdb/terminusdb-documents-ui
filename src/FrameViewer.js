@@ -35,8 +35,8 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData}){
             const uiSchema = properties.uiSchema
             if(uiFrame.classNames) uiSchema["classNames"]=uiFrame.classNames
             setUISchema(uiSchema)
+            console.log("schema", JSON.stringify(schema, null, 2))
             console.log("schema", schema)
-            //console.log("schema", JSON.stringify(schema, null, 2))
             console.log("uiSchema", uiSchema)
             if(mode === VIEW) setReadOnly(true)
         }

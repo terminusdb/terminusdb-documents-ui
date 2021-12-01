@@ -71,36 +71,40 @@ export const DEMO_SCHEMA = {
 	  },
 	  "@type": "Class",
 	  "lives_in": {
-		"@class": "Address",
-		"@subdocument": []
+		"@class": {
+		  "@class": "Address",
+		  "@subdocument": []
+		},
+		"@type": "Set"
 	  },
 	  "name": "xsd:string"
 	}
-}
+  }
 
 export const DEMO_DOCUMENT_TYPE="Person"
 
-export const DEMO_FORM_DATA={
-	"@id":"Person/Kitty%20Jose",
+export const DEMO_FORM_DATA= {
+	"@id":"Person/Kitty%20Jose%20two",
 	"@type":"Person",
-	"age":34,
-	"likes":"red",
 	"lives_in":[
 	   {
-		  "@id":"Person/Kitty%20Jose/lives_in/Address/b513cba9caad048a385e8e784ca43a3bf68ed8a4f7dd6c9e4be7aa284598b259",
+		  "@id":"Person/Kitty%20Jose%20two/lives_in/Address/70d063df1a0aca10c036d04f414b85dfe1b75652cce3b5c358677b92567dd60a",
 		  "@type":"Address",
-		  "AddressLine1":"5 beverly leinster square ",
-		  "AddressLine2":"rathmines dublin 6",
+		  "AddressLine1":"5 beverly leinster square",
+		  "AddressLine2":" rathmines dublin 6",
 		  "Country":"Ireland",
-		  "address_code":"Codes/001"
+		  "address_code":"Codes/002"
+	   },
+	   {
+		  "@id":"Person/Kitty%20Jose%20two/lives_in/Address/8992697ba25d71023c4c0b1188ca41d0b4080b99862cbd7fd829e4beeb671ce3",
+		  "@type":"Address",
+		  "AddressLine1":"Apartment 51 Block 3",
+		  "AddressLine2":"Dundrum Gate Ballinteer road",
+		  "Country":"Ireland",
+		  "address_code":"Codes/003"
 	   }
 	],
-	"name":"Kitty Jose",
-	"nicknames":[
-	   "KITZ",
-	   "KITZKAN"
-	],
-	"works_as":"Job/Party%20Group"
+	"name":"Kitty Jose two"
  }
 
 export const DEMO_DOCUMENTS = {
