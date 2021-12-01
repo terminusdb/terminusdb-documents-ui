@@ -3,7 +3,7 @@ import {Card} from "react-bootstrap"
 
 export const SchemaEditors = ({setSchema, schema}) => {
 
-    return <Card className="m-5 w-100 editor">
+    return <Card className="m-4 w-100 editor">
         <Card.Header as="h3" className="bg-transparent">Schema JSON</Card.Header>
         <Card.Body>
             <textarea

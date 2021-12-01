@@ -97,7 +97,9 @@ export const DEMO_SCHEMA = {
 		"@type": "Optional"
 	  }
 	}
-  }
+}
+
+export const DEMO_DOCUMENT_TYPE="Organization"
 
 export const DEMO_DOCUMENTS = {
 	"Job": [
