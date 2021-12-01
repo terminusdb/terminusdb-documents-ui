@@ -1,11 +1,11 @@
 import React from "react"
 import {makeDataTypeFrames} from "./DataTypeFrames"
 import {makeSubDocumentFrames} from "./SubDocumentTypeFrames"
-import {makeSetTypeFrames} from "./SetTypeFrames"
+import {makeSetSubDocuments, makeSetData} from "./SetTypeFrames"
 import {makeDocumentTypeFrames} from "./DocumentTypeFrames"
 import {makeEnumTypeFrames} from "./EnumTypeFrames"
 import {isDataType, isSubDocumentType, isOptionalType, isSetType, isDocumentType, isEnumType} from "./utils"
-import {TDB_SCHEMA, DOCUMENT, ENUM} from "./constants"
+import {TDB_SCHEMA, DOCUMENT, ENUM, DATA} from "./constants"
 
 function constructNewDocumentFrame(frame, item) {
     let newFrame = {[item]: frame["@class"]}
@@ -65,8 +65,14 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
                 properties[item] = frames.properties[item]
                 propertiesUI[item] = frames.uiSchema[item]
             }
-            else {
-                frames=makeSetTypeFrames(setFrames, item, uiFrame, mode, formData)
+            else if(setFrames.properties[item].info === DATA) { //data
+                frames=makeSetData(setFrames, item, uiFrame, mode, formData)
+                //set properties and ui
+                properties[item] = frames.properties[item]
+                propertiesUI[item] = frames.propertiesUI[item]
+            }
+            else { // sub documents
+                frames=makeSetSubDocuments(setFrames, item, uiFrame, mode, formData)
                 //set properties and ui
                 properties[item] = frames.properties[item]
                 propertiesUI[item] = frames.propertiesUI[item]

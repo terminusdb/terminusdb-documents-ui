@@ -6,6 +6,7 @@ export const OPTIONAL="Optional"
 export const SET="Set"
 export const DOCUMENT="Class"
 export const ENUM="Enum"
+export const DATA="DATA"
 
 
 export const CREATE="Create"
