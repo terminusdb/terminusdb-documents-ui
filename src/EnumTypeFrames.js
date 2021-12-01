@@ -2,10 +2,11 @@
 import React from 'react'
 import {getFieldTitle} from "./utils"
 import Select from 'react-select'
-import {SELECT_STYLES, ENUM} from "./constants"
+import {SELECT_STYLES, ENUM, CREATE} from "./constants"
 
 
-export function EnumTypeFrames (frame, item, uiFrame, isSet) {
+
+export function EnumTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
     let properties={}, propertiesUI={}
     var uiDisable=false
 
@@ -18,8 +19,6 @@ export function EnumTypeFrames (frame, item, uiFrame, isSet) {
     properties[item] = layout
 
     const getSelection = (props) => {
-
-
         function onChange(e) {
             if(isSet) {
                 var val
@@ -38,6 +37,19 @@ export function EnumTypeFrames (frame, item, uiFrame, isSet) {
                 options.push({value: item, label: item})
             })
         }
+
+        /*if(mode !== CREATE) {
+            return <Select
+                isMulti={isSet}
+                classNames="tdb__input"
+                styles={SELECT_STYLES}
+                placeholder={`Select a ${frame["@id"]} ...`}
+                options={options}
+                onChange={onChange}
+                defaultValue={getDefaultValue(item, formData)}
+            />
+        }*/
+
         return  <Select
             isMulti={isSet}
             classNames="tdb__input"
@@ -66,8 +78,8 @@ export function EnumTypeFrames (frame, item, uiFrame, isSet) {
 }
 
 // mandatory
-export function makeEnumTypeFrames (frame, item, uiFrame, isSet) {
-    let madeFrames = EnumTypeFrames (frame, item, uiFrame, isSet)
+export function makeEnumTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
+    let madeFrames = EnumTypeFrames (frame, item, uiFrame, mode, formData, isSet)
     let required=item
     let properties = madeFrames.properties
     let propertiesUI = madeFrames.propertiesUI

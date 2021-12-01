@@ -1,4 +1,3 @@
-
 import {ArrayFieldTemplate} from "./utils"
 
 export function makeSetTypeFrames (setFrames, item, uiFrame) {

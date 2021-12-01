@@ -1,15 +1,30 @@
 import React from "react"
 import {getFieldTitle} from "./utils"
-import {EDIT} from "./constants"
+import {CREATE} from "./constants"
 
-function DataTypeFrames (frame, item, uiFrame) {
+function getDefaultValue(item, formData) {
+    if(!formData) return ""
+    var found=false
+    for(var thing in formData) {
+        if(thing === item) {
+            found = formData[thing]
+            return found
+        }
+    }
+    return found
+}
+
+function DataTypeFrames (frame, item, uiFrame, mode, formData) {
     let properties={}, propertiesUI={}
     var uiDisable=false
 
     var layout = {
         type: 'string',
-        info: "DATA"
+        info: "DATA",
+        title: item
     }
+
+    if(mode !== CREATE) layout["default"]=getDefaultValue(item, formData)
 
     //schema
     properties[item] = layout
@@ -32,8 +47,8 @@ function DataTypeFrames (frame, item, uiFrame) {
 }
 
 // mandatory
-export function makeDataTypeFrames (frame, item, uiFrame) {
-    let madeFrames = DataTypeFrames (frame, item, uiFrame)
+export function makeDataTypeFrames (frame, item, uiFrame, mode, formData) {
+    let madeFrames = DataTypeFrames (frame, item, uiFrame, mode, formData)
     let required=item
     let properties = madeFrames.properties
     let propertiesUI = madeFrames.propertiesUI

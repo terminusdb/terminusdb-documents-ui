@@ -4,6 +4,7 @@ import {getProperties} from "./FrameHelpers"
 import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField"
 import {TDB_SCHEMA} from "./constants"
 import {Alert} from "react-bootstrap"
+import {VIEW} from "./constants"
 
 /*
 **  frame   - full json schema of a document
@@ -11,9 +12,10 @@ import {Alert} from "react-bootstrap"
 **  type    - document type of interest
 **  mode    - create/ edit/ view
 */
-export function FrameViewer({frame, uiFrame, type, mode, documents}){
+export function FrameViewer({frame, uiFrame, type, mode, documents, formData}){
     const [schema, setSchema]=useState(false)
     const [uiSchema, setUISchema]=useState(false)
+    const [readOnly, setReadOnly]=useState(false)
 
     const [error, setError]=useState(false)
 
@@ -22,7 +24,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents}){
     useEffect(() => {
         let current = `${TDB_SCHEMA}${type}`
         try{
-            let properties = getProperties(frame, frame[current], uiFrame, documents, mode, false)
+            let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false)
             const schema = {
                 "type": "object",
                 "properties": properties.properties,
@@ -34,13 +36,15 @@ export function FrameViewer({frame, uiFrame, type, mode, documents}){
             if(uiFrame.classNames) uiSchema["classNames"]=uiFrame.classNames
             setUISchema(uiSchema)
             console.log("schema", schema)
+            //console.log("schema", JSON.stringify(schema, null, 2))
             console.log("uiSchema", uiSchema)
+            if(mode === VIEW) setReadOnly(true)
         }
         catch(e) {
             setError("An error has occured in generating frames. Err - ", e)
         }
 
-    }, [frame, uiFrame, type])
+    }, [frame, uiFrame, type, mode, formData])
 
 
     const onSubmit = ({formData}) => {
@@ -56,6 +60,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents}){
             uiSchema={uiSchema}
             mode={mode}
             onSubmit={onSubmit}
+            readonly={readOnly}
             fields={{
                 collapsible: CollapsibleField
             }}

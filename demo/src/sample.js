@@ -1,3 +1,9 @@
+
+export const CREATE="Create"
+export const EDIT="Edit"
+export const VIEW="View"
+
+
 export const DEMO_SCHEMA = {
 	"terminusdb:///schema#Address": {
 	  "@key": {
@@ -64,42 +70,38 @@ export const DEMO_SCHEMA = {
 		"@type": "Lexical"
 	  },
 	  "@type": "Class",
-	  "age": {
-		"@class": "xsd:decimal",
-		"@type": "Optional"
-	  },
-	  "likes": {
-		"@class": {
-		  "@id": "Color",
-		  "@type": "Enum",
-		  "@values": [
-			"red",
-			"blue",
-			"green"
-		  ]
-		},
-		"@type": "Optional"
-	  },
 	  "lives_in": {
-		"@class": {
-		  "@class": "Address",
-		  "@subdocument": []
-		},
-		"@type": "Set"
+		"@class": "Address",
+		"@subdocument": []
 	  },
-	  "name": "xsd:string",
-	  "nicknames": {
-		"@class": "xsd:string",
-		"@type": "Set"
-	  },
-	  "works_as": {
-		"@class": "Job",
-		"@type": "Optional"
-	  }
+	  "name": "xsd:string"
 	}
 }
 
-export const DEMO_DOCUMENT_TYPE="Organization"
+export const DEMO_DOCUMENT_TYPE="Person"
+
+export const DEMO_FORM_DATA={
+	"@id":"Person/Kitty%20Jose",
+	"@type":"Person",
+	"age":34,
+	"likes":"red",
+	"lives_in":[
+	   {
+		  "@id":"Person/Kitty%20Jose/lives_in/Address/b513cba9caad048a385e8e784ca43a3bf68ed8a4f7dd6c9e4be7aa284598b259",
+		  "@type":"Address",
+		  "AddressLine1":"5 beverly leinster square ",
+		  "AddressLine2":"rathmines dublin 6",
+		  "Country":"Ireland",
+		  "address_code":"Codes/001"
+	   }
+	],
+	"name":"Kitty Jose",
+	"nicknames":[
+	   "KITZ",
+	   "KITZKAN"
+	],
+	"works_as":"Job/Party%20Group"
+ }
 
 export const DEMO_DOCUMENTS = {
 	"Job": [
@@ -445,4 +447,5 @@ export const PROFILE_SCHEMA = {
 	  },
 	  "user_id": "xsd:string"
 	}
-  }
+}
+

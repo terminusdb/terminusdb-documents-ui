@@ -1,45 +1,48 @@
 import React from "react"
 import {getSubDocumentTitle, getSubDocumentDescription} from "./utils"
+import {CREATE} from "./constants"
 
 
-export function subDocumentTypeFrames (frame, item, uiFrame) {
+export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData) {
     let properties={}, propertiesUI={}
 
+    // on edit or view
+    if(mode !== CREATE && formData.hasOwnProperty(item)){
+        let filled= formData[item]
+        filled.map(val => {
+            for(var key in val) {
+                if(frame.properties[key]){ // frame exists and we add a default
+                    frame.properties[key]["default"] = val[key]
+                }
+            }
+        })
+    }
+
     let layout = {
-        type: "array",
+        type: "object",
         title: item,
         info: "SUBDOCUMENT",
-        items: [
-            {
-                type: "object",
-                properties: frame.properties,
-                //dependencies: getDependencies(subDocumentFrame.properties),
-                //required: makeSubFramesRequired(subDocumentFrame)
-            }
-        ]
-
+        properties: frame.properties
     }
+
 
     //schema
     properties[item] = layout
 
-    //default ui:schema
     propertiesUI[item] = {
         "ui:field": "collapsible",
         collapse: {
-            field: "ArrayField",
+            field: "ObjectField",
             classNames:"tdb__subdocument__collapse_headers",
         },
         classNames: "card bg-secondary p-4 mt-4 mb-4",
         "ui:description": getSubDocumentDescription(item),
         "ui:title": getSubDocumentTitle(item),
-        "ui:options": {
-            addable: true,
-            orderable: false,
-            removable: false
-        },
-        items: frame.uiSchema,
+    }
 
+    // copy ui schema of data type to new ui
+    for(var key in frame.uiSchema) {
+        propertiesUI[item][key] = frame.uiSchema[key]
     }
 
     //custom ui:schema
@@ -50,27 +53,9 @@ export function subDocumentTypeFrames (frame, item, uiFrame) {
     return {properties, propertiesUI}
 }
 
-/*
-{
-  "lives_in": {
-          "classNames": "bg-success"
-    },
-    "name": {
-        "ui:field": test
-    }
-}
-*/
-/*
-{
-    "name": {
-        "classNames": "bg-success"
-    }
-}
-*/
 
-
-export const makeSubDocumentFrames = (frame, item, uiFrame) => {
-    let madeFrames = subDocumentTypeFrames(frame, item, uiFrame)
+export const makeSubDocumentFrames = (frame, item, uiFrame, mode, formData) => {
+    let madeFrames = subDocumentTypeFrames(frame, item, uiFrame, mode, formData)
     let properties = madeFrames.properties
     let propertiesUI = madeFrames.propertiesUI
     return {properties, propertiesUI}

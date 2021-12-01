@@ -7,8 +7,14 @@ export const SET="Set"
 export const DOCUMENT="Class"
 export const ENUM="Enum"
 
+
+export const CREATE="Create"
+export const EDIT="Edit"
+export const VIEW="View"
+
+
 export const TDB_SCHEMA= "terminusdb:///schema#"
-export const EDIT="edit"
+
 
 export const SELECT_STYLES = {
     control: (styles) => ({ ...styles, backgroundColor: 'dark', borderColor: "rgb(102, 102, 102) !important" }),
