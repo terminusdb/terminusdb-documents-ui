@@ -89,38 +89,47 @@ export const DEMO_SCHEMA = {
 	}
   }
 
-export const DEMO_DOCUMENT_TYPE="Person"
+export const DEMO_DOCUMENT_TYPE="Organization"
 
 export const DEMO_FORM_DATA= {
-	"@id":"Person/Kitty%20Jose",
-	"@type":"Person",
-	"lives_in":[
+	"@id":"Organization/MICRO",
+	"@type":"Organization",
+	"creation_date":"2011-01-01T01:00:37Z",
+	"invitations":[
 	   {
-		  "@id":"Person/Kitty%20Jose/lives_in/Address/23f4112c10dbf8a5bcf19098ac4e475ab40c0fa3a7e1e170a02bdd472cbe9c09",
-		  "@type":"Address",
-		  "AddressLine1":"5 beverly leinster square ",
-		  "AddressLine2":"rathmines dublin 6",
-		  "Country":"Ireland",
-		  "address_code":"Codes/001"
+		  "@id":"Organization/MICRO/invitations/Invitation/299de9d1abcbda9cc08ef08d8f5ab4248ed4adeb7871c238907d641f3c7ea32e",
+		  "@type":"Invitation",
+		  "creation_date":"2011-01-01T01:00:37Z",
+		  "email_to":"kitty@terminusdb.com",
+		  "invited_by":"User/WHO",
+		  "note":"SADSAD",
+		  "role":"asdasd",
+		  "status":"invite_sent"
 	   },
 	   {
-		  "@id":"Person/Kitty%20Jose/lives_in/Address/7d8ec1d3a4c6d65a25e63a05efb1694a2060941ca0a82d3b98c350ab9c88b815",
-		  "@type":"Address",
-		  "AddressLine1":"Apartment 51 Block 3",
-		  "AddressLine2":"Dundrum Gate Ballinteer road",
-		  "Country":"Ireland",
-		  "address_code":"Codes/002"
+		  "@id":"Organization/MICRO/invitations/Invitation/a671d252faff53b1d86b76b8bdb8c37d9f95fdc303ffcf51d50ad5c7eba246de",
+		  "@type":"Invitation",
+		  "creation_date":"2011-01-01T01:00:37Z",
+		  "email_to":"kitty@gmail.com",
+		  "invited_by":"User/WHO",
+		  "note":"SSD",
+		  "role":"SA",
+		  "status":"accepted"
 	   }
 	],
-	"name":"Kitty Jose",
-	"nicknames":[
-	   "JOSE",
-	   "KITZKAN"
-	],
-	"works_as":[
-	   "Job/CTO",
-	   "Job/OPS"
-	]
+	"organization_name":"MICRO",
+	"owned_by":"User/WHO",
+	"status":"accepted",
+	"stripe_subscription":{
+	   "@id":"Organization/MICRO/stripe_subscription/StripeSubscription/KITTY2011-01-01T01%3A00%3A37Z",
+	   "@type":"StripeSubscription",
+	   "billing_email":"kitty@terminusdb.com",
+	   "status":"needs_invite",
+	   "stripe_id":"KITTY2011-01-01T01:00:37Z",
+	   "stripe_quantity":2,
+	   "stripe_user":"User/WHO",
+	   "subscription_id":"DASDSDASD"
+	}
  }
 
 export const DEMO_DOCUMENTS = {

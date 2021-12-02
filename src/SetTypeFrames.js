@@ -1,4 +1,4 @@
-import {ArrayFieldTemplate, getTitle} from "./utils"
+import {ArrayFieldTemplate} from "./utils"
 import {CREATE, DATA, VIEW} from "./constants"
 
 function removeDefaultsFromSubDocumentFrame (json) {
@@ -33,8 +33,6 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData) {
             }
         ]
     }
-
-
 
     if(mode !== CREATE && formData.hasOwnProperty(item)){
         var filledItems = []
@@ -91,11 +89,8 @@ export function makeSetData (setFrames, item, uiFrame, mode, formData) {
 
     var  layout= {
         type: "array",
-        items: [
-             setFrames.properties[item]
-        ]
+        items: setFrames.properties[item]
     }
-
 
     if(mode !== CREATE && formData.hasOwnProperty(item)){
         var filledItems = []
@@ -153,9 +148,7 @@ export function makeSetDocuments  (setFrames, item, uiFrame, mode, formData) {
 
     var  layout= {
         type: "array",
-        items: [
-             setFrames.properties[item]
-        ]
+        items: setFrames.properties[item]
     }
 
 
@@ -201,6 +194,15 @@ export function makeSetDocuments  (setFrames, item, uiFrame, mode, formData) {
         }
         propertiesUI[item]["ui:ArrayFieldTemplate"]=ArrayFieldTemplate
     }
+
+    if(mode === VIEW && !formData.hasOwnProperty(item)) {       // hide add options on view
+        propertiesUI[item]["ui:options"] = {
+            addable: false,
+            orderable: false,
+            removable: false
+        }
+    }
+
 
     //custom ui:schema
     if(uiFrame && uiFrame[item]) {

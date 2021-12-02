@@ -9,13 +9,23 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData) {
     // on edit or view
     if(mode !== CREATE && formData.hasOwnProperty(item)){
         let filled= formData[item]
-        filled.map(val => {
-            for(var key in val) {
+        if(Array.isArray(filled)){
+            filled.map(val => {
+                for(var key in val) {
+                    if(frame.properties[key]){ // frame exists and we add a default
+                        frame.properties[key]["default"] = val[key]
+                    }
+                }
+            })
+        }
+        else { //json object
+            for(var key in filled) {
                 if(frame.properties[key]){ // frame exists and we add a default
-                    frame.properties[key]["default"] = val[key]
+                    frame.properties[key]["default"] = filled[key]
                 }
             }
-        })
+        }
+
     }
 
     let layout = {
@@ -44,6 +54,7 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData) {
     for(var key in frame.uiSchema) {
         propertiesUI[item][key] = frame.uiSchema[key]
     }
+
 
     //custom ui:schema
     if(uiFrame && uiFrame[item]) {

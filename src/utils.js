@@ -94,11 +94,12 @@ export function ArrayFieldTemplate(props) {
         */
     return  (
         <div className={props.className}>
+          <span>{props.title}</span>
+          <p className="text-muted fw-bold">{`${props.title} is a Set. To add ${props.title} click on the Add button`}</p>
           {props.items &&
             props.items.map(element => (
               <div key={element.key} className={element.className}>
                 {<div>{element.children}</div>}
-
                 {element.hasMoveDown && (
                     <Button variant={variant} className="mb-3 tdb__array__item__list bg-transparent border-0" title="Move Down"  onClick={element.onReorderClick(
                         element.index,
@@ -121,7 +122,7 @@ export function ArrayFieldTemplate(props) {
                 </Button>}
 
               </div>
-            ))}
+          ))}
 
           {props.canAdd && (
             <div className="row">

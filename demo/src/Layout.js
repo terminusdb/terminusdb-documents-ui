@@ -10,7 +10,7 @@ import {DEMO_SCHEMA, PROFILE_SCHEMA, DEMO_FORM_DATA, DEMO_SCHEMA_UI, DEMO_DOCUME
 
 const App= (props) =>{
 
-    const [schema, setSchema]=useState(DEMO_SCHEMA) //schema
+    const [schema, setSchema]=useState(PROFILE_SCHEMA) //schema
     const [uiSchema, setUISchema]=useState(DEMO_SCHEMA_UI) //ui schema
     const [type, setType]=useState(DEMO_DOCUMENT_TYPE)  // document type
     const [mode, setMode]=useState(CREATE)  // mode

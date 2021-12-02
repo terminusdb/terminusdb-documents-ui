@@ -58,6 +58,8 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
         else if (frame[item] && isSetType(frame[item])) { //set
             let newFrame = constructNewDocumentFrame(frame[item], item)
             let setFrames = getProperties(fullFrame, newFrame, uiFrame, documents, mode, formData, true)
+            if(setFrames.required) delete setFrames["required"]
+            console.log("setFrames", setFrames)
             var frames
             if(setFrames.properties[item].info === DOCUMENT || setFrames.properties[item].info === ENUM) { // if ismulti for react select
                 frames=makeSetDocuments(setFrames, item, uiFrame, mode, formData)
@@ -108,7 +110,7 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
         }
     }
 
-    console.log("required", required)
+    //console.log("required", required)
 
     return {
         properties: properties,

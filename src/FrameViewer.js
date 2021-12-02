@@ -39,6 +39,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData}){
             console.log("schema", schema)
             console.log("uiSchema", uiSchema)
             if(mode === VIEW) setReadOnly(true)
+            else setReadOnly(false)
         //}
         //catch(e) {
           //  setError("An error has occured in generating frames. Err - ", e)
@@ -64,6 +65,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData}){
             fields={{
                 collapsible: CollapsibleField
             }}
+            children={readOnly} // hide submit button on view mode
         />}
     </div>
  }
