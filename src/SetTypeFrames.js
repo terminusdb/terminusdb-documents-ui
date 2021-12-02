@@ -1,4 +1,4 @@
-import {ArrayFieldTemplate, getDocumentTitle} from "./utils"
+import {ArrayFieldTemplate, getTitle} from "./utils"
 import {CREATE, DATA, VIEW} from "./constants"
 
 function removeDefaultsFromSubDocumentFrame (json) {
@@ -31,12 +31,9 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData) {
                 type: "object",
                 properties: setFrames.properties[item]["properties"]
             }
-        ],
-        additionalItems: {
-            type: "object",
-            properties: setFrames.properties[item]["properties"]
-        }
+        ]
     }
+
 
 
     if(mode !== CREATE && formData.hasOwnProperty(item)){
@@ -62,17 +59,24 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData) {
 
     //default ui:schema
     propertiesUI[item] = {
-        "items": setFrames.uiSchema[item],
-        "additionalItems": setFrames.uiSchema[item],
-        "ui:options": {
+        "items": setFrames.uiSchema[item]
+    }
+
+    if(mode !== VIEW) { // we do not allow to add extra on view mode
+        // layout
+        properties[item]["additionalItems"]={
+            type: "object",
+            properties: setFrames.properties[item]["properties"]
+        }
+        //ui
+        propertiesUI[item]["additionalItems"]=setFrames.uiSchema[item]
+        propertiesUI[item]["ui:options"] = {
             addable: true,
             orderable: false,
             removable: true
         }
+        propertiesUI[item]["ui:ArrayFieldTemplate"]=ArrayFieldTemplate
     }
-
-    propertiesUI[item]["ui:ArrayFieldTemplate"]=ArrayFieldTemplate
-
 
     //custom ui:schema
     if(uiFrame && uiFrame[item]) {
@@ -89,8 +93,7 @@ export function makeSetData (setFrames, item, uiFrame, mode, formData) {
         type: "array",
         items: [
              setFrames.properties[item]
-        ],
-        additionalItems: setFrames.properties[item]
+        ]
     }
 
 
@@ -108,11 +111,6 @@ export function makeSetData (setFrames, item, uiFrame, mode, formData) {
             count += 1
         })
         layout["items"]=filledItems
-        layout["additionalItems"]={
-            type: "string",
-            info: DATA,
-            title: item,
-        }
     }
 
     //schema
@@ -120,16 +118,26 @@ export function makeSetData (setFrames, item, uiFrame, mode, formData) {
 
     //default ui:schema
     propertiesUI[item] = {
-        "items": setFrames.uiSchema[item],
-        "additionalItems": setFrames.uiSchema[item],
-        "ui:options": {
+        "items": setFrames.uiSchema[item]
+    }
+
+    if(mode !== VIEW) { // we do not allow to add extra on view mode
+        // layout
+        properties[item]["additionalItems"]={
+            type: setFrames.properties[item].type,
+            info: setFrames.properties[item].info,
+            title: item,
+        }
+        //ui
+        propertiesUI[item]["additionalItems"]=setFrames.uiSchema[item]
+        propertiesUI[item]["ui:options"] = {
             addable: true,
             orderable: false,
             removable: true
         }
+        propertiesUI[item]["ui:ArrayFieldTemplate"]=ArrayFieldTemplate
     }
 
-    propertiesUI[item]["ui:ArrayFieldTemplate"]=ArrayFieldTemplate
 
 
     //custom ui:schema
@@ -147,8 +155,7 @@ export function makeSetDocuments  (setFrames, item, uiFrame, mode, formData) {
         type: "array",
         items: [
              setFrames.properties[item]
-        ],
-        additionalItems: setFrames.properties[item]
+        ]
     }
 
 
@@ -167,11 +174,6 @@ export function makeSetDocuments  (setFrames, item, uiFrame, mode, formData) {
         })
 
         layout["items"]=filledItems
-        layout["additionalItems"]={
-            info: setFrames.properties[item].info,
-            type: setFrames.properties[item].type,
-            title: item
-        }
     }
 
     //schema
@@ -179,17 +181,26 @@ export function makeSetDocuments  (setFrames, item, uiFrame, mode, formData) {
 
     //default ui:schema
     propertiesUI[item] = {
-        "items": setFrames.uiSchema[item],
-        "ui:title": getDocumentTitle(item),
-        "additionalItems": setFrames.uiSchema[item],
-        "ui:options": {
+        "items": setFrames.uiSchema[item]
+    }
+
+    if(mode !== VIEW) { // we do not allow to add extra on view mode
+        // layout
+        properties[item]["additionalItems"]={
+            info: setFrames.properties[item].info,
+            type: setFrames.properties[item].type,
+            enum: setFrames.properties[item].enum,
+            title: item
+        }
+        //ui
+        propertiesUI[item]["additionalItems"]=setFrames.uiSchema[item]
+        propertiesUI[item]["ui:options"] = {
             addable: true,
             orderable: false,
             removable: true
         }
+        propertiesUI[item]["ui:ArrayFieldTemplate"]=ArrayFieldTemplate
     }
-
-    propertiesUI[item]["ui:ArrayFieldTemplate"]=ArrayFieldTemplate
 
     //custom ui:schema
     if(uiFrame && uiFrame[item]) {

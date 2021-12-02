@@ -1,5 +1,5 @@
 import React from "react"
-import {getFieldTitle} from "./utils"
+import {getTitle} from "./utils"
 import {CREATE} from "./constants"
 
 function getDefaultValue(item, formData) {
@@ -34,7 +34,7 @@ function DataTypeFrames (frame, item, uiFrame, mode, formData) {
     propertiesUI[item] = {
         "ui:placeholder": frame[item],
         "ui:disabled": uiDisable,
-        "ui:title": getFieldTitle(item, false),
+        "ui:title": getTitle(item),
         classNames: "tdb__input mb-3 mt-3"
     }
 

@@ -1,8 +1,6 @@
 
-import React from 'react'
-import {getFieldTitle} from "./utils"
-import Select from 'react-select'
-import {SELECT_STYLES, DOCUMENT, CREATE} from "./constants"
+import {getTitle} from "./utils"
+import {DOCUMENT, CREATE} from "./constants"
 
 
 
@@ -36,7 +34,7 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
     //default ui:schema
     propertiesUI[item] = {
         "ui:disabled": uiDisable,
-        "ui:title": getFieldTitle(item, false),
+        "ui:title": getTitle(item),
         "ui:placeholder": `Select ${frame[item]} ...`,
         classNames: "tdb__input  mb-3 mt-3 "
     }
@@ -52,8 +50,8 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
 // mandatory
 export function makeDocumentTypeFrames (frame, item, uiFrame, documents, mode, formData, isSet) {
     let madeFrames = DocumentTypeFrames (frame, item, uiFrame, documents, mode, formData, isSet)
-    let required=item
+    //var required=item
     let properties = madeFrames.properties
     let propertiesUI = madeFrames.propertiesUI
-    return {properties, propertiesUI, required}
+    return {properties, propertiesUI}
 }

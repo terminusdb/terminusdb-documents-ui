@@ -67,9 +67,9 @@ export function getSubDocumentDescription(item) {
     return descr
 }
 
-export function getDocumentTitle(item) {
+export function getTitle(item) {
   let title=[]
-  title.push(<h6>{item}</h6>)
+  title.push(<span>{item}</span>)
   //<GoFileSubmodule className="mr-2"/>
   return title
 }

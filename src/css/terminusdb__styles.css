@@ -23,6 +23,10 @@
     margin-left: 10px !important;
 }
 
+fieldset > legend{
+    display: none !important;
+}
+
 div.array-item {
     display: flex !important;
 }

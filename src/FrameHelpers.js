@@ -84,7 +84,8 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
             //set properties and ui
             properties[item] = frames.properties[item]
             propertiesUI[item] = frames.propertiesUI[item]
-            required.push(frames.required)
+            required.push(item)
+            //required.push(frames.required)
         }
         else if (frame[item] && isEnumType(frame[item])) { // enums
             let frames = makeEnumTypeFrames(frame[item], item, uiFrame, mode, formData, isSet)
@@ -106,6 +107,8 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
             required.push(item)
         }
     }
+
+    console.log("required", required)
 
     return {
         properties: properties,
