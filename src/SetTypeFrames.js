@@ -1,5 +1,5 @@
-import {ArrayFieldTemplate} from "./utils"
-import {CREATE, DATA} from "./constants"
+import {ArrayFieldTemplate, getDocumentTitle} from "./utils"
+import {CREATE, DATA, VIEW} from "./constants"
 
 function removeDefaultsFromSubDocumentFrame (json) {
     // remove default values and get them from form Data
@@ -97,19 +97,16 @@ export function makeSetData (setFrames, item, uiFrame, mode, formData) {
     if(mode !== CREATE && formData.hasOwnProperty(item)){
         var filledItems = []
         let subFrames = removeDefaultsFromDataFrame(setFrames.properties[item]["properties"])
-        if(formData.hasOwnProperty(item)) {
-            var count = 0
-            var defaultValues=formData[item]
-            defaultValues.map(value => {
-                filledItems.push({
-                    type: "string",
-                    info: DATA,
-                    title: item,
-                    default: defaultValues[count]
-                })
-                count += 1
+        var count = 0, defaultValues=formData[item]
+        defaultValues.map(value => {
+            filledItems.push({
+                type: "string",
+                info: DATA,
+                title: item,
+                default: defaultValues[count]
             })
-        }
+            count += 1
+        })
         layout["items"]=filledItems
         layout["additionalItems"]={
             type: "string",
@@ -134,6 +131,65 @@ export function makeSetData (setFrames, item, uiFrame, mode, formData) {
 
     propertiesUI[item]["ui:ArrayFieldTemplate"]=ArrayFieldTemplate
 
+
+    //custom ui:schema
+    if(uiFrame && uiFrame[item]) {
+        propertiesUI[item] = uiFrame[item]
+    }
+
+    return {properties, propertiesUI}
+}
+
+export function makeSetDocuments  (setFrames, item, uiFrame, mode, formData) {
+    let properties={}, propertiesUI={}
+
+    var  layout= {
+        type: "array",
+        items: [
+             setFrames.properties[item]
+        ],
+        additionalItems: setFrames.properties[item]
+    }
+
+
+    if(mode !== CREATE && formData.hasOwnProperty(item)){
+        var filledItems = []
+
+        let defaultValues = setFrames.properties[item].default
+        defaultValues.map(def => {
+            filledItems.push({
+                default: def,
+                enum: setFrames.properties[item].enum,
+                info: setFrames.properties[item].info,
+                type: setFrames.properties[item].type,
+                title: item
+            })
+        })
+
+        layout["items"]=filledItems
+        layout["additionalItems"]={
+            info: setFrames.properties[item].info,
+            type: setFrames.properties[item].type,
+            title: item
+        }
+    }
+
+    //schema
+    properties[item] = layout
+
+    //default ui:schema
+    propertiesUI[item] = {
+        "items": setFrames.uiSchema[item],
+        "ui:title": getDocumentTitle(item),
+        "additionalItems": setFrames.uiSchema[item],
+        "ui:options": {
+            addable: true,
+            orderable: false,
+            removable: true
+        }
+    }
+
+    propertiesUI[item]["ui:ArrayFieldTemplate"]=ArrayFieldTemplate
 
     //custom ui:schema
     if(uiFrame && uiFrame[item]) {

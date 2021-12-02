@@ -62,3 +62,7 @@ i.glyphicon-chevron-down::after {
     color: #ccc;
     font-size: 15px;
 }
+
+select > option {
+    background-color: #444 !important;
+}

@@ -23,7 +23,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData}){
 
     useEffect(() => {
         let current = `${TDB_SCHEMA}${type}`
-        try{
+        //try{
             let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false)
             const schema = {
                 "type": "object",
@@ -39,10 +39,10 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData}){
             console.log("schema", schema)
             console.log("uiSchema", uiSchema)
             if(mode === VIEW) setReadOnly(true)
-        }
-        catch(e) {
-            setError("An error has occured in generating frames. Err - ", e)
-        }
+        //}
+        //catch(e) {
+          //  setError("An error has occured in generating frames. Err - ", e)
+        //}
 
     }, [frame, uiFrame, type, mode, formData])
 

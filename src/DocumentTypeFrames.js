@@ -2,59 +2,43 @@
 import React from 'react'
 import {getFieldTitle} from "./utils"
 import Select from 'react-select'
-import {SELECT_STYLES, DOCUMENT} from "./constants"
+import {SELECT_STYLES, DOCUMENT, CREATE} from "./constants"
 
 
-export function DocumentTypeFrames (frame, item, uiFrame, documents, isSet) {
+
+function getDefault(item, formData) {
+    var match
+    for(var key in formData){
+        if(key === item) {
+            match=formData[key]
+        }
+    }
+    return match
+}
+
+export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formData, isSet) {
     let properties={}, propertiesUI={}
     var uiDisable=false, type=frame[item]
 
     var layout = {
         type: 'string',
-        info: DOCUMENT
+        info: DOCUMENT,
+        enum: documents[type]
     }
 
     //schema
     properties[item] = layout
 
-    const getSelection = (props) => {
-
-
-        function onChange(e) {
-            if(isSet) {
-                var val
-                e.map(item =>{
-                    val+=item.value
-                })
-                props.onChange(val)
-            }
-            else props.onChange(e.value)
-        }
-
-        let options=[]
-        if(documents && documents[type]) {
-            let docs=documents[type]
-            docs.map(item => {
-                options.push({value: item, label: item})
-            })
-        }
-        return  <Select
-            isMulti={isSet}
-            classNames="tdb__input"
-            styles={SELECT_STYLES}
-            placeholder={`Select a ${frame[item]} ...`}
-            options={options}
-            onChange={onChange}
-        />
+    if(mode !== CREATE) {
+        layout.default=getDefault(item, formData)
     }
-
 
     //default ui:schema
     propertiesUI[item] = {
         "ui:disabled": uiDisable,
         "ui:title": getFieldTitle(item, false),
-        "ui:widget": getSelection,
-        classNames: "mb-3 mt-3"
+        "ui:placeholder": `Select ${frame[item]} ...`,
+        classNames: "tdb__input  mb-3 mt-3 "
     }
 
     //custom ui:schema
@@ -66,8 +50,8 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, isSet) {
 }
 
 // mandatory
-export function makeDocumentTypeFrames (frame, item, uiFrame, documents, isSet) {
-    let madeFrames = DocumentTypeFrames (frame, item, uiFrame, documents, isSet)
+export function makeDocumentTypeFrames (frame, item, uiFrame, documents, mode, formData, isSet) {
+    let madeFrames = DocumentTypeFrames (frame, item, uiFrame, documents, mode, formData, isSet)
     let required=item
     let properties = madeFrames.properties
     let propertiesUI = madeFrames.propertiesUI

@@ -67,6 +67,13 @@ export function getSubDocumentDescription(item) {
     return descr
 }
 
+export function getDocumentTitle(item) {
+  let title=[]
+  title.push(<h6>{item}</h6>)
+  //<GoFileSubmodule className="mr-2"/>
+  return title
+}
+
 
 // field array to display key fields
 export function getFieldTitle(item, uiDisable) {

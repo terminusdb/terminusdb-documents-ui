@@ -1,11 +1,11 @@
 import React from "react"
 import {getSubDocumentTitle, getSubDocumentDescription} from "./utils"
-import {CREATE} from "./constants"
+import {CREATE, DOCUMENT} from "./constants"
 
 
 export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData) {
     let properties={}, propertiesUI={}
-
+    var defaultValue
     // on edit or view
     if(mode !== CREATE && formData.hasOwnProperty(item)){
         let filled= formData[item]

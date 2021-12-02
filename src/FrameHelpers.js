@@ -1,7 +1,7 @@
 import React from "react"
 import {makeDataTypeFrames} from "./DataTypeFrames"
 import {makeSubDocumentFrames} from "./SubDocumentTypeFrames"
-import {makeSetSubDocuments, makeSetData} from "./SetTypeFrames"
+import {makeSetSubDocuments, makeSetData, makeSetDocuments} from "./SetTypeFrames"
 import {makeDocumentTypeFrames} from "./DocumentTypeFrames"
 import {makeEnumTypeFrames} from "./EnumTypeFrames"
 import {isDataType, isSubDocumentType, isOptionalType, isSetType, isDocumentType, isEnumType} from "./utils"
@@ -60,10 +60,10 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
             let setFrames = getProperties(fullFrame, newFrame, uiFrame, documents, mode, formData, true)
             var frames
             if(setFrames.properties[item].info === DOCUMENT || setFrames.properties[item].info === ENUM) { // if ismulti for react select
-                frames=setFrames
+                frames=makeSetDocuments(setFrames, item, uiFrame, mode, formData)
                 //set properties and ui
                 properties[item] = frames.properties[item]
-                propertiesUI[item] = frames.uiSchema[item]
+                propertiesUI[item] = frames.propertiesUI[item]
             }
             else if(setFrames.properties[item].info === DATA) { //data
                 frames=makeSetData(setFrames, item, uiFrame, mode, formData)
@@ -79,7 +79,7 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
             }
         }
         else if(frame[item] && isDocumentType(frame[item], fullFrame)) { //link documents
-            let frames = makeDocumentTypeFrames(frame, item, uiFrame, documents, isSet)
+            let frames = makeDocumentTypeFrames(frame, item, uiFrame, documents,  mode, formData, isSet)
 
             //set properties and ui
             properties[item] = frames.properties[item]
