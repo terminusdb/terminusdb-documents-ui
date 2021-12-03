@@ -5,18 +5,21 @@ import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField"
 import {TDB_SCHEMA} from "./constants"
 import {Alert} from "react-bootstrap"
 import {VIEW} from "./constants"
+import {formatData} from "./utils"
 
 /*
-**  frame   - full json schema of a document
-**  uiFrame - ui json of a document
-**  type    - document type of interest
-**  mode    - create/ edit/ view
+**  frame     - full json schema of a document
+**  uiFrame   - ui json of a document
+**  type      - document type of interest
+**  mode      - create/ edit/ view
+**  documents - document list
+**  formData  - filled value of the document
+**  onSubmit  - a function which can have custom logic to process data submitted
 */
-export function FrameViewer({frame, uiFrame, type, mode, documents, formData}){
+export function FrameViewer({frame, uiFrame, type, mode, documents, formData, onSubmit}){
     const [schema, setSchema]=useState(false)
     const [uiSchema, setUISchema]=useState(false)
     const [readOnly, setReadOnly]=useState(false)
-
     const [error, setError]=useState(false)
 
     if(!frame) return <div>No schema provided!</div>
@@ -27,19 +30,27 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData}){
             let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false)
             const schema = {
                 "type": "object",
-                "properties": properties.properties,
+                //"properties": properties.properties,
                 "required": properties.required,
                 "dependencies": properties.dependencies
+            }
+            //console.log("schema", JSON.stringify(schema, null, 2))
+            console.log("schema", schema)
+            console.log("properties.uiSchema", properties.uiSchema)
+            console.log("uiSchema", uiSchema)
+            if(mode === VIEW) {
+                setReadOnly(true)
+                //schema["properties"]=displayFilledProperties(properties.properties)
+                schema["properties"]=properties.properties
+            }
+            else {
+                setReadOnly(false)
+                schema["properties"]=properties.properties
             }
             setSchema(schema)
             const uiSchema = properties.uiSchema
             if(uiFrame.classNames) uiSchema["classNames"]=uiFrame.classNames
             setUISchema(uiSchema)
-            console.log("schema", JSON.stringify(schema, null, 2))
-            console.log("schema", schema)
-            console.log("uiSchema", uiSchema)
-            if(mode === VIEW) setReadOnly(true)
-            else setReadOnly(false)
         //}
         //catch(e) {
           //  setError("An error has occured in generating frames. Err - ", e)
@@ -47,9 +58,41 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData}){
 
     }, [frame, uiFrame, type, mode, formData])
 
+    function formatData_OLD(formData) {
+        var data=formData
 
-    const onSubmit = ({formData}) => {
-        console.log("Data submitted: ",  formData)
+
+
+
+
+        var data=incoming
+        for(var key in data){
+            if(Array.isArray(data[key])) {
+                var newArray=[]
+                data[key].map(arr => {
+                    if(Object.keys(arr).length !== 1 && Object. keys(arr)[0] !== "@type"){
+                        newArray.push(arr)
+                    }
+                })
+                data[key]=newArray
+                if(data[key].length === 0) delete data[key]
+            }
+            else if(data[key] === "" || data[key] === undefined){
+                delete data[key]
+            }
+        }
+        return data
+    }
+
+
+
+
+    const handleSubmit = ({formData}) => {
+        if(onSubmit) {
+            var extracted=formatData(formData)
+            onSubmit(extracted)
+            console.log("Data submitted: ",  extracted)
+        }
     }
 
     if(error) {
@@ -60,7 +103,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData}){
         {schema && <Form schema={schema}
             uiSchema={uiSchema}
             mode={mode}
-            onSubmit={onSubmit}
+            onSubmit={handleSubmit}
             readonly={readOnly}
             fields={{
                 collapsible: CollapsibleField

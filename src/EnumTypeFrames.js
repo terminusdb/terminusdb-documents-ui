@@ -1,72 +1,38 @@
 
 import React from 'react'
-import {getFieldTitle} from "./utils"
+import {getTitle, getDefaultValue} from "./utils"
 import Select from 'react-select'
-import {SELECT_STYLES, ENUM, CREATE} from "./constants"
+import {VIEW, ENUM, CREATE} from "./constants"
 
 
 
 export function EnumTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
     let properties={}, propertiesUI={}
-    var uiDisable=false
+    var uiDisable=false, type=frame[item]
 
     var layout = {
         type: 'string',
-        info: ENUM
+        info: ENUM,
+        enum: frame["@values"]
     }
 
     //schema
     properties[item] = layout
 
-    const getSelection = (props) => {
-        function onChange(e) {
-            if(isSet) {
-                var val
-                e.map(item =>{
-                    val+=item.value
-                })
-                props.onChange(val)
-            }
-            else props.onChange(e.value)
-        }
-
-        let options=[]
-        if(frame && frame["@values"]) {
-            let enums=frame["@values"]
-            enums.map(item => {
-                options.push({value: item, label: item})
-            })
-        }
-
-        /*if(mode !== CREATE) {
-            return <Select
-                isMulti={isSet}
-                classNames="tdb__input"
-                styles={SELECT_STYLES}
-                placeholder={`Select a ${frame["@id"]} ...`}
-                options={options}
-                onChange={onChange}
-                defaultValue={getDefaultValue(item, formData)}
-            />
-        }*/
-
-        return  <Select
-            isMulti={isSet}
-            classNames="tdb__input"
-            styles={SELECT_STYLES}
-            placeholder={`Select a ${frame["@id"]} ...`}
-            options={options}
-            onChange={onChange}
-        />
+    if(mode !== CREATE) {
+        layout.default=getDefaultValue(item, formData)
     }
-
 
     //default ui:schema
     propertiesUI[item] = {
         "ui:disabled": uiDisable,
-        "ui:title": getFieldTitle(item, false),
-        "ui:widget": getSelection,
-        classNames: "mb-3 mt-3"
+        "ui:title": getTitle(item),
+        "ui:placeholder": `Select ${frame["@id"]} ...`,
+        classNames: "tdb__input  mb-3 mt-3 "
+    }
+
+    if(mode === VIEW && !layout.hasOwnProperty("default")){
+        propertiesUI[item]["ui:widget"]= "hidden"
     }
 
     //custom ui:schema
@@ -76,6 +42,7 @@ export function EnumTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
 
     return {properties, propertiesUI}
 }
+
 
 // mandatory
 export function makeEnumTypeFrames (frame, item, uiFrame, mode, formData, isSet) {

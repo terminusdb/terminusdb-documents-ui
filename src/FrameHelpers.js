@@ -40,7 +40,7 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
         if(item == "@key") continue
         else if(item == "@type") continue
         else if(frame[item] && isDataType(frame[item])) { // datatype properties like xsd:/ xdd:
-            let frames = makeDataTypeFrames(frame, item, uiFrame, mode, formData)
+            let frames = makeDataTypeFrames(frame, item, uiFrame, mode, formData, isSet)
 
             //set properties and ui
             properties[item] = frames.properties[item]
@@ -59,7 +59,7 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
             let newFrame = constructNewDocumentFrame(frame[item], item)
             let setFrames = getProperties(fullFrame, newFrame, uiFrame, documents, mode, formData, true)
             if(setFrames.required) delete setFrames["required"]
-            console.log("setFrames", setFrames)
+            //console.log("setFrames", setFrames)
             var frames
             if(setFrames.properties[item].info === DOCUMENT || setFrames.properties[item].info === ENUM) { // if ismulti for react select
                 frames=makeSetDocuments(setFrames, item, uiFrame, mode, formData)

@@ -1,18 +1,7 @@
 
-import {getTitle} from "./utils"
-import {DOCUMENT, CREATE} from "./constants"
+import {getTitle, getDefaultValue} from "./utils"
+import {DOCUMENT, CREATE, VIEW} from "./constants"
 
-
-
-function getDefault(item, formData) {
-    var match
-    for(var key in formData){
-        if(key === item) {
-            match=formData[key]
-        }
-    }
-    return match
-}
 
 export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formData, isSet) {
     let properties={}, propertiesUI={}
@@ -28,7 +17,7 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
     properties[item] = layout
 
     if(mode !== CREATE) {
-        layout.default=getDefault(item, formData)
+        layout.default=getDefaultValue(item, formData)
     }
 
     //default ui:schema
@@ -37,6 +26,10 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
         "ui:title": getTitle(item),
         "ui:placeholder": `Select ${frame[item]} ...`,
         classNames: "tdb__input  mb-3 mt-3 "
+    }
+
+    if(mode === VIEW && !layout.hasOwnProperty("default")){
+        propertiesUI[item]["ui:widget"]= "hidden"
     }
 
     //custom ui:schema

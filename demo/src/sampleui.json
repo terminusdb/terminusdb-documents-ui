@@ -1,4 +1,5 @@
-{   "classNames": "bg-light p-3",
+{
+    "classNames": "bg-light p-3",
     "name" : {
         "classNames": "text-success bg-danger",
         "ui:placeholder": "ur cool",
@@ -6,10 +7,10 @@
           "ui:widget": "textarea"
     },
     "nicknames": {
-           "items" : {
-                  "ui:widget": "textarea"
-          }
-},
+        "items" : {
+                "ui:widget": "textarea"
+        }
+    },
     "lives_in" :{
         "classNames": "bg-warning p-5",
         "items" :{

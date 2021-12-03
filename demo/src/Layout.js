@@ -6,7 +6,7 @@ import {ModeInput} from "./ModeInput"
 import {UIEditors} from "./UIEditors"
 import {Output} from "./Output"
 import {FormData} from "./FormData"
-import {DEMO_SCHEMA, PROFILE_SCHEMA, DEMO_FORM_DATA, DEMO_SCHEMA_UI, DEMO_DOCUMENT_TYPE, CREATE} from "./sample"
+import {DEMO_SCHEMA, PROFILE_FORM_DATA, PROFILE_SCHEMA, DEMO_FORM_DATA, DEMO_SCHEMA_UI, DEMO_DOCUMENT_TYPE, CREATE} from "./sample"
 
 const App= (props) =>{
 
@@ -14,7 +14,7 @@ const App= (props) =>{
     const [uiSchema, setUISchema]=useState(DEMO_SCHEMA_UI) //ui schema
     const [type, setType]=useState(DEMO_DOCUMENT_TYPE)  // document type
     const [mode, setMode]=useState(CREATE)  // mode
-    const [formData, setFormData]=useState(DEMO_FORM_DATA) // formdata => required only on edit/ view
+    const [formData, setFormData]=useState(PROFILE_FORM_DATA) // formdata => required only on edit/ view
 
     return <Container fluid className="p-0 h-100 d-flex">
         <div className="side-black ml-2 mt-4 w-100 d-flex">
