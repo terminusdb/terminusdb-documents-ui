@@ -10,7 +10,7 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
     var layout = {
         type: 'string',
         info: DOCUMENT,
-        enum: documents[type]
+        enum: documents ? documents[type] : {}
     }
 
     //schema

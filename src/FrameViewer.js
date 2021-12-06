@@ -17,6 +17,7 @@ import {formatData} from "./utils"
 **  onSubmit  - a function which can have custom logic to process data submitted
 */
 export function FrameViewer({frame, uiFrame, type, mode, documents, formData, onSubmit}){
+
     const [schema, setSchema]=useState(false)
     const [uiSchema, setUISchema]=useState(false)
     const [readOnly, setReadOnly]=useState(false)
@@ -49,7 +50,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             }
             setSchema(schema)
             const uiSchema = properties.uiSchema
-            if(uiFrame.classNames) uiSchema["classNames"]=uiFrame.classNames
+            if(uiFrame && uiFrame.classNames) uiSchema["classNames"]= uiFrame.classNames
             setUISchema(uiSchema)
         //}
         //catch(e) {
@@ -57,34 +58,6 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
         //}
 
     }, [frame, uiFrame, type, mode, formData])
-
-    function formatData_OLD(formData) {
-        var data=formData
-
-
-
-
-
-        var data=incoming
-        for(var key in data){
-            if(Array.isArray(data[key])) {
-                var newArray=[]
-                data[key].map(arr => {
-                    if(Object.keys(arr).length !== 1 && Object. keys(arr)[0] !== "@type"){
-                        newArray.push(arr)
-                    }
-                })
-                data[key]=newArray
-                if(data[key].length === 0) delete data[key]
-            }
-            else if(data[key] === "" || data[key] === undefined){
-                delete data[key]
-            }
-        }
-        return data
-    }
-
-
 
 
     const handleSubmit = ({formData}) => {

@@ -5,27 +5,135 @@ export const VIEW="View"
 
 
 export const DEMO_SCHEMA = {
-	"terminusdb:///schema#thing": {
+	"terminusdb:///schema#Address": {
 	  "@key": {
 		"@type": "Random"
 	  },
+	  "@subdocument": [],
 	  "@type": "Class",
-	  "names": "xsd:string",
-	  "whatever": {
+	  "AddressLine1": {
 		"@class": "xsd:string",
 		"@type": "Optional"
+	  },
+	  "AddressLine2": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "Country": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "address_code": {
+		"@class": "Codes",
+		"@type": "Optional"
+	  }
+	},
+	"terminusdb:///schema#Codes": {
+	  "@key": {
+		"@fields": [
+		  "postal"
+		],
+		"@type": "Lexical"
+	  },
+	  "@type": "Class",
+	  "postal": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  }
+	},
+	"terminusdb:///schema#Color": {
+	  "@type": "Enum",
+	  "@values": [
+		"red",
+		"blue",
+		"green"
+	  ]
+	},
+	"terminusdb:///schema#Job": {
+	  "@key": {
+		"@fields": [
+		  "title"
+		],
+		"@type": "Lexical"
+	  },
+	  "@type": "Class",
+	  "title": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  }
+	},
+	"terminusdb:///schema#Person": {
+	  "@key": {
+		"@fields": [
+		  "name"
+		],
+		"@type": "Lexical"
+	  },
+	  "@type": "Class",
+	  "likes": {
+		"@class": {
+		  "@id": "Color",
+		  "@type": "Enum",
+		  "@values": [
+			"red",
+			"blue",
+			"green"
+		  ]
+		},
+		"@type": "Optional"
+	  },
+	  "lives_in": {
+		"@class": {
+		  "@class": "Address",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  },
+	  "name": "xsd:string",
+	  "nicknames": {
+		"@class": "xsd:string",
+		"@type": "Set"
+	  },
+	  "works_as": {
+		"@class": "Job",
+		"@type": "Set"
 	  }
 	}
   }
 
-export const DEMO_DOCUMENT_TYPE="Organization"
+export const DEMO_DOCUMENT_TYPE="Person"
 
 export const DEMO_FORM_DATA= {
-	"@id":"thing/06bfc93275a157db53de91da8fd60e1eafc0e9cc728ee7ced6e3b9e021c192f5",
-	"@type":"thing",
-	"names":"BLAHHH"
+	"@id":"Person/Kitty%20Jose",
+	"@type":"Person",
+	"likes":"blue",
+	"lives_in":[
+	   {
+		  "@id":"Person/Kitty%20Jose/lives_in/Address/1da6150f89c1a18f1ec9ea0dd97d306b4a05029f74da4bb4a738b0f8897e6eab",
+		  "@type":"Address",
+		  "AddressLine1":"Apartment 51 Block 3",
+		  "AddressLine2":"Dundrum Gate Ballinteer road",
+		  "Country":"Ireland",
+		  "address_code":"Codes/002"
+	   },
+	   {
+		  "@id":"Person/Kitty%20Jose/lives_in/Address/3106c125b7e1151e226a809cfed9f0d73da8ee676808f1f692a143ea5beedd08",
+		  "@type":"Address",
+		  "AddressLine1":"5 beverly leinster square rathmines dublin 6",
+		  "AddressLine2":" rathmines dublin 6",
+		  "Country":"Ireland",
+		  "address_code":"Codes/002"
+	   }
+	],
+	"name":"Kitty Jose",
+	"nicknames":[
+	   "JOSE",
+	   "KITZKAN"
+	],
+	"works_as":[
+	   "Job/CTO"
+	]
  }
-
 export const DEMO_DOCUMENTS = {
 	"Job": [
 		"Job/CEO",

@@ -8,7 +8,7 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData) {
     var defaultValue
 
     // on edit or view
-    if(mode !== CREATE && formData.hasOwnProperty(item)){
+    if(mode !== CREATE && formData && formData.hasOwnProperty(item)){
         let filled= formData[item]
         if(Array.isArray(filled)){
             filled.map(val => {

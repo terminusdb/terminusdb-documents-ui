@@ -15,7 +15,7 @@ function constructNewDocumentFrame(frame, item) {
 function constructSubDocumentFrame (fullFrame, uiFrame, item, title, documents, mode, formData) {
     let subDocument = `${TDB_SCHEMA}${title}`
     var data=[]
-    if(formData[item]) data=formData[item]
+    if(formData && formData[item]) data=formData[item]
     let nestedFrames = getProperties(fullFrame, fullFrame[subDocument], uiFrame, documents, mode, data, false)
     let newProperties=nestedFrames.properties, newUISchema=nestedFrames.uiSchema
     // add type of subdocument

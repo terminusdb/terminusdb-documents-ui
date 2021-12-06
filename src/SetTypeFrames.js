@@ -34,13 +34,32 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData) {
         ]
     }
 
+
     if(mode !== CREATE && formData.hasOwnProperty(item)){
         var filledItems = []
+        propertiesUI[item] = {
+            "items": []
+        }
         let subFrames = removeDefaultsFromSubDocumentFrame(setFrames.properties[item]["properties"])
         if(formData.hasOwnProperty(item)) {
             var count = 0
             var defaultValues=formData[item]
+            propertiesUI[item]["items"]=[]
+
+            defaultValues.map(value=>{
+                propertiesUI[item]["items"].push(setFrames.uiSchema[item])
+            })
             defaultValues.map(value => {
+                /*if(mode === VIEW){ // review this part
+                    for(var props in setFrames.properties[item]["properties"]){
+                        if(!value[props]){
+                            //propertiesUI[item]["items"][count][props] = {"ui:widget": "hidden"}
+                        }
+
+                    }
+                }*/
+
+
                 filledItems.push({
                     type: "object",
                     properties: setFrames.properties[item]["properties"],
@@ -55,12 +74,14 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData) {
     //schema
     properties[item] = layout
 
-    //default ui:schema
-    propertiesUI[item] = {
-        "items": setFrames.uiSchema[item]
-    }
-
     if(mode !== VIEW) { // we do not allow to add extra on view mode
+        //default ui:schema
+        propertiesUI[item] = {
+            "items": [
+                setFrames.uiSchema[item],
+                setFrames.uiSchema[item]
+            ]
+        }
         // layout
         properties[item]["additionalItems"]={
             type: "object",

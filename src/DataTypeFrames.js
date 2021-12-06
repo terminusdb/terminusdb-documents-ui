@@ -26,7 +26,7 @@ function DataTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
         classNames: "tdb__input mb-3 mt-3"
     }
 
-    if(mode === VIEW && !layout.hasOwnProperty("default")){
+    if(mode === VIEW && !Array.isArray(formData) && !layout.hasOwnProperty("default")){ // set of subdocuments
         propertiesUI[item]["ui:widget"]= "hidden"
     }
 
