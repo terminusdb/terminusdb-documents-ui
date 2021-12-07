@@ -36,6 +36,13 @@ export const DEMO_SCHEMA = {
 		"@type": "Lexical"
 	  },
 	  "@type": "Class",
+	  "located": {
+		"@class": {
+		  "@class": "Address",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  },
 	  "postal": {
 		"@class": "xsd:string",
 		"@type": "Optional"
@@ -65,7 +72,8 @@ export const DEMO_SCHEMA = {
 	"terminusdb:///schema#Person": {
 	  "@key": {
 		"@fields": [
-		  "name"
+		  "name",
+		  "works_as"
 		],
 		"@type": "Lexical"
 	  },
@@ -87,60 +95,41 @@ export const DEMO_SCHEMA = {
 		  "@class": "Address",
 		  "@subdocument": []
 		},
-		"@type": "Set"
+		"@type": "Optional"
 	  },
 	  "name": "xsd:string",
 	  "nicknames": {
 		"@class": "xsd:string",
 		"@type": "Set"
 	  },
-	  "works_as": {
-		"@class": "Job",
-		"@type": "Set"
-	  }
+	  "works_as": "Job"
 	}
   }
 
-export const DEMO_DOCUMENT_TYPE="Organization"
+export const DEMO_DOCUMENT_TYPE="Codes"
 
 export const DEMO_FORM_DATA= {
-	"@id":"Person/Kitty%20Jose",
-	"@type":"Person",
-	"likes":"blue",
-	"lives_in":[
+	"@id":"Codes/D16%20K797",
+	"@type":"Codes",
+	"located":[
 	   {
-		  "@id":"Person/Kitty%20Jose/lives_in/Address/1da6150f89c1a18f1ec9ea0dd97d306b4a05029f74da4bb4a738b0f8897e6eab",
+		  "@id":"Codes/D16%20K797/located/Address/6c2bf3f708f8ac4db899cab5497e4f6556af1a5b65c46f1829450c7bbea9e24a",
 		  "@type":"Address",
 		  "AddressLine1":"Apartment 51 Block 3",
 		  "AddressLine2":"Dundrum Gate Ballinteer road",
-		  "Country":"Ireland",
+		  /*"Country":"Ireland",*/
 		  "address_code":"Codes/002"
 	   },
 	   {
-		  "@id":"Person/Kitty%20Jose/lives_in/Address/3106c125b7e1151e226a809cfed9f0d73da8ee676808f1f692a143ea5beedd08",
+		  "@id":"Codes/D16%20K797/located/Address/d5217729fe24d9cb411b4aeeace8c1621581a3c76cac632f6ef40c08983952fb",
 		  "@type":"Address",
-		  "AddressLine1":"5 beverly leinster square rathmines dublin 6",
-		  "AddressLine2":" rathmines dublin 6",
-		  "Country":"Ireland",
+		  "AddressLine1":"5 beverly leinster square r",
+		  "AddressLine2":"athmines dublin 6",
+		  "Country":"UK",
 		  "address_code":"Codes/003"
-	   },
-	   {
-		"@id":"Person/Kitty%20Jose/lives_in/Address/3106c125b7e1151e226a809cfed9f0d73da8ee676808f1f692a143ea5beedd00",
-		"@type":"Address",
-		"AddressLine1":"Walkinstown",
-		"AddressLine2":"Carrickmines",
-		"Country":"UK",
-		"address_code":"Codes/001"
-	 }
+	   }
 	],
-	"name":"Kitty Jose",
-	"nicknames":[
-	   "JOSE",
-	   "KITZKAN"
-	],
-	"works_as":[
-	   "Job/CTO"
-	]
+	"postal":"D16 K797"
  }
 export const DEMO_DOCUMENTS = {
 	"Job": [
@@ -502,9 +491,9 @@ export const PROFILE_FORM_DATA = {
 		  "@type":"Invitation",
 		  "creation_date":"2011-01-01T01:00:37Z",
 		  "email_to":"kitty@terminusdb.com",
-		  "invited_by":"User/WHO",
+		  "invited_by":"User/BOO",
 		  "note":"SADSAD",
-		  "role":"asdasd",
+		  /*"role":"asdasd",*/
 		  "status":"invite_sent"
 	   },
 	   {

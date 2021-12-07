@@ -73,6 +73,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
         layout["items"]=filledItems
     }
 
+    console.log("layout", layout)
     //schema
     properties[item] = layout
 
@@ -97,7 +98,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
 
                         return <React.Fragment>
                             <Form.Label>{props.name}</Form.Label>
-                            <span className="text-gray" onClick={(e) => handleClick(props.formData, setClicked)}>
+                            <span className="text-gray tbd__view__select" onClick={(e) => handleClick(props.formData, setClicked)}>
                                 {props.formData}
                             </span>
                         </React.Fragment>
@@ -105,10 +106,23 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
 
                     propertiesUI[item]["items"][count][thing]["ui:field"]=getSelect
                 }
+                if(it.properties[thing].info === "DATA" && it.default) {
+                    function getFieldValue(props){
+                        if(!props.formData ||  props.formData===undefined)
+                            return <span className="nothing"></span>
+                        return <React.Fragment>
+                            <Form.Label>{props.name}</Form.Label>
+                            <span>{props.formData}</span>
+                        </React.Fragment>
+                    }
+                    propertiesUI[item]["items"][count][thing]["ui:field"]=getFieldValue
+                }
             }
             count+=1
         })
     }
+
+    console.log("propertiesUI", propertiesUI)
 
     if(mode !== VIEW) { // we do not allow to add extra on view mode
         //default ui:schema
