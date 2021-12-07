@@ -4,7 +4,7 @@
         "classNames": "text-success bg-danger",
         "ui:placeholder": "ur cool",
         "ui:description": "hello u aint that cool no more",
-          "ui:widget": "textarea"
+        "ui:widget": "textarea"
     },
     "nicknames": {
         "items" : {

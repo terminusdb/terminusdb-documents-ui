@@ -17,6 +17,47 @@
     line-height: 1.5;
 }
 
+
+/*** input layouts in view mode ***/
+.tdb__view__input, .tdb__view__enum__input{
+    display: flex;
+    color: #ccc;
+}
+
+.tdb__view__input > input,  .tdb__view__enum__input > select{
+    border: 0;
+    margin: -10px 0px;
+    color: #fff !important;
+}
+
+.tdb__view__input > span{
+    color: #fff !important;
+    margin-left: -20px;
+    cursor: pointer;
+}
+
+.tdb__view__input > span > select {
+    border: 0;
+    background-color: transparent !important;
+    background-image: none !important; /** hiding select carrot **/
+    margin: -10px 0px 0px -10px !important;
+    color: #fff !important;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.tdb__view__input > span > select:hover, .tdb__view__input > span:hover{
+    color: #2196f3 !important;
+}
+
+.tdb__view__input > label {
+    width: 200px;
+}
+
+.tdb__view__input > label > .required {
+    display: none;
+}
+
 .required {
     font-size: 20px;
     color: #ffc107!important;

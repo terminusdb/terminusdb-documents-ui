@@ -5,7 +5,7 @@ import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField"
 import {TDB_SCHEMA} from "./constants"
 import {Alert} from "react-bootstrap"
 import {VIEW} from "./constants"
-import {formatData} from "./utils"
+import {formatData, getPrefix} from "./utils"
 
 /*
 **  frame     - full json schema of a document
@@ -16,19 +16,25 @@ import {formatData} from "./utils"
 **  formData  - filled value of the document
 **  onSubmit  - a function which can have custom logic to process data submitted
 */
-export function FrameViewer({frame, uiFrame, type, mode, documents, formData, onSubmit}){
+export function FrameViewer({frame, uiFrame, type, mode, documents, formData, onSubmit, onTraverse}){
 
+    const [prefix, setPrefix]=useState(TDB_SCHEMA)
     const [schema, setSchema]=useState(false)
     const [uiSchema, setUISchema]=useState(false)
     const [readOnly, setReadOnly]=useState(false)
     const [error, setError]=useState(false)
 
+
     if(!frame) return <div>No schema provided!</div>
 
+
+
     useEffect(() => {
-        let current = `${TDB_SCHEMA}${type}`
+        let extractedPrefix = getPrefix(frame)
+        setPrefix(extractedPrefix)
+        let current = `${extractedPrefix}${type}`
         //try{
-            let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false)
+            let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse)
             const schema = {
                 "type": "object",
                 //"properties": properties.properties,

@@ -1,9 +1,9 @@
-import React from "react"
+import React, {useState, useEffect} from "react"
 import {getSubDocumentTitle, getSubDocumentDescription} from "./utils"
-import {CREATE, VIEW} from "./constants"
+import {CREATE, DOCUMENT, VIEW} from "./constants"
+import {Form} from "react-bootstrap"
 
-
-export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData) {
+export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onTraverse) {
     let properties={}, propertiesUI={}
     var defaultValue
 
@@ -38,8 +38,10 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData) {
     }
 
 
+
     //schema
     properties[item] = layout
+
 
     propertiesUI[item] = {
         "ui:field": "collapsible",
@@ -58,17 +60,52 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData) {
     }
 
 
+    // for view mode - logic to click through on traverse
+    if(mode === VIEW && properties[item].properties){
+        for(var key in properties[item].properties) {
+
+            function getSelect (props) {
+                const [clicked, setClicked]=useState(false)
+
+                useEffect(() => {
+                    if(!clicked) return
+                    if(onTraverse) onTraverse(clicked)
+                }, [clicked])
+
+                const handleClick = (id) => { // view if on traverse function defined
+                    setClicked(id)
+                }
+
+                return <React.Fragment>
+                    <Form.Label>{item}</Form.Label>
+                    <span onClick={(e) => handleClick(properties[item].properties[props.name].default)}>
+                        {properties[item].properties[props.name].default}
+                    </span>
+                </React.Fragment>
+            }
+
+
+            if(properties[item].properties[key].info === DOCUMENT) {
+                propertiesUI[item][key]["ui:field"]=getSelect
+            }
+        }
+    }
+
+
+
+
     //custom ui:schema
     if(uiFrame && uiFrame[item]) {
         propertiesUI[item] = uiFrame[item]
     }
 
+
     return {properties, propertiesUI}
 }
 
 
-export const makeSubDocumentFrames = (frame, item, uiFrame, mode, formData) => {
-    let madeFrames = subDocumentTypeFrames(frame, item, uiFrame, mode, formData)
+export const makeSubDocumentFrames = (frame, item, uiFrame, mode, formData, onTraverse) => {
+    let madeFrames = subDocumentTypeFrames(frame, item, uiFrame, mode, formData, onTraverse)
     let properties = madeFrames.properties
     let propertiesUI = madeFrames.propertiesUI
     return {properties, propertiesUI}

@@ -1,5 +1,7 @@
+import React from "react"
 import {ArrayFieldTemplate} from "./utils"
-import {CREATE, DATA, VIEW} from "./constants"
+import {CREATE, DATA, VIEW, DOCUMENT} from "./constants"
+import {Form} from "react-bootstrap"
 
 function removeDefaultsFromSubDocumentFrame (json) {
     // remove default values and get them from form Data
@@ -59,7 +61,6 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData) {
                     }
                 }*/
 
-
                 filledItems.push({
                     type: "object",
                     properties: setFrames.properties[item]["properties"],
@@ -73,6 +74,28 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData) {
 
     //schema
     properties[item] = layout
+
+    // get filled values on View mode
+    if(mode === VIEW && Array.isArray(layout["items"])) {
+        var count=0
+        layout["items"].map(it => {
+            for(var thing in it.properties){
+                if(it.properties[thing].info === DOCUMENT && it.default[thing]) {
+                    function getSelect (props) {
+                        return <React.Fragment>
+                            <Form.Label>{props.name}</Form.Label>
+                            <span className="text-gray">
+                                {props.formData}
+                            </span>
+                        </React.Fragment>
+                    }
+
+                    propertiesUI[item]["items"][count][thing]["ui:field"]=getSelect
+                }
+            }
+            count+=1
+        })
+    }
 
     if(mode !== VIEW) { // we do not allow to add extra on view mode
         //default ui:schema
@@ -96,6 +119,8 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData) {
         }
         propertiesUI[item]["ui:ArrayFieldTemplate"]=ArrayFieldTemplate
     }
+
+
 
     //custom ui:schema
     if(uiFrame && uiFrame[item]) {
@@ -223,6 +248,7 @@ export function makeSetDocuments  (setFrames, item, uiFrame, mode, formData) {
             removable: false
         }
     }
+
 
     //custom ui:schema
     if(uiFrame && uiFrame[item]) {

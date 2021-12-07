@@ -4,8 +4,12 @@ import {DEMO_DOCUMENTS, PROFILE_DEMO_DOCUMENTS} from "./sample"
 
 export const Output = ({schema, uiSchema, type, mode, formData}) => {
 
-    function handleSubmit(e) {
-        console.log("*****Data Submitted****", e)
+    function handleSubmit(data) {
+        console.log("*****Data Submitted****", data)
+    }
+
+    function handleTraverse(id) {
+        console.log("*****Clicked on****", id)
     }
 
     return <React.Fragment>
@@ -14,9 +18,10 @@ export const Output = ({schema, uiSchema, type, mode, formData}) => {
             frame={schema}
             uiFrame={uiSchema}
             type={type}
-            documents={PROFILE_DEMO_DOCUMENTS}
+            documents={DEMO_DOCUMENTS}
             formData={formData}
             mode={mode}
+            onTraverse={handleTraverse}
             onSubmit={handleSubmit}/>
     </React.Fragment>
 }

@@ -28,7 +28,7 @@ export function EnumTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
         "ui:disabled": uiDisable,
         "ui:title": getTitle(item),
         "ui:placeholder": `Select ${frame["@id"]} ...`,
-        classNames: "tdb__input  mb-3 mt-3 "
+        classNames: mode===VIEW ? "tdb__input mb-3 mt-3 tdb__view__enum__input" : "tdb__input mb-3 mt-3"
     }
 
     if(mode === VIEW && !layout.hasOwnProperty("default")){

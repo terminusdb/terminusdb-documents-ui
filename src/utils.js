@@ -1,9 +1,18 @@
 
 import React from "react"
 import {Button} from "react-bootstrap"
-import {XSD_DATA_TYPE_PREFIX, XDD_DATA_TYPE_PREFIX, OPTIONAL, SET, TDB_SCHEMA, DOCUMENT, ENUM} from "./constants"
+import {XSD_DATA_TYPE_PREFIX, XDD_DATA_TYPE_PREFIX, OPTIONAL, SET, DOCUMENT, ENUM} from "./constants"
 import {BiPlus} from "react-icons/bi"
 import {RiDeleteBin5Fill} from "react-icons/ri"
+
+
+//returns extracted prefix
+export function getPrefix(frame) {
+	if(!frame) return TDB_SCHEMA
+	var key = Object.keys(frame)[0]
+	var arr = key.split("#")
+	return arr[0]+"#"
+}
 
 // returns true for properties which are of data types xsd and xdd
 export const isDataType = (property) => {
@@ -34,10 +43,10 @@ export const isSetType = (property) => {
 }
 
 // returns true for properties pointing to other documents or enums
-export const isDocumentType = (property, frame) => {
+export const isDocumentType = (property, frame, prefix) => {
 		if(typeof property === "object") return false
 		if(!frame) return false
-		let document = `${TDB_SCHEMA}${property}`
+		let document = `${prefix}${property}`
 		if(frame[document]) {
 				if(frame[document]["@type"] === DOCUMENT) return true
 		}
@@ -86,7 +95,7 @@ export function getDefaultValue(item, formData) {
 		var match
 		for(var key in formData){
 				if(key === item) {
-						match=formData[key]
+					match=formData[key]
 				}
 		}
 		return match
@@ -106,7 +115,7 @@ export function ArrayFieldTemplate(props) {
 		return  (
 				<div className={props.className}>
 					<span>{props.title}</span>
-					<p className="text-muted fw-bold">{`${props.title} is a Set. To add ${props.title} click on the Add button`}</p>
+					{/*<p className="text-muted fw-bold">{`${props.title} is a Set. To add ${props.title} click on the Add button`}</p>*/}
 					{props.items &&
 						props.items.map(element => (
 							<div key={element.key} className={element.className}>
