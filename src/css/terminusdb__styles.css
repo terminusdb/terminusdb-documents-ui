@@ -65,7 +65,7 @@
 }
 
 fieldset > legend{
-    display: none !important;
+    /*display: none !important;*/
 }
 
 div.array-item {

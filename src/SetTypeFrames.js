@@ -1,5 +1,5 @@
 import React from "react"
-import {ArrayFieldTemplate} from "./utils"
+import {ArrayFieldTemplate, getTitle} from "./utils"
 import {CREATE, DATA, VIEW, DOCUMENT} from "./constants"
 import {Form} from "react-bootstrap"
 
@@ -28,6 +28,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData) {
 
     var  layout= {
         type: "array",
+        title: getTitle,
         items: [
             {
                 type: "object",
@@ -135,6 +136,7 @@ export function makeSetData (setFrames, item, uiFrame, mode, formData) {
 
     var  layout= {
         type: "array",
+        title: getTitle,
         items: setFrames.properties[item]
     }
 
@@ -146,7 +148,7 @@ export function makeSetData (setFrames, item, uiFrame, mode, formData) {
             filledItems.push({
                 type: "string",
                 info: DATA,
-                title: item,
+                //title: item,
                 default: defaultValues[count]
             })
             count += 1
@@ -178,6 +180,13 @@ export function makeSetData (setFrames, item, uiFrame, mode, formData) {
         }
         propertiesUI[item]["ui:ArrayFieldTemplate"]=ArrayFieldTemplate
     }
+    else if(mode === VIEW){
+        propertiesUI[item]["ui:options"] = { // disable add more on view
+            addable: false,
+            orderable: false,
+            removable: false
+        }
+    }
 
 
 
@@ -194,6 +203,7 @@ export function makeSetDocuments  (setFrames, item, uiFrame, mode, formData) {
 
     var  layout= {
         type: "array",
+        title: getTitle,
         items: setFrames.properties[item]
     }
 
