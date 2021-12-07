@@ -5,10 +5,11 @@ SDK to build UI from terminusdb documents
 ```npm run start```
 
 ### UI JSON Arguments
-```classNames``` : Any css class names
-```ui:widget```  : Hides a widget
-```ui:placeholder```: include placeholder
-```"ui:field```: you can pass a function which allows you to customise a field
+- ```classNames``` : Any css class names
+- ```ui:widget```  : Hides a widget
+- ```ui:placeholder```: include placeholder
+- ```"ui:field```: you can pass a function which allows you to customise a field
+
                 ```
                 function getNameFiled (props) {
                     return <div>{props.name}</div>
