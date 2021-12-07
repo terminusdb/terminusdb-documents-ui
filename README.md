@@ -9,7 +9,7 @@ SDK to build UI from terminusdb documents
 - ```ui:widget```  :  Hides a widget
 - ```ui:placeholder```:  Include placeholder
 - ```ui:field```:  You can pass a function which allows you to customise a field
-- 
+
 Example
 ```
 // custom function 
