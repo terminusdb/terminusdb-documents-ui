@@ -1,6 +1,6 @@
 
 import React, {useState, useEffect} from "react"
-import {getTitle, getDefaultValue} from "./utils"
+import {getTitle, getDefaultValue, checkIfKey} from "./utils"
 import {DOCUMENT, CREATE, VIEW} from "./constants"
 import {Form} from "react-bootstrap"
 
@@ -68,7 +68,7 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
         }
 
         return <React.Fragment>
-            <Form.Label>{item}</Form.Label>
+            <Form.Label>{getTitle(item, checkIfKey(item, frame["@key"]))}</Form.Label>
             {/*<span class="required">*</span>*/}
             <Form.Select onChange={(e) => handleSelect(e, props)}>
                 {opts}
@@ -80,7 +80,7 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
     //default ui:schema
     propertiesUI[item] = {
         "ui:disabled": uiDisable,
-        "ui:title": getTitle(item),
+        //"ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
         "ui:placeholder": `Select ${frame[item]} ...`,
         classNames: mode===VIEW ? "tdb__input mb-3 mt-3 tdb__view__input" : "tdb__input mb-3 mt-3",
         "ui:field": getSelect

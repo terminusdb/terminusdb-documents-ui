@@ -59,7 +59,8 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
             let newFrame = constructNewDocumentFrame(frame[item], item)
             let setFrames = getProperties(fullFrame, newFrame, uiFrame, documents, mode, formData, true, prefix, onTraverse)
             if(setFrames.required) delete setFrames["required"]
-            //console.log("setFrames", setFrames)
+            //console.log("setFrames", setFrames, item, newFrame)
+            if(Object.keys(setFrames.properties).length === 0) continue // skip if no properties are found
             var frames
             if(setFrames.properties[item].info === DOCUMENT || setFrames.properties[item].info === ENUM) { // if ismulti for react select
                 frames=makeSetDocuments(setFrames, item, uiFrame, mode, formData)

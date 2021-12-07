@@ -1,4 +1,4 @@
-import {getTitle, getDefaultValue} from "./utils"
+import {getTitle, getDefaultValue, checkIfKey} from "./utils"
 import {CREATE, VIEW} from "./constants"
 
 function DataTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
@@ -22,7 +22,7 @@ function DataTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
     propertiesUI[item] = {
         "ui:placeholder": frame[item],
         "ui:disabled": uiDisable,
-        "ui:title": getTitle(item),
+        "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
         classNames: mode===VIEW ? "tdb__input mb-3 mt-3 tdb__view__input" : "tdb__input mb-3 mt-3"
     }
 

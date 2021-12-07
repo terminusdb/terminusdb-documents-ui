@@ -4,7 +4,7 @@ import {Button} from "react-bootstrap"
 import {XSD_DATA_TYPE_PREFIX, XDD_DATA_TYPE_PREFIX, OPTIONAL, SET, DOCUMENT, ENUM} from "./constants"
 import {BiPlus} from "react-icons/bi"
 import {RiDeleteBin5Fill} from "react-icons/ri"
-
+import {FcKey} from "react-icons/fc"
 
 //returns extracted prefix
 export function getPrefix(frame) {
@@ -76,11 +76,9 @@ export function getSubDocumentDescription(item) {
 		return descr
 }
 
-export function getTitle(item) {
-	let title=[]
-	title.push(<span>{item}</span>)
-	//<GoFileSubmodule className="mr-2"/>
-	return title
+export function getTitle(item, uiDisable) {
+	if(uiDisable) return <span title={`${item} is a key field. Once created, you will not be able to update this field.`}><FcKey className="mr-2"/>{item}</span>
+    else return <span>{item}</span>
 }
 
 export function getSetTitle(item) {
@@ -185,3 +183,16 @@ export function formatData(formData) {
 	return extracted
 }
 
+// function checks in property is key of a document
+export function checkIfKey(property, key) {
+    if(!key) return
+	if(!key["@fields"]) return
+	var isKey=false
+	key["@fields"].map(item => {
+		if(item === property) {
+			isKey=true
+			return
+		}
+	})
+	return isKey
+}

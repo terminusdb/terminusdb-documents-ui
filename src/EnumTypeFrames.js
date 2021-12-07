@@ -1,7 +1,6 @@
 
 import React from 'react'
-import {getTitle, getDefaultValue} from "./utils"
-import Select from 'react-select'
+import {getTitle, getDefaultValue, checkIfKey} from "./utils"
 import {VIEW, ENUM, CREATE} from "./constants"
 
 
@@ -26,7 +25,7 @@ export function EnumTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
     //default ui:schema
     propertiesUI[item] = {
         "ui:disabled": uiDisable,
-        "ui:title": getTitle(item),
+        "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
         "ui:placeholder": `Select ${frame["@id"]} ...`,
         classNames: mode===VIEW ? "tdb__input mb-3 mt-3 tdb__view__enum__input" : "tdb__input mb-3 mt-3"
     }
@@ -38,6 +37,11 @@ export function EnumTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
     //custom ui:schema
     if(uiFrame && uiFrame[item]) {
         propertiesUI[item] = uiFrame[item]
+    }
+
+    // hide entire widget if not available in filled frame
+    if(mode === VIEW && !formData.hasOwnProperty(item)) {
+        propertiesUI[item] = {"ui:widget" : "hidden"}
     }
 
     return {properties, propertiesUI}
