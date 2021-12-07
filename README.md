@@ -8,20 +8,24 @@ SDK to build UI from terminusdb documents
 - ```classNames``` : Any css class names
 - ```ui:widget```  : Hides a widget
 - ```ui:placeholder```: include placeholder
-- ```"ui:field```: you can pass a function which allows you to customise a field
+- ```ui:field```: you can pass a function which allows you to customise a field
+- 
+Example
+```
+// custom function 
+function getNameFiled (props) {
+    return <div>{props.name}</div>
+}
 
-                ```
-                function getNameFiled (props) {
-                    return <div>{props.name}</div>
-                }
+// uischema layout
+const uiSchema = name {
+    "ui:field": getNameFiled
+}
 
-                const uiSchema = name {
-                    "ui:field": getNameFiled
-                }
+//schema layout
+const schema = {
+    "name" : "xsd:string"
+}
 
-                const schema = {
-                    "name" : "xsd:string"
-                }
-
-                return <FrameViewer frame={schema} uiFrame={uiSchema}>
-                ```
+return <FrameViewer frame={schema} uiFrame={uiSchema}>
+```
