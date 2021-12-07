@@ -101,7 +101,7 @@ export const DEMO_SCHEMA = {
 	}
   }
 
-export const DEMO_DOCUMENT_TYPE="Person"
+export const DEMO_DOCUMENT_TYPE="Organization"
 
 export const DEMO_FORM_DATA= {
 	"@id":"Person/Kitty%20Jose",
@@ -531,6 +531,18 @@ export const PROFILE_FORM_DATA = {
 	   "stripe_user":"User/WHO",
 	   "subscription_id":"DASDSDASD"
 	}
+ }
+
+ export const PROFILE_FORM_DATA_USER= {
+	"@id":"User/BLUEME",
+	"@type":"User",
+	"company":"PRETO",
+	"email":"kitty@terminusdb.com",
+	"first_name":"Kitty",
+	"last_name":"Jose",
+	"picture":"WHO",
+	"status":"inactive",
+	"user_id":"BLUEME"
  }
 
 export const PROFILE_DEMO_DOCUMENTS = {

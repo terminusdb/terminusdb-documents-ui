@@ -1,5 +1,5 @@
-import React from "react"
-import {ArrayFieldTemplate, getTitle} from "./utils"
+import React, {useState, useEffect} from "react"
+import {ArrayFieldTemplate, getSetTitle, getTitle} from "./utils"
 import {CREATE, DATA, VIEW, DOCUMENT} from "./constants"
 import {Form} from "react-bootstrap"
 
@@ -23,12 +23,12 @@ function removeDefaultsFromDataFrame (json) {
     return newJson
 }
 
-export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData) {
+export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, onTraverse) {
     let properties={}, propertiesUI={}
 
     var  layout= {
         type: "array",
-        title: getTitle,
+        title: mode === VIEW ? getTitle() : getSetTitle(),
         items: [
             {
                 type: "object",
@@ -77,15 +77,27 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData) {
     properties[item] = layout
 
     // get filled values on View mode
-    if(mode === VIEW && Array.isArray(layout["items"])) {
+    if(mode === VIEW && formData.hasOwnProperty(item) && Array.isArray(layout["items"])) {
         var count=0
         layout["items"].map(it => {
             for(var thing in it.properties){
-                if(it.properties[thing].info === DOCUMENT && it.default[thing]) {
+                if(it.properties[thing].info === DOCUMENT && it.default && it.default[thing]) {
                     function getSelect (props) {
+                        const [clicked, setClicked]=useState(false)
+
+                        useEffect(() => {
+                            if(!clicked) return
+                            if(onTraverse) onTraverse(clicked)
+                        }, [clicked])
+
+                        const handleClick = (id, setClicked) => { // view if on traverse function defined
+                            setClicked(id)
+                        }
+
+
                         return <React.Fragment>
                             <Form.Label>{props.name}</Form.Label>
-                            <span className="text-gray">
+                            <span className="text-gray" onClick={(e) => handleClick(props.formData, setClicked)}>
                                 {props.formData}
                             </span>
                         </React.Fragment>
@@ -101,10 +113,8 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData) {
     if(mode !== VIEW) { // we do not allow to add extra on view mode
         //default ui:schema
         propertiesUI[item] = {
-            "items": [
-                setFrames.uiSchema[item],
-                setFrames.uiSchema[item]
-            ]
+            "items": setFrames.uiSchema[item],
+
         }
         // layout
         properties[item]["additionalItems"]={
@@ -122,10 +132,14 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData) {
     }
 
 
-
     //custom ui:schema
     if(uiFrame && uiFrame[item]) {
         propertiesUI[item] = uiFrame[item]
+    }
+
+    // hide entire widget if not available in filled frame
+    if(mode === VIEW && !formData.hasOwnProperty(item)) {
+        propertiesUI[item] = {"ui:widget" : "hidden"}
     }
 
     return {properties, propertiesUI}
@@ -136,7 +150,7 @@ export function makeSetData (setFrames, item, uiFrame, mode, formData) {
 
     var  layout= {
         type: "array",
-        title: getTitle,
+        title: mode === VIEW ? getTitle() : getSetTitle(),
         items: setFrames.properties[item]
     }
 
@@ -203,7 +217,7 @@ export function makeSetDocuments  (setFrames, item, uiFrame, mode, formData) {
 
     var  layout= {
         type: "array",
-        title: getTitle,
+        title: mode === VIEW ? getTitle() : getSetTitle(),
         items: setFrames.properties[item]
     }
 

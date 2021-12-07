@@ -32,8 +32,9 @@
 
 .tdb__view__input > span{
     color: #fff !important;
-    margin-left: -20px;
+    margin-left: -10px;
     cursor: pointer;
+    text-decoration: underline;
 }
 
 .tdb__view__input > span > select {
@@ -50,11 +51,11 @@
     color: #2196f3 !important;
 }
 
-.tdb__view__input > label {
+.tdb__view__input > label, .tdb__view__enum__input> label{
     width: 200px;
 }
 
-.tdb__view__input > label > .required {
+.tdb__view__input > label > .required, .tdb__view__enum__input > label > .required{
     display: none;
 }
 
@@ -64,9 +65,6 @@
     margin-left: 10px !important;
 }
 
-fieldset > legend{
-    /*display: none !important;*/
-}
 
 div.array-item {
     display: flex !important;

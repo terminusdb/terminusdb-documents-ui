@@ -99,6 +99,11 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
         propertiesUI[item] = uiFrame[item]
     }
 
+    // hide entire widget if not available in filled frame
+    if(mode === VIEW && !formData.hasOwnProperty(item)) {
+        propertiesUI[item] = {"ui:widget" : "hidden"}
+    }
+
 
     return {properties, propertiesUI}
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import {FrameViewer} from '@terminusdb/terminusdb-documents-ui'
-import {DEMO_DOCUMENTS, PROFILE_DEMO_DOCUMENTS} from "./sample"
+import {DEMO_DOCUMENTS, PROFILE_DEMO_DOCUMENTS, VIEW, EDIT} from "./sample"
 
 export const Output = ({schema, uiSchema, type, mode, formData}) => {
 
@@ -18,7 +18,7 @@ export const Output = ({schema, uiSchema, type, mode, formData}) => {
             frame={schema}
             uiFrame={uiSchema}
             type={type}
-            documents={DEMO_DOCUMENTS}
+            documents={PROFILE_DEMO_DOCUMENTS}
             formData={formData}
             mode={mode}
             onTraverse={handleTraverse}

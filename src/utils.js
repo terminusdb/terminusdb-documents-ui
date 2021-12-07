@@ -83,6 +83,10 @@ export function getTitle(item) {
 	return title
 }
 
+export function getSetTitle(item) {
+	return item
+}
+
 
 // field array to display key fields
 export function getFieldTitle(item, uiDisable) {

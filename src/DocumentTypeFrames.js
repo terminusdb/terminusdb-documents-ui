@@ -67,9 +67,13 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
             </React.Fragment>
         }
 
-        return <Form.Select onChange={(e) => handleSelect(e, props)}>
-            {opts}
-        </Form.Select>
+        return <React.Fragment>
+            <Form.Label>{item}</Form.Label>
+            {/*<span class="required">*</span>*/}
+            <Form.Select onChange={(e) => handleSelect(e, props)}>
+                {opts}
+            </Form.Select>
+        </React.Fragment>
     }
 
 
@@ -97,8 +101,8 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
 // mandatory
 export function makeDocumentTypeFrames (frame, item, uiFrame, documents, mode, formData, isSet, onTraverse) {
     let madeFrames = DocumentTypeFrames (frame, item, uiFrame, documents, mode, formData, isSet, onTraverse)
-    //var required=item
+    var required=item
     let properties = madeFrames.properties
     let propertiesUI = madeFrames.propertiesUI
-    return {properties, propertiesUI}
+    return {properties, propertiesUI, required}
 }
