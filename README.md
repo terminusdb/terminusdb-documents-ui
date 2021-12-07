@@ -27,5 +27,5 @@ const schema = {
     "name" : "xsd:string"
 }
 
-return <FrameViewer frame={schema} uiFrame={uiSchema}>
+return <FrameViewer frame={schema} uiFrame={uiSchema}/>
 ```
