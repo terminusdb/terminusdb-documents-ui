@@ -102,9 +102,3 @@ dist
 
 # TernJS port file
 .tern-port
-
-#es6
-es6
-
-#package-lock.json
-package-lock.json

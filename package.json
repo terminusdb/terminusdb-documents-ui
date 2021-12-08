@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "SDK to build UI from terminusdb documents",
   "main": "src/index.js",
+  "module": "es6/index",
+  "jsnext:main": "es6/index",
   "scripts": {
     "build-es6": "rimraf es6 && cross-env NODE_ENV=es6 babel ./src -d es6 --extensions '.js' && babel ./src/css --out-dir es6/css/less --copy-files",
     "build": "npm run build-es6 && rimraf dist && webpack --production ",
@@ -27,6 +29,10 @@
     "url": "https://github.com/terminusdb/terminusdb-documents-ui/issues"
   },
   "homepage": "https://github.com/terminusdb/terminusdb-documents-ui#readme",
+  "peerDependencies": {
+    "react": "^16.10.3",
+    "react-dom": "^16.10.3"
+  },
   "devDependencies": {
     "@babel/cli": "^7.6.4",
     "@babel/core": "^7.6.4",
@@ -73,9 +79,9 @@
   "dependencies": {
     "@rjsf/core": "^3.2.0",
     "bootstrap": "^5.1.3",
-    "react": "^17.0.2",
+    "react": "^16.10.3",
     "react-bootstrap": "^2.0.2",
-    "react-dom": "^17.0.2",
+    "react-dom": "^16.10.3",
     "react-icons": "^4.3.1",
     "react-jsonschema-form": "^1.8.1",
     "react-jsonschema-form-extras": "^0.9.67",
