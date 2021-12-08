@@ -4,8 +4,9 @@ import {getProperties} from "./FrameHelpers"
 import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField"
 import {TDB_SCHEMA} from "./constants"
 import {Alert} from "react-bootstrap"
-import {VIEW} from "./constants"
-import {formatData, getPrefix} from "./utils"
+import {VIEW, EDIT} from "./constants"
+import {formatData, getPrefix, isValueHashDocument, getValueHashMessage} from "./utils"
+
 
 /*
 **  frame     - full json schema of a document
@@ -24,6 +25,8 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
     const [readOnly, setReadOnly]=useState(false)
     const [error, setError]=useState(false)
 
+    const [message, setMessage]=useState(false)
+
 
     if(!frame) return <div>No schema provided!</div>
 
@@ -37,7 +40,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse)
             const schema = {
                 "type": "object",
-                //"properties": properties.properties,
+                "properties": properties.properties,
                 "required": properties.required,
                 "dependencies": properties.dependencies
             }
@@ -47,12 +50,13 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             console.log("uiSchema", uiSchema)
             if(mode === VIEW) {
                 setReadOnly(true)
-                //schema["properties"]=displayFilledProperties(properties.properties)
-                schema["properties"]=properties.properties
+            }
+            if(mode === EDIT && isValueHashDocument(frame[current])) {
+                setMessage(getValueHashMessage())
+                setReadOnly(true)
             }
             else {
                 setReadOnly(false)
-                schema["properties"]=properties.properties
             }
             setSchema(schema)
             const uiSchema = properties.uiSchema
@@ -79,6 +83,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
     }
 
     return <div>
+        {schema && message && message}
         {schema && <Form schema={schema}
             uiSchema={uiSchema}
             mode={mode}

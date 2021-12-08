@@ -1,10 +1,11 @@
 
 import React from "react"
 import {Button} from "react-bootstrap"
-import {XSD_DATA_TYPE_PREFIX, XDD_DATA_TYPE_PREFIX, OPTIONAL, SET, DOCUMENT, ENUM} from "./constants"
+import {XSD_DATA_TYPE_PREFIX, XDD_DATA_TYPE_PREFIX, OPTIONAL, SET, DOCUMENT, ENUM, VALUE_HASH_KEY} from "./constants"
 import {BiPlus} from "react-icons/bi"
 import {RiDeleteBin5Fill} from "react-icons/ri"
 import {FcKey} from "react-icons/fc"
+import {BiErrorCircle} from "react-icons/bi"
 
 //returns extracted prefix
 export function getPrefix(frame) {
@@ -195,4 +196,23 @@ export function checkIfKey(property, key) {
 		}
 	})
 	return isKey
+}
+
+
+ // check if document has ValueHash type key
+export function isValueHashDocument(frame) {
+	if(frame["@key"]["@type"] &&
+		frame["@key"]["@type"] === VALUE_HASH_KEY) {
+			return true
+	}
+	return false
+}
+
+export function getValueHashMessage () {
+	return <p className="text-muted fw-bold">
+		<BiErrorCircle className="mr-2"/>
+		Edit is disabled for a document with Value Hash key.
+		A Value Hash object will change its id and is generated from its properties. Best way would be to
+		delete this document and create a new one.
+	</p>
 }

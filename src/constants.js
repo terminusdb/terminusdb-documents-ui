@@ -13,6 +13,7 @@ export const CREATE="Create"
 export const EDIT="Edit"
 export const VIEW="View"
 
+export const VALUE_HASH_KEY="ValueHash"
 
 export const TDB_SCHEMA= "terminusdb:///schema#"
 

@@ -1,9 +1,8 @@
 import {getTitle, getDefaultValue, checkIfKey} from "./utils"
-import {CREATE, VIEW} from "./constants"
+import {CREATE, VIEW, EDIT} from "./constants"
 
 function DataTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
     let properties={}, propertiesUI={}
-    var uiDisable=false
 
     var layout = {
         type: 'string',
@@ -21,7 +20,7 @@ function DataTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
     //default ui:schema
     propertiesUI[item] = {
         "ui:placeholder": frame[item],
-        "ui:disabled": uiDisable,
+        "ui:disabled": mode === EDIT && checkIfKey(item, frame["@key"]) ? true : false,
         "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
         classNames: mode===VIEW ? "tdb__input mb-3 mt-3 tdb__view__input" : "tdb__input mb-3 mt-3"
     }

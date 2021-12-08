@@ -103,9 +103,22 @@ export const DEMO_SCHEMA = {
 		"@type": "Set"
 	  },
 	  "works_as": "Job"
+	},
+	"terminusdb:///schema#valuehash": {
+	  "@key": {
+		"@type": "ValueHash"
+	  },
+	  "@type": "Class",
+	  "color": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "name": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  }
 	}
   }
-
 export const DEMO_DOCUMENT_TYPE="Codes"
 
 export const DEMO_FORM_DATA= {

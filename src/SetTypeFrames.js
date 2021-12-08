@@ -49,33 +49,34 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
             var defaultValues=formData[item]
             propertiesUI[item]["items"]=[]
 
-            defaultValues.map(value=>{
+            defaultValues.map(value=>{ // remove custom select function
+                for(var thing in setFrames.properties[item]["properties"]) {
+                    if(setFrames.properties[item]["properties"][thing].info === DOCUMENT &&
+                    setFrames.uiSchema[item][thing]["ui:field"]) {
+                        delete setFrames.uiSchema[item][thing]["ui:field"]
+                    }
+                }
                 propertiesUI[item]["items"].push(setFrames.uiSchema[item])
             })
+
+
             defaultValues.map(value => {
-                /*if(mode === VIEW){ // review this part
-                    for(var props in setFrames.properties[item]["properties"]){
-                        if(!value[props]){
-                            //propertiesUI[item]["items"][count][props] = {"ui:widget": "hidden"}
-                        }
-
-                    }
-                }*/
-
                 filledItems.push({
                     type: "object",
                     properties: setFrames.properties[item]["properties"],
                     default: defaultValues[count]
                 })
+
                 count += 1
             })
         }
         layout["items"]=filledItems
     }
 
-    console.log("layout", layout)
     //schema
     properties[item] = layout
+
+
 
     // get filled values on View mode
     if(mode === VIEW && formData.hasOwnProperty(item) && Array.isArray(layout["items"])) {
@@ -95,7 +96,6 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
                             setClicked(id)
                         }
 
-
                         return <React.Fragment>
                             <Form.Label>{props.name}</Form.Label>
                             <span className="text-gray tbd__view__select" onClick={(e) => handleClick(props.formData, setClicked)}>
@@ -109,7 +109,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
                 if(it.properties[thing].info === "DATA" && it.default) {
                     function getFieldValue(props){
                         if(!props.formData ||  props.formData===undefined)
-                            return <span className="nothing"></span>
+                            return <span className="tdb__blank"></span>
                         return <React.Fragment>
                             <Form.Label>{props.name}</Form.Label>
                             <span>{props.formData}</span>
@@ -121,8 +121,6 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
             count+=1
         })
     }
-
-    console.log("propertiesUI", propertiesUI)
 
     if(mode !== VIEW) { // we do not allow to add extra on view mode
         //default ui:schema

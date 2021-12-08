@@ -1,12 +1,12 @@
 
 import React, {useState, useEffect} from "react"
 import {getTitle, getDefaultValue, checkIfKey} from "./utils"
-import {DOCUMENT, CREATE, VIEW} from "./constants"
+import {DOCUMENT, CREATE, VIEW, EDIT} from "./constants"
 import {Form} from "react-bootstrap"
 
 export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formData, isSet, onTraverse) {
     let properties={}, propertiesUI={}
-    var uiDisable=false, type=frame[item]
+    var type=frame[item]
 
 
     var layout = {
@@ -79,7 +79,7 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
 
     //default ui:schema
     propertiesUI[item] = {
-        "ui:disabled": uiDisable,
+        "ui:disabled": mode === EDIT && checkIfKey(item, frame["@key"]) ? true : false,
         //"ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
         "ui:placeholder": `Select ${frame[item]} ...`,
         classNames: mode===VIEW ? "tdb__input mb-3 mt-3 tdb__view__input" : "tdb__input mb-3 mt-3",
