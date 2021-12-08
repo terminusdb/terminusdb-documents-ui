@@ -1,6 +1,6 @@
 
 import React, {useState, useEffect} from "react"
-import {getTitle, getDefaultValue, checkIfKey} from "./utils"
+import {getTitle, getDefaultValue, checkIfKey, getRequiredSelect} from "./utils"
 import {DOCUMENT, CREATE, VIEW, EDIT} from "./constants"
 import {Form} from "react-bootstrap"
 
@@ -31,16 +31,12 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
             if(onTraverse) onTraverse(clicked)
         }, [clicked])
 
-        const handleSelect= (e, props) => { //create or edit
-            if(props.onChange) props.onChange(e.target.value)
-        }
-
         const handleClick = (e) => { // view if on traverse function defined
             setClicked(e.target.value)
         }
 
         let opts=[]
-        opts.push(<option>{`Select ${frame[item]} ...`}</option>)
+        opts.push(<option value="">{`Select ${frame[item]} ...`}</option>)
         if(Array.isArray(props.schema.enum)) {
             props.schema.enum.map(enu => {
                 opts.push(<option value={enu}>{enu}</option>)
@@ -48,32 +44,17 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
         }
 
         // for view mode - logic to click through on traverse
-        if(layout.default) {
-            if(mode === VIEW) {
-                return <React.Fragment>
-                    <Form.Label>{item}</Form.Label>
-                    <span onClick={handleClick}>
-                        <Form.Select defaultValue={layout.default} disabled >
-                            {opts}
-                        </Form.Select>
-                    </span>
-                </React.Fragment>
-            }
+        if(mode === VIEW) {
             return <React.Fragment>
-                <Form.Label>{item}</Form.Label>
-                <Form.Select defaultValue={layout.default} onClick={(e) => handleClick(e, onTraverse)}>
-                    {opts}
-                </Form.Select>
+                <Form.Label className="col-md-1">{item}</Form.Label>
+                <span onClick={handleClick}>
+                    <Form.Select defaultValue={layout.default} disabled >
+                        {opts}
+                    </Form.Select>
+                </span>
             </React.Fragment>
         }
-
-        return <React.Fragment>
-            <Form.Label>{getTitle(item, checkIfKey(item, frame["@key"]))}</Form.Label>
-            {/*<span class="required">*</span>*/}
-            <Form.Select onChange={(e) => handleSelect(e, props)}>
-                {opts}
-            </Form.Select>
-        </React.Fragment>
+        //return getRequiredSelect(item, frame[item], layout.default, props.schema.enum)
     }
 
 
@@ -83,7 +64,7 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
         //"ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
         "ui:placeholder": `Select ${frame[item]} ...`,
         classNames: mode===VIEW ? "tdb__input mb-3 mt-3 tdb__view__input" : "tdb__input mb-3 mt-3",
-        "ui:field": getSelect
+        "ui:field": mode ===VIEW ? getSelect : getRequiredSelect
     }
 
     if(mode === VIEW && !layout.hasOwnProperty("default")){

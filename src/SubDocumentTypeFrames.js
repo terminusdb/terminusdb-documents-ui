@@ -34,14 +34,12 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
         type: "object",
         title: item,
         info: "SUBDOCUMENT",
-        properties: frame.properties
+        properties: frame.properties,
+        required: Array.isArray(frame.required) ? frame.required : []
     }
-
-
 
     //schema
     properties[item] = layout
-
 
     propertiesUI[item] = {
         "ui:field": "collapsible",
@@ -90,9 +88,6 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
             }
         }
     }
-
-
-
 
     //custom ui:schema
     if(uiFrame && uiFrame[item]) {

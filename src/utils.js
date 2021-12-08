@@ -1,6 +1,6 @@
 
 import React from "react"
-import {Button} from "react-bootstrap"
+import {Button, Form} from "react-bootstrap"
 import {XSD_DATA_TYPE_PREFIX, XDD_DATA_TYPE_PREFIX, OPTIONAL, SET, DOCUMENT, ENUM, VALUE_HASH_KEY} from "./constants"
 import {BiPlus} from "react-icons/bi"
 import {RiDeleteBin5Fill} from "react-icons/ri"
@@ -216,3 +216,90 @@ export function getValueHashMessage () {
 		delete this document and create a new one.
 	</p>
 }
+
+
+// function for set subdocuments to make fields mandatory only if one field is enterred
+function getOtherProperties(property, properties)  {
+    let other = []
+    for (var props in properties) {
+        if(props === "@type") continue
+        if(props !== property) {
+            other.push(props)
+        }
+    }
+    return other
+}
+
+export function getDependencies(properties) {
+    let dependencies = {}
+    for (var props in properties) {
+        if(props === "@type") continue
+        dependencies[props] = getOtherProperties(props, properties)
+    }
+    return dependencies
+}
+
+// get select options to display
+function getSelectOptions(placeholder, defaultValue, enums) {
+	let opts=[]
+	opts.push(<option value="">{placeholder}</option>)
+	if(Array.isArray(enums)) {
+		enums.map(enu => {
+			if(enu === defaultValue) opts.push(<option value={enu} selected>{enu}</option>)
+			else opts.push(<option value={enu}>{enu}</option>)
+		})
+	}
+	return opts
+}
+
+// get select component with required
+export function getRequiredSelect_ol(item, selectDocument, defaultValue, enums) {
+	const handleSelect= (e, props) => { //create or edit
+		if(props.onChange) props.onChange(e.target.value)
+	}
+
+	let opts=getSelectOptions(`Select ${selectDocument} ...`, defaultValue, enums)
+	return <React.Fragment>
+		<Form.Label>{item}</Form.Label>
+		<span class="required">*</span>
+		<select className="d-block form-control"
+			defaultValue={defaultValue}
+			required
+			onChange={(e) => handleSelect(e, props)}>
+			{opts}
+		</select>
+	</React.Fragment>
+}
+
+// get select component with required
+export function getRequiredSelect(props) {
+	const handleSelect= (e, props) => { //create or edit
+		if(props.onChange) props.onChange(e.target.value)
+	}
+
+	let opts=getSelectOptions(props.uiSchema["ui:placeholder"], props.formData, props.schema.enum)
+	return <React.Fragment>
+		<Form.Label>{props.name}<span class="required">*</span></Form.Label>
+		<select className="d-block form-control"
+			required
+			onChange={(e) => handleSelect(e, props)}>
+			{opts}
+		</select>
+	</React.Fragment>
+}
+
+// get select component with no required
+export function getOptionalSelect (props) {
+	const handleSelect= (e, props) => { //create or edit
+		if(props.onChange) props.onChange(e.target.value)
+	}
+	let opts=getSelectOptions(props.uiSchema["ui:placeholder"], props.formData, props.schema.enum)
+	return <React.Fragment>
+		<Form.Label>{props.name}</Form.Label>
+		<select className="d-block form-control"
+			onChange={(e) => handleSelect(e, props)}>
+			{opts}
+		</select>
+	</React.Fragment>
+}
+

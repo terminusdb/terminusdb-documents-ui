@@ -4,8 +4,8 @@ import {makeSubDocumentFrames} from "./SubDocumentTypeFrames"
 import {makeSetSubDocuments, makeSetData, makeSetDocuments} from "./SetTypeFrames"
 import {makeDocumentTypeFrames} from "./DocumentTypeFrames"
 import {makeEnumTypeFrames} from "./EnumTypeFrames"
-import {isDataType, isSubDocumentType, isOptionalType, isSetType, isDocumentType, isEnumType} from "./utils"
-import {DOCUMENT, ENUM, DATA} from "./constants"
+import {isDataType, isSubDocumentType, isOptionalType, isSetType, isDocumentType, isEnumType, getOptionalSelect} from "./utils"
+import {DOCUMENT, ENUM, DATA, VIEW} from "./constants"
 
 function constructNewDocumentFrame(frame, item) {
     let newFrame = {[item]: frame["@class"]}
@@ -25,6 +25,7 @@ function constructSubDocumentFrame (fullFrame, uiFrame, item, title, documents, 
         default: title
     }
     nestedFrames.properties=newProperties
+    nestedFrames.required=nestedFrames.required
     // make type of sub document hidden
     newUISchema["@type"]={"ui:widget": "hidden"}
     nestedFrames.uiSchema=newUISchema
@@ -51,6 +52,26 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
             let newFrame = constructNewDocumentFrame(frame[item], item)
             let optionalFrames = getProperties(fullFrame, newFrame, uiFrame, documents, mode, formData, false, prefix, onTraverse)
 
+            if(mode !== VIEW) {
+                if(optionalFrames.properties[item] && optionalFrames.properties[item].properties){ // these for optional sets
+                    for(var props in optionalFrames.properties[item].properties) {
+                        if(optionalFrames.properties[item].properties[props].info === DOCUMENT){
+                            optionalFrames.uiSchema[item][props]["ui:field"]=getOptionalSelect
+                        }
+                    }
+                }
+                else {
+                    if(optionalFrames.properties[item].info === DOCUMENT){
+                        optionalFrames.uiSchema[item]["ui:field"]=getOptionalSelect
+                    }
+                }
+            }
+
+            // remove required
+            if(Array.isArray(optionalFrames.properties[item].required)) {
+                delete optionalFrames.properties[item].required
+            }
+
             //set properties and ui
             properties[item] = optionalFrames.properties[item]
             propertiesUI[item] = optionalFrames.uiSchema[item]
@@ -63,7 +84,7 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
             if(Object.keys(setFrames.properties).length === 0) continue // skip if no properties are found
             var frames
             if(setFrames.properties[item].info === DOCUMENT || setFrames.properties[item].info === ENUM) { // if ismulti for react select
-                frames=makeSetDocuments(setFrames, item, uiFrame, mode, formData)
+                frames=makeSetDocuments(setFrames, item, uiFrame, mode, formData, onTraverse)
                 //set properties and ui
                 properties[item] = frames.properties[item]
                 propertiesUI[item] = frames.propertiesUI[item]
@@ -106,7 +127,6 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
             //set properties and ui
             properties[item] = frames.properties[item]
             propertiesUI[item] = frames.propertiesUI[item]
-            required.push(item)
         }
     }
 

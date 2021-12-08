@@ -24,6 +24,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
     const [uiSchema, setUISchema]=useState(false)
     const [readOnly, setReadOnly]=useState(false)
     const [error, setError]=useState(false)
+    const [input, setInput]=useState({})
 
     const [message, setMessage]=useState(false)
 
@@ -48,15 +49,19 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             console.log("schema", schema)
             console.log("properties.uiSchema", properties.uiSchema)
             console.log("uiSchema", uiSchema)
+            console.log("required", properties.required)
             if(mode === VIEW) {
                 setReadOnly(true)
+                setInput(formData)
             }
             if(mode === EDIT && isValueHashDocument(frame[current])) {
+                setInput(formData)
                 setMessage(getValueHashMessage())
                 setReadOnly(true)
             }
             else {
                 setReadOnly(false)
+                setInput({})
             }
             setSchema(schema)
             const uiSchema = properties.uiSchema
@@ -89,6 +94,8 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             mode={mode}
             onSubmit={handleSubmit}
             readonly={readOnly}
+            formData={input}
+            onChange={({formData}) => setInput(formData)}
             fields={{
                 collapsible: CollapsibleField
             }}

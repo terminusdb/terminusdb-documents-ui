@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import {ArrayFieldTemplate, getSetTitle, getTitle} from "./utils"
+import {ArrayFieldTemplate, getSetTitle, getTitle, getOptionalSelect} from "./utils"
 import {CREATE, DATA, VIEW, DOCUMENT} from "./constants"
 import {Form} from "react-bootstrap"
 
@@ -25,6 +25,15 @@ function removeDefaultsFromDataFrame (json) {
 
 export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, onTraverse) {
     let properties={}, propertiesUI={}
+
+
+    if(mode !== VIEW){
+        for(var props in setFrames.properties[item]["properties"]) {
+            if(setFrames.properties[item]["properties"][props].info === DOCUMENT) {
+                setFrames.uiSchema[item][props]["ui:field"]=getOptionalSelect
+            }
+        }
+    }
 
     var  layout= {
         type: "array",
@@ -54,6 +63,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
                     if(setFrames.properties[item]["properties"][thing].info === DOCUMENT &&
                     setFrames.uiSchema[item][thing]["ui:field"]) {
                         delete setFrames.uiSchema[item][thing]["ui:field"]
+                        //setFrames.uiSchema[item][thing]["ui:field"] = getRequiredSelect(item, selectDocument, defaultValue, enums)
                     }
                 }
                 propertiesUI[item]["items"].push(setFrames.uiSchema[item])
@@ -224,7 +234,7 @@ export function makeSetData (setFrames, item, uiFrame, mode, formData) {
     return {properties, propertiesUI}
 }
 
-export function makeSetDocuments  (setFrames, item, uiFrame, mode, formData) {
+export function makeSetDocuments  (setFrames, item, uiFrame, mode, formData, onTraverse) {
     let properties={}, propertiesUI={}
 
     var  layout= {
@@ -236,7 +246,6 @@ export function makeSetDocuments  (setFrames, item, uiFrame, mode, formData) {
 
     if(mode !== CREATE && formData.hasOwnProperty(item)){
         var filledItems = []
-
         let defaultValues = setFrames.properties[item].default
         defaultValues.map(def => {
             filledItems.push({
@@ -254,9 +263,56 @@ export function makeSetDocuments  (setFrames, item, uiFrame, mode, formData) {
     //schema
     properties[item] = layout
 
+
     //default ui:schema
+    if(mode !== VIEW && setFrames.uiSchema[item] && setFrames.uiSchema[item]["ui:field"]){
+        setFrames.uiSchema[item]["ui:field"]=getOptionalSelect
+    }
+
+
+    function getViewSelect (props) {
+        const [clicked, setClicked]=useState(false)
+
+        useEffect(() => {
+            if(!clicked) return
+            if(onTraverse) onTraverse(clicked)
+        }, [clicked])
+
+        const handleClick = (e) => { // view if on traverse function defined
+            setClicked(e.target.value)
+        }
+
+        let opts=[]
+        opts.push(<option value="">{props.uiSchema["ui:placeholder"]}</option>)
+        if(Array.isArray(props.schema.enum)) {
+            props.schema.enum.map(enu => {
+                opts.push(<option value={enu}>{enu}</option>)
+            })
+        }
+
+        return <React.Fragment>
+            <Form.Label>{item}</Form.Label>
+            <span onClick={handleClick}>
+                <Form.Select defaultValue={props.formData} disabled >
+                    {opts}
+                </Form.Select>
+            </span>
+        </React.Fragment>
+    }
+
+    var ui = {}
+    if(mode === VIEW) {
+        for(var u in setFrames.uiSchema[item]) {
+            if(u == "ui:field"){
+                //ui[u]=setFrames.uiSchema[item][u]
+                ui[u]=getViewSelect
+            }
+            else ui[u]=setFrames.uiSchema[item][u]
+        }
+    }
+    else ui = setFrames.uiSchema[item]
     propertiesUI[item] = {
-        "items": setFrames.uiSchema[item]
+        "items": ui
     }
 
     if(mode !== VIEW) { // we do not allow to add extra on view mode

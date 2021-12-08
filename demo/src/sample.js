@@ -4,29 +4,17 @@ export const EDIT="Edit"
 export const VIEW="View"
 
 
-export const DEMO_SCHEMA = {
+export const DEMO_SCHEMA ={
 	"terminusdb:///schema#Address": {
 	  "@key": {
 		"@type": "Random"
 	  },
 	  "@subdocument": [],
 	  "@type": "Class",
-	  "AddressLine1": {
-		"@class": "xsd:string",
-		"@type": "Optional"
-	  },
-	  "AddressLine2": {
-		"@class": "xsd:string",
-		"@type": "Optional"
-	  },
-	  "Country": {
-		"@class": "xsd:string",
-		"@type": "Optional"
-	  },
-	  "address_code": {
-		"@class": "Codes",
-		"@type": "Optional"
-	  }
+	  "AddressLine1": "xsd:string",
+	  "AddressLine2": "xsd:string",
+	  "Country": "xsd:string",
+	  "address_code": "Codes"
 	},
 	"terminusdb:///schema#Codes": {
 	  "@key": {
@@ -55,6 +43,16 @@ export const DEMO_SCHEMA = {
 		"blue",
 		"green"
 	  ]
+	},
+	"terminusdb:///schema#Hobbies": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "likes": {
+		"@class": "Job",
+		"@type": "Set"
+	  }
 	},
 	"terminusdb:///schema#Job": {
 	  "@key": {
@@ -119,30 +117,16 @@ export const DEMO_SCHEMA = {
 	  }
 	}
   }
-export const DEMO_DOCUMENT_TYPE="Codes"
+
+export const DEMO_DOCUMENT_TYPE="Hobbies"
 
 export const DEMO_FORM_DATA= {
-	"@id":"Codes/D16%20K797",
-	"@type":"Codes",
-	"located":[
-	   {
-		  "@id":"Codes/D16%20K797/located/Address/6c2bf3f708f8ac4db899cab5497e4f6556af1a5b65c46f1829450c7bbea9e24a",
-		  "@type":"Address",
-		  "AddressLine1":"Apartment 51 Block 3",
-		  "AddressLine2":"Dundrum Gate Ballinteer road",
-		  /*"Country":"Ireland",*/
-		  "address_code":"Codes/002"
-	   },
-	   {
-		  "@id":"Codes/D16%20K797/located/Address/d5217729fe24d9cb411b4aeeace8c1621581a3c76cac632f6ef40c08983952fb",
-		  "@type":"Address",
-		  "AddressLine1":"5 beverly leinster square r",
-		  "AddressLine2":"athmines dublin 6",
-		  "Country":"UK",
-		  "address_code":"Codes/003"
-	   }
-	],
-	"postal":"D16 K797"
+	"@id":"Hobbies/049617c7d39cb16de043febbf29468d0046f1fb60d5659e3cbf673b0a1d4ce43",
+	"@type":"Hobbies",
+	"likes":[
+	   "Job/CTO",
+	   "Job/Party%20Group"
+	]
  }
 export const DEMO_DOCUMENTS = {
 	"Job": [
