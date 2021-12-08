@@ -6,7 +6,7 @@
   "module": "es6/index",
   "jsnext:main": "es6/index",
   "scripts": {
-    "build-es6": "rimraf es6 && cross-env NODE_ENV=es6 babel ./src -d es6 --extensions '.js' && babel ./src/css --out-dir es6/css/less --copy-files",
+    "build-es6": "rimraf es6 && cross-env NODE_ENV=es6 babel ./src -d es6 --extensions '.js' && babel ./src/css --out-dir es6/css/ --copy-files",
     "build": "npm run build-es6 && rimraf dist && webpack --production ",
     "start": "webpack-dev-server --progress --port 3032 --host localhost --content-base demo --inline --config demo/webpack.config.js",
     "test": "echo 'TODO: There should be tests created'",
