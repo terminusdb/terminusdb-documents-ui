@@ -38,7 +38,8 @@
 }
 
 .tdb__view__input > span > select,
-.tdb__view__input > select {
+.tdb__view__input > select,
+.tdb__view__input > span.tdb__span__select {
     border: 0;
     background-color: transparent !important;
     background-image: none !important; /** hiding select carrot **/
@@ -50,7 +51,7 @@
 
 .tdb__view__input > span > select:hover,
 .tdb__view__input > select:hover,
-.tdb__view__input > span:hover{
+.tdb__view__input > span.tdb__span__select:hover{
     color: #2196f3 !important;
 }
 

@@ -184,6 +184,11 @@ export function formatData(formData) {
 	return extracted
 }
 
+// function checks if formData has a filled value for item
+export function isFilled (formData, item){
+	if(formData[item]) return true
+}
+
 // function checks in property is key of a document
 export function checkIfKey(property, key) {
     if(!key) return
@@ -302,4 +307,6 @@ export function getOptionalSelect (props) {
 		</select>
 	</React.Fragment>
 }
+
+
 

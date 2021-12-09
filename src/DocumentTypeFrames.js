@@ -1,6 +1,6 @@
 
 import React, {useState, useEffect} from "react"
-import {getTitle, getDefaultValue, checkIfKey, getRequiredSelect} from "./utils"
+import {getTitle, getDefaultValue, checkIfKey, getRequiredSelect, isFilled} from "./utils"
 import {DOCUMENT, CREATE, VIEW, EDIT} from "./constants"
 import {Form} from "react-bootstrap"
 
@@ -60,7 +60,7 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
 
     //default ui:schema
     propertiesUI[item] = {
-        "ui:disabled": mode === EDIT && checkIfKey(item, frame["@key"]) ? true : false,
+        "ui:disabled": mode === EDIT && checkIfKey(item, frame["@key"]) && isFilled(formData, item) ? true : false,
         //"ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
         "ui:placeholder": `Select ${frame[item]} ...`,
         classNames: mode===VIEW ? "tdb__input mb-3 mt-3 tdb__view__input" : "tdb__input mb-3 mt-3",

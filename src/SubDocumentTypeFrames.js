@@ -76,7 +76,7 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
 
                 return <React.Fragment>
                     <Form.Label>{item}</Form.Label>
-                    <span onClick={(e) => handleClick(properties[item].properties[props.name].default)}>
+                    <span className="tdb__span__select" onClick={(e) => handleClick(properties[item].properties[props.name].default)}>
                         {properties[item].properties[props.name].default}
                     </span>
                 </React.Fragment>

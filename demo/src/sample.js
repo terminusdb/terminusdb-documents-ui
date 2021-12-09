@@ -118,7 +118,7 @@ export const DEMO_SCHEMA ={
 	}
   }
 
-export const DEMO_DOCUMENT_TYPE="Hobbies"
+export const DEMO_DOCUMENT_TYPE="Organization"
 
 export const DEMO_FORM_DATA= {
 	"@id":"Hobbies/049617c7d39cb16de043febbf29468d0046f1fb60d5659e3cbf673b0a1d4ce43",
@@ -479,44 +479,15 @@ export const PROFILE_SCHEMA = {
 }
 
 export const PROFILE_FORM_DATA = {
-	"@id":"Organization/MICRO",
+	"@id":"Organization/MENO",
 	"@type":"Organization",
-	"creation_date":"2011-01-01T01:00:37Z",
-	"invitations":[
-	   {
-		  "@id":"Organization/MICRO/invitations/Invitation/299de9d1abcbda9cc08ef08d8f5ab4248ed4adeb7871c238907d641f3c7ea32e",
-		  "@type":"Invitation",
-		  "creation_date":"2011-01-01T01:00:37Z",
-		  "email_to":"kitty@terminusdb.com",
-		  "invited_by":"User/BOO",
-		  "note":"SADSAD",
-		  /*"role":"asdasd",*/
-		  "status":"invite_sent"
-	   },
-	   {
-		  "@id":"Organization/MICRO/invitations/Invitation/a671d252faff53b1d86b76b8bdb8c37d9f95fdc303ffcf51d50ad5c7eba246de",
-		  "@type":"Invitation",
-		  "creation_date":"2011-01-01T01:00:37Z",
-		  "email_to":"kitty@gmail.com",
-		  "invited_by":"User/WHO",
-		  "note":"SSD",
-		  "role":"SA",
-		  "status":"accepted"
-	   }
+	"collaborators":[
+	   "User/BLUEME"
 	],
-	"organization_name":"MICRO",
+	"creation_date":"2011-01-01T01:00:37Z",
+	"organization_name":"MENO",
 	"owned_by":"User/WHO",
-	"status":"accepted",
-	"stripe_subscription":{
-	   "@id":"Organization/MICRO/stripe_subscription/StripeSubscription/KITTY2011-01-01T01%3A00%3A37Z",
-	   "@type":"StripeSubscription",
-	   "billing_email":"kitty@terminusdb.com",
-	   "status":"needs_invite",
-	   "stripe_id":"KITTY2011-01-01T01:00:37Z",
-	   "stripe_quantity":2,
-	   "stripe_user":"User/WHO",
-	   "subscription_id":"DASDSDASD"
-	}
+	"status":"active"
  }
 
  export const PROFILE_FORM_DATA_USER= {

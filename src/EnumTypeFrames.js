@@ -1,13 +1,13 @@
 
 import React from 'react'
-import {getTitle, getDefaultValue, checkIfKey} from "./utils"
-import {VIEW, ENUM, CREATE} from "./constants"
+import {getTitle, getDefaultValue, checkIfKey, isFilled} from "./utils"
+import {VIEW, ENUM, CREATE, EDIT} from "./constants"
 
 
 
 export function EnumTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
     let properties={}, propertiesUI={}
-    var uiDisable=false, type=frame[item]
+    var type=frame[item]
 
     var layout = {
         type: 'string',
@@ -24,7 +24,7 @@ export function EnumTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
 
     //default ui:schema
     propertiesUI[item] = {
-        "ui:disabled": uiDisable,
+        "ui:disabled": mode === EDIT && checkIfKey(item, frame["@key"]) && isFilled(formData, item) ? true : false,
         "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
         "ui:placeholder": `Select ${frame["@id"]} ...`,
         classNames: mode===VIEW ? "tdb__input mb-3 mt-3 tdb__view__enum__input" : "tdb__input mb-3 mt-3"

@@ -1,4 +1,4 @@
-import {getTitle, getDefaultValue, checkIfKey} from "./utils"
+import {getTitle, getDefaultValue, checkIfKey, isFilled} from "./utils"
 import {CREATE, VIEW, EDIT} from "./constants"
 
 function DataTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
@@ -14,13 +14,12 @@ function DataTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
         layout["default"]=getDefaultValue(item, formData)
     }
 
-
     //schema
     properties[item] = layout
     //default ui:schema
     propertiesUI[item] = {
         "ui:placeholder": frame[item],
-        "ui:disabled": mode === EDIT && checkIfKey(item, frame["@key"]) ? true : false,
+        "ui:disabled": mode === EDIT && checkIfKey(item, frame["@key"]) && isFilled(formData, item) ? true : false,
         "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
         classNames: mode===VIEW ? "tdb__input mb-3 mt-3 tdb__view__input" : "tdb__input mb-3 mt-3"
     }

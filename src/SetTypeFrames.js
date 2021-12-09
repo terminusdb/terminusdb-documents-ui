@@ -108,7 +108,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
 
                         return <React.Fragment>
                             <Form.Label>{props.name}</Form.Label>
-                            <span className="text-gray tbd__view__select" onClick={(e) => handleClick(props.formData, setClicked)}>
+                            <span className="text-gray  tdb__span__select" onClick={(e) => handleClick(props.formData, setClicked)}>
                                 {props.formData}
                             </span>
                         </React.Fragment>
