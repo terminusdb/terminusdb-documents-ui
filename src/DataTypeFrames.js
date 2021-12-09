@@ -14,7 +14,7 @@ function DataTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
         layout["default"]=getDefaultValue(item, formData)
     }
 
-    //schema
+    // schema
     properties[item] = layout
     //default ui:schema
     propertiesUI[item] = {
