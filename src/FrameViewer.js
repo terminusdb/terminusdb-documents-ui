@@ -54,7 +54,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
                 setReadOnly(true)
                 setInput(formData)
             }
-            if(mode === EDIT && isValueHashDocument(frame[current])) {
+            else if(mode === EDIT && isValueHashDocument(frame[current])) {
                 setInput(formData)
                 setMessage(getValueHashMessage())
                 setReadOnly(true)
