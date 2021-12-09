@@ -4,7 +4,7 @@ import {getTitle, getDefaultValue, checkIfKey, isFilled} from "./utils"
 import {VIEW, ENUM, CREATE, EDIT} from "./constants"
 
 
-
+// for enum types
 export function EnumTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
     let properties={}, propertiesUI={}
     var type=frame[item]
