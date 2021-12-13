@@ -131,13 +131,17 @@ export const DEMO_SCHEMA ={
 export const DEMO_DOCUMENT_TYPE="Hobbies"
 
 export const DEMO_FORM_DATA= {
-	"@id":"Hobbies/19f6af31a2e592e88defe8c5010bfcc70ebe657c8ee291acd78d739a8e69298b",
-	"@type":"Hobbies",
-	"works_as":[
-	   "Job/CTO",
-	   "Job/Party%20Group"
-	]
- }
+	"@id": "Hobbies/be9add69b6c3304078d6990821f69c8699b929b551071dae764ec1e0d6d4ce80",
+	"@type": "Hobbies",
+	"lives_in": [{
+		"@id": "Hobbies/be9add69b6c3304078d6990821f69c8699b929b551071dae764ec1e0d6d4ce80/lives_in/0/Address/45598c024e9ad5d2e2ea519e0c75990b6dc0fde4ff4d60cae5d60ae836235165",
+		"@type": "Address",
+		"AddressLine1": "Apartment 51 Block 3",
+		"AddressLine2": "Dundrum Gate Ballinteer road",
+		"Country": "Ireland",
+		"address_code": "Codes/002"
+	}]
+}
 
 export const DEMO_DOCUMENTS = {
 	"Job": [

@@ -208,9 +208,14 @@ export function formatData(formData) {
 	for(var key in formData){
 		var newArray=[]
 		if(Array.isArray(formData[key])){ //array
-			if(formData[key].length !== 1) {
-				newArray=formData[key]
-			}
+			formData[key].map(arr => {
+				if(Object.keys(arr).length === 1 && arr["@type"]){
+					//console.log("removing sub docs with only @type defined")
+				}
+				else {
+					newArray.push(arr)
+				}
+			})
 			if(newArray.length !== 0) extracted[key]=newArray
 		}
 		else if(Object.keys(formData[key]).length !== 1){  //json
