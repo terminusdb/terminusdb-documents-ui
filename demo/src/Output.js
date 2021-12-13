@@ -18,7 +18,7 @@ export const Output = ({schema, uiSchema, type, mode, formData}) => {
             frame={schema}
             uiFrame={uiSchema}
             type={type}
-            documents={PROFILE_DEMO_DOCUMENTS}
+            documents={DEMO_DOCUMENTS}
             formData={formData}
             mode={mode}
             onTraverse={handleTraverse}

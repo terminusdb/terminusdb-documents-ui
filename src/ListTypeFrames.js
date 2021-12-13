@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from "react"
-import {ArrayFieldTemplate, getSetTitle, getTitle, getOptionalSelect, removeDefaultsFromSubDocumentFrame, removeDefaultsFromDataFrame} from "./utils"
+import {ArrayFieldTemplate, getSetTitle, getTitle, getOptionalSelect, removeDefaultsFromSubDocumentFrame, removeDefaultsFromDataFrame, getRequiredForListSubDocs} from "./utils"
 import {CREATE, DATA, VIEW, DOCUMENT} from "./constants"
 import {Form} from "react-bootstrap"
 
-export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, onTraverse) {
+export function makeListSubDocuments (setFrames, item, uiFrame, mode, formData, onTraverse) {
     let properties={}, propertiesUI={}
 
 
@@ -15,13 +15,16 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
         }
     }
 
+
+
     var  layout= {
         type: "array",
         title: mode === VIEW ? getTitle() : getSetTitle(),
         items: [
             {
                 type: "object",
-                properties: setFrames.properties[item]["properties"]
+                properties: setFrames.properties[item]["properties"],
+                required: getRequiredForListSubDocs(setFrames.properties[item]["properties"])
             }
         ]
     }
@@ -65,8 +68,6 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
 
     //schema
     properties[item] = layout
-
-
 
     // get filled values on View mode
     if(mode === VIEW && formData.hasOwnProperty(item) && Array.isArray(layout["items"])) {
@@ -147,18 +148,18 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
     return {properties, propertiesUI}
 }
 
-export function makeSetData (setFrames, item, uiFrame, mode, formData) {
+export function makeListData (listFrames, item, uiFrame, mode, formData) {
     let properties={}, propertiesUI={}
 
     var  layout= {
         type: "array",
         title: mode === VIEW ? getTitle() : getSetTitle(),
-        items: setFrames.properties[item]
+        items: [listFrames.properties[item]] // items is array, list required at lease 1 value
     }
 
     if(mode !== CREATE && formData.hasOwnProperty(item)){
         var filledItems = []
-        let subFrames = removeDefaultsFromDataFrame(setFrames.properties[item]["properties"])
+        let subFrames = removeDefaultsFromDataFrame(listFrames.properties[item]["properties"])
         var count = 0, defaultValues=formData[item]
         defaultValues.map(value => {
             filledItems.push({
@@ -177,18 +178,18 @@ export function makeSetData (setFrames, item, uiFrame, mode, formData) {
 
     //default ui:schema
     propertiesUI[item] = {
-        "items": setFrames.uiSchema[item]
+        "items": listFrames.uiSchema[item]
     }
 
     if(mode !== VIEW) { // we do not allow to add extra on view mode
         // layout
         properties[item]["additionalItems"]={
-            type: setFrames.properties[item].type,
-            info: setFrames.properties[item].info,
+            type: listFrames.properties[item].type,
+            info: listFrames.properties[item].info,
             title: item,
         }
         //ui
-        propertiesUI[item]["additionalItems"]=setFrames.uiSchema[item]
+        propertiesUI[item]["additionalItems"]=listFrames.uiSchema[item]
         propertiesUI[item]["ui:options"] = {
             addable: true,
             orderable: false,
@@ -214,25 +215,25 @@ export function makeSetData (setFrames, item, uiFrame, mode, formData) {
     return {properties, propertiesUI}
 }
 
-export function makeSetDocuments  (setFrames, item, uiFrame, mode, formData, onTraverse) {
+export function makeListDocuments  (listFrames, item, uiFrame, mode, formData, onTraverse) {
     let properties={}, propertiesUI={}
 
     var  layout= {
         type: "array",
         title: mode === VIEW ? getTitle() : getSetTitle(),
-        items: setFrames.properties[item]
+        items: [listFrames.properties[item]]
     }
 
 
     if(mode !== CREATE && formData.hasOwnProperty(item)){
         var filledItems = []
-        let defaultValues = setFrames.properties[item].default
+        let defaultValues = listFrames.properties[item].default
         defaultValues.map(def => {
             filledItems.push({
                 default: def,
-                enum: setFrames.properties[item].enum,
-                info: setFrames.properties[item].info,
-                type: setFrames.properties[item].type,
+                enum: listFrames.properties[item].enum,
+                info: listFrames.properties[item].info,
+                type: listFrames.properties[item].type,
                 title: item
             })
         })
@@ -245,8 +246,8 @@ export function makeSetDocuments  (setFrames, item, uiFrame, mode, formData, onT
 
 
     //default ui:schema
-    if(mode !== VIEW && setFrames.uiSchema[item] && setFrames.uiSchema[item]["ui:field"]){
-        setFrames.uiSchema[item]["ui:field"]=getOptionalSelect
+    if(mode !== VIEW && listFrames.uiSchema[item] && listFrames.uiSchema[item]["ui:field"]){
+        listFrames.uiSchema[item]["ui:field"]=getOptionalSelect
     }
 
 
@@ -282,15 +283,15 @@ export function makeSetDocuments  (setFrames, item, uiFrame, mode, formData, onT
 
     var ui = {}
     if(mode === VIEW) {
-        for(var u in setFrames.uiSchema[item]) {
+        for(var u in listFrames.uiSchema[item]) {
             if(u == "ui:field"){
-                //ui[u]=setFrames.uiSchema[item][u]
+                //ui[u]=listFrames.uiSchema[item][u]
                 ui[u]=getViewSelect
             }
-            else ui[u]=setFrames.uiSchema[item][u]
+            else ui[u]=listFrames.uiSchema[item][u]
         }
     }
-    else ui = setFrames.uiSchema[item]
+    else ui = listFrames.uiSchema[item]
     propertiesUI[item] = {
         "items": ui
     }
@@ -298,13 +299,13 @@ export function makeSetDocuments  (setFrames, item, uiFrame, mode, formData, onT
     if(mode !== VIEW) { // we do not allow to add extra on view mode
         // layout
         properties[item]["additionalItems"]={
-            info: setFrames.properties[item].info,
-            type: setFrames.properties[item].type,
-            enum: setFrames.properties[item].enum,
+            info: listFrames.properties[item].info,
+            type: listFrames.properties[item].type,
+            enum: listFrames.properties[item].enum,
             title: item
         }
         //ui
-        propertiesUI[item]["additionalItems"]=setFrames.uiSchema[item]
+        propertiesUI[item]["additionalItems"]=listFrames.uiSchema[item]
         propertiesUI[item]["ui:options"] = {
             addable: true,
             orderable: false,

@@ -49,8 +49,18 @@ export const DEMO_SCHEMA ={
 		"@type": "Random"
 	  },
 	  "@type": "Class",
-	  "likes": {
-		"@class": "Job",
+	  "lives_in": {
+		"@class": {
+		  "@class": "Address",
+		  "@subdocument": []
+		},
+		"@type": "List"
+	  },
+	  "partner_address": {
+		"@class": {
+		  "@class": "Address",
+		  "@subdocument": []
+		},
 		"@type": "Set"
 	  }
 	},
@@ -118,16 +128,17 @@ export const DEMO_SCHEMA ={
 	}
   }
 
-export const DEMO_DOCUMENT_TYPE="Organization"
+export const DEMO_DOCUMENT_TYPE="Hobbies"
 
 export const DEMO_FORM_DATA= {
-	"@id":"Hobbies/049617c7d39cb16de043febbf29468d0046f1fb60d5659e3cbf673b0a1d4ce43",
+	"@id":"Hobbies/19f6af31a2e592e88defe8c5010bfcc70ebe657c8ee291acd78d739a8e69298b",
 	"@type":"Hobbies",
-	"likes":[
+	"works_as":[
 	   "Job/CTO",
 	   "Job/Party%20Group"
 	]
  }
+
 export const DEMO_DOCUMENTS = {
 	"Job": [
 		"Job/CEO",

@@ -2,9 +2,10 @@ import React from "react"
 import {makeDataTypeFrames} from "./DataTypeFrames"
 import {makeSubDocumentFrames} from "./SubDocumentTypeFrames"
 import {makeSetSubDocuments, makeSetData, makeSetDocuments} from "./SetTypeFrames"
+import {makeListData, makeListDocuments, makeListSubDocuments} from "./ListTypeFrames"
 import {makeDocumentTypeFrames} from "./DocumentTypeFrames"
 import {makeEnumTypeFrames} from "./EnumTypeFrames"
-import {isDataType, isSubDocumentType, isOptionalType, isSetType, isDocumentType, isEnumType, getOptionalSelect} from "./utils"
+import {isDataType, isSubDocumentType, isOptionalType, isSetType, isDocumentType, isEnumType, getOptionalSelect, isListType} from "./utils"
 import {DOCUMENT, ENUM, DATA, VIEW} from "./constants"
 
 function constructNewDocumentFrame(frame, item) {
@@ -97,6 +98,32 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
             }
             else { // sub documents
                 frames=makeSetSubDocuments(setFrames, item, uiFrame, mode, formData, onTraverse)
+                //set properties and ui
+                properties[item] = frames.properties[item]
+                propertiesUI[item] = frames.propertiesUI[item]
+            }
+        }
+        else if (frame[item] && isListType(frame[item])) { //list
+            let newFrame = constructNewDocumentFrame(frame[item], item)
+            let listFrames = getProperties(fullFrame, newFrame, uiFrame, documents, mode, formData, true, prefix, onTraverse)
+            //if(listFrames.required) delete listFrames["required"]
+            //console.log("setFrames", setFrames, item, newFrame)
+            if(Object.keys(listFrames.properties).length === 0) continue // skip if no properties are found
+            var frames
+            if(listFrames.properties[item].info === DOCUMENT || listFrames.properties[item].info === ENUM) { // if ismulti for react select
+                frames=makeListDocuments(listFrames, item, uiFrame, mode, formData, onTraverse)
+                //set properties and ui
+                properties[item] = frames.properties[item]
+                propertiesUI[item] = frames.propertiesUI[item]
+            }
+            else if(listFrames.properties[item].info === DATA) { //data
+                frames=makeListData(listFrames, item, uiFrame, mode, formData)
+                //set properties and ui
+                properties[item] = frames.properties[item]
+                propertiesUI[item] = frames.propertiesUI[item]
+            }
+            else { // sub documents
+                frames=makeListSubDocuments(listFrames, item, uiFrame, mode, formData, onTraverse)
                 //set properties and ui
                 properties[item] = frames.properties[item]
                 propertiesUI[item] = frames.propertiesUI[item]
