@@ -55,7 +55,7 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
             let newFrame = constructNewDocumentFrame(frame[item], item)
             let optionalProperties = getProperties(fullFrame, newFrame, uiFrame, documents, mode, formData, false, prefix, onTraverse, onSelect)
 
-            let optionalFrames = OptionalDocumentTypeFrames(optionalProperties, item, frame[item]["@class"], mode, onSelect)
+            let optionalFrames = OptionalDocumentTypeFrames(optionalProperties, item, mode, onSelect)
 
             //set properties and ui
             properties[item] = optionalFrames.properties[item]

@@ -5,14 +5,22 @@ import "babel-polyfill"
 import 'regenerator-runtime/runtime'
 import {Form} from "react-bootstrap"
 
-export function OptionalDocumentTypeFrames (optionalFrames, item, selectDocType, mode, onSelect) {
+export function OptionalDocumentTypeFrames (optionalFrames, item, mode, onSelect) {
     if(mode !== VIEW) {
 
         // get select component with no required
         function getOptionalSelect (props) {
 
             const loadOptions = async (inputValue, callback) => {
-                let opts = await onSelect(inputValue, selectDocType)
+                var classType
+                if(optionalFrames.properties[item].type === "object"){ // subdocument
+                    classType = optionalFrames.properties[item].properties[props.name].linked_to
+                }
+                else if (optionalFrames.properties[item].type === "string"){ // normal
+                    classType = optionalFrames.properties[item].linked_to
+                }
+
+                let opts = await onSelect(inputValue, classType)
                 callback(opts)
                 return opts
             }
@@ -79,7 +87,8 @@ export function OptionalDocumentTypeFrames (optionalFrames, item, selectDocType,
             }
         }
         else {
-            optionalFrames.uiSchema[item]["ui:widget"] = "hidden"
+            if(optionalFrames.properties[item].info !== "SUBDOCUMENT")
+                optionalFrames.uiSchema[item]["ui:widget"] = "hidden"
         }
     }
 

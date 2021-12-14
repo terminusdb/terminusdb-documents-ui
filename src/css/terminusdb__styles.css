@@ -10,7 +10,7 @@
     color: #f9d891 !important;
 }
 
-.tdb__input > input, .tdb__input > select{
+.tdb__input > input, .tdb__input > select, .tdb__view__enum__input > select{
     color: #adb5bd !important;
     background-color: transparent !important;
     border-color: rgb(102, 102, 102) !important;

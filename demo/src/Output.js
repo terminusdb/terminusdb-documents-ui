@@ -22,7 +22,7 @@ export const Output = ({schema, uiSchema, type, mode, formData}) => {
             frame={schema}
             uiFrame={uiSchema}
             type={type}
-            documents={DEMO_DOCUMENTS}
+            documents={PROFILE_DEMO_DOCUMENTS}
             formData={formData}
             onSelect={handleSelect}
             mode={mode}

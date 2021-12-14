@@ -5,67 +5,136 @@ export const VIEW="View"
 
 
 export const DEMO_SCHEMA ={
-	"terminusdb:///schema#Groups": {
+	"terminusdb:///schema#Address": {
 	  "@key": {
 		"@type": "Random"
 	  },
 	  "@subdocument": [],
 	  "@type": "Class",
-	  "groups_at": {
+	  "AddressLine1": "xsd:string",
+	  "AddressLine2": "xsd:string",
+	  "Country": "xsd:string",
+	  "address_code": "Codes"
+	},
+	"terminusdb:///schema#Codes": {
+	  "@key": {
+		"@fields": [
+		  "postal"
+		],
+		"@type": "Lexical"
+	  },
+	  "@type": "Class",
+	  "located": {
+		"@class": {
+		  "@class": "Address",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  },
+	  "postal": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  }
+	},
+	"terminusdb:///schema#Color": {
+	  "@type": "Enum",
+	  "@values": [
+		"red",
+		"blue",
+		"green"
+	  ]
+	},
+	"terminusdb:///schema#Job": {
+	  "@key": {
+		"@fields": [
+		  "title"
+		],
+		"@type": "Lexical"
+	  },
+	  "@type": "Class",
+	  "title": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  }
+	},
+	"terminusdb:///schema#Person": {
+	  "@key": {
+		"@fields": [
+		  "name",
+		  "works_as"
+		],
+		"@type": "Lexical"
+	  },
+	  "@type": "Class",
+	  "likes": {
+		"@class": {
+		  "@id": "Color",
+		  "@type": "Enum",
+		  "@values": [
+			"red",
+			"blue",
+			"green"
+		  ]
+		},
+		"@type": "Optional"
+	  },
+	  "lives_in": {
+		"@class": {
+		  "@class": "Address",
+		  "@subdocument": []
+		},
+		"@type": "Optional"
+	  },
+	  "name": "xsd:string",
+	  "nicknames": {
+		"@class": "xsd:string",
+		"@type": "Set"
+	  },
+	  "works_as": {
 		"@class": "Job",
+		"@type": "Optional"
+	  }
+	},
+	"terminusdb:///schema#movies": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "name": "xsd:string"
+	},
+	"terminusdb:///schema#valuehash": {
+	  "@key": {
+		"@type": "ValueHash"
+	  },
+	  "@type": "Class",
+	  "color": {
+		"@class": "xsd:string",
 		"@type": "Optional"
 	  },
 	  "name": {
 		"@class": "xsd:string",
 		"@type": "Optional"
 	  }
-	},
-	"terminusdb:///schema#Hobbies": {
-	  "@key": {
-		"@type": "Random"
-	  },
-	  "@type": "Class",
-	  "likes_group": {
-		"@class": {
-		  "@class": "Groups",
-		  "@subdocument": []
-		},
-		"@type": "Set"
-	  },
-	  "optional": {
-		"@class": "Job",
-		"@type": "Optional"
-	  },
-	  "works_as": {
-		"@class": "Job",
-		"@type": "Set"
-	  }
-	},
-	"terminusdb:///schema#Job": {
-	  "@key": {
-		"@type": "Random"
-	  },
-	  "@type": "Class",
-	  "title": "xsd:string"
 	}
   }
 
-export const DEMO_DOCUMENT_TYPE="Hobbies"
+export const DEMO_DOCUMENT_TYPE="Person"
 
 export const DEMO_FORM_DATA= {
-	"@id": "Hobbies/fba1831a3170934a6b2c06ad3070aa6b330ffbad5c48e60be68d1b9b534d2d6d",
-	"@type": "Hobbies",
-	"likes_group": [{
-		"@id": "Hobbies/fba1831a3170934a6b2c06ad3070aa6b330ffbad5c48e60be68d1b9b534d2d6d/likes_group/Groups/845ddc4dc11f3db0e6ba1e7d2cb68ccbe3756c8768bc3fefeddbb4ffa8f76608",
-		"@type": "Groups",
-		"groups_at": "Job/ebd0ba8d18916d8f1a679955a02097dfe27c27db2bb9ed3bc8a2082b41e42bc0",
-		"name": "second"
-	}, {
-		"@id": "Hobbies/fba1831a3170934a6b2c06ad3070aa6b330ffbad5c48e60be68d1b9b534d2d6d/likes_group/Groups/f54abf1e80bc06baa0085d635b26f6fbea2f90ededfa3d79445c256f013a17a0",
-		"@type": "Groups",
-		"groups_at": "Job/aedc059e0f06ef1ead54562247ae91e64b0a0a1367758bd5720f8228a2da6266",
-		"name": "first"
-	}]
+	"@id": "Person/Peter%20+terminusdb%3A%2F%2F%2Fdata%2FJob%2Fadmin",
+	"@type": "Person",
+	"likes": "blue",
+	"lives_in": {
+		"@id": "Person/Peter%20+terminusdb%3A%2F%2F%2Fdata%2FJob%2Fadmin/lives_in/Address/c94a3dde75563839ec3d14ad4f40efaf0aa97995df0f57388483023a5337b63a",
+		"@type": "Address",
+		"AddressLine1": "5 beverly leinster square ",
+		"AddressLine2": "rathmines dublin 6",
+		"Country": "Ireland",
+		"address_code": "Codes/002"
+	},
+	"name": "Peter ",
+	"nicknames": ["Mr P", "Peterrrrrrr"],
+	"works_as": "Job/admin"
 }
 
 export const DEMO_DOCUMENTS = {
@@ -431,17 +500,25 @@ export const PROFILE_FORM_DATA = {
  }
 
  export const PROFILE_FORM_DATA_USER= {
-	"@id":"User/BLUEME",
-	"@type":"User",
-	"company":"PRETO",
-	"email":"kitty@terminusdb.com",
-	"first_name":"Kitty",
-	"last_name":"Jose",
-	"picture":"WHO",
-	"status":"inactive",
-	"user_id":"BLUEME"
- }
-
+	"@id": "User/PETERPETER",
+	"@type": "User",
+	"api_key": [{
+		"@id": "User/PETERPETER/api_key/APIKey/5e50f405ace6cbdf17379f4b9f2b0c9f4144c5e380ea0b9298cb02ebd8ffe511",
+		"@type": "APIKey",
+		"api_description": "mykey",
+		"api_token": "mykey",
+		"key_valid_from": "2011-01-01T01:00:37Z",
+		"key_valid_to": "2011-01-01T01:00:37Z",
+		"status": "active"
+	}],
+	"company": "PETER",
+	"email": "kitty@terminusdb.com",
+	"first_name": "Kitty",
+	"last_name": "Jose",
+	"picture": "PETER",
+	"status": "pending",
+	"user_id": "PETERPETER"
+}
 export const PROFILE_DEMO_DOCUMENTS = {
 	"User": [
 		"User/WHO",
