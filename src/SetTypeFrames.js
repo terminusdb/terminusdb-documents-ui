@@ -221,6 +221,7 @@ export function makeSetData (setFrames, item, uiFrame, mode, formData) {
     //custom ui:schema
     if(uiFrame && uiFrame[item]) {
         propertiesUI[item] = uiFrame[item]
+        propertiesUI[item]["ui:title"] = item
     }
 
     return {properties, propertiesUI}

@@ -52,6 +52,7 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
             required.push(frames.required)
         }
         else if (frame[item] && isOptionalType(frame[item])) { // optional
+
             let newFrame = constructNewDocumentFrame(frame[item], item)
             let optionalProperties = getProperties(fullFrame, newFrame, uiFrame, documents, mode, formData, false, prefix, onTraverse, onSelect)
 

@@ -30,8 +30,9 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
 
 
     if(!frame) return <div>No schema provided!</div>
-    if(!mode) return  <div>Please include a mode - CREATE/ EDIT/ VIEW</div>
+    if(!mode) return  <div>Please include a mode - Create/ Edit/ View</div>
     if(mode === VIEW && !formData) return <div>Mode is set to View, please provide filled form data</div>
+    if(!type) return  <div>Please include the type of document</div>
 
 
 
@@ -40,7 +41,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
         setPrefix(extractedPrefix)
         let current = `${extractedPrefix}${type}`
         //try{
-            let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect)
+            let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect, setError)
             const schema = {
                 "type": "object",
                 "properties": properties.properties,
@@ -68,10 +69,12 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             setSchema(schema)
             const uiSchema = properties.uiSchema
             if(uiFrame && uiFrame.classNames) uiSchema["classNames"]= uiFrame.classNames
+            if(uiFrame && uiFrame["ui:title"]) uiSchema["ui:title"]= uiFrame["ui:title"]
+            if(uiFrame && uiFrame["ui:description"]) uiSchema["ui:description"]= uiFrame["ui:description"]
             setUISchema(uiSchema)
         //}
         //catch(e) {
-          //  setError("An error has occured in generating frames. Err - ", e)
+            //setError("An error has occured in generating frames. Err - ", e)
         //}
 
     }, [frame, uiFrame, type, mode, formData])

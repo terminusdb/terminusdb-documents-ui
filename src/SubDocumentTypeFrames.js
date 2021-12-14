@@ -129,6 +129,13 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
     //custom ui:schema
     if(uiFrame && uiFrame[item]) {
         propertiesUI[item] = uiFrame[item]
+        if(uiFrame[item].hasOwnProperty("ui:collapsible") && uiFrame[item]["ui:collapsible"]){
+            propertiesUI[item]["ui:field"] = "collapsible",
+            propertiesUI[item]["collapse"] = {
+                field: "ObjectField",
+                classNames:"tdb__subdocument__collapse_headers",
+            }
+        }
     }
 
     // hide entire widget if not available in filled frame

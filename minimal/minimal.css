@@ -1,0 +1,19 @@
+
+
+body {
+    background: linear-gradient(122deg, #FED893 0%, #E87CD6 48%, #4058D0 100%);
+    background-size: cover;
+}
+
+.bg__form {
+    margin: 200px auto;
+    width: 60%;
+    background-color: aliceblue;
+    border-radius: 6px;
+    border: 0;
+}
+
+.field__inputs{
+    color: #444;
+    margin: 30px;
+}

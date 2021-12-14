@@ -51,7 +51,8 @@ export function OptionalDocumentTypeFrames (optionalFrames, item, mode, onSelect
         }
         if(optionalFrames.properties[item] && optionalFrames.properties[item].properties){ // these for optional sets
             for(var props in optionalFrames.properties[item].properties) {
-                if(optionalFrames.properties[item].properties[props].info === DOCUMENT){
+                if(optionalFrames.properties[item].properties[props].info === DOCUMENT &&
+                    optionalFrames.uiSchema[item][props]){
                     optionalFrames.uiSchema[item][props]["ui:field"]=getOptionalSelect
                 }
             }
@@ -96,6 +97,5 @@ export function OptionalDocumentTypeFrames (optionalFrames, item, mode, onSelect
     if(Array.isArray(optionalFrames.properties[item].required)) {
         delete optionalFrames.properties[item].required
     }
-    console.log("** optionalFrames ** ", optionalFrames)
     return optionalFrames
 }
