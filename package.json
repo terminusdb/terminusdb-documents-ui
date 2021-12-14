@@ -85,6 +85,7 @@
     "react-icons": "^4.3.1",
     "react-jsonschema-form": "^1.8.1",
     "react-jsonschema-form-extras": "^0.9.67",
-    "react-select": "^5.2.1"
+    "react-select": "^5.2.1",
+    "regenerator-runtime": "^0.13.9"
   }
 }

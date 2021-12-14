@@ -17,7 +17,7 @@ import {formatData, getPrefix, isValueHashDocument, getValueHashMessage} from ".
 **  formData  - filled value of the document
 **  onSubmit  - a function which can have custom logic to process data submitted
 */
-export function FrameViewer({frame, uiFrame, type, mode, documents, formData, onSubmit, onTraverse}){
+export function FrameViewer({frame, uiFrame, type, mode, documents, formData, onSubmit, onTraverse, onSelect}){
 
     const [prefix, setPrefix]=useState(TDB_SCHEMA)
     const [schema, setSchema]=useState(false)
@@ -30,6 +30,8 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
 
 
     if(!frame) return <div>No schema provided!</div>
+    if(!mode) return  <div>Please include a mode - CREATE/ EDIT/ VIEW</div>
+    if(mode === VIEW && !formData) return <div>Mode is set to View, please provide filled form data</div>
 
 
 
@@ -38,7 +40,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
         setPrefix(extractedPrefix)
         let current = `${extractedPrefix}${type}`
         //try{
-            let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse)
+            let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect)
             const schema = {
                 "type": "object",
                 "properties": properties.properties,

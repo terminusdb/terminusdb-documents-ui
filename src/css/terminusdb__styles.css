@@ -43,10 +43,14 @@
     border: 0;
     background-color: transparent !important;
     background-image: none !important; /** hiding select carrot **/
-    margin: -10px 0px 0px -10px !important;
+    margin: 0px 0px 0px -10px !important;
     color: #fff !important;
     text-decoration: underline;
     cursor: pointer;
+}
+
+.css-qc6sy-singleValue {
+    color: #fff !important;
 }
 
 .tdb__view__input > span > select:hover,

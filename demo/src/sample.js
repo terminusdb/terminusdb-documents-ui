@@ -5,126 +5,45 @@ export const VIEW="View"
 
 
 export const DEMO_SCHEMA ={
-	"terminusdb:///schema#Address": {
+	"terminusdb:///schema#Groups": {
 	  "@key": {
 		"@type": "Random"
 	  },
 	  "@subdocument": [],
 	  "@type": "Class",
-	  "AddressLine1": "xsd:string",
-	  "AddressLine2": "xsd:string",
-	  "Country": "xsd:string",
-	  "address_code": "Codes"
-	},
-	"terminusdb:///schema#Codes": {
-	  "@key": {
-		"@fields": [
-		  "postal"
-		],
-		"@type": "Lexical"
-	  },
-	  "@type": "Class",
-	  "located": {
-		"@class": {
-		  "@class": "Address",
-		  "@subdocument": []
-		},
-		"@type": "Set"
-	  },
-	  "postal": {
-		"@class": "xsd:string",
-		"@type": "Optional"
-	  }
-	},
-	"terminusdb:///schema#Color": {
-	  "@type": "Enum",
-	  "@values": [
-		"red",
-		"blue",
-		"green"
-	  ]
-	},
-	"terminusdb:///schema#Hobbies": {
-	  "@key": {
-		"@type": "Random"
-	  },
-	  "@type": "Class",
-	  "lives_in": {
-		"@class": {
-		  "@class": "Address",
-		  "@subdocument": []
-		},
-		"@type": "List"
-	  },
-	  "partner_address": {
-		"@class": {
-		  "@class": "Address",
-		  "@subdocument": []
-		},
-		"@type": "Set"
-	  }
-	},
-	"terminusdb:///schema#Job": {
-	  "@key": {
-		"@fields": [
-		  "title"
-		],
-		"@type": "Lexical"
-	  },
-	  "@type": "Class",
-	  "title": {
-		"@class": "xsd:string",
-		"@type": "Optional"
-	  }
-	},
-	"terminusdb:///schema#Person": {
-	  "@key": {
-		"@fields": [
-		  "name",
-		  "works_as"
-		],
-		"@type": "Lexical"
-	  },
-	  "@type": "Class",
-	  "likes": {
-		"@class": {
-		  "@id": "Color",
-		  "@type": "Enum",
-		  "@values": [
-			"red",
-			"blue",
-			"green"
-		  ]
-		},
-		"@type": "Optional"
-	  },
-	  "lives_in": {
-		"@class": {
-		  "@class": "Address",
-		  "@subdocument": []
-		},
-		"@type": "Optional"
-	  },
-	  "name": "xsd:string",
-	  "nicknames": {
-		"@class": "xsd:string",
-		"@type": "Set"
-	  },
-	  "works_as": "Job"
-	},
-	"terminusdb:///schema#valuehash": {
-	  "@key": {
-		"@type": "ValueHash"
-	  },
-	  "@type": "Class",
-	  "color": {
-		"@class": "xsd:string",
+	  "groups_at": {
+		"@class": "Job",
 		"@type": "Optional"
 	  },
 	  "name": {
 		"@class": "xsd:string",
 		"@type": "Optional"
 	  }
+	},
+	"terminusdb:///schema#Hobbies": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "likes_group": {
+		"@class": "Groups",
+		"@subdocument": []
+	  },
+	  "optional": {
+		"@class": "Job",
+		"@type": "Optional"
+	  },
+	  "works_as": {
+		"@class": "Job",
+		"@type": "Set"
+	  }
+	},
+	"terminusdb:///schema#Job": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "title": "xsd:string"
 	}
   }
 

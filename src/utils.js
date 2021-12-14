@@ -338,6 +338,21 @@ export function getRequiredSelect(props) {
 }
 
 // get select component with no required
+export function getOptionalSelect_OLD (props) {
+	const handleSelect= (e, props) => { //create or edit
+		if(props.onChange) props.onChange(e.target.value)
+	}
+	let opts=getSelectOptions(props.uiSchema["ui:placeholder"], props.formData, props.schema.enum)
+	return <React.Fragment>
+		<Form.Label>{props.name}</Form.Label>
+		<select className="d-block form-control"
+			onChange={(e) => handleSelect(e, props)}>
+			{opts}
+		</select>
+	</React.Fragment>
+}
+
+// get select component with no required
 export function getOptionalSelect (props) {
 	const handleSelect= (e, props) => { //create or edit
 		if(props.onChange) props.onChange(e.target.value)

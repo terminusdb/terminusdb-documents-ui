@@ -1,7 +1,10 @@
 import React, {useState, useEffect} from "react"
 import {ArrayFieldTemplate, getSetTitle, getTitle, getOptionalSelect, removeDefaultsFromSubDocumentFrame, removeDefaultsFromDataFrame} from "./utils"
-import {CREATE, DATA, VIEW, DOCUMENT} from "./constants"
+import {CREATE, DATA, VIEW, DOCUMENT, SELECT_STYLES} from "./constants"
 import {Form} from "react-bootstrap"
+import AsyncSelect from 'react-select/async'
+import "babel-polyfill"
+import 'regenerator-runtime/runtime'
 
 export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, onTraverse) {
     let properties={}, propertiesUI={}
@@ -214,7 +217,7 @@ export function makeSetData (setFrames, item, uiFrame, mode, formData) {
     return {properties, propertiesUI}
 }
 
-export function makeSetDocuments  (setFrames, item, uiFrame, mode, formData, onTraverse) {
+export function makeSetDocuments  (setFrames, item, selectDocType, uiFrame, mode, formData, onTraverse, onSelect) {
     let properties={}, propertiesUI={}
 
     var  layout= {
@@ -223,9 +226,9 @@ export function makeSetDocuments  (setFrames, item, uiFrame, mode, formData, onT
         items: setFrames.properties[item]
     }
 
-
     if(mode !== CREATE && formData.hasOwnProperty(item)){
         var filledItems = []
+
         let defaultValues = setFrames.properties[item].default
         defaultValues.map(def => {
             filledItems.push({
@@ -243,9 +246,44 @@ export function makeSetDocuments  (setFrames, item, uiFrame, mode, formData, onT
     //schema
     properties[item] = layout
 
+    // get select component with no required
+    function getOptionalSelect (props) {
+
+        const loadOptions = async (inputValue, callback) => {
+            let opts = await onSelect(inputValue, selectDocType)
+            callback(opts)
+            return opts
+        }
+
+        const handleInputChange = (newValue) => {
+            const inputValue = newValue.replace(/\W/g, '');
+            return inputValue
+        }
+
+        function onChange(e) {
+            props.onChange(e.value)
+        }
+
+        return <React.Fragment>
+            <Form.Label>{props.name} </Form.Label>
+            <AsyncSelect
+                cacheOptions
+                classNames="tdb__input"
+                styles={SELECT_STYLES}
+                placeholder={props.uiSchema["ui:placeholder"]}
+                onChange={onChange}
+                loadOptions={loadOptions}
+                defaultOptions
+                defaultValue={{value: props.formData, label: props.formData}}
+                onInputChange={handleInputChange}
+            />
+        </React.Fragment>
+    }
+
 
     //default ui:schema
     if(mode !== VIEW && setFrames.uiSchema[item] && setFrames.uiSchema[item]["ui:field"]){
+        //setFrames.uiSchema[item]["ui:field"]=getOptionalSelect
         setFrames.uiSchema[item]["ui:field"]=getOptionalSelect
     }
 
@@ -261,22 +299,9 @@ export function makeSetDocuments  (setFrames, item, uiFrame, mode, formData, onT
         const handleClick = (e) => { // view if on traverse function defined
             setClicked(e.target.value)
         }
-
-        let opts=[]
-        opts.push(<option value="">{props.uiSchema["ui:placeholder"]}</option>)
-        if(Array.isArray(props.schema.enum)) {
-            props.schema.enum.map(enu => {
-                opts.push(<option value={enu}>{enu}</option>)
-            })
-        }
-
         return <React.Fragment>
-            <Form.Label>{item}</Form.Label>
-            <span onClick={handleClick}>
-                <Form.Select defaultValue={props.formData} disabled >
-                    {opts}
-                </Form.Select>
-            </span>
+            <Form.Label  className="col-md-1">{item}</Form.Label>
+            <span onClick={(e) => handleClick(e, props.formData)} className="tdb__span__select">{props.formData}</span>
         </React.Fragment>
     }
 

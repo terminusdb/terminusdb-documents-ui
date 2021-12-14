@@ -1,9 +1,12 @@
 import React, {useState, useEffect} from "react"
 import {getSubDocumentTitle, getSubDocumentDescription} from "./utils"
-import {CREATE, DOCUMENT, VIEW} from "./constants"
+import {CREATE, DOCUMENT, VIEW, SELECT_STYLES} from "./constants"
 import {Form} from "react-bootstrap"
+import AsyncSelect from 'react-select/async'
+import "babel-polyfill"
+import 'regenerator-runtime/runtime'
 
-export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onTraverse) {
+export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
     let properties={}, propertiesUI={}
     var defaultValue
 
@@ -55,6 +58,40 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
     // copy ui schema of data type to new ui
     for(var key in frame.uiSchema) {
         propertiesUI[item][key] = frame.uiSchema[key]
+        if(frame.properties[key].info === DOCUMENT){
+            function getSelect(props) {
+                const loadOptions = async (inputValue, callback) => {
+                    let opts = await onSelect(inputValue, frame.properties[props.name]["linked_to"])
+                    callback(opts)
+                    return opts
+                }
+
+                const handleInputChange = (newValue) => {
+                    const inputValue = newValue.replace(/\W/g, '');
+                    return inputValue
+                }
+
+                function onChange(e) {
+                    props.onChange(e.value)
+                }
+
+                return <React.Fragment>
+                    <Form.Label>{props.name} </Form.Label>
+                    <AsyncSelect
+                        cacheOptions
+                        classNames="tdb__input"
+                        styles={SELECT_STYLES}
+                        placeholder={props.uiSchema["ui:placeholder"]}
+                        onChange={onChange}
+                        loadOptions={loadOptions}
+                        defaultOptions
+                        defaultValue={{value: props.formData, label: props.formData}}
+                        onInputChange={handleInputChange}
+                    />
+                </React.Fragment>
+            }
+            propertiesUI[item][key]["ui:field"]=getSelect
+        }
     }
 
 
@@ -62,7 +99,7 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
     if(mode === VIEW && properties[item].properties){
         for(var key in properties[item].properties) {
 
-            function getSelect (props) {
+            function getViewSelect (props) {
                 const [clicked, setClicked]=useState(false)
 
                 useEffect(() => {
@@ -75,7 +112,7 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
                 }
 
                 return <React.Fragment>
-                    <Form.Label>{item}</Form.Label>
+                    <Form.Label  className="col-md-1">{props.name}</Form.Label>
                     <span className="tdb__span__select" onClick={(e) => handleClick(properties[item].properties[props.name].default)}>
                         {properties[item].properties[props.name].default}
                     </span>
@@ -84,7 +121,7 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
 
 
             if(properties[item].properties[key].info === DOCUMENT) {
-                propertiesUI[item][key]["ui:field"]=getSelect
+                propertiesUI[item][key]["ui:field"]=getViewSelect
             }
         }
     }
@@ -104,8 +141,8 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
 }
 
 
-export const makeSubDocumentFrames = (frame, item, uiFrame, mode, formData, onTraverse) => {
-    let madeFrames = subDocumentTypeFrames(frame, item, uiFrame, mode, formData, onTraverse)
+export const makeSubDocumentFrames = (frame, item, uiFrame, mode, formData, onTraverse, onSelect) => {
+    let madeFrames = subDocumentTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect)
     let properties = madeFrames.properties
     let propertiesUI = madeFrames.propertiesUI
     return {properties, propertiesUI}

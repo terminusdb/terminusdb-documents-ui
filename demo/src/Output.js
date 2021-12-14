@@ -12,6 +12,10 @@ export const Output = ({schema, uiSchema, type, mode, formData}) => {
         console.log("*****Clicked on****", id)
     }
 
+    function handleSelect(inp){
+        console.log("*****Select****", inp)
+    }
+
     return <React.Fragment>
         <h3 className="mt-5 mb-4 text-warning">{`Output - ${type}`}</h3>
         <FrameViewer
@@ -20,6 +24,7 @@ export const Output = ({schema, uiSchema, type, mode, formData}) => {
             type={type}
             documents={DEMO_DOCUMENTS}
             formData={formData}
+            onSelect={handleSelect}
             mode={mode}
             onTraverse={handleTraverse}
             onSubmit={handleSubmit}/>
