@@ -40,7 +40,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
         let extractedPrefix = getPrefix(frame)
         setPrefix(extractedPrefix)
         let current = `${extractedPrefix}${type}`
-        //try{
+        try{
             let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect, setError)
             const schema = {
                 "type": "object",
@@ -72,10 +72,10 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             if(uiFrame && uiFrame["ui:title"]) uiSchema["ui:title"]= uiFrame["ui:title"]
             if(uiFrame && uiFrame["ui:description"]) uiSchema["ui:description"]= uiFrame["ui:description"]
             setUISchema(uiSchema)
-        //}
-        //catch(e) {
-            //setError("An error has occured in generating frames. Err - ", e)
-        //}
+        }
+        catch(e) {
+            setError("An error has occured in generating frames. Err - ", e)
+        }
 
     }, [frame, uiFrame, type, mode, formData])
 
