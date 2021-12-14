@@ -26,8 +26,11 @@ export const DEMO_SCHEMA ={
 	  },
 	  "@type": "Class",
 	  "likes_group": {
-		"@class": "Groups",
-		"@subdocument": []
+		"@class": {
+		  "@class": "Groups",
+		  "@subdocument": []
+		},
+		"@type": "Set"
 	  },
 	  "optional": {
 		"@class": "Job",
@@ -50,15 +53,18 @@ export const DEMO_SCHEMA ={
 export const DEMO_DOCUMENT_TYPE="Hobbies"
 
 export const DEMO_FORM_DATA= {
-	"@id": "Hobbies/be9add69b6c3304078d6990821f69c8699b929b551071dae764ec1e0d6d4ce80",
+	"@id": "Hobbies/fba1831a3170934a6b2c06ad3070aa6b330ffbad5c48e60be68d1b9b534d2d6d",
 	"@type": "Hobbies",
-	"lives_in": [{
-		"@id": "Hobbies/be9add69b6c3304078d6990821f69c8699b929b551071dae764ec1e0d6d4ce80/lives_in/0/Address/45598c024e9ad5d2e2ea519e0c75990b6dc0fde4ff4d60cae5d60ae836235165",
-		"@type": "Address",
-		"AddressLine1": "Apartment 51 Block 3",
-		"AddressLine2": "Dundrum Gate Ballinteer road",
-		"Country": "Ireland",
-		"address_code": "Codes/002"
+	"likes_group": [{
+		"@id": "Hobbies/fba1831a3170934a6b2c06ad3070aa6b330ffbad5c48e60be68d1b9b534d2d6d/likes_group/Groups/845ddc4dc11f3db0e6ba1e7d2cb68ccbe3756c8768bc3fefeddbb4ffa8f76608",
+		"@type": "Groups",
+		"groups_at": "Job/ebd0ba8d18916d8f1a679955a02097dfe27c27db2bb9ed3bc8a2082b41e42bc0",
+		"name": "second"
+	}, {
+		"@id": "Hobbies/fba1831a3170934a6b2c06ad3070aa6b330ffbad5c48e60be68d1b9b534d2d6d/likes_group/Groups/f54abf1e80bc06baa0085d635b26f6fbea2f90ededfa3d79445c256f013a17a0",
+		"@type": "Groups",
+		"groups_at": "Job/aedc059e0f06ef1ead54562247ae91e64b0a0a1367758bd5720f8228a2da6266",
+		"name": "first"
 	}]
 }
 

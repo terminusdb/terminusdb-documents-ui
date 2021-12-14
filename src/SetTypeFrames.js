@@ -29,6 +29,15 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
         ]
     }
 
+    // remove hidden widgets from frames - logic for default in subdocuments done here
+    for(var key in setFrames.uiSchema[item]) {
+        if(setFrames.uiSchema[item][key]["ui:widget"] &&
+            key !== "@type" &&
+            setFrames.uiSchema[item][key]["ui:widget"] === "hidden") {
+            delete setFrames.uiSchema[item][key]["ui:widget"]
+        }
+    }
+
 
     if(mode !== CREATE && formData.hasOwnProperty(item)){
         var filledItems = []

@@ -21,7 +21,7 @@ function DataTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
         "ui:placeholder": frame[item],
         "ui:disabled": mode === EDIT && checkIfKey(item, frame["@key"]) && isFilled(formData, item) ? true : false,
         "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
-        classNames: mode===VIEW ? "tdb__input mb-3 mt-3 col-md-1 form-label tdb__view__input" : "tdb__input mb-3 mt-3"
+        classNames: mode===VIEW ? "tdb__input mb-3 mt-3 form-label tdb__view__input" : "tdb__input mb-3 mt-3"
     }
 
     if(mode === VIEW && !Array.isArray(formData) && !layout.hasOwnProperty("default")){ // set of subdocuments
