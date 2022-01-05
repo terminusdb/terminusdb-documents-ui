@@ -8,7 +8,11 @@
   "scripts": {
     "build-es6": "rimraf es6 && cross-env NODE_ENV=es6 babel ./src -d es6 --extensions '.js' && babel ./src/css --out-dir es6/css/ --copy-files",
     "build": "npm run build-es6 && rimraf dist && webpack --production ",
+
+    "start01": "webpack serve --mode development  --open --progress --port 3032 --host localhost --config demo/webpack.config.js",
+
     "start": "webpack-dev-server --progress --port 3032 --host localhost --content-base demo --inline --config demo/webpack.config.js",
+
     "minimal": "webpack-dev-server --progress --port 3031 --host localhost --content-base minimal --inline --config minimal/webpack.config.js",
     "test": "echo 'TODO: There should be tests created'",
     "lint": "eslint src",

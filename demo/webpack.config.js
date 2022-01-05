@@ -1,16 +1,29 @@
 const path = require('path');
 const webpack = require('webpack');
 
+
 module.exports = {
   mode: 'development',
   context: __dirname,
-  devtool: '#inline-source-map',
+
+  devtool: 'source-map',
   entry: [
     './index.js',
   ],
+
+  /*devtool: '#inline-source-map',
+  entry: [
+    './index.js',
+  ],*/
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js',
+  },
+  devServer: {
+    static: path.resolve(__dirname, 'build'),
+    compress: true,
+    historyApiFallback: false,
+    port: 3032
   },
   plugins: [
     new webpack.LoaderOptionsPlugin({
