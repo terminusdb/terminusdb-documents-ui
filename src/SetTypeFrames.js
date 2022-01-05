@@ -153,7 +153,9 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
 
     // hide entire widget if not available in filled frame
     if(mode === VIEW && !formData.hasOwnProperty(item)) {
-        propertiesUI[item] = {"ui:widget" : "hidden"}
+        const hidden = () => <div/>
+        propertiesUI[item] = {"ui:field": hidden }
+        //propertiesUI[item] = {"ui:widget" : "hidden"}
     }
 
     return {properties, propertiesUI}
