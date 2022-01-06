@@ -10,6 +10,9 @@ import {isDataType, isSubDocumentType, isOptionalType, isSetType, isDocumentType
 import {DOCUMENT, ENUM, DATA} from "./constants"
 import {OptionalDocumentTypeFrames} from "./OptionalTypeFrames"
 
+
+//add comment again
+
 function constructNewDocumentFrame(frame, item) {
     let newFrame = {[item]: frame["@class"]}
     return newFrame
@@ -41,6 +44,11 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
     let properties = {}, propertiesUI = {}, dependencies= {}, required = [], fields={}
 
     for(var item in frame) {
+
+        if(item === "capacity_factor") {
+            console.log("capacity_factor")
+        }
+
         if(item == "@key") continue
         else if(item == "@type") continue
         else if(frame[item] && isDataType(frame[item])) { // datatype properties like xsd:/ xdd:

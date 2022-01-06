@@ -118,7 +118,7 @@ export const DEMO_SCHEMA ={
 	}
   }
 
-export const NUCLEAR_SCHEMA ={
+  export const NUCLEAR_SCHEMA ={
 	"http://lib.terminusdb.com/nuclear#AnnualCapacityFactor": {
 	  "@documentation": {
 		"@comment": "Annual Capacity Factor of a Nuclear Power Plant",
@@ -1818,6 +1818,7 @@ export const NUCLEAR_FORM_DATA = {
    "owner":"ENDESA GENERACION S.A.",
    "url":"http://www.ree.es/en/statistical-data-of-spanish-electrical-system/annual-report/preliminary-report-spanish-electricity-system-2015"
 }
+
 
 export const DEMO_DOCUMENT_TYPE="NuclearPowerPlant"
 

@@ -40,7 +40,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
         let extractedPrefix = getPrefix(frame)
         setPrefix(extractedPrefix)
         let current = `${extractedPrefix}${type}`
-        try{
+        //try{
             let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect, setError)
             const schema = {
                 "type": "object",
@@ -48,7 +48,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
                 "required": properties.required,
                 "dependencies": properties.dependencies
             }
-            //console.log("schema", JSON.stringify(schema, null, 2))
+            console.log("schema", JSON.stringify(schema, null, 2))
             console.log("schema", schema)
             console.log("properties.uiSchema", properties.uiSchema)
             console.log("uiSchema", uiSchema)
@@ -72,10 +72,10 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             if(uiFrame && uiFrame["ui:title"]) uiSchema["ui:title"]= uiFrame["ui:title"]
             if(uiFrame && uiFrame["ui:description"]) uiSchema["ui:description"]= uiFrame["ui:description"]
             setUISchema(uiSchema)
-        }
-        catch(e) {
-            setError("An error has occured in generating frames. Err - ", e)
-        }
+        //}
+        //catch(e) {
+          //  setError("An error has occured in generating frames. Err - ", e)
+        //}
 
     }, [frame, uiFrame, type, mode, formData])
 
@@ -93,6 +93,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
     }
 
     return <div>
+        {"HELLO MAN"}
         {schema && message && message}
         {schema && <Form schema={schema}
             uiSchema={uiSchema}

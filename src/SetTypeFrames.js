@@ -3,8 +3,7 @@ import {ArrayFieldTemplate, getSetTitle, getTitle, getOptionalSelect, removeDefa
 import {CREATE, DATA, VIEW, DOCUMENT, SELECT_STYLES} from "./constants"
 import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'
-import "babel-polyfill"
-import 'regenerator-runtime/runtime'
+
 
 export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, onTraverse) {
     let properties={}, propertiesUI={}
@@ -118,6 +117,21 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
                         </React.Fragment>
                     }
                     propertiesUI[item]["items"][count][thing]["ui:field"]=getFieldValue
+                }
+                if(it.properties[thing].info === "SUBDOCUMENT" && it.default){
+                    for(var flds in it.properties[thing].properties) {
+                        function getFieldValue(props){
+                            if(!props.formData ||  props.formData===undefined)
+                                return <span className="tdb__blank"></span>
+                            return <React.Fragment>
+                                <Form.Label>{props.name}</Form.Label>
+                                <span>{props.formData}</span>
+                            </React.Fragment>
+                        }
+                        if(flds === "@type") propertiesUI[item]["items"][count][thing][flds]["ui:widget"]="hidden"
+                        else propertiesUI[item]["items"][count][thing][flds]["ui:field"]=getFieldValue
+
+                    }
                 }
             }
             count+=1

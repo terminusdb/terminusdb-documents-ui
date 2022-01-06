@@ -139,9 +139,14 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
     }
 
     // hide entire widget if not available in filled frame
-    if(mode === VIEW && !formData.hasOwnProperty(item)) {
-        const hidden = () => <div/>
-        propertiesUI[item] = {"ui:field": hidden }
+    if(mode === VIEW) {
+        if(Array.isArray(formData)){
+            // in case of subdocuments set dont hide
+        }
+        else if (!formData.hasOwnProperty(item)) {
+            const hidden = () => <div/>
+            propertiesUI[item] = {"ui:field": hidden }
+        }
     }
 
 
