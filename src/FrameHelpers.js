@@ -11,7 +11,7 @@ import {DOCUMENT, ENUM, DATA} from "./constants"
 import {OptionalDocumentTypeFrames} from "./OptionalTypeFrames"
 
 
-//add comment again
+
 
 function constructNewDocumentFrame(frame, item) {
     let newFrame = {[item]: frame["@class"]}
