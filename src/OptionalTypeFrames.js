@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from "react"
 import {DOCUMENT, VIEW, SELECT_STYLES} from "./constants"
 import AsyncSelect from 'react-select/async'
-import "babel-polyfill"
-import 'regenerator-runtime/runtime'
 import {Form} from "react-bootstrap"
 
 export function OptionalDocumentTypeFrames (optionalFrames, item, mode, onSelect) {

@@ -4,8 +4,7 @@ import {getTitle, getDefaultValue, checkIfKey, getRequiredSelect, isFilled} from
 import {DOCUMENT, SELECT_STYLES, CREATE, VIEW, EDIT} from "./constants"
 import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'
-import "babel-polyfill"
-import 'regenerator-runtime/runtime'
+
 
 
 /*export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formData, isSet, onTraverse) {

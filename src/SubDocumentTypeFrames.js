@@ -3,8 +3,6 @@ import {getSubDocumentTitle, getSubDocumentDescription} from "./utils"
 import {CREATE, DOCUMENT, VIEW, SELECT_STYLES} from "./constants"
 import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'
-import "babel-polyfill"
-import 'regenerator-runtime/runtime'
 
 export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
     let properties={}, propertiesUI={}
