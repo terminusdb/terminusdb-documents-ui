@@ -45,9 +45,9 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
 
     for(var item in frame) {
 
-        if(item === "capacity_factor") {
+        /*if(item === "capacity_factor") {
             console.log("capacity_factor")
-        }
+        }*/
 
         if(item == "@key") continue
         else if(item == "@type") continue

@@ -119,7 +119,7 @@ export const DEMO_SCHEMA ={
   }
 
   export const NUCLEAR_SCHEMA ={
-	"http://lib.terminusdb.com/nuclear#AnnualCapacityFactor": {
+	/*"http://lib.terminusdb.com/nuclear#AnnualCapacityFactor": {
 	  "@documentation": {
 		"@comment": "Annual Capacity Factor of a Nuclear Power Plant",
 		"@properties": {
@@ -137,8 +137,8 @@ export const DEMO_SCHEMA ={
 	  "@type": "Class",
 	  "capacity_factor": "xsd:decimal",
 	  "year": "xsd:gYear"
-	},
-	"http://lib.terminusdb.com/nuclear#AnnualOutput": {
+	},*/
+	/*"http://lib.terminusdb.com/nuclear#AnnualOutput": {
 	  "@documentation": {
 		"@comment": "Annual Total Output of a Nuclear Power Plant",
 		"@properties": {
@@ -154,13 +154,13 @@ export const DEMO_SCHEMA ={
 	  },
 	  "@subdocument": [],
 	  "@type": "Class",
-	  "output": {
+	  "Aoutput": {
 		"@class": "Quantity",
 		"@subdocument": []
 	  },
 	  "year": "xsd:gYear"
-	},
-	"http://lib.terminusdb.com/nuclear#Compound": {
+	},*/
+	/*"http://lib.terminusdb.com/nuclear#Compound": {
 	  "@type": "Class",
 	  "elements": {
 		"@class": "Element",
@@ -1435,7 +1435,7 @@ export const DEMO_SCHEMA ={
 		"289Uuh",
 		"293Uuo"
 	  ]
-	},
+	},*/
 	"http://lib.terminusdb.com/nuclear#NuclearPowerPlant": {
 	  "@documentation": {
 		"@comment": "A Nuclear Power Plant",
@@ -1459,7 +1459,7 @@ export const DEMO_SCHEMA ={
 		"@type": "Lexical"
 	  },
 	  "@type": "Class",
-	  "capacity": {
+	  /*"capacity": {
 		"@class": "Quantity",
 		"@subdocument": []
 	  },
@@ -1480,18 +1480,18 @@ export const DEMO_SCHEMA ={
 		"@class": "GeoCoordinate",
 		"@subdocument": []
 	  },
-	  "name": "xsd:string",
-	  "output": {
+	  "name": "xsd:string", */
+	  /*"output": {
 		"@class": {
 		  "@class": "AnnualOutput",
 		  "@subdocument": []
 		},
 		"@type": "Set"
-	  },
-	  "owner": {
+	  },*/
+	  /*"owner": {
 		"@class": "xsd:string",
 		"@type": "Optional"
-	  },
+	  },*/
 	  "reactors": {
 		"@class": [
 		  "ExperimentalReactor",
@@ -1500,9 +1500,9 @@ export const DEMO_SCHEMA ={
 		],
 		"@type": "Set"
 	  },
-	  "url": "xsd:string"
+	  /*"url": "xsd:string"*/
 	},
-	"http://lib.terminusdb.com/nuclear#PowerReactor": {
+	/*"http://lib.terminusdb.com/nuclear#PowerReactor": {
 	  "@key": {
 		"@fields": [
 		  "name"
@@ -1543,7 +1543,7 @@ export const DEMO_SCHEMA ={
 		},
 		"@type": "Optional"
 	  }
-	},
+	},*/
 	"http://lib.terminusdb.com/nuclear#Quantity": {
 	  "@key": {
 		"@fields": [
@@ -1557,7 +1557,7 @@ export const DEMO_SCHEMA ={
 	  "quantity": "xsd:decimal",
 	  "unit": "Unit"
 	},
-	"http://lib.terminusdb.com/nuclear#Reactor": {
+	/*"http://lib.terminusdb.com/nuclear#Reactor": {
 	  "@abstract": [],
 	  "@documentation": {
 		"@comment": "A Nuclear Power Plant",
@@ -1708,7 +1708,7 @@ export const DEMO_SCHEMA ={
 	"http://lib.terminusdb.com/nuclear#Substance": {
 	  "@type": "Class",
 	  "name": "xsd:string"
-	},
+	},*/
 	"http://lib.terminusdb.com/nuclear#Unit": {
 	  "@key": {
 		"@fields": [
@@ -1820,7 +1820,81 @@ export const NUCLEAR_FORM_DATA = {
 }
 
 
-export const DEMO_DOCUMENT_TYPE="NuclearPowerPlant"
+export const SESHAT_SCHEMA = {
+	"http://lib.seshatdatabank.info/schema#Polity": {
+	  "@type": "Class",
+	  "general_variables": {
+		"@class": {
+		  "@class": "GeneralVariables",
+		  "@subdocument": []
+		},
+		"@type": "Optional"
+	  }
+	},
+	"http://lib.seshatdatabank.info/schema#GeneralVariables": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "alternative_names": {
+		"@class": {
+		  "@class": "AlternativeNames",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  }
+	},
+	"http://lib.seshatdatabank.info/schema#AlternativeNames": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@oneOf": [
+		{
+		  //"inferred": "StringValue",
+		  "known": "StringValue",
+		  /*"suspected_unknown": "sys:Unit",
+		  "unknown": "sys:Unit"*/
+		}
+	  ],
+	  "@subdocument": [],
+	  "@type": "Class"
+	}
+}
+
+export const SESHAT_FORM_DATA = {
+	"@id": "Polity/AfDurrn",
+	"@type": "Polity",
+	"general_variables": {
+	  "@id": "Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88",
+	  "@type": "GeneralVariables",
+	  "alternative_names": [
+		{
+		  "@id": "Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/alternative_names/AlternativeNames/ddf370e067096a0992d24b80e02078a7a9983ba06d3fe1a7c1f6f6b8fb1f958e",
+		  "@type": "AlternativeNames",
+		  "known": {
+			"@id": "Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/alternative_names/Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/alternative_names/AlternativeNames/ddf370e067096a0992d24b80e02078a7a9983ba06d3fe1a7c1f6f6b8fb1f958e/known/StringValue/054fdf048a0474a99bf7caf435d12a388e0901f26c59af2f987c68b83ae8d0e0",
+			"@type": "StringValue",
+			"value": "Last Afghan Empire"
+		  }
+		},
+		{
+		  "@id": "Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/alternative_names/AlternativeNames/f180e2ed44e144ff594d9fbfef6e85945a94abba30e3a8c8233aee34d4d8fec6",
+		  "@type": "AlternativeNames",
+		  "known": {
+			"@id": "Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/alternative_names/Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/alternative_names/AlternativeNames/f180e2ed44e144ff594d9fbfef6e85945a94abba30e3a8c8233aee34d4d8fec6/known/StringValue/1be33fcf247433bbafa603ff5052fbfbb41d8db504ff64f64c2a469c6819ec1f",
+			"@type": "StringValue",
+			"value": "Sadozai Kingdom"
+		  }
+		}
+	  ],
+	}
+  }
+
+
+
+
+export const DEMO_DOCUMENT_TYPE="Polity"
 
 export const DEMO_FORM_DATA= {
 	"@id": "Person/Peter%20+terminusdb%3A%2F%2F%2Fdata%2FJob%2Fadmin",
