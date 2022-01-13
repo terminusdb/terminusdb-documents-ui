@@ -4,12 +4,12 @@ import {makeDataTypeFrames} from "./DataTypeFrames"
 import {makeSubDocumentFrames} from "./SubDocumentTypeFrames"
 import {makeSetSubDocuments, makeSetData, makeSetDocuments} from "./SetTypeFrames"
 import {makeListData, makeListDocuments, makeListSubDocuments} from "./ListTypeFrames"
-import {makeDocumentTypeFrames} from "./DocumentTypeFrames"
+import {makeDocumentTypeFrames, makeChoiceDocumentTypeFrames} from "./DocumentTypeFrames"
 import {makeEnumTypeFrames} from "./EnumTypeFrames"
-import {isDataType, isSubDocumentType, isOptionalType, isSetType, isDocumentType, isEnumType, isListType} from "./utils"
+import {isDataType, isSubDocumentType, isOptionalType, isSetType, isDocumentType, isEnumType, isListType, isSubDocumentAndClassType} from "./utils"
 import {DOCUMENT, ENUM, DATA} from "./constants"
 import {OptionalDocumentTypeFrames} from "./OptionalTypeFrames"
-
+import {makeChoiceTypeFrames} from "./ChoiceTypeFrames"
 
 
 
@@ -49,8 +49,14 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
             console.log("capacity_factor")
         }*/
 
-        if(item == "@key") continue
-        else if(item == "@type") continue
+        if(item === "@key") continue
+        else if(item === "@type") continue
+        else if(item === "@oneOf"){ // choice
+            let frames = makeChoiceTypeFrames(fullFrame, frame, item, uiFrame, documents,  mode, formData, onTraverse, onSelect)
+            //set properties and ui
+            properties[item] = frames.properties[item]
+            propertiesUI[item] = frames.propertiesUI//[item]
+        }
         else if(frame[item] && isDataType(frame[item])) { // datatype properties like xsd:/ xdd:
             let frames = makeDataTypeFrames(frame, item, uiFrame, mode, formData, isSet)
 
@@ -71,30 +77,41 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
             propertiesUI[item] = optionalFrames.uiSchema[item]
         }
         else if (frame[item] && isSetType(frame[item])) { //set
+
             let newFrame = constructNewDocumentFrame(frame[item], item)
-            let setFrames = getProperties(fullFrame, newFrame, uiFrame, documents, mode, formData, true, prefix, onTraverse, onSelect)
-            if(setFrames.required) delete setFrames["required"]
-            //console.log("setFrames", setFrames, item, newFrame)
-            if(Object.keys(setFrames.properties).length === 0) continue // skip if no properties are found
-            var frames
-            if(setFrames.properties[item].info === DOCUMENT || setFrames.properties[item].info === ENUM) { // if ismulti for react select
-                frames=makeSetDocuments(setFrames, item, frame[item]["@class"], uiFrame, mode, formData, onTraverse, onSelect)
+
+            if(Array.isArray(newFrame[item])){
+                let frames = makeChoiceDocumentTypeFrames(newFrame, item, uiFrame, documents,  mode, formData, onTraverse, onSelect)
                 //set properties and ui
                 properties[item] = frames.properties[item]
                 propertiesUI[item] = frames.propertiesUI[item]
             }
-            else if(setFrames.properties[item].info === DATA) { //data
-                frames=makeSetData(setFrames, item, uiFrame, mode, formData)
-                //set properties and ui
-                properties[item] = frames.properties[item]
-                propertiesUI[item] = frames.propertiesUI[item]
+            else {
+                let setFrames = getProperties(fullFrame, newFrame, uiFrame, documents, mode, formData, true, prefix, onTraverse, onSelect)
+                if(setFrames.required) delete setFrames["required"]
+                //console.log("setFrames", setFrames, item, newFrame)
+                if(Object.keys(setFrames.properties).length === 0) continue // skip if no properties are found
+                var frames
+                if(setFrames.properties[item].info === DOCUMENT || setFrames.properties[item].info === ENUM) { // if ismulti for react select
+                    frames=makeSetDocuments(setFrames, item, frame[item]["@class"], uiFrame, mode, formData, onTraverse, onSelect)
+                    //set properties and ui
+                    properties[item] = frames.properties[item]
+                    propertiesUI[item] = frames.propertiesUI[item]
+                }
+                else if(setFrames.properties[item].info === DATA) { //data
+                    frames=makeSetData(setFrames, item, uiFrame, mode, formData)
+                    //set properties and ui
+                    properties[item] = frames.properties[item]
+                    propertiesUI[item] = frames.propertiesUI[item]
+                }
+                else { // sub documents
+                    frames=makeSetSubDocuments(setFrames, item, uiFrame, mode, formData, onTraverse)
+                    //set properties and ui
+                    properties[item] = frames.properties[item]
+                    propertiesUI[item] = frames.propertiesUI[item]
+                }
             }
-            else { // sub documents
-                frames=makeSetSubDocuments(setFrames, item, uiFrame, mode, formData, onTraverse)
-                //set properties and ui
-                properties[item] = frames.properties[item]
-                propertiesUI[item] = frames.propertiesUI[item]
-            }
+
         }
         else if (frame[item] && isListType(frame[item])) { //list
             let newFrame = constructNewDocumentFrame(frame[item], item)
@@ -142,6 +159,15 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
         else if(frame[item] && isSubDocumentType(frame[item])) { //subdocument
             //let subDocumentFrame=fullFrame[`${TDB_SCHEMA}${frame[item]["@class"]}`]
             let newFrame = constructSubDocumentFrame(fullFrame, uiFrame, item, frame[item]["@class"], documents, mode, formData, prefix, onTraverse, onSelect)
+            let frames = makeSubDocumentFrames(newFrame, item, uiFrame, mode, formData, onTraverse, onSelect)
+
+            //set properties and ui
+            properties[item] = frames.properties[item]
+            propertiesUI[item] = frames.propertiesUI[item]
+        }
+        else if (frame[item] && isSubDocumentAndClassType(frame[item], fullFrame, prefix)) { //subdocument and type class
+            //let subDocumentFrame=fullFrame[`${TDB_SCHEMA}${frame[item]["@class"]}`]
+            let newFrame = constructSubDocumentFrame(fullFrame, uiFrame, item, frame[item], documents, mode, formData, prefix, onTraverse, onSelect)
             let frames = makeSubDocumentFrames(newFrame, item, uiFrame, mode, formData, onTraverse, onSelect)
 
             //set properties and ui

@@ -1,7 +1,7 @@
 
 import React from "react"
 import {Button, Form} from "react-bootstrap"
-import {XSD_DATA_TYPE_PREFIX, XDD_DATA_TYPE_PREFIX, OPTIONAL, SET, DOCUMENT, ENUM, VALUE_HASH_KEY, LIST} from "./constants"
+import {XSD_DATA_TYPE_PREFIX, XDD_DATA_TYPE_PREFIX, OPTIONAL, SET, DOCUMENT, ENUM, VALUE_HASH_KEY, LIST, SYS_UNIT_DATA_TYPE, TDB_SCHEMA} from "./constants"
 import {BiPlus} from "react-icons/bi"
 import {RiDeleteBin5Fill} from "react-icons/ri"
 import {FcKey} from "react-icons/fc"
@@ -56,7 +56,18 @@ export const isDocumentType = (property, frame, prefix) => {
 	if(!frame) return false
 	let document = `${prefix}${property}`
 	if(frame[document]) {
-			if(frame[document]["@type"] === DOCUMENT) return true
+		if(frame[document]["@type"] === DOCUMENT && !frame[document]["@subdocument"]) return true
+	}
+	return false
+}
+
+// returns true if @subdocuments and type class
+export const isSubDocumentAndClassType = (property, frame, prefix) => {
+	if(typeof property === "object") return false
+	if(!frame) return false
+	let document = `${prefix}${property}`
+	if(frame[document]) {
+		if(frame[document]["@type"] === DOCUMENT && frame[document]["@subdocument"]) return true
 	}
 	return false
 }
@@ -177,34 +188,84 @@ export function ArrayFieldTemplate(props) {
 
 }
 
-// removes properties with no filled values on submit form
-export function formatData_OLD(formData) {
-	var extracted={}
-	for(var key in formData){
-		if(Array.isArray(formData[key])){ //array
-			var newArray=[]
-			formData[key].map(arr => {
-				if(Object.keys(arr).length !== 1) {
-					newArray.push(arr)
+
+// this check is for seshat data with one of property to alter submitted value
+function modifyChoiceTypeData(data, frame) {
+    for(var key in data){
+		if(key === "@oneOf") {
+
+			for(var thing in data[key]) {
+				let dataType = data["@type"]
+				let extractedPrefix = getPrefix(frame)
+    			let type = `${extractedPrefix}${dataType}`
+				if(frame[type]["@oneOf"]) {
+					// if sys:Unit type
+					if(frame[type]["@oneOf"][0][thing] && frame[type]["@oneOf"][0][thing] === SYS_UNIT_DATA_TYPE) {
+						delete data[key]
+						data[thing] = [] // empty list
+					}
+					else if(frame[type]["@oneOf"][0][thing]) {
+						let inputValue = data[key][thing]
+						delete data[key]
+						if(inputValue) {
+							data[thing]=inputValue
+						}
+					}
 				}
-			})
-			if(newArray.length !== 0) extracted[key]=newArray
+			}
 		}
-		else if(Object.keys(formData[key]).length !== 1){  //json
-			extracted[key]=formData[key]
-		}
-		else if(formData[key] === "" || formData[key] === undefined){ // string
-			extracted[key]=formData[key]
+        if (data.hasOwnProperty(key)) {
+            if (Object.keys(data[key]).length && typeof data[key] === 'object') {
+                data[key] = modifyChoiceTypeData(data[key], frame)
+            }
+			else if(Object.keys(data[key]).length && key === "@type") { // add type
+				data[key] = data[key]
+			}
+            else {
+				//delete data[key]
+				data[key] = data[key]
+            }
+        }
+    }
+    return data
+}
+
+function removeEmptyFields(data) {
+	for(var key in data){
+		if (data.hasOwnProperty(key)) {
+			if (Object.keys(data[key]).length && typeof data[key] === 'object') {
+				var cleaned = removeEmptyFields(data[key])
+				if(Object.keys(cleaned).length === 1 && cleaned["@type"]){
+					cleaned = {}
+				}
+				if(Array.isArray(cleaned) && cleaned.length === 0) {
+					delete data[key]
+				}
+				else if(Object.keys(cleaned).length === 0) {
+					delete data[key]
+				}
+				else data[key] = cleaned
+			}
+			else if (Object.keys(data[key]).length && typeof data[key] === 'string') {
+				data[key] = data[key]
+			}
+			else {
+				delete data[key]
+			}
 		}
 	}
-	return extracted
+	return data;
+
 }
 
 
-
 // removes properties with no filled values on submit form
-export function formatData(formData) {
+export function formatData(data, frame, current) {
 	var extracted={}
+	let currentFrame=frame[current]
+	//let formData=data
+	let formData = modifyChoiceTypeData(data, frame)
+	console.log("***formData***",formData)
 	for(var key in formData){
 		var newArray=[]
 		if(Array.isArray(formData[key])){ //array
@@ -213,7 +274,13 @@ export function formatData(formData) {
 					//console.log("removing sub docs with only @type defined")
 				}
 				else {
-					newArray.push(arr)
+					if(currentFrame[key]["@type"] === "Set" && Array.isArray(currentFrame[key]["@class"])){
+						// for choice sets: example - "reactors": {"@class": ["PowerReactor","AtomicReactor"],"@type": "Set"}
+						for(var thing in arr){
+							newArray.push(arr[thing])
+						}
+					}
+					else newArray.push(arr)
 				}
 			})
 			if(newArray.length !== 0) extracted[key]=newArray
@@ -221,11 +288,15 @@ export function formatData(formData) {
 		else if(Object.keys(formData[key]).length !== 1){  //json
 			extracted[key]=formData[key]
 		}
+		else if(Object.keys(formData[key]).length === 1 &&  Object.keys(formData[key])[0] !== "@type"){  //json
+			extracted[key]=formData[key]
+		}
 		else if(formData[key] === "" || formData[key] === undefined){ // string
 			extracted[key]=formData[key]
 		}
 	}
-	return extracted
+	let extr = removeEmptyFields(extracted)
+	return extr
 }
 
 // function checks if formData has a filled value for item
@@ -250,7 +321,7 @@ export function checkIfKey(property, key) {
 
  // check if document has ValueHash type key
 export function isValueHashDocument(frame) {
-	if(frame["@key"]["@type"] &&
+	if(frame["@key"] && frame["@key"]["@type"] &&
 		frame["@key"]["@type"] === VALUE_HASH_KEY) {
 			return true
 	}

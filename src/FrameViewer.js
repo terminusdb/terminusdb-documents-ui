@@ -34,13 +34,12 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
     if(mode === VIEW && !formData) return <div>Mode is set to View, please provide filled form data</div>
     if(!type) return  <div>Please include the type of document</div>
 
-
+    let extractedPrefix = getPrefix(frame)
+    let current = `${extractedPrefix}${type}`
 
     useEffect(() => {
-        let extractedPrefix = getPrefix(frame)
         setPrefix(extractedPrefix)
-        let current = `${extractedPrefix}${type}`
-        try{
+        //try{
             let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect, setError)
             const schema = {
                 "type": "object",
@@ -49,10 +48,10 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
                 "dependencies": properties.dependencies
             }
             //console.log("schema", JSON.stringify(schema, null, 2))
-            //console.log("schema", schema)
-            //console.log("properties.uiSchema", properties.uiSchema)
-            //console.log("uiSchema", uiSchema)
-            //console.log("required", properties.required)
+            console.log("schema", schema)
+            console.log("properties.uiSchema", properties.uiSchema)
+            console.log("uiSchema", uiSchema)
+            console.log("required", properties.required)
             if(mode === VIEW) {
                 setReadOnly(true)
                 setInput(formData)
@@ -72,19 +71,21 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             if(uiFrame && uiFrame["ui:title"]) uiSchema["ui:title"]= uiFrame["ui:title"]
             if(uiFrame && uiFrame["ui:description"]) uiSchema["ui:description"]= uiFrame["ui:description"]
             setUISchema(uiSchema)
-        }
-        catch(e) {
-            setError("An error has occured in generating frames. Err - ", e)
-        }
+        //}
+        //catch(e) {
+          //  setError("An error has occured in generating frames. Err - ", e)
+        //}
 
     }, [frame, uiFrame, type, mode, formData])
 
 
     const handleSubmit = ({formData}) => {
+        //console.log("Data before extract: ",  formData)
         if(onSubmit) {
-            var extracted=formatData(formData)
+            var extracted=formatData(formData, frame, current)
             onSubmit(extracted)
             console.log("Data submitted: ",  extracted)
+            //console.log("Data submitted: ",  JSON.stringify(extracted, null, 2))
         }
     }
 
@@ -104,6 +105,8 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             fields={{
                 collapsible: CollapsibleField
             }}
+            //omitExtraData={true}
+            //showErrorList={false}
             children={readOnly} // hide submit button on view mode
         />}
     </div>

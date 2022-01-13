@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react"
 import {ArrayFieldTemplate, getSetTitle, getTitle, getOptionalSelect, removeDefaultsFromSubDocumentFrame, removeDefaultsFromDataFrame} from "./utils"
-import {CREATE, DATA, VIEW, DOCUMENT, SELECT_STYLES} from "./constants"
+import {CREATE, DATA, VIEW, DOCUMENT, SELECT_STYLES, ONEOFSUBDOCUMENTS} from "./constants"
 import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'
 
@@ -60,11 +60,40 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
                 propertiesUI[item]["items"].push(setFrames.uiSchema[item])
             })
 
+            function checkProperties(properties, value) {
+                for(var props in properties){
+                    if(props === "@oneOf"){ // alter the structure for @oneOf type
+                        for(var thing in value){
+                            properties[props]["anyOf"].map(aOf => {
+                                if(aOf["properties"] && aOf["properties"][thing]){
+                                    properties[thing] = aOf["properties"][thing]
+                                    properties[thing].info = ONEOFSUBDOCUMENTS
+                                }
+                            })
+                        }
+                        propertiesUI[item]["items"][0][thing] = setFrames.uiSchema[item][props][thing]
+                        if(mode === VIEW){ // hide one of calue which are empty
+                            for(var thing in value){
+                                for(var uiProps in propertiesUI[item]["items"][0][thing]) {
+                                    if(!value[thing][uiProps]){
+                                        if(propertiesUI[item]["items"][0][thing][uiProps]["ui:title"]) { // use ui:title here to see the fields - review later
+                                            const hidden = () => <div/>
+                                            propertiesUI[item]["items"][0][thing][uiProps] = {"ui:field": hidden }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        delete properties[props]
+                    }
+                }
+                return properties
+            }
 
             defaultValues.map(value => {
                 filledItems.push({
                     type: "object",
-                    properties: setFrames.properties[item]["properties"],
+                    properties: checkProperties(setFrames.properties[item]["properties"], value), //setFrames.properties[item]["properties"],
                     default: defaultValues[count]
                 })
 
@@ -130,7 +159,35 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
                         }
                         if(flds === "@type") propertiesUI[item]["items"][count][thing][flds]["ui:widget"]="hidden"
                         else propertiesUI[item]["items"][count][thing][flds]["ui:field"]=getFieldValue
+                    }
+                }
+                /*if(it.properties[thing].info === ONEOFSUBDOCUMENTS && it.default){ // we alter properties of @oneOf
+                    for(var flds in it.properties[thing].properties) {
+                        function getFieldValue(props){
+                            if(!props.formData ||  props.formData===undefined)
+                                return <span className="tdb__blank"></span>
+                            return <React.Fragment>
+                                <Form.Label>{props.name}</Form.Label>
+                                <span>{props.formData}</span>
+                            </React.Fragment>
+                        }
 
+                        //propertiesUI[item]["items"].push(setFrames.uiSchema[item][props][thing])
+                        //if(flds === "@type") propertiesUI[item]["items"][count][thing][flds]["ui:widget"]="hidden"
+                        //else propertiesUI[item]["items"][count][thing][flds]["ui:field"]=getFieldValue
+                    }
+                }*/
+                if(it.properties[thing].info === "CHOICE"){
+                    function getFieldValue(props){
+                        if(!props.formData ||  props.formData===undefined)
+                            return <span className="tdb__blank"></span>
+                        return <React.Fragment>
+                            <Form.Label className="col-md-1">{props.name}</Form.Label>
+                            <span>{props.formData.value}</span>
+                        </React.Fragment>
+                    }
+                    propertiesUI[item]["items"][count][thing] = {
+                            "ui:field" : getFieldValue
                     }
                 }
             }

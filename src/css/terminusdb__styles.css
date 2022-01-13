@@ -118,3 +118,20 @@ select > option {
     background-color: #444 !important;
 }
 
+select {
+    background-color: transparent !important;
+    color: #adb5bd !important;
+    border-color: rgb(102, 102, 102) !important;
+    line-height: 1.5;
+}
+
+legend {
+    display: none;
+}
+
+.field-description {
+    color: #888;
+}
+
+
+

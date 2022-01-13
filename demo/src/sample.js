@@ -118,6 +118,112 @@ export const DEMO_SCHEMA ={
 	}
   }
 
+
+export const SMALL_SCHEMA = {
+	"terminusdb:///schema#NuclearPowerPlant": {
+	  "@key": {
+		"@fields": [
+		  "name"
+		],
+		"@type": "Lexical"
+	  },
+	  "@type": "Class",
+	  "name": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "reactors": {
+		"@class": [
+		  "PowerReactor",
+		  "AtomicReactor"
+		],
+		"@type": "Set"
+	  }
+	},
+	"terminusdb:///schema#PowerReactor": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "r_name": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  }
+	},
+	"terminusdb:///schema#AtomicReactor": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "a_name": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  }
+	},
+	"terminusdb:///schema#Reactor": {
+	  "@abstract": [],
+	  "@key": {
+		"@fields": [
+		  "r_name"
+		],
+		"@type": "Lexical"
+	  },
+	  "@type": "Class",
+	  "r_name": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  }
+	}
+  }
+
+export const SMALL_SCHEMA_FORM_DATA = {
+	"@id": "NuclearPowerPlant/KJ",
+	"@type": "NuclearPowerPlant",
+	"capacity": {
+	  "@id": "NuclearPowerPlant/KJ/capacity/Quantity/http%3A%2F%2Flib.terminusdb.com%2Fnuclear%2FUnit%2FBLAH+3",
+	  "@type": "Quantity",
+	  "quantity": 3,
+	  "unit": "Unit/BLAH"
+	},
+	"capacity_factor": [
+	  {
+		"@id": "NuclearPowerPlant/KJ/capacity_factor/AnnualCapacityFactor/2015",
+		"@type": "AnnualCapacityFactor",
+		"capacity_factor": 2,
+		"year": "2015"
+	  }
+	],
+	"commissioning_year": "2018",
+	"country": "Country/IRELAND",
+	"gppd_idnr": "123123",
+	"location": {
+	  "@id": "NuclearPowerPlant/KJ/location/GeoCoordinate/4+5",
+	  "@type": "GeoCoordinate",
+	  "latitude": 4,
+	  "longitude": 5
+	},
+	"name": "KJ",
+	"output": [
+	  {
+		"@id": "NuclearPowerPlant/KJ/output/AnnualOutput/2020",
+		"@type": "AnnualOutput",
+		"output": {
+		  "@id": "NuclearPowerPlant/KJ/output/NuclearPowerPlant/KJ/output/AnnualOutput/2020/output/Quantity/http%3A%2F%2Flib.terminusdb.com%2Fnuclear%2FUnit%2FBLAH+5",
+		  "@type": "Quantity",
+		  "quantity": 5,
+		  "unit": "Unit/BLAH"
+		},
+		"year": "2020"
+	  }
+	],
+	"reactors": [
+	  "PowerReactor/PR2",
+	  "PowerReactor/PR1"
+	],
+	"url": "https://react-select.com/home"
+  }
+
+
   export const NUCLEAR_SCHEMA ={
 	/*"http://lib.terminusdb.com/nuclear#AnnualCapacityFactor": {
 	  "@documentation": {
@@ -1851,45 +1957,146 @@ export const SESHAT_SCHEMA = {
 	  },
 	  "@oneOf": [
 		{
-		  //"inferred": "StringValue",
-		  "known": "StringValue",
-		  /*"suspected_unknown": "sys:Unit",
-		  "unknown": "sys:Unit"*/
+		  "inferred": "StringValue",
+		  "known": "CapitalValue",
+		  "suspected_unknown": "sys:Unit",
+		  "unknown": "sys:Unit"
 		}
 	  ],
 	  "@subdocument": [],
 	  "@type": "Class"
+	},
+	"http://lib.seshatdatabank.info/schema#StringValue": {
+		"@key": {
+		  "@type": "Random"
+		},
+		"@subdocument": [],
+		"@type": "Class",
+		"date_range": {
+		  "@class": {
+			"@class": "DateRange",
+			"@subdocument": []
+		  },
+		  "@type": "Optional"
+		},
+		"value": "xsd:string"
+	},
+	"http://lib.seshatdatabank.info/schema#DateRange": {
+	  "@key": {
+		"@fields": [
+		  "from",
+		  "to"
+		],
+		"@type": "Hash"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "from": "xsd:integer",
+	  "to": "xsd:integer"
+	},
+	"http://lib.seshatdatabank.info/schema#CapitalValue": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "value": "City"
+	},
+	"http://lib.seshatdatabank.info/schema#City": {
+	  "@key": {
+		"@fields": [
+		  "name"
+		],
+		"@type": "Lexical"
+	  },
+	  "@type": "Class",
+	  "name": "xsd:string"
+	}
+}
+
+export const SESHAT_SCHEMA_CAPITAL = {
+	"http://lib.seshatdatabank.info/schema#Polity": {
+	  "@type": "Class",
+	  "general_variables": {
+		"@class": {
+		  "@class": "GeneralVariables",
+		  "@subdocument": []
+		},
+		"@type": "Optional"
+	  }
+	},
+	"http://lib.seshatdatabank.info/schema#GeneralVariables": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "capital": {
+		"@class": {
+		  "@class": "Capital",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  }
+	},
+	"http://lib.seshatdatabank.info/schema#Capital": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@oneOf": [
+		{
+		  "inferred": "CapitalValue",
+		  "known": "CapitalValue",
+		  "suspected_unknown": "sys:Unit",
+		  "unknown": "sys:Unit"
+		}
+	  ],
+	  "@subdocument": [],
+	  "@type": "Class"
+	},
+	"http://lib.seshatdatabank.info/schema#CapitalValue": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "value": "City"
+	},
+	"http://lib.seshatdatabank.info/schema#City": {
+	  "@key": {
+		"@fields": [
+		  "name"
+		],
+		"@type": "Lexical"
+	  },
+	  "@type": "Class",
+	  "name": "xsd:string"
 	}
 }
 
 export const SESHAT_FORM_DATA = {
-	"@id": "Polity/AfDurrn",
+	"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687",
 	"@type": "Polity",
 	"general_variables": {
-	  "@id": "Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88",
-	  "@type": "GeneralVariables",
-	  "alternative_names": [
-		{
-		  "@id": "Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/alternative_names/AlternativeNames/ddf370e067096a0992d24b80e02078a7a9983ba06d3fe1a7c1f6f6b8fb1f958e",
-		  "@type": "AlternativeNames",
-		  "known": {
-			"@id": "Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/alternative_names/Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/alternative_names/AlternativeNames/ddf370e067096a0992d24b80e02078a7a9983ba06d3fe1a7c1f6f6b8fb1f958e/known/StringValue/054fdf048a0474a99bf7caf435d12a388e0901f26c59af2f987c68b83ae8d0e0",
-			"@type": "StringValue",
-			"value": "Last Afghan Empire"
-		  }
-		},
-		{
-		  "@id": "Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/alternative_names/AlternativeNames/f180e2ed44e144ff594d9fbfef6e85945a94abba30e3a8c8233aee34d4d8fec6",
-		  "@type": "AlternativeNames",
-		  "known": {
-			"@id": "Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/alternative_names/Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/alternative_names/AlternativeNames/f180e2ed44e144ff594d9fbfef6e85945a94abba30e3a8c8233aee34d4d8fec6/known/StringValue/1be33fcf247433bbafa603ff5052fbfbb41d8db504ff64f64c2a469c6819ec1f",
-			"@type": "StringValue",
-			"value": "Sadozai Kingdom"
-		  }
-		}
-	  ],
+		"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0",
+		"@type": "GeneralVariables",
+		"alternative_names": [{
+			"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/AlternativeNames/8be6d82fe88b62a7a3a0ecf003b99bd1c990d6fde1fbd0b880b72bebdaabbe4a",
+			"@type": "AlternativeNames",
+			"inferred": {
+				"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/AlternativeNames/8be6d82fe88b62a7a3a0ecf003b99bd1c990d6fde1fbd0b880b72bebdaabbe4a/inferred/StringValue/30f5a7097ab3bfa78df534949cc844fe6ae9b2cf3c69a689f1901e27cad436de",
+				"@type": "StringValue",
+				"date_range": {
+					"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/AlternativeNames/8be6d82fe88b62a7a3a0ecf003b99bd1c990d6fde1fbd0b880b72bebdaabbe4a/inferred/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/AlternativeNames/8be6d82fe88b62a7a3a0ecf003b99bd1c990d6fde1fbd0b880b72bebdaabbe4a/inferred/StringValue/30f5a7097ab3bfa78df534949cc844fe6ae9b2cf3c69a689f1901e27cad436de/date_range/DateRange/5daa08807967b8fc4bce3e9738f89b0f626e521984eb5b11ac0b417e88c559e8",
+					"@type": "DateRange",
+					"from": 67,
+					"to": 7
+				},
+				"value": "magic"
+			}
+		}]
 	}
-  }
+}
 
 
 
@@ -2303,6 +2510,11 @@ export const PROFILE_DEMO_DOCUMENTS = {
 		"Organization/001",
 		"Organization/002",
 		"Organization/003",
-		"Organization/004"]
+		"Organization/004"],
+	"City": [
+		"City/001",
+		"City/002",
+		"City/003"
+	]
 }
 

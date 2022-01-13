@@ -2,12 +2,15 @@
 export const XSD_DATA_TYPE_PREFIX = "xsd:"
 export const XDD_DATA_TYPE_PREFIX = "xdd:"
 export const SUBDOCUMENT="@subdocument"
+export const ONEOFSUBDOCUMENTS="OneOfSubDocuments"
 export const OPTIONAL="Optional"
 export const SET="Set"
 export const LIST="List"
 export const DOCUMENT="Class"
 export const ENUM="Enum"
 export const DATA="DATA"
+
+export const SYS_UNIT_DATA_TYPE="sys:Unit"
 
 
 export const CREATE="Create"
