@@ -25,6 +25,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
     const [readOnly, setReadOnly]=useState(false)
     const [error, setError]=useState(false)
     const [input, setInput]=useState({})
+    //const [definitions, setDefinitions]=useState({})
 
     const [message, setMessage]=useState(false)
 
@@ -37,15 +38,30 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
     let extractedPrefix = getPrefix(frame)
     let current = `${extractedPrefix}${type}`
 
+
     useEffect(() => {
         setPrefix(extractedPrefix)
         //try{
-            let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect, setError)
+            console.log("extractedPrefix", extractedPrefix)
+            console.log("frame", frame)
+            let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect)
+            /*let properties ={                properties:{},
+                required: {},
+                dependencies:{},
+                uiSchema:{}
+            }*/
+            console.log("definitions", definitions)
+            let definitions = {
+                testdef: {
+                    title: "test",
+                    type: "string"
+                }
+            }
             const schema = {
-                "type": "object",
-                "properties": properties.properties,
-                "required": properties.required,
-                "dependencies": properties.dependencies
+                type: "object",
+                properties: properties.properties,
+                required: properties.required,
+                dependencies: properties.dependencies
             }
             //console.log("schema", JSON.stringify(schema, null, 2))
             console.log("schema", schema)
@@ -80,7 +96,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
 
 
     const handleSubmit = ({formData}) => {
-        //console.log("Data before extract: ",  formData)
+        console.log("Data before extract: ",  formData)
         if(onSubmit) {
             var extracted=formatData(formData, frame, current)
             onSubmit(extracted)
@@ -92,6 +108,21 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
     if(error) {
         return <Alert variant="danger">{error}</Alert>
     }
+
+    //return <>{"HELLO WORLD"}</>
+
+    /*function CustomFieldTemplate(props) {
+        const {id, classNames, label, help, required, description, errors, children} = props;
+        return (
+          <div className={"test"}>
+            <label htmlFor={id}>{label}{required ? "*" : null}</label>
+            {description}
+            {children}
+            {errors}
+            {help}
+          </div>
+        );
+      }*/
 
     return <div>
         {schema && message && message}
@@ -105,9 +136,11 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             fields={{
                 collapsible: CollapsibleField
             }}
+            liveValidate={false}
             //omitExtraData={true}
             //showErrorList={false}
             children={readOnly} // hide submit button on view mode
+            //FieldTemplate={CustomFieldTemplate}
         />}
     </div>
  }

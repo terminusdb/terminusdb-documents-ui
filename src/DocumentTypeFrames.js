@@ -138,7 +138,7 @@ export function choiceDocumentTypeFrames(frame, item, uiFrame, documents, mode, 
         type: "array",
         items: {
             type: "object",
-            anyOf: oneOfArray
+            oneOf: oneOfArray
         }
     }
 

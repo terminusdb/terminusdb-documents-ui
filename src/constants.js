@@ -9,6 +9,9 @@ export const LIST="List"
 export const DOCUMENT="Class"
 export const ENUM="Enum"
 export const DATA="DATA"
+export const LATITUDE="latitude"
+export const LONGITUDE="longitude"
+
 
 export const SYS_UNIT_DATA_TYPE="sys:Unit"
 
@@ -51,3 +54,16 @@ export const SELECT_STYLES = {
       }
     }
 }
+
+
+
+// map icon component
+import L from "leaflet";
+
+export default L.icon({
+    iconSize: [25, 41],
+    iconAnchor: [10, 41],
+    popupAnchor: [2, -40],
+    iconUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-icon.png",
+    shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
+});

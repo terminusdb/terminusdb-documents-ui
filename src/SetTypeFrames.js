@@ -64,7 +64,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
                 for(var props in properties){
                     if(props === "@oneOf"){ // alter the structure for @oneOf type
                         for(var thing in value){
-                            properties[props]["anyOf"].map(aOf => {
+                            properties[props]["oneOf"].map(aOf => {
                                 if(aOf["properties"] && aOf["properties"][thing]){
                                     properties[thing] = aOf["properties"][thing]
                                     properties[thing].info = ONEOFSUBDOCUMENTS
@@ -93,7 +93,8 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
             defaultValues.map(value => {
                 filledItems.push({
                     type: "object",
-                    properties: checkProperties(setFrames.properties[item]["properties"], value), //setFrames.properties[item]["properties"],
+                    //properties: checkProperties(setFrames.properties[item]["properties"], value), //setFrames.properties[item]["properties"],
+                    properties: setFrames.properties[item]["properties"],
                     default: defaultValues[count]
                 })
 
