@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react"
 import {DOCUMENT, VIEW, SELECT_STYLES} from "./constants"
 import AsyncSelect from 'react-select/async'
 import {Form} from "react-bootstrap"
+import {AsyncTypeahead} from 'react-bootstrap-typeahead'
 
 export function OptionalDocumentTypeFrames (optionalFrames, item, mode, onSelect) {
     if(mode !== VIEW) {
@@ -47,17 +48,64 @@ export function OptionalDocumentTypeFrames (optionalFrames, item, mode, onSelect
                 />
             </React.Fragment>
         }
+
+        function getOptionalTypeAheadSelect(props){
+            const [isLoading, setIsLoading] = useState(false)
+            const [options, setOptions] = useState([])
+
+            const handleSearch = async(inputValue) => {
+                setIsLoading(true)
+                let opts = await onSelect(inputValue, props.schema.linked_to)
+                setOptions(opts)
+                setIsLoading(false)
+            }
+
+            // Bypass client-side filtering by returning `true`. Results are already
+            // filtered by the search endpoint, so no need to do it again.
+            const filterBy = () => true
+
+            const getLabelKey = (option) => {
+                props.onChange(option.value)
+                return option.label
+            }
+
+            return <React.Fragment>
+                <Form.Label>{props.name} <span class="required">*</span> </Form.Label>
+                <Form.Group className="d-flex">
+                    <AsyncTypeahead
+                        filterBy={filterBy}
+                        id={`${props.name}_async_search`}
+                        isLoading={isLoading}
+                        //labelKey={(option) => `${option.label}`}
+                        labelKey={(option) => `${getLabelKey(option)}`}
+                        minLength={2}
+                        onSearch={handleSearch}
+                        options={options}
+                        classNames="tdb__input"
+                        styles={SELECT_STYLES}
+                        placeholder={`Type to search for ${props.schema.linked_to} ...`}
+                        renderMenuItemChildren={(option, props) => (
+                        <React.Fragment>
+                            <span>{option.label}</span>
+                        </React.Fragment>
+                        )}
+                    />
+                </Form.Group>
+            </React.Fragment>
+        }
+
+
         if(optionalFrames.properties[item] && optionalFrames.properties[item].properties){ // these for optional sets
             for(var props in optionalFrames.properties[item].properties) {
                 if(optionalFrames.properties[item].properties[props].info === DOCUMENT &&
                     optionalFrames.uiSchema[item][props]){
-                    optionalFrames.uiSchema[item][props]["ui:field"]=getOptionalSelect
+                    optionalFrames.uiSchema[item][props]["ui:field"]=getOptionalTypeAheadSelect
                 }
             }
         }
         else {
             if(optionalFrames.properties[item].info === DOCUMENT){
-                optionalFrames.uiSchema[item]["ui:field"]=getOptionalSelect
+                optionalFrames.uiSchema[item]["ui:field"]=getOptionalTypeAheadSelect
             }
         }
     }
@@ -75,8 +123,8 @@ export function OptionalDocumentTypeFrames (optionalFrames, item, mode, onSelect
             }
 
             return <React.Fragment>
-                <Form.Label className="col-md-1">{item}</Form.Label>
-                <span onClick={(e) => handleClick(e, props.formData)} className="tdb__span__select">{props.formData}</span>
+                <Form.Label className="contol-label">{item}</Form.Label>
+                <span onClick={(e) => handleClick(e, props.formData)} className="tdb__span__select form-control">{props.formData}</span>
             </React.Fragment>
         }
 

@@ -14,6 +14,22 @@ export const Output = ({schema, uiSchema, type, mode, formData}) => {
 
     function handleSelect(inp){
         console.log("*****Select****", inp)
+        /*let matched=[] -- TEST DATA
+        let options=[
+            { value: 'Art', label: 'Blakey' },
+            { value: 'John', label: 'Coltrane' },
+            { value: 'Miles', label: 'Davis' },
+            { value: 'Herbie', label: 'Hancock' },
+            { value: 'Charlie', label: 'Parker' },
+            { value: 'Tony', label: 'Williams' },
+        ]
+        options.map(item => {
+            if(item.value.toUpperCase() === inp.toUpperCase()){
+                matched.push(item)
+            }
+        })
+        console.log("matched", matched)
+        return matched*/
     }
 
     return <React.Fragment>

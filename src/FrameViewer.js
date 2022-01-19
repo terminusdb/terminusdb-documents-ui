@@ -16,8 +16,10 @@ import {formatData, getPrefix, isValueHashDocument, getValueHashMessage} from ".
 **  documents - document list
 **  formData  - filled value of the document
 **  onSubmit  - a function which can have custom logic to process data submitted
+**  hideSubmit - hides Submit button - this is helpfull when you want to display nested FrameViewers
+**  onChange   - a function which have custom logic to process data when form data is changed
 */
-export function FrameViewer({frame, uiFrame, type, mode, documents, formData, onSubmit, onTraverse, onSelect}){
+export function FrameViewer({frame, uiFrame, type, mode, documents, formData, onSubmit, onTraverse, onSelect, hideSubmit, onChange}){
 
     const [prefix, setPrefix]=useState(TDB_SCHEMA)
     const [schema, setSchema]=useState(false)
@@ -42,8 +44,8 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
     useEffect(() => {
         setPrefix(extractedPrefix)
         //try{
-            console.log("extractedPrefix", extractedPrefix)
-            console.log("frame", frame)
+            //console.log("extractedPrefix", extractedPrefix)
+            //console.log("frame", frame)
             let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect)
             /*let properties ={                properties:{},
                 required: {},
@@ -67,7 +69,6 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             console.log("schema", schema)
             console.log("properties.uiSchema", properties.uiSchema)
             console.log("uiSchema", uiSchema)
-            console.log("required", properties.required)
             if(mode === VIEW) {
                 setReadOnly(true)
                 setInput(formData)
@@ -76,6 +77,9 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
                 setInput(formData)
                 setMessage(getValueHashMessage())
                 setReadOnly(true)
+            }
+            else if(onChange) { // form nested frame viewers
+                setInput(formData)
             }
             else {
                 setReadOnly(false)
@@ -105,6 +109,14 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
         }
     }
 
+    const handleChange = (data) => {
+        //console.log("Data changed: ",  data)
+        setInput(data)
+        if(onChange) {
+            onChange(data)
+        }
+    }
+
     if(error) {
         return <Alert variant="danger">{error}</Alert>
     }
@@ -130,16 +142,17 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             uiSchema={uiSchema}
             mode={mode}
             onSubmit={handleSubmit}
+            //onBlur={e => handleBlur(e.formData)}
             readonly={readOnly}
             formData={input}
-            onChange={({formData}) => setInput(formData)}
+            onChange={({formData}) => handleChange(formData)}
             fields={{
                 collapsible: CollapsibleField
             }}
-            liveValidate={false}
+            //liveValidate={false}
             //omitExtraData={true}
             //showErrorList={false}
-            children={readOnly} // hide submit button on view mode
+            children={hideSubmit} // hide submit button on view mode
             //FieldTemplate={CustomFieldTemplate}
         />}
     </div>

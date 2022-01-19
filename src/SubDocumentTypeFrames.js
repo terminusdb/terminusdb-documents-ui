@@ -3,6 +3,7 @@ import {getSubDocumentTitle, getSubDocumentDescription} from "./utils"
 import {CREATE, DOCUMENT, VIEW, SELECT_STYLES} from "./constants"
 import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'
+import {AsyncTypeahead} from 'react-bootstrap-typeahead'
 
 export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
     let properties={}, propertiesUI={}
@@ -57,7 +58,7 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
     for(var key in frame.uiSchema) {
         propertiesUI[item][key] = frame.uiSchema[key]
         if(frame.properties[key].info === DOCUMENT){
-            function getSelect(props) {
+            /*function getSelect(props) {
                 const loadOptions = async (inputValue, callback) => {
                     let opts = await onSelect(inputValue, frame.properties[props.name]["linked_to"])
                     callback(opts)
@@ -87,8 +88,53 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
                         onInputChange={handleInputChange}
                     />
                 </React.Fragment>
+            }*/
+
+            function getTypeAheadSelect(props) {
+                const [isLoading, setIsLoading] = useState(false)
+                const [options, setOptions] = useState([])
+
+                const handleSearch = async(inputValue) => {
+                    setIsLoading(true)
+                    let opts = await onSelect(inputValue, props.schema.linked_to)
+                    setOptions(opts)
+                    setIsLoading(false)
+                }
+
+                // Bypass client-side filtering by returning `true`. Results are already
+                // filtered by the search endpoint, so no need to do it again.
+                const filterBy = () => true
+
+                const getLabelKey = (option) => {
+                    props.onChange(option.value)
+                    return option.label
+                }
+
+                return <React.Fragment>
+                    <Form.Label>{props.name} <span class="required">*</span> </Form.Label>
+                    <Form.Group className="d-flex">
+                        <AsyncTypeahead
+                            filterBy={filterBy}
+                            id={`${props.name}_async_search`}
+                            isLoading={isLoading}
+                            //labelKey={(option) => `${option.label}`}
+                            labelKey={(option) => `${getLabelKey(option)}`}
+                            minLength={2}
+                            onSearch={handleSearch}
+                            options={options}
+                            classNames="tdb__input"
+                            styles={SELECT_STYLES}
+                            placeholder={`Type to search for ${props.schema.linked_to} ...`}
+                            renderMenuItemChildren={(option, props) => (
+                            <React.Fragment>
+                                <span>{option.label}</span>
+                            </React.Fragment>
+                            )}
+                        />
+                    </Form.Group>
+                </React.Fragment>
             }
-            propertiesUI[item][key]["ui:field"]=getSelect
+            propertiesUI[item][key]["ui:field"]=getTypeAheadSelect
         }
     }
 
@@ -110,8 +156,8 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
                 }
 
                 return <React.Fragment>
-                    <Form.Label  className="col-md-1">{props.name}</Form.Label>
-                    <span className="tdb__span__select" onClick={(e) => handleClick(properties[item].properties[props.name].default)}>
+                    <Form.Label  className="col-md-1 control-label">{props.name}</Form.Label>
+                    <span className="tdb__span__select form-control" onClick={(e) => handleClick(properties[item].properties[props.name].default)}>
                         {properties[item].properties[props.name].default}
                     </span>
                 </React.Fragment>

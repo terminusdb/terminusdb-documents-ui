@@ -5,8 +5,7 @@ import {DOCUMENT, SELECT_STYLES, CREATE, VIEW, EDIT} from "./constants"
 import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'
 import Select from 'react-select'
-import "babel-polyfill"
-import 'regenerator-runtime/runtime'
+import {AsyncTypeahead} from 'react-bootstrap-typeahead'
 
 export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formData, onTraverse, onSelect) {
     let properties={}, propertiesUI={}
@@ -17,7 +16,7 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
         type: 'string',
         info: DOCUMENT,
         linked_to: frame[item],
-        enum: documents ? documents[type] : {}
+        //enum: documents ? documents[type] : {}
     }
 
     //schema
@@ -41,14 +40,14 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
         }
 
         return <React.Fragment>
-            <Form.Label className="col-md-1">{item}</Form.Label>
-            <span onClick={(e) => handleClick(e, layout.default)} className="tdb__span__select">{layout.default}</span>
+            <Form.Label className="control-label">{item}</Form.Label>
+            <span onClick={(e) => handleClick(e, layout.default)} className="tdb__span__select form-control">{layout.default}</span>
         </React.Fragment>
     }
 
 
     // create and edit
-    function getSelect(props) {
+    /*function getSelect(props) {
 
         const loadOptions = async (inputValue, callback) => {
             let opts = await onSelect(inputValue, frame[item])
@@ -79,6 +78,51 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
                 onInputChange={handleInputChange}
             />
         </React.Fragment>
+    }*/
+
+    function getTypeAheadSelect(props) {
+
+        const [isLoading, setIsLoading] = useState(false)
+        const [options, setOptions] = useState([])
+
+        const handleSearch = async(inputValue) => {
+            setIsLoading(true)
+            let opts = await onSelect(inputValue, frame[item])
+            setOptions(opts)
+            setIsLoading(false)
+        }
+
+        const getLabelKey = (option) => {
+            props.onChange(option.value)
+            return option.label
+        }
+
+        // Bypass client-side filtering by returning `true`. Results are already
+        // filtered by the search endpoint, so no need to do it again.
+        const filterBy = () => true
+
+        return <React.Fragment>
+            <Form.Label>{props.name} <span class="required">*</span> </Form.Label>
+            <Form.Group className="d-flex">
+                <AsyncTypeahead
+                    filterBy={filterBy}
+                    id={`${props.name}_async_search`}
+                    isLoading={isLoading}
+                    labelKey={(option) => `${getLabelKey(option)}`}
+                    minLength={2}
+                    onSearch={handleSearch}
+                    options={options}
+                    classNames="tdb__input"
+                    styles={SELECT_STYLES}
+                    placeholder={`Type to search for ${props.schema.linked_to} ...`}
+                    renderMenuItemChildren={(option, props) => (
+                    <React.Fragment>
+                        <span>{option.label}</span>
+                    </React.Fragment>
+                    )}
+                />
+            </Form.Group>
+        </React.Fragment>
     }
 
     //default ui:schema
@@ -87,7 +131,7 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
         //"ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
         "ui:placeholder": `Select ${frame[item]} ...`,
         classNames: mode===VIEW ? "tdb__input mb-3 mt-3 tdb__view__input" : "tdb__input mb-3 mt-3",
-        "ui:field": mode ===VIEW ? getViewSelect : getSelect
+        "ui:field": mode ===VIEW ? getViewSelect : getTypeAheadSelect
     }
 
     if(mode === VIEW && !layout.hasOwnProperty("default")){

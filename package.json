@@ -86,6 +86,7 @@
     "leaflet": "^1.7.1",
     "react": "^16.14.0",
     "react-bootstrap": "^2.0.2",
+    "react-bootstrap-typeahead": "^6.0.0-alpha.6",
     "react-dom": "^16.14.0",
     "react-icons": "^4.3.1",
     "react-jsonschema-form": "^1.8.1",

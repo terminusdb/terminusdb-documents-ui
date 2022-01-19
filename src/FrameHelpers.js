@@ -4,13 +4,14 @@ import {makeDataTypeFrames} from "./DataTypeFrames"
 import {makeSubDocumentFrames} from "./SubDocumentTypeFrames"
 import {makeSetSubDocuments, makeSetData, makeSetDocuments} from "./SetTypeFrames"
 import {makeListData, makeListDocuments, makeListSubDocuments} from "./ListTypeFrames"
-import {makeDocumentTypeFrames, makeChoiceDocumentTypeFrames} from "./DocumentTypeFrames"
+import {makeDocumentTypeFrames} from "./DocumentTypeFrames"
 import {makeEnumTypeFrames} from "./EnumTypeFrames"
 import {isDataType, isSubDocumentType, isOptionalType, isSetType, isDocumentType, isEnumType, isListType, isSubDocumentAndClassType} from "./utils"
 import {DOCUMENT, ENUM, DATA, LONGITUDE, LATITUDE, VIEW} from "./constants"
 import {OptionalDocumentTypeFrames} from "./OptionalTypeFrames"
 import {makeChoiceTypeFrames} from "./ChoiceTypeFrames"
 import {makeGeoCordinateFrames} from "./GeoCordinatesTypeFrames"
+import {makeOneOfClassFrames} from "./OneOfClassFrames"
 
 
 function constructNewDocumentFrame(frame, item) {
@@ -64,12 +65,6 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
             properties[item] = frames.properties[item]
             propertiesUI[item] = frames.propertiesUI//[item]
         }
-        /*else if(item === "@oneOf"){ // choice
-            let frames = makeChoiceTypeFrames(fullFrame, frame, item, uiFrame, documents,  mode, formData, onTraverse, onSelect)
-            //set properties and ui
-            properties[item] = frames.properties[item]
-            propertiesUI[item] = frames.propertiesUI//[item]
-        }*/
         else if(frame[item] && isDataType(frame[item])) { // datatype properties like xsd:/ xdd:
             let frames = makeDataTypeFrames(frame, item, uiFrame, mode, formData, isSet)
 
@@ -94,10 +89,11 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
             let newFrame = constructNewDocumentFrame(frame[item], item)
 
             if(Array.isArray(newFrame[item])){
-                let frames = makeChoiceDocumentTypeFrames(newFrame, item, uiFrame, documents,  mode, formData, onTraverse, onSelect)
+                //let frames = makeChoiceDocumentTypeFrames(newFrame, item, uiFrame, documents,  mode, formData, onTraverse, onSelect)
+                let frames = makeOneOfClassFrames(fullFrame, newFrame, item, uiFrame,  mode, formData, prefix)
                 //set properties and ui
                 properties[item] = frames.properties[item]
-                propertiesUI[item] = frames.propertiesUI[item]
+                propertiesUI[item] = frames.propertiesUI//[item]
             }
             else {
                 let setFrames = getProperties(fullFrame, newFrame, uiFrame, documents, mode, formData, true, prefix, onTraverse, onSelect)

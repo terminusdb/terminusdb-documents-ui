@@ -3,7 +3,7 @@ import {ArrayFieldTemplate, getSetTitle, getTitle, getOptionalSelect, removeDefa
 import {CREATE, DATA, VIEW, DOCUMENT, SELECT_STYLES, ONEOFSUBDOCUMENTS} from "./constants"
 import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'
-
+import {AsyncTypeahead} from 'react-bootstrap-typeahead'
 
 export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, onTraverse) {
     let properties={}, propertiesUI={}
@@ -364,11 +364,57 @@ export function makeSetDocuments  (setFrames, item, selectDocType, uiFrame, mode
         </React.Fragment>
     }
 
+    function getOptionalTypeAheadSelect(props){
+        const [isLoading, setIsLoading] = useState(false)
+        const [options, setOptions] = useState([])
+
+        const handleSearch = async(inputValue) => {
+            setIsLoading(true)
+            let opts = await onSelect(inputValue, props.schema.linked_to)
+            setOptions(opts)
+            setIsLoading(false)
+        }
+
+        // Bypass client-side filtering by returning `true`. Results are already
+        // filtered by the search endpoint, so no need to do it again.
+        const filterBy = () => true
+
+        const getLabelKey = (option) => {
+            props.onChange(option.value)
+            return option.label
+        }
+
+
+        return <React.Fragment>
+            <Form.Label>{props.name} <span class="required">*</span> </Form.Label>
+            <Form.Group className="d-flex">
+                <AsyncTypeahead
+                    filterBy={filterBy}
+                    id={`${props.name}_async_search`}
+                    isLoading={isLoading}
+                    //labelKey={(option) => `${option.label}`}
+                    labelKey={(option) => `${getLabelKey(option)}`}
+                    minLength={2}
+                    onSearch={handleSearch}
+                    options={options}
+                    classNames="tdb__input"
+                    styles={SELECT_STYLES}
+                    placeholder={`Type to search for ${props.schema.linked_to} ...`}
+                    renderMenuItemChildren={(option, props) => (
+                    <React.Fragment>
+                        <span>{option.label}</span>
+                    </React.Fragment>
+                    )}
+                />
+            </Form.Group>
+        </React.Fragment>
+    }
+
 
     //default ui:schema
     if(mode !== VIEW && setFrames.uiSchema[item] && setFrames.uiSchema[item]["ui:field"]){
         //setFrames.uiSchema[item]["ui:field"]=getOptionalSelect
-        setFrames.uiSchema[item]["ui:field"]=getOptionalSelect
+        setFrames.uiSchema[item]["ui:field"]=getOptionalTypeAheadSelect
     }
 
 
@@ -384,8 +430,8 @@ export function makeSetDocuments  (setFrames, item, selectDocType, uiFrame, mode
             setClicked(e.target.value)
         }
         return <React.Fragment>
-            <Form.Label  className="col-md-1">{item}</Form.Label>
-            <span onClick={(e) => handleClick(e, props.formData)} className="tdb__span__select">{props.formData}</span>
+            <Form.Label  className="control-label">{item}</Form.Label>
+            <span onClick={(e) => handleClick(e, props.formData)} className="tdb__span__select form-control">{props.formData}</span>
         </React.Fragment>
     }
 

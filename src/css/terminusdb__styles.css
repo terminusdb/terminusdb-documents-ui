@@ -18,6 +18,23 @@
 }
 
 
+/** selects ***/
+select, .rbt-input-main {
+    background-color: transparent !important;
+    color: #adb5bd !important;
+    border-color: rgb(102, 102, 102) !important;
+    line-height: 1.5;
+}
+
+.rbt-input-hint{ /** hide hint for typeahead select**/
+    display: none;
+}
+
+.rbt{
+    width: 100%;
+    height: fit-content;
+}
+
 /*** input layouts in view mode ***/
 .tdb__view__input, .tdb__view__enum__input{
     display: flex;
@@ -118,16 +135,11 @@ select > option {
     background-color: #444 !important;
 }
 
-select {
-    background-color: transparent !important;
-    color: #adb5bd !important;
-    border-color: rgb(102, 102, 102) !important;
-    line-height: 1.5;
-}
-
 legend {
     display: none;
 }
+
+
 
 .field-description {
     color: #888;

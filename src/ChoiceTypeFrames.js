@@ -29,7 +29,7 @@ export function choiceTypeFrames(fullFrame, frame, item, uiFrame, documents, mod
     ]*/
 
 
-    //let oneOfArray=[]
+    let oneOfArray=[]
     let extractedPrefix = getPrefix(fullFrame)
 
     if(frame[item] && Array.isArray(frame[item]))  {

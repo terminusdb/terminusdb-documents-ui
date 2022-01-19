@@ -131,10 +131,7 @@ export const DEMO_SCHEMA={
 		"@class": "xsd:string",
 		"@type": "Optional"
 	  },
-	  "watched": {
-		"@class": "movies",
-		"@type": "Optional"
-	  }
+	  "watched": "movies"
 	},
 	"terminusdb:///schema#movies": {
 	  "@key": {
