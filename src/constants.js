@@ -11,7 +11,7 @@ export const ENUM="Enum"
 export const DATA="DATA"
 export const LATITUDE="latitude"
 export const LONGITUDE="longitude"
-export const GEO_CORDINATES="coordinates"
+export const GEO_CORDINATES="GeoCoordinates"
 export const ONEOFCLASSES="OneOfClasses"
 
 export const SYS_UNIT_DATA_TYPE="sys:Unit"

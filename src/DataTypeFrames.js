@@ -4,6 +4,8 @@ import {CREATE, VIEW, EDIT} from "./constants"
 function DataTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
     let properties={}, propertiesUI={}
 
+
+
     var layout = {
         type: 'string',
         info: "DATA",

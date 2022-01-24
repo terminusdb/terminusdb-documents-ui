@@ -1,6 +1,6 @@
 
 
-export const CAMS_SCHEMA = {
+export const CAMS_SCHEMA_ASSET = {
     "iri://CAMS#Asset": {
       "@type": "Class",
 	  "name": "xsd:string",
@@ -251,7 +251,7 @@ export const CAMS_SCHEMA_FULL_ASSET = {
     }
 }
 
-export const CAMS_SCHEMA_SPAT= {
+export const CAMS_SCHEMA= {
   "iri://CAMS#Asset": {
     "@type": "Class",
     "name": "xsd:string",
@@ -634,7 +634,7 @@ export const CAMS_FORM_DATA = {
       "hazard": "Volcanos (incl. lahars, pyroclastic flows, volcanic activity)"
     }
   ],*/
-  "asset_history": [
+  /*"asset_history": [
     {
       "@id": "Asset/e8be3b68397b2bdbeab147c7f2b993e3abc69dadf893defcebde5761cfe52539/asset_history/UpdateEvent/UE+2011-01-01T01%3A00%3A37Z",
       "@type": "UpdateEvent",
@@ -649,7 +649,7 @@ export const CAMS_FORM_DATA = {
   "last_modified": "2011-01-01T01:00:37Z",
   "location": "Location/325a7080f9d37b2a4dab1e22a7516ac674e5e2efb9cbfa59ec932c39d723b198",
   "name": "HazzardVolcano",
-  "owner": "Owner/5c2c7cd4e5145853aa0a289fd3c9656be84724bc033949e47bfa7fa63b932a2c",
+  "owner": "Owner/5c2c7cd4e5145853aa0a289fd3c9656be84724bc033949e47bfa7fa63b932a2c",*/
   "spatial_web_identifier": "SpatialWebIdentifier/2e7c4d3e781fff00e303cf0541ed09a7079f2d4af0afce4aef538ba049c0efdf"
 }
 

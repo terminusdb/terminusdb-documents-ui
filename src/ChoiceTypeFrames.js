@@ -80,7 +80,8 @@ export function choiceTypeFrames(fullFrame, frame, item, uiFrame, documents, mod
         title: item,
         type: "object",
         description: `Choose from the list ...`,
-        oneOf: oneOfArray
+        anyOf: oneOfArray,
+        //default: {}
     }
 
 

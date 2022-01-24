@@ -33,7 +33,7 @@ module.exports = {
   resolve: {
     alias: {
       "@terminusdb/terminusdb-documents-ui": path.join(__dirname, '..', 'src/index.js'),
-      //"@rjsf/core": path.resolve('../react-jsonschema-form/packages/core/src/index.js'),
+      "@rjsf/core": path.resolve('../react-jsonschema-form/packages/core/src/index.js'),
       //"@rjsf/core": path.join(__dirname, '..', src, '/index.js'),
       react: path.resolve('./node_modules/react')
     },
@@ -76,4 +76,4 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       }]
   }
-}
+};

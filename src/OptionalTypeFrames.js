@@ -9,7 +9,6 @@ export function OptionalDocumentTypeFrames (optionalFrames, item, mode, onSelect
 
         // get select component with no required
         function getOptionalSelect (props) {
-
             const loadOptions = async (inputValue, callback) => {
                 var classType
                 if(optionalFrames.properties[item].type === "object"){ // subdocument
@@ -33,6 +32,23 @@ export function OptionalDocumentTypeFrames (optionalFrames, item, mode, onSelect
                 props.onChange(e.value)
             }
 
+            if(props.formData) { //edit
+                return <React.Fragment>
+                    <Form.Label>{props.name} </Form.Label>
+                    <AsyncSelect
+                        cacheOptions
+                        classNames="tdb__input"
+                        styles={SELECT_STYLES}
+                        placeholder={props.uiSchema["ui:placeholder"]}
+                        onChange={onChange}
+                        loadOptions={loadOptions}
+                        defaultOptions
+                        defaultValue={{value: props.formData, label: props.formData}}
+                        onInputChange={handleInputChange}
+                    />
+                </React.Fragment>
+            }
+
             return <React.Fragment>
                 <Form.Label>{props.name} </Form.Label>
                 <AsyncSelect
@@ -42,8 +58,6 @@ export function OptionalDocumentTypeFrames (optionalFrames, item, mode, onSelect
                     placeholder={props.uiSchema["ui:placeholder"]}
                     onChange={onChange}
                     loadOptions={loadOptions}
-                    defaultOptions
-                    defaultValue={{value: props.formData, label: props.formData}}
                     onInputChange={handleInputChange}
                 />
             </React.Fragment>
@@ -99,13 +113,13 @@ export function OptionalDocumentTypeFrames (optionalFrames, item, mode, onSelect
             for(var props in optionalFrames.properties[item].properties) {
                 if(optionalFrames.properties[item].properties[props].info === DOCUMENT &&
                     optionalFrames.uiSchema[item][props]){
-                    optionalFrames.uiSchema[item][props]["ui:field"]=getOptionalTypeAheadSelect
+                    optionalFrames.uiSchema[item][props]["ui:field"]=getOptionalSelect
                 }
             }
         }
         else {
             if(optionalFrames.properties[item].info === DOCUMENT){
-                optionalFrames.uiSchema[item]["ui:field"]=getOptionalTypeAheadSelect
+                optionalFrames.uiSchema[item]["ui:field"]=getOptionalSelect
             }
         }
     }

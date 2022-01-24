@@ -58,12 +58,6 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
         }
         else if(item.toUpperCase() === LONGITUDE.toUpperCase() && mode === VIEW) {
         }
-        else if(item.toUpperCase() === GEO_CORDINATES.toUpperCase() && mode === VIEW){
-            let frames = makeMultipleGeoCordinateFrames(frame, item, uiFrame, mode, formData, isSet)
-            //set properties and ui
-            properties[item] = frames.properties[item]
-            propertiesUI[item] = frames.propertiesUI[item]
-        }
         else if(item === "@oneOf") { //choice
             let frames = makeChoiceTypeFrames(fullFrame, frame, item, uiFrame, documents,  mode, formData, onTraverse, onSelect, prefix)
             //set properties and ui
@@ -123,6 +117,13 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
                 }
                 else if(setFrames.properties[item].info === DATA) { //data
                     frames=makeSetData(setFrames, item, uiFrame, mode, formData)
+                    //set properties and ui
+                    properties[item] = frames.properties[item]
+                    propertiesUI[item] = frames.propertiesUI[item]
+                }
+                //GeoCoordinates
+                else if(newFrame && newFrame.hasOwnProperty(item) && newFrame[item].hasOwnProperty("@class") && newFrame[item]["@class"] === GEO_CORDINATES){
+                    let frames = makeMultipleGeoCordinateFrames(frame, item, uiFrame, mode, formData, isSet)
                     //set properties and ui
                     properties[item] = frames.properties[item]
                     propertiesUI[item] = frames.propertiesUI[item]

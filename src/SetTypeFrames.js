@@ -349,6 +349,23 @@ export function makeSetDocuments  (setFrames, item, selectDocType, uiFrame, mode
             props.onChange(e.value)
         }
 
+        if(props.formData) {
+            return <React.Fragment>
+                <Form.Label>{props.name} </Form.Label>
+                <AsyncSelect
+                    cacheOptions
+                    classNames="tdb__input"
+                    styles={SELECT_STYLES}
+                    placeholder={props.uiSchema["ui:placeholder"]}
+                    onChange={onChange}
+                    loadOptions={loadOptions}
+                    defaultOptions
+                    defaultValue={{value: props.formData, label: props.formData}}
+                    onInputChange={handleInputChange}
+                />
+            </React.Fragment>
+        }
+
         return <React.Fragment>
             <Form.Label>{props.name} </Form.Label>
             <AsyncSelect
@@ -358,8 +375,6 @@ export function makeSetDocuments  (setFrames, item, selectDocType, uiFrame, mode
                 placeholder={props.uiSchema["ui:placeholder"]}
                 onChange={onChange}
                 loadOptions={loadOptions}
-                defaultOptions
-                defaultValue={{value: props.formData, label: props.formData}}
                 onInputChange={handleInputChange}
             />
         </React.Fragment>
@@ -414,8 +429,8 @@ export function makeSetDocuments  (setFrames, item, selectDocType, uiFrame, mode
 
     //default ui:schema
     if(mode !== VIEW && setFrames.uiSchema[item] && setFrames.uiSchema[item]["ui:field"]){
-        //setFrames.uiSchema[item]["ui:field"]=getOptionalSelect
-        setFrames.uiSchema[item]["ui:field"]=getOptionalTypeAheadSelect
+        setFrames.uiSchema[item]["ui:field"]=getOptionalSelect
+        //setFrames.uiSchema[item]["ui:field"]=getOptionalTypeAheadSelect
     }
 
 

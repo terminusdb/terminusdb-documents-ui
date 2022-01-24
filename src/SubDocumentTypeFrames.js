@@ -58,7 +58,7 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
     for(var key in frame.uiSchema) {
         propertiesUI[item][key] = frame.uiSchema[key]
         if(frame.properties[key].info === DOCUMENT){
-            /*function getSelect(props) {
+            function getSelect(props) {
                 const loadOptions = async (inputValue, callback) => {
                     let opts = await onSelect(inputValue, frame.properties[props.name]["linked_to"])
                     callback(opts)
@@ -74,6 +74,23 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
                     props.onChange(e.value)
                 }
 
+                if( props.formData) {
+                    return <React.Fragment>
+                        <Form.Label>{props.name} </Form.Label>
+                        <AsyncSelect
+                            cacheOptions
+                            classNames="tdb__input"
+                            styles={SELECT_STYLES}
+                            placeholder={props.uiSchema["ui:placeholder"]}
+                            onChange={onChange}
+                            loadOptions={loadOptions}
+                            defaultOptions
+                            defaultValue={{value: props.formData, label: props.formData}}
+                            onInputChange={handleInputChange}
+                        />
+                    </React.Fragment>
+                }
+
                 return <React.Fragment>
                     <Form.Label>{props.name} </Form.Label>
                     <AsyncSelect
@@ -83,12 +100,10 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
                         placeholder={props.uiSchema["ui:placeholder"]}
                         onChange={onChange}
                         loadOptions={loadOptions}
-                        defaultOptions
-                        defaultValue={{value: props.formData, label: props.formData}}
                         onInputChange={handleInputChange}
                     />
                 </React.Fragment>
-            }*/
+            }
 
             function getTypeAheadSelect(props) {
                 const [isLoading, setIsLoading] = useState(false)
@@ -134,7 +149,7 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
                     </Form.Group>
                 </React.Fragment>
             }
-            propertiesUI[item][key]["ui:field"]=getTypeAheadSelect
+            propertiesUI[item][key]["ui:field"]=getSelect
         }
     }
 

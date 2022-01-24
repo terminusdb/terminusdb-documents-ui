@@ -67,7 +67,8 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
             props.onChange(e.value)
         }
 
-        return <React.Fragment>
+        if(layout.default) {
+            return <React.Fragment>
             <Form.Label>{props.name} <span class="required">*</span> </Form.Label>
             <AsyncSelect
                 cacheOptions
@@ -78,6 +79,20 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
                 loadOptions={loadOptions}
                 defaultOptions
                 defaultValue={{value: layout.default, label: layout.default}}
+                onInputChange={handleInputChange}
+            />
+        </React.Fragment>
+        }
+
+        return <React.Fragment>
+            <Form.Label>{props.name} <span class="required">*</span> </Form.Label>
+            <AsyncSelect
+                cacheOptions
+                classNames="tdb__input"
+                styles={SELECT_STYLES}
+                placeholder={props.uiSchema["ui:placeholder"]}
+                onChange={onChange}
+                loadOptions={loadOptions}
                 onInputChange={handleInputChange}
             />
         </React.Fragment>
@@ -139,9 +154,9 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
     propertiesUI[item] = {
         "ui:disabled": mode === EDIT && checkIfKey(item, frame["@key"]) && isFilled(formData, item) ? true : false,
         //"ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
-        "ui:placeholder": `Select ${frame[item]} ...`,
+        "ui:placeholder": `Search for ${frame[item]} ...`,
         classNames: mode===VIEW ? "tdb__input mb-3 mt-3 tdb__view__input" : "tdb__input mb-3 mt-3",
-        "ui:field": mode ===VIEW ? getViewSelect : getTypeAheadSelect
+        "ui:field": mode ===VIEW ? getViewSelect : getSelect
     }
 
     if(mode === VIEW && !layout.hasOwnProperty("default")){

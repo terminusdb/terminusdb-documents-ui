@@ -47,7 +47,63 @@ function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame, mode, formData, 
         </React.Fragment>
     }
 
+    function extractProperties(documentClass, item, formData, mode) {
+        var structure = {}, propertiesUI={}, anyOfArray=[]
+        structure = {
+            title: documentClass,
+            properties: {
+                [documentClass]: {
+                    type: typeof documentClass === "object" ? "object" : "string"
+                }
+            }
+        }
+        if(mode !== CREATE && formData.hasOwnProperty(item)){
+            formData[item].map(par => {
+                if(typeof par === "object" && par.hasOwnProperty("@type") && par["@type"] === documentClass) {
+                    structure.properties[documentClass]["default"] = par
+                }
+                else if(typeof par === "string"){
+                    structure.properties[documentClass]["default"] = par
+                }
+            })
+        }
+        if(mode === VIEW && !formData.hasOwnProperty(item)){ // do not display if no value in formdata
+            propertiesUI[documentClass] = {}
+        }
+        else { // get custom field on edit/ create and when View has formdata populated
+            propertiesUI[documentClass] = {
+                "ui:field": getUIField
+            }
+        }
+        if(mode !== CREATE && formData.hasOwnProperty(item) && formData[item][0]["@type"] !== documentClass){
+            //console.log("no match")
+        }
+        else anyOfArray.push(structure)
+
+        return {anyOfArray: anyOfArray, propertiesUI: propertiesUI}
+    }
+
     if(frame[item] && Array.isArray(frame[item]))  {
+        var extracted={}
+        frame[item].map(it => {
+            if(typeof it === "object"){
+                extracted = extractProperties(it["@class"], item, formData, mode)
+            }
+            else { // document class
+                extracted = extractProperties(it, item, formData, mode)
+            }
+            if(extracted.hasOwnProperty("anyOfArray")) anyOfArray.push(extracted.anyOfArray[0])
+            if(extracted.hasOwnProperty("propertiesUI")) {
+                for(var key in extracted.propertiesUI) {
+                    propertiesUI[key] = extracted.propertiesUI[key]
+                }
+            }
+        })
+
+    }
+
+
+    /*if(frame[item] && Array.isArray(frame[item]))  {
         var structure = {}
         frame[item].map(it => {
             if(typeof it === "object"){
@@ -88,13 +144,13 @@ function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame, mode, formData, 
                         }
                     }
                 }
-                propertiesUI[it["@class"]] = {
+                propertiesUI[it] = {
                     "ui:field": getUIField
                 }
                 anyOfArray.push(structure)
             }
         })
-    }
+    } */
 
 
     var layout = {}
@@ -105,7 +161,7 @@ function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame, mode, formData, 
             info: "DATA",
             title: item,
             description: `Choose ${item} from the list ...`,
-            anyOf: anyOfArray
+            anyOf: anyOfArray,
         }
     }
 
