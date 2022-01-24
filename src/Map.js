@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-import covidData from './data.json'
 import icon from "./constants"
 import {Row, Form} from "react-bootstrap"
 
