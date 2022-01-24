@@ -2,7 +2,7 @@
 import React from "react"
 import {Button, Form} from "react-bootstrap"
 import {XSD_DATA_TYPE_PREFIX, XDD_DATA_TYPE_PREFIX, OPTIONAL, SET, DOCUMENT, ENUM, VALUE_HASH_KEY, LIST, SYS_UNIT_DATA_TYPE, TDB_SCHEMA} from "./constants"
-import {BiPlus} from "react-icons/bi"
+import {BiKey, BiPlus} from "react-icons/bi"
 import {RiDeleteBin5Fill} from "react-icons/ri"
 import {FcKey} from "react-icons/fc"
 import {BiErrorCircle} from "react-icons/bi"
@@ -213,6 +213,10 @@ function modifyChoiceTypeData(data, frame) {
 					}
 				}
 			}
+		}
+		if(data[key].hasOwnProperty("@info")){ // check if type ONEOFCLASSES
+			delete data[key]["@info"]
+			return data[key] // remove the extra key value, checkout CAMS asset_history => Hazzard Events inheriting Events example
 		}
         if (data.hasOwnProperty(key)) {
             if (Object.keys(data[key]).length && typeof data[key] === 'object') {

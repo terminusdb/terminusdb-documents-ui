@@ -1,61 +1,35 @@
-import React from "react";
-import { Marker, Popup } from "react-leaflet";
-
-import icon from "./constants";
-
-
-export const MapMarkers = ({ latitude, longitude }) => {
-    /*const markers = mapPoints.map((x, index) => {
-      // console.log(x);
-      const {
-        geometry: { coordinates }
-      } = x;
-      return (
-        <Marker
-          key={index}
-          position={{ lat: coordinates[1], lng: coordinates[0] }}
-          icon={icon}
-        >
-          <Popup>
-            <span style={{color: "red"}}>{"test"}</span>
-          </Popup>
-        </Marker>
-      );
-    });*/
+import React, {useState, useEffect} from "react"
+import { Marker, Popup, useMapEvents } from "react-leaflet"
+import {Row} from "react-bootstrap"
+import icon from "./constants"
 
 
 
+export const MapMarkers = ({data}) => {
     return <Marker
         key={"test_index"}
-        position={{ lat: latitude, lng: longitude }}
+        position={{ lat: data.latitude, lng: data.longitude }}
         icon={icon}
+        /*eventHandlers={{
+        click: (e) => {
+          alert('marker clicked')
+        },
+		}}*/
     >
+
         <Popup>
-        	<h6 className="text-dark">
-				{`latitude ${latitude}, longitude ${longitude}`}
-			</h6>
+			<Row>
+				<h6 className="text-dark fw-bold">{`id: `}</h6>
+				<h6 className="text-dark">{data["@id"]}</h6>
+			</Row>
+			<Row>
+				<h6 className="text-dark fw-bold">{`latitude: `}</h6>
+				<h6 className="text-dark">{data.latitude}</h6>
+			</Row>
+			<Row>
+				<h6 className="text-dark fw-bold">{`longitude: `}</h6>
+				<h6 className="text-dark">{data.longitude}</h6>
+			</Row>
         </Popup>
     </Marker>
   }
-
-/*export const MapMarkers = ({ mapPoints }) => {
-  const markers = mapPoints.map((x, index) => {
-    // console.log(x);
-    const {
-      geometry: { coordinates }
-    } = x;
-    return (
-      <Marker
-        key={index}
-        position={{ lat: coordinates[1], lng: coordinates[0] }}
-        icon={icon}
-      >
-        <Popup>
-          <span style={{color: "red"}}>{"test"}</span>
-        </Popup>
-      </Marker>
-    );
-  });
-
-  return markers;
-};*/

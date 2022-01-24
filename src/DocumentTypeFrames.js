@@ -7,6 +7,7 @@ import AsyncSelect from 'react-select/async'
 import Select from 'react-select'
 import {AsyncTypeahead} from 'react-bootstrap-typeahead'
 
+
 export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formData, onTraverse, onSelect) {
     let properties={}, propertiesUI={}
     var type=frame[item]
@@ -39,6 +40,8 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
             setClicked(val)
         }
 
+        if(!layout.default) return <div/>
+
         return <React.Fragment>
             <Form.Label className="control-label">{item}</Form.Label>
             <span onClick={(e) => handleClick(e, layout.default)} className="tdb__span__select form-control">{layout.default}</span>
@@ -47,7 +50,7 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
 
 
     // create and edit
-    /*function getSelect(props) {
+    function getSelect(props) {
 
         const loadOptions = async (inputValue, callback) => {
             let opts = await onSelect(inputValue, frame[item])
@@ -78,7 +81,7 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
                 onInputChange={handleInputChange}
             />
         </React.Fragment>
-    }*/
+    }
 
     function getTypeAheadSelect(props) {
 
@@ -97,6 +100,12 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
             return option.label
         }
 
+        const getDefaultSelected = () => {
+            if(mode === EDIT && formData.hasOwnProperty(item)) {
+                return formData[item]
+            }
+        }
+
         // Bypass client-side filtering by returning `true`. Results are already
         // filtered by the search endpoint, so no need to do it again.
         const filterBy = () => true
@@ -105,6 +114,7 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
             <Form.Label>{props.name} <span class="required">*</span> </Form.Label>
             <Form.Group className="d-flex">
                 <AsyncTypeahead
+                    clearButton
                     filterBy={filterBy}
                     id={`${props.name}_async_search`}
                     isLoading={isLoading}

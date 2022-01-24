@@ -91,6 +91,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
             }
 
             defaultValues.map(value => {
+
                 filledItems.push({
                     type: "object",
                     //properties: checkProperties(setFrames.properties[item]["properties"], value), //setFrames.properties[item]["properties"],

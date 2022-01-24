@@ -136,7 +136,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
         );
       }*/
 
-    return <div>
+    return <React.Fragment>
         {schema && message && message}
         {schema && <Form schema={schema}
             uiSchema={uiSchema}
@@ -155,7 +155,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             children={hideSubmit} // hide submit button on view mode
             //FieldTemplate={CustomFieldTemplate}
         />}
-    </div>
+    </React.Fragment>
  }
 
 

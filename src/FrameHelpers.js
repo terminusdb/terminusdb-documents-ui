@@ -7,10 +7,10 @@ import {makeListData, makeListDocuments, makeListSubDocuments} from "./ListTypeF
 import {makeDocumentTypeFrames} from "./DocumentTypeFrames"
 import {makeEnumTypeFrames} from "./EnumTypeFrames"
 import {isDataType, isSubDocumentType, isOptionalType, isSetType, isDocumentType, isEnumType, isListType, isSubDocumentAndClassType} from "./utils"
-import {DOCUMENT, ENUM, DATA, LONGITUDE, LATITUDE, VIEW} from "./constants"
+import {DOCUMENT, ENUM, DATA, LONGITUDE, LATITUDE, VIEW, GEO_CORDINATES} from "./constants"
 import {OptionalDocumentTypeFrames} from "./OptionalTypeFrames"
 import {makeChoiceTypeFrames} from "./ChoiceTypeFrames"
-import {makeGeoCordinateFrames} from "./GeoCordinatesTypeFrames"
+import {makeGeoCordinateFrames, makeMultipleGeoCordinateFrames} from "./GeoCordinatesTypeFrames"
 import {makeOneOfClassFrames} from "./OneOfClassFrames"
 
 
@@ -50,14 +50,19 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
 
         if(item === "@key") continue
         else if(item === "@type") continue
-        else if(item === LATITUDE && mode === VIEW) {
+        else if(item.toUpperCase() === LATITUDE.toUpperCase() && mode === VIEW) {
             let frames = makeGeoCordinateFrames(frame, item, uiFrame, mode, formData, isSet)
             //set properties and ui
             properties[item] = frames.properties[item]
             propertiesUI[item] = frames.propertiesUI[item]
         }
-        else if(item === LONGITUDE && mode === VIEW){
-
+        else if(item.toUpperCase() === LONGITUDE.toUpperCase() && mode === VIEW) {
+        }
+        else if(item.toUpperCase() === GEO_CORDINATES.toUpperCase() && mode === VIEW){
+            let frames = makeMultipleGeoCordinateFrames(frame, item, uiFrame, mode, formData, isSet)
+            //set properties and ui
+            properties[item] = frames.properties[item]
+            propertiesUI[item] = frames.propertiesUI[item]
         }
         else if(item === "@oneOf") { //choice
             let frames = makeChoiceTypeFrames(fullFrame, frame, item, uiFrame, documents,  mode, formData, onTraverse, onSelect, prefix)
@@ -76,13 +81,22 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
         else if (frame[item] && isOptionalType(frame[item])) { // optional
 
             let newFrame = constructNewDocumentFrame(frame[item], item)
-            let optionalProperties = getProperties(fullFrame, newFrame, uiFrame, documents, mode, formData, false, prefix, onTraverse, onSelect)
+            if(Array.isArray(newFrame[item])){
+                //let frames = makeChoiceDocumentTypeFrames(newFrame, item, uiFrame, documents,  mode, formData, onTraverse, onSelect)
+                let frames = makeOneOfClassFrames(fullFrame, newFrame, item, uiFrame,  mode, formData, prefix)
+                //set properties and ui
+                properties[item] = frames.properties[item]
+                propertiesUI[item] = frames.propertiesUI//[item]
+            }
+            else {
+                let optionalProperties = getProperties(fullFrame, newFrame, uiFrame, documents, mode, formData, false, prefix, onTraverse, onSelect)
 
-            let optionalFrames = OptionalDocumentTypeFrames(optionalProperties, item, mode, onSelect)
+                let optionalFrames = OptionalDocumentTypeFrames(optionalProperties, item, mode, onSelect)
 
-            //set properties and ui
-            properties[item] = optionalFrames.properties[item]
-            propertiesUI[item] = optionalFrames.uiSchema[item]
+                //set properties and ui
+                properties[item] = optionalFrames.properties[item]
+                propertiesUI[item] = optionalFrames.uiSchema[item]
+            }
         }
         else if (frame[item] && isSetType(frame[item])) { //set
 
@@ -127,6 +141,7 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
             let listFrames = getProperties(fullFrame, newFrame, uiFrame, documents, mode, formData, true, prefix, onTraverse, onSelect)
             //if(listFrames.required) delete listFrames["required"]
             //console.log("setFrames", setFrames, item, newFrame)
+
             if(Object.keys(listFrames.properties).length === 0) continue // skip if no properties are found
             var frames
             if(listFrames.properties[item].info === DOCUMENT || listFrames.properties[item].info === ENUM) { // if ismulti for react select

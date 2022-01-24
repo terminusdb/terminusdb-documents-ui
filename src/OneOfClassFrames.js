@@ -1,30 +1,32 @@
 import React, {useState} from "react"
 import {getTitle, getDefaultValue, checkIfKey, isFilled, getPrefix} from "./utils"
-import {CREATE, VIEW, EDIT} from "./constants"
+import {CREATE, VIEW, EDIT, ONEOFCLASSES} from "./constants"
 import {getProperties} from "./FrameHelpers"
 import {FrameViewer} from "./FrameViewer"
 
-function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame,  mode, formData, prefix) {
+function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame, mode, formData, prefix) {
     let properties={}, propertiesUI={}
 
     let anyOfArray=[]
 
     function getUIField(props) {
-        const [input, setInput]=useState({})
+        let formDataValue = props.schema.hasOwnProperty("default") ? props.schema.default : {}
+        const [input, setInput]=useState(formDataValue)
         let schema = fullFrame
 
         function handleFormChange(data){
-            let jsonData = {"@type": props.name}
+            let jsonData = {
+                "@type": props.name,
+                "@info": ONEOFCLASSES
+            }
             setInput(data)
             for(var thing in data){
                 jsonData[thing] = data[thing]
             }
             if(props.onChange) {
-                console.log("value stored in props", jsonData)
+                //console.log("value stored in props", jsonData)
                 props.onChange(jsonData)
             }
-            //console.log("props", props)
-            console.log("*** data on change ***", jsonData)
         }
 
         let uiSchema = {
@@ -35,7 +37,7 @@ function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame,  mode, formData,
             {props.name}
             <FrameViewer
                 frame={schema}
-                mode={"Create"}
+                mode={mode}
                 hideSubmit={true}
                 onChange={handleFormChange}
                 type={props.name}
@@ -53,15 +55,29 @@ function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame,  mode, formData,
                     title: it["@class"],
                     properties: {
                         [it["@class"]]: {
-                            type: "string"
+                            type: "object"
                         }
                     }
-
                 }
-                propertiesUI[it["@class"]] = {
-                    "ui:field": getUIField
+                if(mode !== CREATE && formData.hasOwnProperty(item)){
+                    formData[item].map(par => {
+                        if(par["@type"] === it["@class"]) {
+                            structure.properties[it["@class"]]["default"] = par
+                        }
+                    })
                 }
-                anyOfArray.push(structure)
+                if(mode === VIEW && !formData.hasOwnProperty(item)){ // do not display if no value in formdata
+                    propertiesUI[it["@class"]] = {}
+                }
+                else { // get custom field on edit/ create and when View has formdata populated
+                    propertiesUI[it["@class"]] = {
+                        "ui:field": getUIField
+                    }
+                }
+                if(mode !== CREATE && formData.hasOwnProperty(item) && formData[item][0]["@type"] !== it["@class"]){
+                    //console.log("no match")
+                }
+                else anyOfArray.push(structure)
             }
             else { // document class
                 structure = {
@@ -81,8 +97,7 @@ function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame,  mode, formData,
     }
 
 
-    var layout = {
-    }
+    var layout = {}
 
     if(Array.isArray(frame[item]) && frame[item].length > 0) {
         layout = {
@@ -91,6 +106,13 @@ function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame,  mode, formData,
             title: item,
             description: `Choose ${item} from the list ...`,
             anyOf: anyOfArray
+        }
+    }
+
+    if(mode === VIEW && !formData.hasOwnProperty(item)) { // do not display
+        layout = {
+            type: 'object',
+            info: "DATA"
         }
     }
 
@@ -110,9 +132,10 @@ function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame,  mode, formData,
 
 
 
-    /*if(mode === VIEW && !Array.isArray(formData) && !layout.hasOwnProperty("default")){ // set of subdocuments
-        propertiesUI[item]["ui:widget"]= "hidden"
-    }*/
+    if(mode === VIEW && !Array.isArray(formData) && !formData.hasOwnProperty(item)){ // set of subdocuments
+        const hidden = () => <div/>
+        propertiesUI[item]["ui:widget"]= hidden
+    }
 
     //custom ui:schema
     if(uiFrame && uiFrame[item]) {
