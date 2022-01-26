@@ -18,6 +18,7 @@ function transform(data) {
             else if(key === "attributes") continue
             else if(key === "_id") continue
             else if(key === "menu") continue
+            else if(key === "sponsored") continue
             else if(key === "address") {
                 let addressJson = {}
                 addressJson["@type"] = ADDRESS_TYPE
@@ -33,8 +34,8 @@ function transform(data) {
                 locationJson["@type"] = GEOCOORDINATES_TYPE
                 for(var lKey in jsons[key]){
                     if(lKey === "coordinates") {
-                        locationJson[LATITUDE] = jsons[key][lKey][0] // lat
-                        locationJson[LONGITUDE] = jsons[key][lKey][1]   // long
+                        locationJson[LONGITUDE] = jsons[key][lKey][0] // lat
+                        locationJson[LATITUDE] = jsons[key][lKey][1]   // long
                     }
                 }
                 tJsons[key] = locationJson

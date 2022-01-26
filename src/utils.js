@@ -96,8 +96,8 @@ export function getSubDocumentDescription(item) {
 }
 
 export function getTitle(item, uiDisable) {
-	if(uiDisable) return <span title={`${item} is a key field. Once created, you will not be able to update this field.`}><FcKey className="mr-2"/>{item}</span>
-    else return <span>{item}</span>
+	if(uiDisable) return <span key={item}  title={`${item} is a key field. Once created, you will not be able to update this field.`}><FcKey className="mr-2"/>{item}</span>
+    else return <span key={item} >{item}</span>
 }
 
 export function getSetTitle(item) {
@@ -107,7 +107,7 @@ export function getSetTitle(item) {
 
 // field array to display key fields
 export function getFieldTitle(item, uiDisable) {
-	if(uiDisable) return <span title={`${item} is a key field. Once created, you will not be able to update this field.`}>
+	if(uiDisable) return <span key={item} title={`${item} is a key field. Once created, you will not be able to update this field.`}>
 	<FcKey className="mr-2"/>{item}</span>
 }
 

@@ -24,8 +24,6 @@ export function CustomCuisineFieldTemplate(props) {
 export function CustomBoroughFieldTemplate(props) {
     const {id, classNames, label, help, required, description, errors, children} = props
 
-    console.log("props", props)
-
     var css = "d-none"
     if(props.schema.title === "borough") css = "d-flex"
     if(props.id === "root") css="d-flex"
@@ -50,6 +48,9 @@ function getFilterByQuery (cuisine, borough) {
         .triple("v:location", "@schema:Longitude", "v:long")
         .triple("v:R", "@schema:cuisine", "v:cuisine")
         .triple("v:R", "@schema:borough", "v:borough")
+        .triple("v:R", "@schema:name", "v:name")
+        .triple("v:R", "@schema:stars", "v:stars")
+
     if(cuisine) {
         let sCuisine = `@schema:cuisine/${cuisine}`
         q.triple("v:R", "@schema:cuisine", sCuisine)
@@ -79,7 +80,9 @@ export async function getDocuments (client, setResults, cuisine, borough)  {
                             latitude: item["lat"]["@value"] ? item["lat"]["@value"] : null,
                             longitude: item["long"]["@value"] ? item["long"]["@value"] : null,
                             cuisine: item["cuisine"],
-                            borough: item["borough"]
+                            borough: item["borough"],
+                            name: item["name"]["@value"],
+                            stars: item["stars"]["@value"]
                         })
                     })
                 }

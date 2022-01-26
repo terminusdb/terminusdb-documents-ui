@@ -173,7 +173,7 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
             required.push(frames.required)
         }
         else if (frame[item] && isEnumType(frame[item])) { // enums
-            let frames = makeEnumTypeFrames(frame[item], item, uiFrame, mode, formData, isSet)
+            let frames = makeEnumTypeFrames(frame[item], item, uiFrame, mode, formData, isSet, onSelect)
 
             //set properties and ui
             properties[item] = frames.properties[item]

@@ -10,10 +10,10 @@ const MarkerInfo = ({activeMarker}) => {
 	for(var thing in activeMarker) {
 		if(thing === "@type") continue
 		info.push(
-			<span className="w-100 mr-4">
+			<div className="w-100 mr-4">
 				<span className="text-dark fw-bold col-md-4">{`${thing}: `}</span>
 				<span className="text-dark text-break col-md-8">{ activeMarker[thing] }</span>
-			</span>
+			</div>
 		)
 	}
 	return info

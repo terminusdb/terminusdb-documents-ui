@@ -622,7 +622,8 @@ export function makeSetOneOfClassFrames(fullFrame, frame, item, uiFrame,  mode, 
     if(mode === VIEW && !formData.hasOwnProperty(item)) { // do not display
         layout = {
             type: 'object',
-            info: "DATA"
+            info: "DATA",
+            title: item
         }
     }
 

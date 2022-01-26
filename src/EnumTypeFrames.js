@@ -5,14 +5,15 @@ import {VIEW, ENUM, CREATE, EDIT} from "./constants"
 
 
 
-export function EnumTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
+export function EnumTypeFrames (frame, item, uiFrame, mode, formData, isSet, onSelect) {
     let properties={}, propertiesUI={}
     var type=frame[item]
 
     var layout = {
         type: 'string',
         info: ENUM,
-        enum: frame["@values"]
+        enum: frame["@values"],
+        title: item
     }
 
     //schema
@@ -49,8 +50,8 @@ export function EnumTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
 
 
 // mandatory
-export function makeEnumTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
-    let madeFrames = EnumTypeFrames (frame, item, uiFrame, mode, formData, isSet)
+export function makeEnumTypeFrames (frame, item, uiFrame, mode, formData, isSet, onSelect) {
+    let madeFrames = EnumTypeFrames (frame, item, uiFrame, mode, formData, isSet, onSelect)
     let required=item
     let properties = madeFrames.properties
     let propertiesUI = madeFrames.propertiesUI

@@ -18,8 +18,10 @@ import {formatData, getPrefix, isValueHashDocument, getValueHashMessage} from ".
 **  onSubmit  - a function which can have custom logic to process data submitted
 **  hideSubmit - hides Submit button - this is helpfull when you want to display nested FrameViewers
 **  onChange   - a function which have custom logic to process data when form data is changed
+**  onSelect   - a js function which gets back the selected value from selects
+**  FieldTemplate - a js function which you can pass at root level of FrameViewer to alter look and feel of fields
 */
-export function FrameViewer({frame, uiFrame, type, mode, documents, formData, onSubmit, onTraverse, onSelect, hideSubmit, onChange}){
+export function FrameViewer({frame, uiFrame, type, mode, documents, formData, onSubmit, onTraverse, onSelect, hideSubmit, onChange, FieldTemplate}){
 
     const [prefix, setPrefix]=useState(TDB_SCHEMA)
     const [schema, setSchema]=useState(false)
@@ -125,8 +127,11 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
 
     /*function CustomFieldTemplate(props) {
         const {id, classNames, label, help, required, description, errors, children} = props;
+        var css
+        console.log("props", props)
+        if(label === "address") css = "d-none"
         return (
-          <div className={"test"}>
+          <div className={css}>
             <label htmlFor={id}>{label}{required ? "*" : null}</label>
             {description}
             {children}
@@ -153,7 +158,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             //omitExtraData={true}
             //showErrorList={false}
             children={hideSubmit} // hide submit button on view mode
-            //FieldTemplate={CustomFieldTemplate}
+            FieldTemplate={FieldTemplate}
         />}
     </React.Fragment>
  }

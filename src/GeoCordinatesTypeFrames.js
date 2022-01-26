@@ -93,7 +93,18 @@ function GeoCordinateFrames (frame, item, uiFrame, mode, formData, isSet) {
     }
 
     function getMapComponent(props) {
-        let lat = formData[LATITUDE], long = formData[LONGITUDE]
+        let data = {}
+        for(var key in formData) {
+            if(key.toUpperCase() === LATITUDE.toUpperCase()){
+                data[LATITUDE] = formData[key]
+            }
+            else if (key.toUpperCase() === LONGITUDE.toUpperCase()){
+                data[LONGITUDE] = formData[key]
+            }
+            else data[key] = formData[key]
+        }
+
+        let lat = data[LATITUDE], long = data[LONGITUDE]
 
         let center=[lat, long]
         return  <MapContainer center={center} zoom={13} scrollWheelZoom={true}>
@@ -101,7 +112,7 @@ function GeoCordinateFrames (frame, item, uiFrame, mode, formData, isSet) {
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <MapMarkers data={formData} />
+            <MapMarkers data={data} />
         </MapContainer>
     }
 

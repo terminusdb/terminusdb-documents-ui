@@ -1,23 +1,4 @@
 
-let test = {
-	"address":{
-	   "@type":"Address",
-	   "building":"somewhere",
-	   "street":"somestreet",
-	   "zipcode":"23"
-	},
-	"location":{
-	   "@type":"GeoCoordinates",
-	   "Latitude":"43",
-	   "Longitude":"-6.266155"
-	},
-	"cuisine":"Tex-Mex",
-	"in_borough":"Manhattan",
-	"name":"TEST",
-	"restaurant_id":"TEST_ID",
-	"review_count":"22",
-	"@type":"Restaurant"
- }
 
 const data = [
 	{
@@ -5632,3 +5613,4 @@ const data = [
 module.exports = {
     data
 }
+

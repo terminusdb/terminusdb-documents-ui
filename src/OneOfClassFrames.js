@@ -168,7 +168,8 @@ function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame, mode, formData, 
     if(mode === VIEW && !formData.hasOwnProperty(item)) { // do not display
         layout = {
             type: 'object',
-            info: "DATA"
+            info: "DATA",
+            title: item
         }
     }
 

@@ -21,16 +21,6 @@ export const SCHEMA = {
 		"@type": "Optional"
 	  }
 	},
-	"terminusdb:///schema#Area": {
-	  "@key": {
-		"@type": "Random"
-	  },
-	  "@type": "Class",
-	  "has_restraurants": {
-		"@class": "Restaurant",
-		"@type": "Set"
-	  }
-	},
 	"terminusdb:///schema#GeoCoordinates": {
 	  "@key": {
 		"@type": "Random"
@@ -48,10 +38,7 @@ export const SCHEMA = {
 	},
 	"terminusdb:///schema#Restaurant": {
 	  "@key": {
-		"@fields": [
-		  "name"
-		],
-		"@type": "Lexical"
+		"@type": "Random"
 	  },
 	  "@type": "Class",
 	  "address": {
@@ -61,7 +48,21 @@ export const SCHEMA = {
 		},
 		"@type": "Optional"
 	  },
-	  "has_cuisine": {
+	  "borough": {
+		"@class": {
+		  "@id": "borough",
+		  "@type": "Enum",
+		  "@values": [
+			"Manhattan",
+			"Staten Island",
+			"Bronx",
+			"Brooklyn",
+			"Queens"
+		  ]
+		},
+		"@type": "Optional"
+	  },
+	  "cuisine": {
 		"@class": {
 		  "@id": "cuisine",
 		  "@type": "Enum",
@@ -78,21 +79,21 @@ export const SCHEMA = {
 			"Italian",
 			"Irish",
 			"Bagels/Pretzels",
-			"Ice Cream, Gelato, Yogurt, Ices"
-		  ]
-		},
-		"@type": "Optional"
-	  },
-	  "in_borough": {
-		"@class": {
-		  "@id": "borough",
-		  "@type": "Enum",
-		  "@values": [
-			"Manhattan",
-			"Staten Island",
-			"Bronx",
-			"Brooklyn",
-			"Queens"
+			"Ice Cream, Gelato, Yogurt, Ices",
+			"German",
+			"Delicatessen",
+			"Chinese",
+			"Mexican",
+			"African",
+			"French",
+			"Hotdogs",
+			"Pizza/Italian",
+			"Chicken",
+			"Hamburgers",
+			"Steak",
+			"Seafood",
+			"Café/Coffee/Tea",
+			"Latin (Cuban, Dominican, Puerto Rican, South & Central American)"
 		  ]
 		},
 		"@type": "Optional"
@@ -146,8 +147,22 @@ export const SCHEMA = {
 		"Italian",
 		"Irish",
 		"Bagels/Pretzels",
-		"Ice Cream, Gelato, Yogurt, Ices"
+		"Ice Cream, Gelato, Yogurt, Ices",
+		"German",
+		"Delicatessen",
+		"Chinese",
+		"Mexican",
+		"African",
+		"French",
+		"Hotdogs",
+		"Pizza/Italian",
+		"Chicken",
+		"Hamburgers",
+		"Steak",
+		"Seafood",
+		"Café/Coffee/Tea",
+		"Latin (Cuban, Dominican, Puerto Rican, South & Central American)"
 	  ]
 	}
-}
+  }
 

@@ -17,6 +17,7 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
         type: 'string',
         info: DOCUMENT,
         linked_to: frame[item],
+        title: item
         //enum: documents ? documents[type] : {}
     }
 

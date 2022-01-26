@@ -62,10 +62,18 @@ const App= (props) =>{
 
 
 
+    /*
+    let cusine = `@schema:cuisine/American`
+
+triple("v:R", "rdf:type", "@schema:Restaurant").triple("v:R", "@schema:cuisine", cusine).triple("v:R", "@schema:location", "v:Location").triple("v:location", "@schema:Latitude", "v:lat")
+  .triple("v:location", "@schema:Longitude", "v:long")
+  */
 
 
+  let cusine = `@schema:cuisine/Greek`
 
-
+  triple("v:R", "rdf:type", "@schema:Restaurant").triple("v:R", "@schema:cuisine", cusine).triple("v:R", "@schema:location", "v:location").triple("v:location", "@schema:Latitude", "v:lat")
+  .triple("v:location", "@schema:Longitude", "v:long")
 
 
 
