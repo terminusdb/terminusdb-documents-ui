@@ -8937,7 +8937,7 @@ export const SESHAT_FORM_DATA = {
 
 
 
-export const DEMO_DOCUMENT_TYPE="NuclearPowerPlant"
+export const DEMO_DOCUMENT_TYPE="Polity"
 
 export const DEMO_FORM_DATA_PERSON= {
 	"@id": "Person/Peter%20+terminusdb%3A%2F%2F%2Fdata%2FJob%2Fadmin",

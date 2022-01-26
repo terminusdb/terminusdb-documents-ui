@@ -38,7 +38,7 @@ export function choiceTypeFrames(fullFrame, frame, item, uiFrame, documents, mod
             let newFrame = {[thing] : frame[item][0][thing]}
             var fieldProperties = {}, structure = {}
 
-            /*if(frame[item][0][thing] === SYS_UNIT_DATA_TYPE){
+            if(frame[item][0][thing] === SYS_UNIT_DATA_TYPE){
                 structure = {
                     title: thing,
                     properties: {
@@ -48,21 +48,18 @@ export function choiceTypeFrames(fullFrame, frame, item, uiFrame, documents, mod
                     }
                 }
             }
-            else{*/
+            else{
                 if(frame[item][0][thing] !== SYS_UNIT_DATA_TYPE){
                     fieldProperties  = getProperties(fullFrame, newFrame, uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect)
                     structure = {
                         title: thing,
                         properties:{
-                            /*[thing]: {
-                                type: "string"
-                            }*/
                             [thing]: fieldProperties.properties[thing]
                         }
                     }
                     propertiesUI[thing] = fieldProperties.uiSchema[thing]
                 }
-            //}
+            }
 
             //console.log("fieldProperties.properties", fieldProperties.properties)
             //console.log("structure //", structure)
@@ -80,8 +77,7 @@ export function choiceTypeFrames(fullFrame, frame, item, uiFrame, documents, mod
         title: item,
         type: "object",
         description: `Choose from the list ...`,
-        anyOf: oneOfArray,
-        //default: {}
+        anyOf: oneOfArray
     }
 
 

@@ -9,6 +9,7 @@ import {GetMultiplePointMap} from "./Map"
 
 
 function MultipleGeoCordinateFrames (frame, item, uiFrame, mode, formData, isSet) {
+
     let properties={}, propertiesUI={}
 
     /*if(!frame.hasOwnProperty(LATITUDE) && !frame.hasOwnProperty(LONGITUDE)) {

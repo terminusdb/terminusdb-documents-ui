@@ -2,13 +2,13 @@ import React, {useState, useEffect} from "react"
 import { Marker, Popup, useMapEvents } from "react-leaflet"
 import {Row} from "react-bootstrap"
 import icon from "./constants"
-
+import { LATITUDE, LONGITUDE } from "./constants"
 
 
 export const MapMarkers = ({data}) => {
     return <Marker
         key={"test_index"}
-        position={{ lat: data.latitude, lng: data.longitude }}
+        position={{ lat: data[LATITUDE], lng: data[LONGITUDE] }}
         icon={icon}
         /*eventHandlers={{
         click: (e) => {

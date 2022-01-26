@@ -11,6 +11,7 @@
     "start01": "webpack serve --mode development  --open --progress --port 3032 --host localhost --config demo/webpack.config.js",
     "cams": "webpack serve --mode development  --open --progress --port 3033 --host localhost --config cams/webpack.config.js",
     "covid19":"webpack serve --mode development  --open --progress --port 3034 --host localhost --config covid19/webpack.config.js",
+    "experiment2":"webpack serve --mode development  --open --progress --port 3034 --host localhost --config experiment2/webpack.config.js",
     "start": "webpack-dev-server --progress --port 3032 --host localhost --content-base demo --inline --config demo/webpack.config.js",
     "minimal": "webpack-dev-server --progress --port 3031 --host localhost --content-base minimal --inline --config minimal/webpack.config.js",
     "test": "echo 'TODO: There should be tests created'",

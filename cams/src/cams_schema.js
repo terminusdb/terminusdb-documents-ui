@@ -1,6 +1,6 @@
 
 
-export const CAMS_SCHEMA_ASSET = {
+export const CAMS_SCHEMA = {
     "iri://CAMS#Asset": {
       "@type": "Class",
 	  "name": "xsd:string",
@@ -251,7 +251,7 @@ export const CAMS_SCHEMA_FULL_ASSET = {
     }
 }
 
-export const CAMS_SCHEMA= {
+export const CAMS_SCHEMA_SPAT= {
   "iri://CAMS#Asset": {
     "@type": "Class",
     "name": "xsd:string",

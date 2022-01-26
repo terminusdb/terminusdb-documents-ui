@@ -1,10 +1,13 @@
 import React, {useState, useEffect} from "react"
-import {ArrayFieldTemplate, getSetTitle, getTitle, getOptionalSelect, removeDefaultsFromSubDocumentFrame, removeDefaultsFromDataFrame} from "./utils"
-import {CREATE, DATA, VIEW, DOCUMENT, SELECT_STYLES, ONEOFSUBDOCUMENTS} from "./constants"
+import {ArrayFieldTemplate, getSetTitle, getTitle, getOptionalSelect, checkIfKey, removeDefaultsFromSubDocumentFrame, removeDefaultsFromDataFrame} from "./utils"
+import {CREATE, DATA, VIEW, DOCUMENT, SELECT_STYLES, ONEOFSUBDOCUMENTS, ONEOFCLASSES} from "./constants"
 import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'
 import {AsyncTypeahead} from 'react-bootstrap-typeahead'
+import {FrameViewer} from "./FrameViewer"
 
+
+//Set Subdocuments
 export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, onTraverse) {
     let properties={}, propertiesUI={}
 
@@ -234,6 +237,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
     return {properties, propertiesUI}
 }
 
+//Set Data types
 export function makeSetData (setFrames, item, uiFrame, mode, formData) {
     let properties={}, propertiesUI={}
 
@@ -302,6 +306,8 @@ export function makeSetData (setFrames, item, uiFrame, mode, formData) {
     return {properties, propertiesUI}
 }
 
+
+//Set Document Classes
 export function makeSetDocuments  (setFrames, item, selectDocType, uiFrame, mode, formData, onTraverse, onSelect) {
     let properties={}, propertiesUI={}
 
@@ -499,4 +505,177 @@ export function makeSetDocuments  (setFrames, item, selectDocType, uiFrame, mode
     }
 
     return {properties, propertiesUI}
+}
+
+// Set One Of Class frames
+export function makeSetOneOfClassFrames(fullFrame, frame, item, uiFrame,  mode, formData, prefix) {
+
+
+    let properties={}, propertiesUI={}
+
+    let anyOfArray=[]
+
+    function getUIField(props) {
+        let formDataValue = props.schema.hasOwnProperty("default") ? props.schema.default : {}
+        const [input, setInput]=useState(formDataValue)
+        let schema = fullFrame
+
+        function handleFormChange(data){
+            let jsonData = {
+                "@type": props.name,
+                "@info": ONEOFCLASSES
+            }
+            setInput(data)
+            for(var thing in data){
+                jsonData[thing] = data[thing]
+            }
+            if(props.onChange) {
+                //console.log("value stored in props", jsonData)
+                props.onChange(jsonData)
+            }
+        }
+
+        let uiSchema = {
+            classNames : "card bg-secondary p-4 mt-4 mb-4"
+        }
+
+        return <React.Fragment>
+            {props.name}
+            <FrameViewer
+                frame={schema}
+                mode={mode}
+                hideSubmit={true}
+                onChange={handleFormChange}
+                type={props.name}
+                uiFrame={uiSchema}
+                formData={input}
+            />
+        </React.Fragment>
+    }
+
+    function extractProperties(subFrame, documentClass, item, formData, mode) {
+        var structure = {}
+        structure = {
+            title: documentClass,
+            properties: {
+                [documentClass]: {
+                    type: typeof subFrame === "object" ? "object" : "string"
+                }
+            }
+        }
+        if(mode !== CREATE && formData.hasOwnProperty(item)){
+            formData[item].map(par => {
+                if(typeof subFrame === "object" && par.hasOwnProperty("@type") && par["@type"] === documentClass) {
+                    structure.properties[documentClass]["default"] = par
+                }
+                else if(typeof subFrame === "string"){
+                    structure.properties[documentClass]["default"] = par
+                }
+            })
+        }
+        if(mode !== CREATE && formData.hasOwnProperty(item) && formData[item][0]["@type"] !== documentClass){
+            return {}
+        }
+        else return structure
+    }
+
+    if(frame[item] && Array.isArray(frame[item]))  {
+        var extracted=[], documentClass, documentClassUi = {}
+        frame[item].map(it => {
+            if(typeof it === "object"){
+                documentClass=it["@class"]
+                extracted.push(extractProperties(it, it["@class"], item, formData, mode))
+            }
+            else { // document class
+                documentClass=it
+                extracted.push(extractProperties(it, it, item, formData, mode))
+            }
+            documentClassUi[documentClass] =  {
+                "ui:field": getUIField
+            }
+        })
+        anyOfArray = extracted
+        //item property ui
+        if(mode === VIEW && !formData.hasOwnProperty(item)){ // do not display if no value in formdata
+            propertiesUI[item] = {}
+        }
+        propertiesUI[item] = {
+            "items" : documentClassUi
+        }
+    }
+
+    var layout = {}
+
+    if(Array.isArray(frame[item]) && frame[item].length > 0) {
+        layout = {
+            type: "array",
+            info: "DATA",
+            title: item,
+            description: `Choose ${item} from the list ...`,
+            items: {
+                type: "object",
+                anyOf: anyOfArray
+            }
+        }
+    }
+
+    if(mode === VIEW && !formData.hasOwnProperty(item)) { // do not display
+        layout = {
+            type: 'object',
+            info: "DATA"
+        }
+    }
+
+    if(mode !== CREATE && formData.hasOwnProperty(item)) {
+        layout["default"]=getDefaultValue(item, formData)
+    }
+
+    // schema
+    properties[item] = layout
+
+
+    propertiesUI[item]["ui:title"] = getTitle(item, checkIfKey(item, frame["@key"]))
+    propertiesUI[item]["classNames"] = mode===VIEW ? "tdb__input mb-3 mt-3 form-label tdb__view__input" : "tdb__input mb-3 mt-3"
+
+
+
+
+    if(mode !== VIEW) { // we do not allow to add extra on view mode
+        // layout
+        properties[item]["additionalItems"]={
+            type: "object",
+            anyOf: anyOfArray
+        }
+        //ui
+        //propertiesUI[item]["additionalItems"]=setFrames.uiSchema[item]
+        propertiesUI[item]["ui:options"] = {
+            addable: true,
+            orderable: false,
+            removable: true
+        }
+        propertiesUI[item]["ui:ArrayFieldTemplate"]=ArrayFieldTemplate
+    }
+    else if(mode === VIEW){
+        propertiesUI[item]["ui:options"] = { // disable add more on view
+            addable: false,
+            orderable: false,
+            removable: false
+        }
+    }
+
+
+
+
+    if(mode === VIEW && !Array.isArray(formData) && !formData.hasOwnProperty(item)){ // set of subdocuments
+        const hidden = () => <div/>
+        propertiesUI[item]["ui:widget"]= hidden
+    }
+
+    //custom ui:schema
+    if(uiFrame && uiFrame[item]) {
+        propertiesUI[item] = uiFrame[item]
+    }
+
+    return {properties, propertiesUI}
+
 }

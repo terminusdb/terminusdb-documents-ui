@@ -186,8 +186,6 @@ function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame, mode, formData, 
         classNames: mode===VIEW ? "tdb__input mb-3 mt-3 form-label tdb__view__input" : "tdb__input mb-3 mt-3"
     }
 
-
-
     if(mode === VIEW && !Array.isArray(formData) && !formData.hasOwnProperty(item)){ // set of subdocuments
         const hidden = () => <div/>
         propertiesUI[item]["ui:widget"]= hidden

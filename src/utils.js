@@ -267,8 +267,8 @@ function removeEmptyFields(data) {
 export function formatData(data, frame, current) {
 	var extracted={}
 	let currentFrame=frame[current]
-	//let formData=data
-	let formData = modifyChoiceTypeData(data, frame)
+	let formData=data
+	//let formData = modifyChoiceTypeData(data, frame)
 	console.log("***formData***",formData)
 	for(var key in formData){
 		var newArray=[]
