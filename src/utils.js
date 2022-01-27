@@ -1,7 +1,7 @@
 
 import React from "react"
 import {Button, Form} from "react-bootstrap"
-import {XSD_DATA_TYPE_PREFIX, XDD_DATA_TYPE_PREFIX, OPTIONAL, SET, DOCUMENT, ENUM, VALUE_HASH_KEY, LIST, SYS_UNIT_DATA_TYPE, TDB_SCHEMA} from "./constants"
+import {XSD_DATA_TYPE_PREFIX, XDD_DATA_TYPE_PREFIX, OPTIONAL, SET, ONEOFCLASSES, DOCUMENT, ENUM, VALUE_HASH_KEY, LIST, SYS_UNIT_DATA_TYPE, TDB_SCHEMA} from "./constants"
 import {BiKey, BiPlus} from "react-icons/bi"
 import {RiDeleteBin5Fill} from "react-icons/ri"
 import {FcKey} from "react-icons/fc"
@@ -115,9 +115,10 @@ export function getFieldTitle(item, uiDisable) {
 export function getDefaultValue(item, formData) {
 	var match
 	for(var key in formData){
-			if(key === item) {
-				match=formData[key]
-			}
+		if(key === item) {
+			match=formData[key]
+			return match
+		}
 	}
 	return match
 }
@@ -214,7 +215,8 @@ function modifyChoiceTypeData(data, frame) {
 				}
 			}
 		}
-		if(data[key].hasOwnProperty("@info")){ // check if type ONEOFCLASSES
+		if(data[key].hasOwnProperty("@info") && data[key]["@info"] === ONEOFCLASSES){ // check if type ONEOFCLASSES
+			delete data[key]["@id"]
 			delete data[key]["@info"]
 			return data[key] // remove the extra key value, checkout CAMS asset_history => Hazzard Events inheriting Events example
 		}
@@ -233,6 +235,9 @@ function modifyChoiceTypeData(data, frame) {
     }
     return data
 }
+
+//function modifyChoiceTypeData(data, frame) {
+
 
 function removeEmptyFields(data) {
 	for(var key in data){
@@ -267,8 +272,8 @@ function removeEmptyFields(data) {
 export function formatData(data, frame, current) {
 	var extracted={}
 	let currentFrame=frame[current]
-	let formData=data
-	//let formData = modifyChoiceTypeData(data, frame)
+	//let formData=data
+	let formData = modifyChoiceTypeData(data, frame)
 	console.log("***formData***",formData)
 	for(var key in formData){
 		var newArray=[]

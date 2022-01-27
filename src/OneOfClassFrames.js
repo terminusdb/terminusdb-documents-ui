@@ -29,6 +29,8 @@ function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame, mode, formData, 
             }
         }
 
+
+
         let uiSchema = {
             classNames : "card bg-secondary p-4 mt-4 mb-4"
         }
@@ -53,19 +55,15 @@ function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame, mode, formData, 
             title: documentClass,
             properties: {
                 [documentClass]: {
-                    type: typeof documentClass === "object" ? "object" : "string"
+                    type: "object" //typeof documentClass === "object" ? "object" : "string"
                 }
             }
         }
         if(mode !== CREATE && formData.hasOwnProperty(item)){
-            formData[item].map(par => {
-                if(typeof par === "object" && par.hasOwnProperty("@type") && par["@type"] === documentClass) {
-                    structure.properties[documentClass]["default"] = par
-                }
-                else if(typeof par === "string"){
-                    structure.properties[documentClass]["default"] = par
-                }
-            })
+            //formData[item].map(par => {
+            if(formData[item].hasOwnProperty("@type") && formData[item]["@type"] === documentClass) {
+                structure.properties[documentClass]["default"] = formData[item]
+            }
         }
         if(mode === VIEW && !formData.hasOwnProperty(item)){ // do not display if no value in formdata
             propertiesUI[documentClass] = {}
@@ -75,7 +73,7 @@ function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame, mode, formData, 
                 "ui:field": getUIField
             }
         }
-        if(mode !== CREATE && formData.hasOwnProperty(item) && formData[item][0]["@type"] !== documentClass){
+        if(mode !== CREATE && formData.hasOwnProperty(item) && formData[item]["@type"] !== documentClass){
             //console.log("no match")
         }
         else anyOfArray.push(structure)
@@ -85,73 +83,39 @@ function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame, mode, formData, 
 
     if(frame[item] && Array.isArray(frame[item]))  {
         var extracted={}
-        frame[item].map(it => {
-            if(typeof it === "object"){
-                extracted = extractProperties(it["@class"], item, formData, mode)
-            }
-            else { // document class
-                extracted = extractProperties(it, item, formData, mode)
-            }
-            if(extracted.hasOwnProperty("anyOfArray")) anyOfArray.push(extracted.anyOfArray[0])
-            if(extracted.hasOwnProperty("propertiesUI")) {
-                for(var key in extracted.propertiesUI) {
-                    propertiesUI[key] = extracted.propertiesUI[key]
+        if(mode === CREATE) {
+            frame[item].map(it => {
+                if(typeof it === "object"){
+                    extracted = extractProperties(it["@class"], item, formData, mode)
+                }
+                else { // document class
+                    extracted = extractProperties(it, item, formData, mode)
+                }
+                if(extracted.hasOwnProperty("anyOfArray")) anyOfArray.push(extracted.anyOfArray[0])
+                if(extracted.hasOwnProperty("propertiesUI")) {
+                    for(var key in extracted.propertiesUI) {
+                        propertiesUI[key] = extracted.propertiesUI[key]
+                    }
+                }
+            })
+        }
+        else {
+
+            if(formData.hasOwnProperty(item) && formData[item].hasOwnProperty("@type")) {
+                let doc = formData[item]["@type"]
+                extracted = extractProperties(doc, item, formData, mode)
+                if(extracted.hasOwnProperty("anyOfArray")) anyOfArray.push(extracted.anyOfArray[0])
+                if(extracted.hasOwnProperty("propertiesUI")) {
+                    for(var key in extracted.propertiesUI) {
+                        propertiesUI[key] = extracted.propertiesUI[key]
+                    }
                 }
             }
-        })
+
+        }
+
 
     }
-
-
-    /*if(frame[item] && Array.isArray(frame[item]))  {
-        var structure = {}
-        frame[item].map(it => {
-            if(typeof it === "object"){
-                structure = {
-                    title: it["@class"],
-                    properties: {
-                        [it["@class"]]: {
-                            type: "object"
-                        }
-                    }
-                }
-                if(mode !== CREATE && formData.hasOwnProperty(item)){
-                    formData[item].map(par => {
-                        if(par["@type"] === it["@class"]) {
-                            structure.properties[it["@class"]]["default"] = par
-                        }
-                    })
-                }
-                if(mode === VIEW && !formData.hasOwnProperty(item)){ // do not display if no value in formdata
-                    propertiesUI[it["@class"]] = {}
-                }
-                else { // get custom field on edit/ create and when View has formdata populated
-                    propertiesUI[it["@class"]] = {
-                        "ui:field": getUIField
-                    }
-                }
-                if(mode !== CREATE && formData.hasOwnProperty(item) && formData[item][0]["@type"] !== it["@class"]){
-                    //console.log("no match")
-                }
-                else anyOfArray.push(structure)
-            }
-            else { // document class
-                structure = {
-                    title: it,
-                    properties: {
-                        [it]: {
-                            type: "string"
-                        }
-                    }
-                }
-                propertiesUI[it] = {
-                    "ui:field": getUIField
-                }
-                anyOfArray.push(structure)
-            }
-        })
-    } */
-
 
     var layout = {}
 
@@ -176,6 +140,7 @@ function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame, mode, formData, 
     if(mode !== CREATE && formData.hasOwnProperty(item)) {
         layout["default"]=getDefaultValue(item, formData)
     }
+
 
     // schema
     properties[item] = layout

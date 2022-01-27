@@ -11,23 +11,6 @@ export function choiceTypeFrames(fullFrame, frame, item, uiFrame, documents, mod
 
     let properties={}, propertiesUI={}
 
-    /*let oneOfArray = [
-        {
-          properties: {
-            lorem: {
-              type: "string",
-            },
-          },
-        },
-        {
-          properties: {
-            ipsum: {
-              type: "string",
-            },
-          },
-        },
-    ]*/
-
 
     let oneOfArray=[]
     let extractedPrefix = getPrefix(fullFrame)
@@ -48,7 +31,7 @@ export function choiceTypeFrames(fullFrame, frame, item, uiFrame, documents, mod
                     }
                 }
             }
-            else{
+            else {
                 if(frame[item][0][thing] !== SYS_UNIT_DATA_TYPE){
                     fieldProperties  = getProperties(fullFrame, newFrame, uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect)
                     structure = {
@@ -56,6 +39,9 @@ export function choiceTypeFrames(fullFrame, frame, item, uiFrame, documents, mod
                         properties:{
                             [thing]: fieldProperties.properties[thing]
                         }
+                    }
+                    if(mode!== CREATE && Array.isArray(formData) && formData.length && formData[0].hasOwnProperty(thing)) {
+                        structure.properties[thing]["default"] = formData[0][thing]
                     }
                     propertiesUI[thing] = fieldProperties.uiSchema[thing]
                 }
@@ -79,6 +65,13 @@ export function choiceTypeFrames(fullFrame, frame, item, uiFrame, documents, mod
         description: `Choose from the list ...`,
         anyOf: oneOfArray
     }
+
+
+
+    /*if(Array.isArray(formData) && formData.length > 0) {
+        layout.anyOf[0].properties["inferred"]["default"] = formData[0]["inferred"]
+    }*/
+
 
 
 

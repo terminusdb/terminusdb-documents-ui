@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import {ArrayFieldTemplate, getSetTitle, getTitle, getOptionalSelect, checkIfKey, removeDefaultsFromSubDocumentFrame, removeDefaultsFromDataFrame} from "./utils"
+import {ArrayFieldTemplate, getSetTitle, getTitle, getOptionalSelect, checkIfKey, getDefaultValue, removeDefaultsFromSubDocumentFrame, removeDefaultsFromDataFrame} from "./utils"
 import {CREATE, DATA, VIEW, DOCUMENT, SELECT_STYLES, ONEOFSUBDOCUMENTS, ONEOFCLASSES} from "./constants"
 import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'
@@ -448,8 +448,8 @@ export function makeSetDocuments  (setFrames, item, selectDocType, uiFrame, mode
             if(onTraverse) onTraverse(clicked)
         }, [clicked])
 
-        const handleClick = (e) => { // view if on traverse function defined
-            setClicked(e.target.value)
+        const handleClick = (e, value) => { // view if on traverse function defined
+            setClicked(value)
         }
         return <React.Fragment>
             <Form.Label  className="control-label">{item}</Form.Label>
@@ -553,7 +553,9 @@ export function makeSetOneOfClassFrames(fullFrame, frame, item, uiFrame,  mode, 
         </React.Fragment>
     }
 
-    function extractProperties(subFrame, documentClass, item, formData, mode) {
+
+
+    function extractProperties(subFrame, documentClass, item, formData, count, mode) {
         var structure = {}
         structure = {
             title: documentClass,
@@ -573,7 +575,7 @@ export function makeSetOneOfClassFrames(fullFrame, frame, item, uiFrame,  mode, 
                 }
             })
         }
-        if(mode !== CREATE && formData.hasOwnProperty(item) && formData[item][0]["@type"] !== documentClass){
+        if(mode !== CREATE && formData.hasOwnProperty(item) && formData[item][count]["@type"] !== documentClass){
             return {}
         }
         else return structure
@@ -581,18 +583,21 @@ export function makeSetOneOfClassFrames(fullFrame, frame, item, uiFrame,  mode, 
 
     if(frame[item] && Array.isArray(frame[item]))  {
         var extracted=[], documentClass, documentClassUi = {}
+        var count = 0
         frame[item].map(it => {
             if(typeof it === "object"){
                 documentClass=it["@class"]
-                extracted.push(extractProperties(it, it["@class"], item, formData, mode))
+                extracted.push(extractProperties(it, it["@class"], item, formData, count, mode))
+                documentClassUi[documentClass] =  {
+                    "ui:field": getUIField
+                }
             }
             else { // document class
                 documentClass=it
-                extracted.push(extractProperties(it, it, item, formData, mode))
+                extracted.push(extractProperties(it, it, item, formData, count, mode))
             }
-            documentClassUi[documentClass] =  {
-                "ui:field": getUIField
-            }
+
+            count += 1
         })
         anyOfArray = extracted
         //item property ui
@@ -627,9 +632,9 @@ export function makeSetOneOfClassFrames(fullFrame, frame, item, uiFrame,  mode, 
         }
     }
 
-    if(mode !== CREATE && formData.hasOwnProperty(item)) {
-        layout["default"]=getDefaultValue(item, formData)
-    }
+    //if(mode !== CREATE && formData.hasOwnProperty(item)) {
+        //layout["default"]=getDefaultValue(item, formData)
+    //}
 
     // schema
     properties[item] = layout

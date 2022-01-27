@@ -8929,6 +8929,19 @@ export const SESHAT_FORM_DATA = {
 				"value": "magic"
 			}
 		}]
+	},
+	"institutional_variables": {
+		"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/institutional_variables/InstitutionalVariables/ba17f811ca05f38ce5416ced69456b1971e1d8327b7e326e172883d6fd645c21",
+		"@type": "InstitutionalVariables",
+		"ra": [{
+			"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/institutional_variables/Polity/AfDurrn/institutional_variables/InstitutionalVariables/ba17f811ca05f38ce5416ced69456b1971e1d8327b7e326e172883d6fd645c21/ra/Ra/e8f66fc2dd2aab8debc0d3cace076ecec6d682db91d9941a572876fe3fa536b8",
+			"@type": "Ra",
+			"known": {
+				"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/institutional_variables/Polity/AfDurrn/institutional_variables/InstitutionalVariables/ba17f811ca05f38ce5416ced69456b1971e1d8327b7e326e172883d6fd645c21/ra/Polity/AfDurrn/institutional_variables/Polity/AfDurrn/institutional_variables/InstitutionalVariables/ba17f811ca05f38ce5416ced69456b1971e1d8327b7e326e172883d6fd645c21/ra/Ra/e8f66fc2dd2aab8debc0d3cace076ecec6d682db91d9941a572876fe3fa536b8/known/StringValue/3c486a02c7a590f5da304195f9d3461ed65592feb38f94274bc91a8e51bede71",
+				"@type": "StringValue",
+				"value": "Eli J. Levine"
+			}
+		}]
 	}
 }
 

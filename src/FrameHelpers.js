@@ -97,8 +97,8 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
             let newFrame = constructNewDocumentFrame(frame[item], item)
 
             if(Array.isArray(newFrame[item])){
-                let frames = makeOneOfClassFrames(fullFrame, newFrame, item, uiFrame,  mode, formData, prefix)
-                //let frames = makeSetOneOfClassFrames(fullFrame, newFrame, item, uiFrame,  mode, formData, prefix)
+                //let frames = makeOneOfClassFrames(fullFrame, newFrame, item, uiFrame,  mode, formData, prefix)
+                let frames = makeSetOneOfClassFrames(fullFrame, newFrame, item, uiFrame,  mode, formData, prefix)
                 //set properties and ui
                 properties[item] = frames.properties[item]
                 propertiesUI[item] = frames.propertiesUI[item]
