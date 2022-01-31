@@ -6,8 +6,8 @@ import {FrameViewer} from "./FrameViewer"
 import AsyncSelect from 'react-select/async'
 import {Form} from "react-bootstrap"
 
-function getAnyOfDocuments(item, documentClass, formData, mode) {
-    var structure = {}, propertiesUI={}, anyOfArray=[]
+function getAnyOfDocuments(documentClass) {
+    var structure = {}
     structure = {
         title: documentClass,
         properties: {
@@ -20,6 +20,22 @@ function getAnyOfDocuments(item, documentClass, formData, mode) {
     return structure
 }
 
+function getAnyOfSubDocuments(subDocumentClass, mode, formData, item) {
+    var structure = {}
+    structure = {
+        title: subDocumentClass,
+        properties: {
+            [subDocumentClass]: {
+                title: subDocumentClass,
+                type: "object"
+            }
+        }
+    }
+    //if match in formdata then pass on default
+    if(mode === EDIT && formData.hasOwnProperty(item) && formData[item]["@type"] === subDocumentClass) structure.properties[subDocumentClass]["default"] = formData[item]
+    return structure
+}
+
 
 
 function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame, mode, formData, prefix,onTraverse, onSelect) {
@@ -27,14 +43,63 @@ function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame, mode, formData, 
 
     let anyOfArray=[]
 
-    if(mode!== VIEW && frame[item] && Array.isArray(frame[item]))  {
-        frame[item].map(it => {
-            if(typeof it === "object" && frame[item].hasOwnProperty(SUBDOCUMENT)) { // links to subdocuments
+    function getSubDocumentProperties(props) {
 
+        let formDataValue = props.schema.hasOwnProperty("default") ? props.schema.default : {}
+        let type = (mode ===VIEW) ? formDataValue["@type"] : props.name
+        const [input, setInput]=useState(formDataValue)
+        let schema = fullFrame
+
+        function handleFormChange(data){
+            let jsonData = {
+                "@type": props.name,
+                //"@info": ONEOFCLASSES
+            }
+            setInput(data)
+            for(var thing in data){
+                if(thing === "@id") continue
+                jsonData[thing] = data[thing]
+            }
+            if(props.onChange) {
+                //console.log("value stored in props", jsonData)
+                props.onChange(jsonData)
+            }
+        }
+
+        let uiSchema = {
+            classNames : "card bg-secondary p-4 mt-4 mb-4"
+        }
+
+        return <React.Fragment>
+            {props.name}
+            <FrameViewer
+                frame={schema}
+                mode={mode}
+                hideSubmit={true}
+                onChange={handleFormChange}
+                type={type}
+                uiFrame={uiSchema}
+                formData={input}
+            />
+        </React.Fragment>
+    }
+
+    if(frame[item] && Array.isArray(frame[item]))  {
+        frame[item].map(it => {
+            if(typeof it === "object" && it.hasOwnProperty(SUBDOCUMENT)) { // links to subdocuments
+                let subDocumentClass = it["@class"]
+                anyOfArray.push(getAnyOfSubDocuments(subDocumentClass, mode, formData, item))
+                function getOneOfSubDocumentsPropertiesUI(subDocumentClass) {
+                    let propertiesUI = {
+                        "ui:field": getSubDocumentProperties
+                    }
+                    return propertiesUI
+                }
+                propertiesUI[subDocumentClass] = getOneOfSubDocumentsPropertiesUI(subDocumentClass)
             }
             else if(typeof it === "string") { // links to documents
                 let documentClass = it // frame[item]
-                if(mode!==VIEW) anyOfArray.push(getAnyOfDocuments(item, documentClass))
+                if(mode!==VIEW) anyOfArray.push(getAnyOfDocuments(documentClass))
                 function getSelect(props) {
 
                     const loadOptions = async (inputValue, callback) => {
@@ -87,8 +152,6 @@ function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame, mode, formData, 
                         />
                     </React.Fragment>
                 }
-
-
                 function getOneOfDocumentsPropertiesUI (documentClass) {
                     let propertiesUI = {
                         "ui:field": getSelect,
@@ -118,33 +181,48 @@ function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame, mode, formData, 
             description: `Choose ${item} from the list ...`
         }
         if(formData.hasOwnProperty(item)){
-
             //arrange ordering of options
             function sortAnyOfArray(anyOfArray) {
                 let sorted = []
+                let className = (formData.hasOwnProperty(item) && typeof formData[item] === "object" && formData[item].hasOwnProperty("@type")) ? formData[item]["@type"] : formData[item]
+                //arranging order of appearance
                 anyOfArray.map(thing => {
-                    if(thing.hasOwnProperty("title")
-                        && thing.title === extractClassName(formData[item], fullFrame, prefix)) {
+                       if(thing.hasOwnProperty("title")
+                        && thing.title === extractClassName(className, fullFrame, prefix)) {
                         sorted.push(thing)
                     }
                 })
-                anyOfArray.map(thing => {
-                    if(thing.hasOwnProperty("title")
-                        && thing.title !==  extractClassName(formData[item], fullFrame, prefix)) {
-                        sorted.push(thing)
-                    }
-                })
+                if(typeof formData[item] === "string"){
+                    anyOfArray.map(thing => {
+                        if(thing.hasOwnProperty("title")
+                            && thing.title !==  extractClassName(className, fullFrame, prefix)) {
+                            sorted.push(thing)
+                        }
+                    })
+                }
                 return sorted
             }
-
             layout["anyOf"] = sortAnyOfArray(anyOfArray)
         }
+        if(!formData.hasOwnProperty(item))  layout["anyOf"] = anyOfArray
     }
     else {
-        layout = {
-            type: 'string',
-            info: ONEOFCLASSES,
-            title: item
+        if(formData.hasOwnProperty(item) && typeof formData[item] === "object"){
+            layout = {
+                type: 'object',
+                info: ONEOFCLASSES,
+                title: item,
+                description: `Choose ${item} from the list ...`,
+                //anyOf:anyOfArray,
+                default: formData[item]
+            }
+        }
+        else {
+            layout = {
+                type: 'string',
+                info: ONEOFCLASSES,
+                title: item
+            }
         }
     }
 
@@ -155,7 +233,7 @@ function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame, mode, formData, 
         "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
         "classNames": mode===VIEW ? "tdb__input mb-3 mt-3 form-label tdb__view__input" : "tdb__input mb-3 mt-3"
     }
-    if(mode === VIEW && formData[item]) {
+    if(mode === VIEW && formData.hasOwnProperty(item) && typeof formData[item] === "string") {
         function getViewSelect (props) {
             const [clicked, setClicked]=useState(false)
 
@@ -177,9 +255,13 @@ function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame, mode, formData, 
         }
         propertiesUI[item]["ui:field"] =  getViewSelect
     }
+    else if (mode === VIEW && formData.hasOwnProperty(item) && typeof formData[item] === "object") {
+        propertiesUI[item]["ui:field"] =  getSubDocumentProperties
+    }
 
     if(mode === VIEW && !Array.isArray(formData) && !formData.hasOwnProperty(item)){ // set of subdocuments
         const hidden = () => <div/>
+        propertiesUI[item]["ui:title"]=hidden
         propertiesUI[item]["ui:widget"]= hidden
     }
 
