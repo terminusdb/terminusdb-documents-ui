@@ -191,7 +191,7 @@ export function ArrayFieldTemplate(props) {
 
 
 // this check is for seshat data with one of property to alter submitted value
-function modifyChoiceTypeData(data, frame) {
+/*function modifyChoiceTypeData(data, frame) {
     for(var key in data){
 		if(key === "@oneOf") {
 
@@ -234,7 +234,7 @@ function modifyChoiceTypeData(data, frame) {
         }
     }
     return data
-}
+}*/
 
 //function modifyChoiceTypeData(data, frame) {
 
@@ -267,16 +267,33 @@ function removeEmptyFields(data) {
 
 }
 
+//alter formData of one of classes and choice classes
+function modifyChoiceTypeData(schema, data, frame) {
+	let modifiedData = data
+	for(var item in schema.properties) {
+		if(schema.properties[item].hasOwnProperty("info") && schema.properties[item]["info"] === ONEOFCLASSES) {
+			if(modifiedData.hasOwnProperty(item) && modifiedData[item]) {
+
+				let key = Object.keys(data[item])[0]
+				let value = modifiedData[item][key]
+				modifiedData[item] = value
+			}
+		}
+	}
+	return modifiedData
+}
+
 
 // removes properties with no filled values on submit form
-export function formatData(data, frame, current) {
+export function formatData(schema, data, frame, current) {
 	var extracted={}
 	let currentFrame=frame[current]
 	//let formData=data
-	let formData = modifyChoiceTypeData(data, frame)
+	let formData = modifyChoiceTypeData(schema, data, frame)
 	console.log("***formData***",formData)
 	for(var key in formData){
 		var newArray=[]
+		if(formData[key] === undefined) continue
 		if(Array.isArray(formData[key])){ //array
 			formData[key].map(arr => {
 				if(Object.keys(arr).length === 1 && arr["@type"]){
@@ -470,4 +487,13 @@ export function removeDefaultsFromDataFrame (json) {
 }
 
 
-
+// extract document class name from link documents
+export function extractClassName(document, fullFrame, prefix) {
+    let str = document
+    let splits = str.split('/')
+    let documentClass = splits[0]
+    if(fullFrame.hasOwnProperty( `${prefix}${documentClass}`)) {
+        return splits[0] // if definition available in full frame
+    }
+    return false
+}

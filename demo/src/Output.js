@@ -13,8 +13,8 @@ export const Output = ({schema, uiSchema, type, mode, formData}) => {
     }
 
     function handleSelect(inp){
-        console.log("*****Select****", inp)
-        /*let matched=[] -- TEST DATA
+        //console.log("*****Select****", inp)
+        let matched=[]
         let options=[
             { value: 'Art', label: 'Blakey' },
             { value: 'John', label: 'Coltrane' },
@@ -28,8 +28,8 @@ export const Output = ({schema, uiSchema, type, mode, formData}) => {
                 matched.push(item)
             }
         })
-        console.log("matched", matched)
-        return matched*/
+        //console.log("matched", matched)
+        return matched
     }
 
     return <React.Fragment>

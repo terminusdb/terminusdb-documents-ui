@@ -13,7 +13,9 @@ function DataTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
     }
 
     if(mode !== CREATE && formData.hasOwnProperty(item)) {
-        layout["default"]=getDefaultValue(item, formData)
+        let value = getDefaultValue(item, formData)
+        layout["default"] = value.toString()
+
     }
 
     // schema

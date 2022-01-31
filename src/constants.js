@@ -14,6 +14,11 @@ export const LONGITUDE="longitude"
 export const GEO_CORDINATES="GeoCoordinates"
 export const ONEOFCLASSES="OneOfClasses"
 
+
+export const POINTS="Points"
+export const POLYGON="Polygon"
+export const POLYLINE="Polyline"
+
 export const SYS_UNIT_DATA_TYPE="sys:Unit"
 
 

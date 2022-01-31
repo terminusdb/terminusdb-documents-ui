@@ -33,7 +33,7 @@ const App= (props) =>{
 
 
     let uiSchema = {
-        "classNames": "bg-light p-3",
+        "classNames": "bg-light p-3"
     }
 
     function handleChange (inp) {
@@ -70,7 +70,7 @@ const App= (props) =>{
         {results && <MapViewer
             documents={results}
             zoom={11}
-                scrollWheelZoom={true}
+            scrollWheelZoom={true}
         />}
     </Container>
 

@@ -264,14 +264,28 @@ export const SMALL_SCHEMA_FORM_DATA = {
 	  },
 	  "@type": "Class",
 	   "url": "xsd:string",
+	   "location": "GeoCoordinate",
 	  "reactors": {
 		"@class": [
 		  "ExperimentalReactor",
 		  "PowerReactor",
 		  "ResearchReactor"
 		],
-		"@type": "Set"
+		"@type": "Optional"
 	  }
+	},
+	"http://lib.terminusdb.com/nuclear#GeoCoordinate": {
+	  "@key": {
+		"@fields": [
+		  "latitude",
+		  "longitude"
+		],
+		"@type": "Lexical"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "latitude": "xsd:decimal",
+	  "longitude": "xsd:decimal"
 	},
 	"http://lib.terminusdb.com/nuclear#PowerReactor": {
 	  "@key": {
@@ -416,11 +430,13 @@ export const NUCLEAR_FORM_DATA = {
 		  "year":"2018"
 	   }
 	],
-	"reactors":[
-	   "ExperimentalReactor/NEW"
-	],
+	"reactors":
+	   "ResearchReactor/NEW"
+	,
 	"url":"https://react-select.com/home"
  }
+
+
 
 
 export const SESHAT_SCHEMA_FULL = {
@@ -8950,7 +8966,7 @@ export const SESHAT_FORM_DATA = {
 
 
 
-export const DEMO_DOCUMENT_TYPE="Polity"
+export const DEMO_DOCUMENT_TYPE="NuclearPowerPlant"
 
 export const DEMO_FORM_DATA_PERSON= {
 	"@id": "Person/Peter%20+terminusdb%3A%2F%2F%2Fdata%2FJob%2Fadmin",

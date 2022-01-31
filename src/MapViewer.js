@@ -1,7 +1,7 @@
 
 import React, {useState} from "react"
 import {MapContainer, TileLayer} from 'react-leaflet'
-import {LATITUDE, LONGITUDE} from "./constants"
+import {LATITUDE, LONGITUDE, POINTS, POLYGON} from "./constants"
 import {Markers} from "./Markers"
 
 
@@ -12,7 +12,9 @@ import {Markers} from "./Markers"
 */
 
 
-export const MapViewer = ({documents, zoom, scrollWheelZoom}) => {
+export const MapViewer = ({documents, zoom, scrollWheelZoom, display}) => {
+	let type=POINTS
+	if(display) type=display
 
     if(!Array.isArray(documents)) {
         return <React.Fragment>{"Please, Include valid documents to display on map"}</React.Fragment>
@@ -32,7 +34,7 @@ export const MapViewer = ({documents, zoom, scrollWheelZoom}) => {
 			attribution = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 			url = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 			/>
-                <Markers data={documents}/>
+                {type===POINTS && <Markers data={documents} display={display}/>}
 		</MapContainer>
 
 	</React.Fragment>
