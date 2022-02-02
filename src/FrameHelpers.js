@@ -2,7 +2,8 @@ import React, {useState, useEffect} from "react"
 import {Form} from "react-bootstrap"
 import {makeDataTypeFrames} from "./DataTypeFrames"
 import {makeSubDocumentFrames} from "./SubDocumentTypeFrames"
-import {makeSetSubDocuments, makeSetData, makeSetDocuments, makeSetOneOfClassFrames} from "./SetTypeFrames"
+import {makeSetSubDocuments, makeSetData, makeSetDocuments} from "./SetTypeFrames"
+import {makeSetOneOfClassFrames} from "./SetTypeClassFrames"
 import {makeListData, makeListDocuments, makeListSubDocuments} from "./ListTypeFrames"
 import {makeDocumentTypeFrames} from "./DocumentTypeFrames"
 import {makeEnumTypeFrames} from "./EnumTypeFrames"
@@ -98,10 +99,14 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
 
             if(Array.isArray(newFrame[item])){
                 //let frames = makeOneOfClassFrames(fullFrame, newFrame, item, uiFrame,  mode, formData, prefix)
-                let frames = makeSetOneOfClassFrames(fullFrame, newFrame, item, uiFrame,  mode, formData, prefix)
+                let frames = makeSetOneOfClassFrames(fullFrame, newFrame, item, uiFrame,  mode, formData, prefix, onTraverse, onSelect)
                 //set properties and ui
                 properties[item] = frames.properties[item]
-                propertiesUI[item] = frames.propertiesUI[item]
+                //propertiesUI[item] = frames.propertiesUI[item]
+                for(var things in frames.propertiesUI){
+                    propertiesUI[things] = frames.propertiesUI[things]
+                }
+
             }
             else {
                 let setFrames = getProperties(fullFrame, newFrame, uiFrame, documents, mode, formData, true, prefix, onTraverse, onSelect)

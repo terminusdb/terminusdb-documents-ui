@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react"
 import {ArrayFieldTemplate, getSetTitle, getTitle, getOptionalSelect, checkIfKey, getDefaultValue, removeDefaultsFromSubDocumentFrame, removeDefaultsFromDataFrame} from "./utils"
-import {CREATE, DATA, VIEW, DOCUMENT, SELECT_STYLES, ONEOFSUBDOCUMENTS, ONEOFCLASSES} from "./constants"
+import {CREATE, DATA, VIEW, EDIT, DOCUMENT, SELECT_STYLES, ONEOFSUBDOCUMENTS, ONEOFCLASSES} from "./constants"
 import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'
 import {AsyncTypeahead} from 'react-bootstrap-typeahead'
@@ -508,7 +508,7 @@ export function makeSetDocuments  (setFrames, item, selectDocType, uiFrame, mode
 }
 
 // Set One Of Class frames
-export function makeSetOneOfClassFrames(fullFrame, frame, item, uiFrame,  mode, formData, prefix) {
+export function makeSetOneOfClassFrames_OLD(fullFrame, frame, item, uiFrame,  mode, formData, prefix) {
 
 
     let properties={}, propertiesUI={}
@@ -685,3 +685,4 @@ export function makeSetOneOfClassFrames(fullFrame, frame, item, uiFrame,  mode, 
     return {properties, propertiesUI}
 
 }
+

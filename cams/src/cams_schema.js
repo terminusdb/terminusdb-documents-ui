@@ -15,7 +15,7 @@ export const CAMS_SCHEMA = {
             "@subdocument": []
           }
         ],
-        "@type": "Optional"
+        "@type": "Set"
       }
     },
     "iri://CAMS#HazardEvent": {
@@ -640,14 +640,28 @@ export const CAMS_FORM_DATA = {
       "date": "2011-01-01T01:00:37Z"
     }*/
   //,
-  /*"asset_history": [
+  "asset_history": [
     {
       "@id": "Asset/e8be3b68397b2bdbeab147c7f2b993e3abc69dadf893defcebde5761cfe52539/asset_history/UpdateEvent/UE+2011-01-01T01%3A00%3A37Z",
       "@type": "UpdateEvent",
       "comment": "UE",
       "date": "2011-01-01T01:00:37Z"
+    },
+    {
+      "@id": "Asset/908cdf8db2fa9f843f063669171280eb448e3403d837cb440726ab394043e918/asset_history/HazardEvent/iri%3A%2F%2FCAMS%23Hazard%2FVolcanos%2520(incl.%2520lahars,%2520pyroclastic%2520flows,%2520volcanic%2520activity)+2011-01-01T01%3A00%3A37Z",
+      "@type": "HazardEvent",
+      "comment": "Hazzard",
+      "date": "2011-01-01T01:00:37Z",
+      "hazard": "Volcanos (incl. lahars, pyroclastic flows, volcanic activity)"
+    },
+    {
+      "@id": "Asset/345e3b68397b2bdbeab147c7f2b993e3abc69dadf893defcebde5761cfe52539/asset_history/UpdateEvent/UE+2011-01-01T01%3A00%3A37Z",
+      "@type": "UpdateEvent",
+      "comment": "UEMiddle",
+      "date": "2011-01-01T01:00:37Z"
     }
-  ],*/
+
+  ],
   "asset_identifier": "Hospital ",
   "commisioning_date": "2011-01-01T01:00:37Z",
   "design_standards": "abc",

@@ -1,7 +1,7 @@
 
 import React from "react"
 import {Button, Form} from "react-bootstrap"
-import {XSD_DATA_TYPE_PREFIX, XDD_DATA_TYPE_PREFIX, OPTIONAL, SET, ONEOFCLASSES, DOCUMENT, ENUM, VALUE_HASH_KEY, LIST, SYS_UNIT_DATA_TYPE, TDB_SCHEMA} from "./constants"
+import {XSD_DATA_TYPE_PREFIX, CREATE, XDD_DATA_TYPE_PREFIX, OPTIONAL, SET, ONEOFCLASSES, DOCUMENT, ENUM, VALUE_HASH_KEY, LIST, SYS_UNIT_DATA_TYPE, TDB_SCHEMA, SUBDOCUMENT} from "./constants"
 import {BiKey, BiPlus} from "react-icons/bi"
 import {RiDeleteBin5Fill} from "react-icons/ri"
 import {FcKey} from "react-icons/fc"
@@ -190,55 +190,6 @@ export function ArrayFieldTemplate(props) {
 }
 
 
-// this check is for seshat data with one of property to alter submitted value
-/*function modifyChoiceTypeData(data, frame) {
-    for(var key in data){
-		if(key === "@oneOf") {
-
-			for(var thing in data[key]) {
-				let dataType = data["@type"]
-				let extractedPrefix = getPrefix(frame)
-    			let type = `${extractedPrefix}${dataType}`
-				if(frame[type]["@oneOf"]) {
-					// if sys:Unit type
-					if(frame[type]["@oneOf"][0][thing] && frame[type]["@oneOf"][0][thing] === SYS_UNIT_DATA_TYPE) {
-						delete data[key]
-						data[thing] = [] // empty list
-					}
-					else if(frame[type]["@oneOf"][0][thing]) {
-						let inputValue = data[key][thing]
-						delete data[key]
-						if(inputValue) {
-							data[thing]=inputValue
-						}
-					}
-				}
-			}
-		}
-		if(data[key].hasOwnProperty("@info") && data[key]["@info"] === ONEOFCLASSES){ // check if type ONEOFCLASSES
-			delete data[key]["@id"]
-			delete data[key]["@info"]
-			return data[key] // remove the extra key value, checkout CAMS asset_history => Hazzard Events inheriting Events example
-		}
-        if (data.hasOwnProperty(key)) {
-            if (Object.keys(data[key]).length && typeof data[key] === 'object') {
-                data[key] = modifyChoiceTypeData(data[key], frame)
-            }
-			else if(Object.keys(data[key]).length && key === "@type") { // add type
-				data[key] = data[key]
-			}
-            else {
-				//delete data[key]
-				data[key] = data[key]
-            }
-        }
-    }
-    return data
-}*/
-
-//function modifyChoiceTypeData(data, frame) {
-
-
 function removeEmptyFields(data) {
 	for(var key in data){
 		if (data.hasOwnProperty(key)) {
@@ -267,16 +218,35 @@ function removeEmptyFields(data) {
 
 }
 
+
 //alter formData of one of classes and choice classes
-function modifyChoiceTypeData(schema, data, frame) {
+function modifyChoiceTypeData(mode, schema, data, frame) {
 	let modifiedData = data
 	for(var item in schema.properties) {
 		if(schema.properties[item].hasOwnProperty("info") && schema.properties[item]["info"] === ONEOFCLASSES) {
 			if(modifiedData.hasOwnProperty(item) && modifiedData[item]) {
-
-				let key = Object.keys(data[item])[0]
-				let value = modifiedData[item][key]
-				modifiedData[item] = value
+				if(Array.isArray(modifiedData[item])){ //set
+					if(mode === CREATE) {
+						let newArray = []
+						modifiedData[item].map(things => {
+							for(var keys in things){
+								//if(things[keys].hasOwnProperty("@type")) {
+									newArray.push(things[keys])
+								//}
+							}
+						})
+						//console.log("newArray///", newArray)
+						// for OneOfClasses layout is different from Create
+						modifiedData[item] = newArray
+					}
+				}
+				else { //optional or mandatory
+					for(var thing in data[item]){
+						if(Object.keys(data[item][thing]).length) { // one ofs for document classes
+							modifiedData[item] = data[item][thing]
+						}
+					}
+				}
 			}
 		}
 	}
@@ -285,12 +255,12 @@ function modifyChoiceTypeData(schema, data, frame) {
 
 
 // removes properties with no filled values on submit form
-export function formatData(schema, data, frame, current) {
+export function formatData(mode, schema, data, frame, current) {
 	var extracted={}
 	let currentFrame=frame[current]
 	//let formData=data
-	let formData = modifyChoiceTypeData(schema, data, frame)
-	console.log("***formData***",formData)
+	let formData = modifyChoiceTypeData(mode, schema, data, frame)
+
 	for(var key in formData){
 		var newArray=[]
 		if(formData[key] === undefined) continue
@@ -300,11 +270,13 @@ export function formatData(schema, data, frame, current) {
 					//console.log("removing sub docs with only @type defined")
 				}
 				else {
-					if(currentFrame[key]["@type"] === "Set" && Array.isArray(currentFrame[key]["@class"])){
-						// for choice sets: example - "reactors": {"@class": ["PowerReactor","AtomicReactor"],"@type": "Set"}
-						for(var thing in arr){
-							newArray.push(arr[thing])
-						}
+					if(currentFrame[key]["@type"] === "Set"
+						&& Array.isArray(currentFrame[key].hasOwnProperty("@class"))
+						&& !currentFrame[key].hasOwnProperty(SUBDOCUMENT)){
+							// for choice sets: example - "reactors": {"@class": ["PowerReactor","AtomicReactor"],"@type": "Set"}
+							for(var thing in arr){
+								newArray.push(arr[thing])
+							}
 					}
 					else newArray.push(arr)
 				}
@@ -496,4 +468,19 @@ export function extractClassName(document, fullFrame, prefix) {
         return splits[0] // if definition available in full frame
     }
     return false
+}
+
+// function to remove @ids from filled frames - we use this function during edit mode so we do not re send id
+export function removeIds(dataArray){
+	if(!Array.isArray(dataArray)) return []
+	let newDataArray = []
+	dataArray.map(da => {
+		let newJson = {}
+		for(var thing in da){
+			if(thing === "@id") continue
+			newJson[thing] = da[thing]
+		}
+		newDataArray.push(newJson)
+	})
+	return newDataArray
 }

@@ -89,13 +89,13 @@ function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame, mode, formData, 
             if(typeof it === "object" && it.hasOwnProperty(SUBDOCUMENT)) { // links to subdocuments
                 let subDocumentClass = it["@class"]
                 anyOfArray.push(getAnyOfSubDocuments(subDocumentClass, mode, formData, item))
-                function getOneOfSubDocumentsPropertiesUI(subDocumentClass) {
+                function getSubDocumentsPropertiesUI(subDocumentClass) {
                     let propertiesUI = {
                         "ui:field": getSubDocumentProperties
                     }
                     return propertiesUI
                 }
-                propertiesUI[subDocumentClass] = getOneOfSubDocumentsPropertiesUI(subDocumentClass)
+                propertiesUI[subDocumentClass] = getSubDocumentsPropertiesUI(subDocumentClass)
             }
             else if(typeof it === "string") { // links to documents
                 let documentClass = it // frame[item]
@@ -250,7 +250,7 @@ function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame, mode, formData, 
 
             return <React.Fragment>
                 <Form.Label className="control-label">{item}</Form.Label>
-                <span onClick={(e) => handleClick(e, formData[item])} className="tdb__span__select form-control bg-dark text-light">{formData[item]}</span>
+                <span onClick={(e) => handleClick(e, formData[item])} className="tdb__span__select form-control bg-transparent text-light">{formData[item]}</span>
             </React.Fragment>
         }
         propertiesUI[item]["ui:field"] =  getViewSelect
@@ -272,7 +272,7 @@ function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame, mode, formData, 
 
     if(mode === VIEW) {
         let newPropertiesUI = propertiesUI[item]
-        propertiesUI=newPropertiesUI
+        propertiesUI = newPropertiesUI
         return {properties, propertiesUI}
     }
     return {properties, propertiesUI}

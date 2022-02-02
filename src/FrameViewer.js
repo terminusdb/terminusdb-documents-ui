@@ -54,7 +54,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
                 dependencies:{},
                 uiSchema:{}
             }*/
-            console.log("definitions", definitions)
+            //console.log("definitions", definitions)
             let definitions = {
                 testdef: {
                     title: "test",
@@ -104,7 +104,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
     const handleSubmit = ({formData}) => {
         console.log("Data before extract: ",  formData)
         if(onSubmit) {
-            var extracted=formatData(schema, formData, frame, current)
+            var extracted=formatData(mode, schema, formData, frame, current)
             onSubmit(extracted)
             console.log("Data submitted: ",  extracted)
             //console.log("Data submitted: ",  JSON.stringify(extracted, null, 2))
@@ -112,7 +112,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
     }
 
     const handleChange = (data) => {
-        //console.log("Data changed: ",  data)
+        console.log("Data changed: ",  data)
         setInput(data)
         if(onChange) {
             onChange(data)

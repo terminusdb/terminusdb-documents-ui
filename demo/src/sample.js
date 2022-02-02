@@ -264,14 +264,13 @@ export const SMALL_SCHEMA_FORM_DATA = {
 	  },
 	  "@type": "Class",
 	   "url": "xsd:string",
-	   "location": "GeoCoordinate",
 	  "reactors": {
 		"@class": [
 		  "ExperimentalReactor",
 		  "PowerReactor",
 		  "ResearchReactor"
 		],
-		"@type": "Optional"
+		"@type": "Set"
 	  }
 	},
 	"http://lib.terminusdb.com/nuclear#GeoCoordinate": {
@@ -431,7 +430,7 @@ export const NUCLEAR_FORM_DATA = {
 	   }
 	],
 	"reactors":
-	   "ResearchReactor/NEW"
+	   ["ResearchReactor/NEW", "ExperimentalReactor/NEW"]
 	,
 	"url":"https://react-select.com/home"
  }
@@ -8797,7 +8796,7 @@ export const SESHAT_SCHEMA_SMALL= {
 		  "@class": "AlternativeNames",
 		  "@subdocument": []
 		},
-		"@type": "Optional"
+		"@type": "Set"
 	  }
 	},
 	"http://lib.seshatdatabank.info/schema#AlternativeNames": {
@@ -8946,7 +8945,7 @@ export const SESHAT_FORM_DATA = {
 			}
 		}]
 	},
-	"institutional_variables": {
+	/*"institutional_variables": {
 		"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/institutional_variables/InstitutionalVariables/ba17f811ca05f38ce5416ced69456b1971e1d8327b7e326e172883d6fd645c21",
 		"@type": "InstitutionalVariables",
 		"ra": [{
@@ -8958,7 +8957,7 @@ export const SESHAT_FORM_DATA = {
 				"value": "Eli J. Levine"
 			}
 		}]
-	}
+	}*/
 }
 
 
