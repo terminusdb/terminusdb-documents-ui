@@ -1,7 +1,7 @@
 
 import React, {useState, useEffect} from "react"
 import {getTitle, getDefaultValue, checkIfKey, ArrayFieldTemplate, getPrefix} from "./utils"
-import {DOCUMENT, SELECT_STYLES, CREATE, VIEW, EDIT, SYS_UNIT_DATA_TYPE, DATA} from "./constants"
+import {DOCUMENT, SELECT_STYLES, CREATE, VIEW, EDIT, ONEOFVALUES, SYS_UNIT_DATA_TYPE, DATA} from "./constants"
 import {Form} from "react-bootstrap"
 import {getProperties} from "./FrameHelpers"
 import Select from 'react-select'
@@ -12,68 +12,59 @@ export function choiceTypeFrames(fullFrame, frame, item, uiFrame, documents, mod
     let properties={}, propertiesUI={}
 
 
-    let oneOfArray=[]
+    let anyOfArray=[]
     let extractedPrefix = getPrefix(fullFrame)
+
 
     if(frame[item] && Array.isArray(frame[item]))  {
         for(var thing in frame[item][0]){
-
             let newFrame = {[thing] : frame[item][0][thing]}
             var fieldProperties = {}, structure = {}
 
             if(frame[item][0][thing] === SYS_UNIT_DATA_TYPE){
                 structure = {
                     title: thing,
+                    info: SYS_UNIT_DATA_TYPE,
+                    type: "object",
                     properties: {
-                        type: "object",
-                        info: SYS_UNIT_DATA_TYPE,
-                        properties: {}
+                        [thing]: {"type": "string"}
+                    },
+                    default: {[thing]: SYS_UNIT_DATA_TYPE }
+                }
+                function getSysUnit(props){
+                    return <React.Fragment>{props.name}</React.Fragment>
+                }
+                propertiesUI[thing] = {"ui:field" : getSysUnit}
+            }
+            else if(frame[item][0][thing] !== SYS_UNIT_DATA_TYPE) {
+
+                fieldProperties  = getProperties(fullFrame, newFrame, uiFrame, documents, mode, formData[0], false, extractedPrefix, onTraverse, onSelect)
+                structure = {
+                    title: thing,
+                    info: ONEOFVALUES,
+                    properties:{
+                        [thing]: fieldProperties.properties[thing]
                     }
                 }
-            }
-            else {
-                if(frame[item][0][thing] !== SYS_UNIT_DATA_TYPE){
-                    fieldProperties  = getProperties(fullFrame, newFrame, uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect)
-                    structure = {
-                        title: thing,
-                        properties:{
-                            [thing]: fieldProperties.properties[thing]
-                        }
-                    }
-                    if(mode!== CREATE && Array.isArray(formData) && formData.length && formData[0].hasOwnProperty(thing)) {
-                        structure.properties[thing]["default"] = formData[0][thing]
-                    }
-                    propertiesUI[thing] = fieldProperties.uiSchema[thing]
-                }
+
+                propertiesUI[thing] = fieldProperties.uiSchema[thing]
+
             }
 
-            //console.log("fieldProperties.properties", fieldProperties.properties)
-            //console.log("structure //", structure)
-
-
-            oneOfArray.push(structure)
-
+            anyOfArray.push(structure)
 
         }
     }
 
+    console.log("***anyOfArray ****", anyOfArray)
 
 
     var layout = {
         title: item,
         type: "object",
         description: `Choose from the list ...`,
-        anyOf: oneOfArray
+        anyOf: anyOfArray
     }
-
-
-
-    /*if(Array.isArray(formData) && formData.length > 0) {
-        layout.anyOf[0].properties["inferred"]["default"] = formData[0]["inferred"]
-    }*/
-
-
-
 
     //schema
     properties[item] = layout

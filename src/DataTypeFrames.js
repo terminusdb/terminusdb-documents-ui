@@ -1,10 +1,8 @@
 import {getTitle, getDefaultValue, checkIfKey, isFilled} from "./utils"
 import {CREATE, VIEW, EDIT} from "./constants"
 
-function DataTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
+function DataTypeFrames (frame, item, uiFrame, mode, formData) {
     let properties={}, propertiesUI={}
-
-
 
     var layout = {
         type: 'string',
@@ -28,14 +26,6 @@ function DataTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
         classNames: mode===VIEW ? "tdb__input mb-3 mt-3 form-label tdb__view__input" : "tdb__input mb-3 mt-3"
     }
 
-    /*if(mode === VIEW && !Array.isArray(formData) && !layout.hasOwnProperty("default")){ // set of subdocuments
-        propertiesUI[item]["ui:widget"]= "hidden"
-    } // commenting this as formData.length = 0 is ignored here*/
-
-    /*if(mode === VIEW && formData.length === 0 && !layout.hasOwnProperty("default")){ // set of subdocuments
-        propertiesUI[item]["ui:widget"]= "hidden"
-    }*/
-
     if(mode === VIEW && !Array.isArray(formData) && !layout.hasOwnProperty("default")){ // set of subdocuments
         propertiesUI[item]["ui:widget"]= "hidden"
     }
@@ -49,8 +39,8 @@ function DataTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
 }
 
 // mandatory
-export function makeDataTypeFrames (frame, item, uiFrame, mode, formData, isSet) {
-    let madeFrames = DataTypeFrames (frame, item, uiFrame, mode, formData, isSet)
+export function makeDataTypeFrames (frame, item, uiFrame, mode, formData) {
+    let madeFrames = DataTypeFrames (frame, item, uiFrame, mode, formData)
     let required=item
     let properties = madeFrames.properties
     let propertiesUI = madeFrames.propertiesUI

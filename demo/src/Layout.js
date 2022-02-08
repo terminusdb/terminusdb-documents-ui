@@ -10,11 +10,11 @@ import {DEMO_SCHEMA, SESHAT_SCHEMA_FULL_REPLACED_TEST, SESHAT_SCHEMA_FULL, SESHA
 
 const App= (props) =>{
 
-    const [schema, setSchema]=useState(NUCLEAR_SCHEMA) //schema
+    const [schema, setSchema]=useState(SESHAT_SCHEMA_SMALL) //schema
     const [uiSchema, setUISchema]=useState(DEMO_SCHEMA_UI) //ui schema
     const [type, setType]=useState(DEMO_DOCUMENT_TYPE)  // document type
-    const [mode, setMode]=useState("Edit")  // mode
-    const [formData, setFormData]=useState(NUCLEAR_FORM_DATA) // formdata => required only on edit/ view
+    const [mode, setMode]=useState("Create")  // mode
+    const [formData, setFormData]=useState(SESHAT_FORM_DATA) // formdata => required only on edit/ view
 
     return <Container fluid className="p-0 h-100 d-flex">
         <div className="side-black ml-2 mt-4 w-100 d-flex">

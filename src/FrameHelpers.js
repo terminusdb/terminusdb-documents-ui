@@ -7,13 +7,13 @@ import {makeSetOneOfClassFrames} from "./SetTypeClassFrames"
 import {makeListData, makeListDocuments, makeListSubDocuments} from "./ListTypeFrames"
 import {makeDocumentTypeFrames} from "./DocumentTypeFrames"
 import {makeEnumTypeFrames} from "./EnumTypeFrames"
-import {isDataType, isSubDocumentType, isOptionalType, isSetType, isDocumentType, isEnumType, isListType, isSubDocumentAndClassType} from "./utils"
-import {DOCUMENT, ENUM, DATA, LONGITUDE, LATITUDE, VIEW, GEO_CORDINATES} from "./constants"
+import {isDataType, isSubDocumentType, isOptionalType, isSetType, isDocumentType, isEnumType, isListType, isSubDocumentAndClassType, isDocumentClassArrayType} from "./utils"
+import {DOCUMENT, ENUM, DATA, LONGITUDE, LATITUDE, VIEW, GEO_CORDINATES, COORDINATES} from "./constants"
 import {OptionalDocumentTypeFrames} from "./OptionalTypeFrames"
 import {makeChoiceTypeFrames} from "./ChoiceTypeFrames"
 import {makeGeoCordinateFrames, makeMultipleGeoCordinateFrames} from "./GeoCordinatesTypeFrames"
 import {makeOneOfClassFrames} from "./OneOfClassFrames"
-
+import {makeGeoFrames} from "./GeoFrames"
 
 function constructNewDocumentFrame(frame, item) {
     let newFrame = {[item]: frame["@class"]}
@@ -24,6 +24,7 @@ function constructSubDocumentFrame (fullFrame, uiFrame, item, title, documents, 
     let subDocument = `${prefix}${title}`
     var data=[]
     if(formData && formData[item]) data=formData[item]
+
     let nestedFrames = getProperties(fullFrame, fullFrame[subDocument], uiFrame, documents, mode, data, false, prefix, onTraverse, onSelect)
     let newProperties=nestedFrames.properties, newUISchema=nestedFrames.uiSchema
     // add type of subdocument
@@ -45,8 +46,6 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
 
     let properties = {}, propertiesUI = {}, dependencies= {}, required = [], fields={}
 
-
-
     for(var item in frame) {
 
         if(item === "@key") continue
@@ -66,8 +65,8 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
             propertiesUI[item] = frames.propertiesUI//[item]
         }
         else if(frame[item] && isDataType(frame[item])) { // datatype properties like xsd:/ xdd:
-            let frames = makeDataTypeFrames(frame, item, uiFrame, mode, formData, isSet)
-
+            let frames = makeDataTypeFrames(frame, item, uiFrame, mode, formData)
+            //console.log("frames,", JSON.stringify(frames, null, 2))
             //set properties and ui
             properties[item] = frames.properties[item]
             propertiesUI[item] = frames.propertiesUI[item]
@@ -144,29 +143,42 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
         }
         else if (frame[item] && isListType(frame[item])) { //list
             let newFrame = constructNewDocumentFrame(frame[item], item)
-            let listFrames = getProperties(fullFrame, newFrame, uiFrame, documents, mode, formData, true, prefix, onTraverse, onSelect)
-            //if(listFrames.required) delete listFrames["required"]
-            //console.log("setFrames", setFrames, item, newFrame)
+            if(Array.isArray(newFrame[item])){
+                //let frames = makeOneOfClassFrames(fullFrame, newFrame, item, uiFrame,  mode, formData, prefix)
+                let frames = makeSetOneOfClassFrames(fullFrame, newFrame, item, uiFrame,  mode, formData, prefix, onTraverse, onSelect)
+                //set properties and ui
+                properties[item] = frames.properties[item]
+                //propertiesUI[item] = frames.propertiesUI[item]
+                for(var things in frames.propertiesUI){
+                    propertiesUI[things] = frames.propertiesUI[things]
+                }
 
-            if(Object.keys(listFrames.properties).length === 0) continue // skip if no properties are found
-            var frames
-            if(listFrames.properties[item].info === DOCUMENT || listFrames.properties[item].info === ENUM) { // if ismulti for react select
-                frames=makeListDocuments(listFrames, item, uiFrame, mode, formData, onTraverse)
-                //set properties and ui
-                properties[item] = frames.properties[item]
-                propertiesUI[item] = frames.propertiesUI[item]
             }
-            else if(listFrames.properties[item].info === DATA) { //data
-                frames=makeListData(listFrames, item, uiFrame, mode, formData)
-                //set properties and ui
-                properties[item] = frames.properties[item]
-                propertiesUI[item] = frames.propertiesUI[item]
-            }
-            else { // sub documents
-                frames=makeListSubDocuments(listFrames, item, uiFrame, mode, formData, onTraverse)
-                //set properties and ui
-                properties[item] = frames.properties[item]
-                propertiesUI[item] = frames.propertiesUI[item]
+            else {
+                let listFrames = getProperties(fullFrame, newFrame, uiFrame, documents, mode, formData, true, prefix, onTraverse, onSelect)
+                //if(listFrames.required) delete listFrames["required"]
+                //console.log("setFrames", setFrames, item, newFrame)
+
+                if(Object.keys(listFrames.properties).length === 0) continue // skip if no properties are found
+                var frames
+                if(listFrames.properties[item].info === DOCUMENT || listFrames.properties[item].info === ENUM) { // if ismulti for react select
+                    frames=makeListDocuments(listFrames, item, uiFrame, mode, formData, onTraverse)
+                    //set properties and ui
+                    properties[item] = frames.properties[item]
+                    propertiesUI[item] = frames.propertiesUI[item]
+                }
+                else if(listFrames.properties[item].info === DATA) { //data
+                    frames=makeListData(listFrames, item, uiFrame, mode, formData)
+                    //set properties and ui
+                    properties[item] = frames.properties[item]
+                    propertiesUI[item] = frames.propertiesUI[item]
+                }
+                else { // sub documents
+                    frames=makeListSubDocuments(listFrames, item, uiFrame, mode, formData, onTraverse)
+                    //set properties and ui
+                    properties[item] = frames.properties[item]
+                    propertiesUI[item] = frames.propertiesUI[item]
+                }
             }
         }
         else if(frame[item] && isDocumentType(frame[item], fullFrame, prefix)) { //link documents
@@ -203,6 +215,20 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
             //set properties and ui
             properties[item] = frames.properties[item]
             propertiesUI[item] = frames.propertiesUI[item]
+        }
+        else if (frame[item] && (item === COORDINATES) && isDocumentClassArrayType(frame[item])) { // coordinates for geo json
+            let geoFrame = makeGeoFrames(frame[item], item, uiFrame, mode, formData)
+            //set properties and ui
+            properties[item] = geoFrame.properties[item]
+            propertiesUI[item] = geoFrame.propertiesUI[item]
+        }
+        else if(Array.isArray(frame[item]) && !frame[item].hasOwnProperty("@type")){ // a choice property with no type
+            //let frames = makeChoiceDocumentTypeFrames(newFrame, item, uiFrame, documents,  mode, formData, onTraverse, onSelect)
+            let newFrame = {[item]: frame[item]}
+            let frames = makeOneOfClassFrames(fullFrame, newFrame, item, uiFrame,  mode, formData, prefix, onTraverse, onSelect)
+            //set properties and ui
+            properties[item] = frames.properties[item]
+            propertiesUI[item] = frames.propertiesUI//[item]
         }
     }
 

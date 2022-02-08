@@ -264,6 +264,7 @@ export const SMALL_SCHEMA_FORM_DATA = {
 	  },
 	  "@type": "Class",
 	   "url": "xsd:string",
+	   "location": "GeoCoordinate",
 	  "reactors": {
 		"@class": [
 		  "ExperimentalReactor",
@@ -281,7 +282,7 @@ export const SMALL_SCHEMA_FORM_DATA = {
 		],
 		"@type": "Lexical"
 	  },
-	  "@subdocument": [],
+	  //"@subdocument": [],
 	  "@type": "Class",
 	  "latitude": "xsd:decimal",
 	  "longitude": "xsd:decimal"
@@ -8793,11 +8794,25 @@ export const SESHAT_SCHEMA_SMALL= {
 	  "@type": "Class",
 	  "general_variables": {
 		"@class": {
+		  "@class": "GeneralVariables",
+		  "@subdocument": []
+		},
+		"@type": "Optional"
+	  }
+	},
+	"http://lib.seshatdatabank.info/schema#GeneralVariables": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "alternative_names": {
+		"@class": {
 		  "@class": "AlternativeNames",
 		  "@subdocument": []
 		},
 		"@type": "Set"
-	  }
+	  },
 	},
 	"http://lib.seshatdatabank.info/schema#AlternativeNames": {
 	  "@key": {
@@ -8880,13 +8895,13 @@ export const SESHAT_SCHEMA_CAPITAL = {
 	  },
 	  "@subdocument": [],
 	  "@type": "Class",
-	  "capital": {
+	  "alternative_names": {
 		"@class": {
-		  "@class": "Capital",
+		  "@class": "AlternativeNames",
 		  "@subdocument": []
 		},
 		"@type": "Set"
-	  }
+	  },
 	},
 	"http://lib.seshatdatabank.info/schema#Capital": {
 	  "@key": {
@@ -8965,7 +8980,7 @@ export const SESHAT_FORM_DATA = {
 
 
 
-export const DEMO_DOCUMENT_TYPE="NuclearPowerPlant"
+export const DEMO_DOCUMENT_TYPE="Polity"
 
 export const DEMO_FORM_DATA_PERSON= {
 	"@id": "Person/Peter%20+terminusdb%3A%2F%2F%2Fdata%2FJob%2Fadmin",

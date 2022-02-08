@@ -1,11 +1,12 @@
 
 import React from "react"
 import {Button, Form} from "react-bootstrap"
-import {XSD_DATA_TYPE_PREFIX, CREATE, XDD_DATA_TYPE_PREFIX, OPTIONAL, SET, ONEOFCLASSES, DOCUMENT, ENUM, VALUE_HASH_KEY, LIST, SYS_UNIT_DATA_TYPE, TDB_SCHEMA, SUBDOCUMENT} from "./constants"
+import {XSD_DATA_TYPE_PREFIX, CREATE, XDD_DATA_TYPE_PREFIX, DIMENSION, ONEOFVALUES, OPTIONAL, SET, ONEOFCLASSES, DOCUMENT, ENUM, VALUE_HASH_KEY, LIST, SYS_UNIT_DATA_TYPE, TDB_SCHEMA, SUBDOCUMENT, ARRAY, COORDINATES} from "./constants"
 import {BiKey, BiPlus} from "react-icons/bi"
 import {RiDeleteBin5Fill} from "react-icons/ri"
 import {FcKey} from "react-icons/fc"
 import {BiErrorCircle} from "react-icons/bi"
+import {FaArrowDown, FaArrowUp} from "react-icons/fa"
 
 //returns extracted prefix
 export function getPrefix(frame) {
@@ -69,6 +70,13 @@ export const isSubDocumentAndClassType = (property, frame, prefix) => {
 	if(frame[document]) {
 		if(frame[document]["@type"] === DOCUMENT && frame[document]["@subdocument"]) return true
 	}
+	return false
+}
+
+// returns true if @type is Array and item is coordinates
+export const isDocumentClassArrayType = (frame) => {
+	if(typeof frame !== "object") return false
+	if(frame.hasOwnProperty("@type") && frame["@type"] === ARRAY) return true
 	return false
 }
 
@@ -193,6 +201,8 @@ export function ArrayFieldTemplate(props) {
 function removeEmptyFields(data) {
 	for(var key in data){
 		if (data.hasOwnProperty(key)) {
+			if(data[key] === undefined) continue
+			if(Array.isArray(data[key])) continue // coordinates
 			if (Object.keys(data[key]).length && typeof data[key] === 'object') {
 				var cleaned = removeEmptyFields(data[key])
 				if(Object.keys(cleaned).length === 1 && cleaned["@type"]){
@@ -207,7 +217,8 @@ function removeEmptyFields(data) {
 				else data[key] = cleaned
 			}
 			else if (Object.keys(data[key]).length && typeof data[key] === 'string') {
-				data[key] = data[key]
+				if(data[key] === SYS_UNIT_DATA_TYPE) data[key]={}
+				else data[key] = data[key]
 			}
 			else {
 				delete data[key]
@@ -219,7 +230,58 @@ function removeEmptyFields(data) {
 }
 
 
-//alter formData of one of classes and choice classes
+function modifyCoordinates(data) {
+	// convert strings to array - ['[125.6, 15.1]', '[125.6, 10.1]']
+	let newArray = []
+	data.map(dat => {
+		let splits = dat.split(",")
+		let lat = Number(splits[0])
+		let lng = Number(splits[1])
+		newArray.push([lat, lng])
+	})
+	return newArray
+}
+
+
+//alter formData of one of data
+function modifyOneOfData(mode, schema, data) {
+	let modifiedData = {}
+	for(var item in data) {
+		if(item === ONEOFVALUES) { // dont use "@oneOf"
+			//if(data[item] === undefined) return {} // for sys:Unit
+			return data[item]
+		}
+		if(item === "coordinates" && Array.isArray(data[item])) { // coordinates geo
+			/*let newArr = modifyCoordinates(data[item])
+			console.log("^^^newArr ^^^", newArr)
+			modifiedData[item] = newArr*/
+			if(schema.properties.hasOwnProperty(item) && schema.properties[item].hasOwnProperty(DIMENSION)) {
+				if(schema.properties[item][DIMENSION] === 1) {
+					modifiedData[item]=data[item]
+				}
+				else if (schema.properties[item][DIMENSION] === 2) {
+					modifiedData[item]=[data[item]]
+				}
+			}
+
+
+		}
+		else if(Array.isArray(data[item])){
+			data[item].map(amd => {
+				modifiedData[item] = [modifyOneOfData(mode, schema, amd)]
+			})
+		}
+		else if(typeof data[item] === "object"){
+			modifiedData[item] = modifyOneOfData(mode, schema, data[item])
+		}
+		else modifiedData[item] = data[item]
+	}
+	console.log("****** modifiedData ****", modifiedData)
+	return modifiedData
+}
+
+
+//alter formData of choice classes
 function modifyChoiceTypeData(mode, schema, data, frame) {
 	let modifiedData = data
 	for(var item in schema.properties) {
@@ -254,12 +316,15 @@ function modifyChoiceTypeData(mode, schema, data, frame) {
 }
 
 
+
+
 // removes properties with no filled values on submit form
 export function formatData(mode, schema, data, frame, current) {
 	var extracted={}
 	let currentFrame=frame[current]
 	//let formData=data
-	let formData = modifyChoiceTypeData(mode, schema, data, frame)
+	let modifiedData = modifyChoiceTypeData(mode, schema, data, frame)
+	let formData = modifyOneOfData(mode, schema, modifiedData, frame)
 
 	for(var key in formData){
 		var newArray=[]
@@ -293,6 +358,7 @@ export function formatData(mode, schema, data, frame, current) {
 			extracted[key]=formData[key]
 		}
 	}
+	console.log("extracted", extracted)
 	let extr = removeEmptyFields(extracted)
 	return extr
 }

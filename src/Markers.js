@@ -1,18 +1,19 @@
 
 import React, {useState} from "react"
-import {Marker, Popup} from 'react-leaflet'
-import {LATITUDE, LONGITUDE} from "./constants"
+import {Marker, Popup, Polyline} from 'react-leaflet'
+import {LATITUDE, LONGITUDE, REFRESH} from "./constants"
 import icon from "./constants"
 
 
-const MarkerInfo = ({activeMarker}) => {
+const MarkerInfo = ({clicked}) => {
 	let info = []
-	for(var thing in activeMarker) {
+	for(var thing in clicked) {
 		if(thing === "@type") continue
+        if(thing===REFRESH) continue
 		info.push(
 			<div className="w-100 mr-4">
 				<span className="text-dark fw-bold col-md-4">{`${thing}: `}</span>
-				<span className="text-dark text-break col-md-8">{ activeMarker[thing] }</span>
+				<span className="text-dark text-break col-md-8">{ clicked[thing] }</span>
 			</div>
 		)
 	}
@@ -20,33 +21,36 @@ const MarkerInfo = ({activeMarker}) => {
 }
 
 
-
-export const Markers = ({data}) => {
-    const [ activeMarker, setActiveMarker ] = useState(false)
+export function  renderPositions(positions, onMarkerClick, polyLine) {
+    const [clicked, setClicked] = useState(false)
 
     return <React.Fragment>
-        {data.map((eachData, index) => (
+
+        {positions.map((position, index) => (
             <Marker
                 key={index}
-                position= {[eachData[LATITUDE], eachData[LONGITUDE]]}
-                eventHandlers={{
-                click: () => {
-                    setActiveMarker(eachData)
-                }
-                }}
+                position= {[position.lat, position.lng]}
                 icon= {icon}
-            />
-        ))}
-
-        { activeMarker && (
-            <Popup
-                position={ [ activeMarker.latitude, activeMarker.longitude ] }
-                onClose={()=>{
-                    setActiveMarker(null)
+                eventHandlers={{
+                    click: () => {
+                        setClicked(position)
+                        let cData = position
+                        cData[REFRESH] = Date.now()
+                        onMarkerClick(position)
+                    }
                 }}
             >
-                <MarkerInfo activeMarker={activeMarker}/>
-            </Popup>
-        )}
+                <Popup>
+                    <MarkerInfo clicked={clicked}/>
+                </Popup>
+            </Marker>
+        ))}
+
+        {Array.isArray(polyLine) && polyLine.map(pl => {
+            return <Polyline color={pl.color} positions={pl.data} />
+        })}
+
+
     </React.Fragment>
 }
+

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react"
 import {getTitle, getDefaultValue, checkIfKey, isFilled} from "./utils"
-import {CREATE, VIEW, EDIT, LATITUDE, LONGITUDE} from "./constants"
+import {CREATE, VIEW, EDIT, LATITUDE, LONGITUDE, LAT, LNG} from "./constants"
 import { MapContainer, TileLayer, Marker, Popup, Map, Polyline } from 'react-leaflet'
 import { MapMarkers } from "./MapMarkers"
 import icon from "./constants"
@@ -96,15 +96,15 @@ function GeoCordinateFrames (frame, item, uiFrame, mode, formData, isSet) {
         let data = {}
         for(var key in formData) {
             if(key.toUpperCase() === LATITUDE.toUpperCase()){
-                data[LATITUDE] = formData[key]
+                data[LAT] = formData[key]
             }
             else if (key.toUpperCase() === LONGITUDE.toUpperCase()){
-                data[LONGITUDE] = formData[key]
+                data[LNG] = formData[key]
             }
             else data[key] = formData[key]
         }
 
-        let lat = data[LATITUDE], long = data[LONGITUDE]
+        let lat = data[LAT], long = data[LNG]
 
         let center=[lat, long]
         return  <MapContainer center={center} zoom={13} scrollWheelZoom={true}>
