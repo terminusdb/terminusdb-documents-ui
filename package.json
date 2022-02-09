@@ -7,7 +7,7 @@
   "jsnext:main": "es6/index",
   "scripts": {
     "build-es6": "rimraf es6 && cross-env NODE_ENV=es6 babel ./src -d es6 --extensions '.js' && babel ./src/css --out-dir es6/css/ --copy-files",
-    "build": "npm run build-es6 && rimraf dist && webpack --production ",
+    "build": "npm run build-es6 && rimraf dist && webpack --mode production",
 
     "start01": "webpack serve --mode development  --open --progress --port 3032 --host localhost --config demo/webpack.config.js",
 
