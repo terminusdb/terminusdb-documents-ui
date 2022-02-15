@@ -242,6 +242,12 @@ function modifyCoordinates(data) {
 	return newArray
 }
 
+function containsGeoTypes(json) { // altering data
+	if(json.hasOwnProperty("Point")) return json["Point"]
+	if(json.hasOwnProperty("LineString")) return json["LineString"]
+	return false
+}
+
 
 //alter formData of one of data
 function modifyOneOfData(mode, schema, data) {
@@ -255,16 +261,13 @@ function modifyOneOfData(mode, schema, data) {
 			/*let newArr = modifyCoordinates(data[item])
 			console.log("^^^newArr ^^^", newArr)
 			modifiedData[item] = newArr*/
-			if(schema.properties.hasOwnProperty(item) && schema.properties[item].hasOwnProperty(DIMENSION)) {
-				if(schema.properties[item][DIMENSION] === 1) {
-					modifiedData[item]=data[item]
-				}
-				else if (schema.properties[item][DIMENSION] === 2) {
-					modifiedData[item]=[data[item]]
-				}
+			//if(schema.properties.hasOwnProperty(item) && schema.properties[item].hasOwnProperty(DIMENSION)) {
+			if(data.hasOwnProperty("@type") && data["@type"] === "Point"){
+				modifiedData[item]=data[item]
 			}
-
-
+			else if (data.hasOwnProperty("@type") && data["@type"] === "LineString") {
+				modifiedData[item]=data[item]
+			}
 		}
 		else if(Array.isArray(data[item])){
 			data[item].map(amd => {
@@ -272,7 +275,11 @@ function modifyOneOfData(mode, schema, data) {
 			})
 		}
 		else if(typeof data[item] === "object"){
-			modifiedData[item] = modifyOneOfData(mode, schema, data[item])
+			let modified = modifyOneOfData(mode, schema, data[item])
+			if(containsGeoTypes(modified)){
+				modifiedData[item] = containsGeoTypes(modified)
+			}
+			else modifiedData[item] = modified
 		}
 		else modifiedData[item] = data[item]
 	}

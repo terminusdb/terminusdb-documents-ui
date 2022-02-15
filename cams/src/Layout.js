@@ -8,7 +8,7 @@ import {token} from './ref'
 const App= (props) =>{
     const [schema, setSchema]=useState(CAMS_SCHEMA)
     const [message, setMessage]=useState(false)
-    const [mode, setMode]=useState("View")
+    const [mode, setMode]=useState("Create")
 
     const team = "termterm";
     const client = new TerminusDBClient.WOQLClient(`https://cloud.terminusdb.com/${team}/`, {
@@ -56,12 +56,7 @@ const App= (props) =>{
         console.log("*****Data Submitted ****", data)
     }
 
-    const uiSchema = {
-        "city": {"ui:widget" : "hidden"},
-        "postal_code": {"ui:widget" : "hidden"},
-        "state": {"ui:widget" : "hidden"},
-        "street": {"ui:widget" : "hidden"}
-    }
+
 
     return <React.Fragment>
         {message}
@@ -69,7 +64,7 @@ const App= (props) =>{
             <div className="p-5 w-100">
                 <FrameViewer
                     frame={schema}
-                    uiFrame={uiSchema}
+                    //uiFrame={uiSchema}
                     mode={mode}
                     formData={CAMS_FORM_DATA}
                     type={CAMS_TYPE}

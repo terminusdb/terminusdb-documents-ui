@@ -61,16 +61,197 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
                     type: "string"
                 }
             }
-            const schema = {
+            let schema = {
                 type: "object",
                 properties: properties.properties,
                 required: properties.required,
-                dependencies: properties.dependencies
+                dependencies: properties.dependencies,
             }
             //console.log("schema", JSON.stringify(schema, null, 2))
+            //console.log("uiSchema", JSON.stringify(properties.uiSchema, null, 2))
+            let test = {
+                "type": "object",
+                "properties": {
+                  "general_variables": {
+                    "type": "object",
+                    "title": "general_variables",
+                    "info": "SUBDOCUMENT",
+                    "properties": {
+                      "alternative_names": {
+                        "type": "array",
+                        "title": "KMMMMM",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "@oneOf": {
+                                "title": "@oneOf",
+                                "type": "object",
+                                "description": "Choose from the list ...",
+                                "anyOf": [
+                                  {
+                                    "title": "inferred",
+                                    "info": "@oneOf",
+                                    "properties": {
+                                      "inferred": {
+                                        "type": "object",
+                                        "title": "inferred",
+                                        "info": "SUBDOCUMENT",
+                                        "properties": {
+                                          "date_range": {
+                                            "type": "object",
+                                            "title": "date_range",
+                                            "info": "SUBDOCUMENT",
+                                            "properties": {
+                                              "from": {
+                                                "type": "string",
+                                                "info": "DATA",
+                                                "title": "from"
+                                              },
+                                              "to": {
+                                                "type": "string",
+                                                "info": "DATA",
+                                                "title": "to"
+                                              },
+                                              "@type": {
+                                                "type": "string",
+                                                "title": "DateRange",
+                                                "default": "DateRange"
+                                              }
+                                            }
+                                          },
+                                          "value": {
+                                            "type": "string",
+                                            "info": "DATA",
+                                            "title": "value",
+                                            "default": "magic"
+                                          },
+                                          "@type": {
+                                            "type": "string",
+                                            "title": "StringValue",
+                                            "default": "StringValue"
+                                          }
+                                        },
+                                        "required": [
+                                          "value"
+                                        ],
+                                        "default": {
+                                          "@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/AlternativeNames/8be6d82fe88b62a7a3a0ecf003b99bd1c990d6fde1fbd0b880b72bebdaabbe4a/inferred/StringValue/30f5a7097ab3bfa78df534949cc844fe6ae9b2cf3c69a689f1901e27cad436de",
+                                          "@type": "StringValue",
+                                          "value": "magic"
+                                        }
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "title": "known",
+                                    "info": "@oneOf",
+                                    "properties": {
+                                      "known": {
+                                        "type": "object",
+                                        "title": "known",
+                                        "info": "SUBDOCUMENT",
+                                        "properties": {
+                                          "date_range": {
+                                            "type": "object",
+                                            "title": "date_range",
+                                            "info": "SUBDOCUMENT",
+                                            "properties": {
+                                              "from": {
+                                                "type": "string",
+                                                "info": "DATA",
+                                                "title": "from"
+                                              },
+                                              "to": {
+                                                "type": "string",
+                                                "info": "DATA",
+                                                "title": "to"
+                                              },
+                                              "@type": {
+                                                "type": "string",
+                                                "title": "DateRange",
+                                                "default": "DateRange"
+                                              }
+                                            }
+                                          },
+                                          "value": {
+                                            "type": "string",
+                                            "info": "DATA",
+                                            "title": "value"
+                                          },
+                                          "@type": {
+                                            "type": "string",
+                                            "title": "StringValue",
+                                            "default": "StringValue"
+                                          }
+                                        },
+                                        "required": [
+                                          "value"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "title": "suspected_unknown",
+                                    "info": "sys:Unit",
+                                    "type": "object",
+                                    "properties": {
+                                      "suspected_unknown": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "default": {
+                                      "suspected_unknown": "sys:Unit"
+                                    }
+                                  },
+                                  {
+                                    "title": "unknown",
+                                    "info": "sys:Unit",
+                                    "type": "object",
+                                    "properties": {
+                                      "unknown": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "default": {
+                                      "unknown": "sys:Unit"
+                                    }
+                                  }
+                                ]
+                              },
+                              "@type": {
+                                "type": "string",
+                                "title": "AlternativeNames"
+                              }
+                            },
+                            "default": {
+                              "@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/AlternativeNames/8be6d82fe88b62a7a3a0ecf003b99bd1c990d6fde1fbd0b880b72bebdaabbe4a",
+                              "@type": "AlternativeNames",
+                              "inferred": {
+                                "@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/AlternativeNames/8be6d82fe88b62a7a3a0ecf003b99bd1c990d6fde1fbd0b880b72bebdaabbe4a/inferred/StringValue/30f5a7097ab3bfa78df534949cc844fe6ae9b2cf3c69a689f1901e27cad436de",
+                                "@type": "StringValue",
+                                "value": "magic"
+                              }
+                            }
+                          }
+                        ],
+
+                      },
+                      "@type": {
+                        "type": "string",
+                        "title": "GeneralVariables",
+                        "default": "GeneralVariables"
+                      }
+                    }
+                  }
+                },
+                "required": [],
+                "dependencies": {}
+              }
             console.log("schema", schema)
             console.log("properties.uiSchema", properties.uiSchema)
             console.log("uiSchema", uiSchema)
+
             if(mode === VIEW) {
                 setReadOnly(true)
                 setInput(formData)

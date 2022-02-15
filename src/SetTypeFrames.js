@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react"
 import {ArrayFieldTemplate, getSetTitle, getTitle, getOptionalSelect, checkIfKey, getDefaultValue, removeDefaultsFromSubDocumentFrame, removeDefaultsFromDataFrame} from "./utils"
-import {CREATE, DATA, VIEW, EDIT, DOCUMENT, SELECT_STYLES, ONEOFSUBDOCUMENTS, ONEOFCLASSES} from "./constants"
+import {CREATE, DATA, VIEW, EDIT, DOCUMENT, ONEOFVALUES, SELECT_STYLES, ONEOFSUBDOCUMENTS, ONEOFCLASSES} from "./constants"
 import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'
 import {AsyncTypeahead} from 'react-bootstrap-typeahead'
@@ -94,24 +94,50 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
             }
 
             defaultValues.map(value => {
+                console.log("defaultValues[count]",defaultValues[count], setFrames.properties[item]["properties"])
+                let subProperties = setFrames.properties[item]["properties"]
 
-                filledItems.push({
-                    type: "object",
-                    //properties: checkProperties(setFrames.properties[item]["properties"], value), //setFrames.properties[item]["properties"],
-                    properties: setFrames.properties[item]["properties"],
-                    default: defaultValues[count]
-                })
+                if(subProperties.hasOwnProperty(ONEOFVALUES)) {
+
+                    subProperties[ONEOFVALUES]["anyOf"].map(aOf => {
+                        if(defaultValues[count].hasOwnProperty(aOf["title"])) { // filled value available
+                            //let stuff = aOf.properties[aOf["title"]].properties
+                            console.log("aOf",aOf)
+                            aOf.properties[aOf["title"]]["default"] = defaultValues[count][aOf["title"]]
+                        }
+                    })
+                    
+                    filledItems.push({
+                        type: "object",
+                        //properties: checkProperties(setFrames.properties[item]["properties"], value), //setFrames.properties[item]["properties"],
+                        properties: setFrames.properties[item]["properties"],
+                        default: defaultValues[count]
+                    })
+                }
+                else {
+                    filledItems.push({
+                        type: "object",
+                        //properties: checkProperties(setFrames.properties[item]["properties"], value), //setFrames.properties[item]["properties"],
+                        properties: setFrames.properties[item]["properties"],
+                        default: defaultValues[count]
+                    })
+                }
+
+
+
 
                 count += 1
             })
         }
+        console.log("filledItems filledItems something", filledItems)
+
         layout["items"]=filledItems
     }
 
     //schema
     properties[item] = layout
 
-
+    console.log("properties befire something", properties)
 
     // get filled values on View mode
     if(mode === VIEW && formData.hasOwnProperty(item) && Array.isArray(layout["items"])) {
@@ -233,6 +259,8 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
         propertiesUI[item] = {"ui:field": hidden }
         //propertiesUI[item] = {"ui:widget" : "hidden"}
     }
+
+    console.log("properties SET", properties)
 
     return {properties, propertiesUI}
 }

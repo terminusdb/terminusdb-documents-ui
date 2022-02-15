@@ -8842,7 +8842,6 @@ export const SESHAT_SCHEMA_SMALL= {
 		  },
 		  "@type": "Optional"
 		},
-		"something": "xsd:string",
 		"value": "xsd:string"
 	},
 	"http://lib.seshatdatabank.info/schema#DateRange": {
@@ -8876,6 +8875,59 @@ export const SESHAT_SCHEMA_SMALL= {
 	  "@type": "Class",
 	  "name": "xsd:string"
 	}
+}
+
+
+export const SESHAT_FORM_DATA = {
+	"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687",
+	"@type": "Polity",
+	"general_variables": {
+		"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0",
+		"@type": "GeneralVariables",
+		"alternative_names": [{
+			"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/AlternativeNames/8be6d82fe88b62a7a3a0ecf003b99bd1c990d6fde1fbd0b880b72bebdaabbe4a",
+			"@type": "AlternativeNames",
+			"inferred": {
+				"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/AlternativeNames/8be6d82fe88b62a7a3a0ecf003b99bd1c990d6fde1fbd0b880b72bebdaabbe4a/inferred/StringValue/30f5a7097ab3bfa78df534949cc844fe6ae9b2cf3c69a689f1901e27cad436de",
+				"@type": "StringValue",
+				"date_range": {
+					"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/AlternativeNames/8be6d82fe88b62a7a3a0ecf003b99bd1c990d6fde1fbd0b880b72bebdaabbe4a/inferred/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/AlternativeNames/8be6d82fe88b62a7a3a0ecf003b99bd1c990d6fde1fbd0b880b72bebdaabbe4a/inferred/StringValue/30f5a7097ab3bfa78df534949cc844fe6ae9b2cf3c69a689f1901e27cad436de/date_range/DateRange/5daa08807967b8fc4bce3e9738f89b0f626e521984eb5b11ac0b417e88c559e8",
+					"@type": "DateRange",
+					"from": 31,
+					"to": 32
+				},
+				"value": "magic"
+			}
+		},
+	    {
+			"@id": "Polity/1af23de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/AlternativeNames/8be6d82fe88b62a7a3a0ecf003b99bd1c990d6fde1fbd0b880b72bebdaabbe4a",
+			"@type": "AlternativeNames",
+			"inferred": {
+				"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/AlternativeNames/8be6d82fe88b62a7a3a0ecf003b99bd1c990d6fde1fbd0b880b72bebdaabbe4a/inferred/StringValue/30f5a7097ab3bfa78df534949cc844fe6ae9b2cf3c69a689f1901e27cad436de",
+				"@type": "StringValue",
+				"date_range": {
+					"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/AlternativeNames/8be6d82fe88b62a7a3a0ecf003b99bd1c990d6fde1fbd0b880b72bebdaabbe4a/inferred/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/AlternativeNames/8be6d82fe88b62a7a3a0ecf003b99bd1c990d6fde1fbd0b880b72bebdaabbe4a/inferred/StringValue/30f5a7097ab3bfa78df534949cc844fe6ae9b2cf3c69a689f1901e27cad436de/date_range/DateRange/5daa08807967b8fc4bce3e9738f89b0f626e521984eb5b11ac0b417e88c559e8",
+					"@type": "DateRange",
+					"from": 35,
+					"to": 99
+				},
+				"value": "reyhand"
+			}
+		}]
+	},
+	/*"institutional_variables": {
+		"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/institutional_variables/InstitutionalVariables/ba17f811ca05f38ce5416ced69456b1971e1d8327b7e326e172883d6fd645c21",
+		"@type": "InstitutionalVariables",
+		"ra": [{
+			"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/institutional_variables/Polity/AfDurrn/institutional_variables/InstitutionalVariables/ba17f811ca05f38ce5416ced69456b1971e1d8327b7e326e172883d6fd645c21/ra/Ra/e8f66fc2dd2aab8debc0d3cace076ecec6d682db91d9941a572876fe3fa536b8",
+			"@type": "Ra",
+			"known": {
+				"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/institutional_variables/Polity/AfDurrn/institutional_variables/InstitutionalVariables/ba17f811ca05f38ce5416ced69456b1971e1d8327b7e326e172883d6fd645c21/ra/Polity/AfDurrn/institutional_variables/Polity/AfDurrn/institutional_variables/InstitutionalVariables/ba17f811ca05f38ce5416ced69456b1971e1d8327b7e326e172883d6fd645c21/ra/Ra/e8f66fc2dd2aab8debc0d3cace076ecec6d682db91d9941a572876fe3fa536b8/known/StringValue/3c486a02c7a590f5da304195f9d3461ed65592feb38f94274bc91a8e51bede71",
+				"@type": "StringValue",
+				"value": "Eli J. Levine"
+			}
+		}]
+	}*/
 }
 
 export const SESHAT_SCHEMA_CAPITAL = {
@@ -8938,42 +8990,6 @@ export const SESHAT_SCHEMA_CAPITAL = {
 	}
 }
 
-export const SESHAT_FORM_DATA = {
-	"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687",
-	"@type": "Polity",
-	"general_variables": {
-		"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0",
-		"@type": "GeneralVariables",
-		"alternative_names": [{
-			"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/AlternativeNames/8be6d82fe88b62a7a3a0ecf003b99bd1c990d6fde1fbd0b880b72bebdaabbe4a",
-			"@type": "AlternativeNames",
-			"inferred": {
-				"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/AlternativeNames/8be6d82fe88b62a7a3a0ecf003b99bd1c990d6fde1fbd0b880b72bebdaabbe4a/inferred/StringValue/30f5a7097ab3bfa78df534949cc844fe6ae9b2cf3c69a689f1901e27cad436de",
-				"@type": "StringValue",
-				"date_range": {
-					"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/AlternativeNames/8be6d82fe88b62a7a3a0ecf003b99bd1c990d6fde1fbd0b880b72bebdaabbe4a/inferred/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/general_variables/GeneralVariables/46e8c13099fefb04791447e0e3742214747e907b4aebd557195e2fc7e1c5daa0/alternative_names/AlternativeNames/8be6d82fe88b62a7a3a0ecf003b99bd1c990d6fde1fbd0b880b72bebdaabbe4a/inferred/StringValue/30f5a7097ab3bfa78df534949cc844fe6ae9b2cf3c69a689f1901e27cad436de/date_range/DateRange/5daa08807967b8fc4bce3e9738f89b0f626e521984eb5b11ac0b417e88c559e8",
-					"@type": "DateRange",
-					"from": 67,
-					"to": 7
-				},
-				"value": "magic"
-			}
-		}]
-	},
-	/*"institutional_variables": {
-		"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/institutional_variables/InstitutionalVariables/ba17f811ca05f38ce5416ced69456b1971e1d8327b7e326e172883d6fd645c21",
-		"@type": "InstitutionalVariables",
-		"ra": [{
-			"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/institutional_variables/Polity/AfDurrn/institutional_variables/InstitutionalVariables/ba17f811ca05f38ce5416ced69456b1971e1d8327b7e326e172883d6fd645c21/ra/Ra/e8f66fc2dd2aab8debc0d3cace076ecec6d682db91d9941a572876fe3fa536b8",
-			"@type": "Ra",
-			"known": {
-				"@id": "Polity/1af5de7224879855816895ecb1b004d4d7e22cc194bd10ba3f20077dc0dae687/institutional_variables/Polity/AfDurrn/institutional_variables/InstitutionalVariables/ba17f811ca05f38ce5416ced69456b1971e1d8327b7e326e172883d6fd645c21/ra/Polity/AfDurrn/institutional_variables/Polity/AfDurrn/institutional_variables/InstitutionalVariables/ba17f811ca05f38ce5416ced69456b1971e1d8327b7e326e172883d6fd645c21/ra/Ra/e8f66fc2dd2aab8debc0d3cace076ecec6d682db91d9941a572876fe3fa536b8/known/StringValue/3c486a02c7a590f5da304195f9d3461ed65592feb38f94274bc91a8e51bede71",
-				"@type": "StringValue",
-				"value": "Eli J. Levine"
-			}
-		}]
-	}*/
-}
 
 
 

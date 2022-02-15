@@ -47,7 +47,7 @@ select, .rbt-input-main {
 .tdb__view__input > input,  .tdb__view__enum__input > select{
     border: 0;
     margin: -10px 0px;
-    color: #fff !important;
+    /*color: #fff !important;*/
 }
 
 .tdb__view__input > span.tbd__view__select{

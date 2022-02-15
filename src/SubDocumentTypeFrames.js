@@ -24,7 +24,7 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
         else { //json object
             for(var key in filled) {
                 if(frame.properties[key]){ // frame exists and we add a default
-                    frame.properties[key]["default"] = filled[key].toString()
+                    frame.properties[key]["default"] = filled[key]//.toString()
                 }
             }
         }

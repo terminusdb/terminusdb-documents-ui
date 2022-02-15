@@ -6,7 +6,7 @@ const TerminusDBClient = require("@terminusdb/terminusdb-client")
 
 const App= (props) =>{
     const [schema, setSchema]=useState(SCHEMA)
-    const [mode, setMode]=useState("Edit")
+    const [mode, setMode]=useState("View")
 
 
 

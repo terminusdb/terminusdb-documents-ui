@@ -1,9 +1,9 @@
 
 import React, {useState, createRef} from "react"
-import {MapContainer, TileLayer, GeoJSON} from 'react-leaflet'
+import {MapContainer, TileLayer,  MapControl, withLeaflet, GeoJSON, Polyline} from 'react-leaflet'
 import {LATITUDE, LONGITUDE, POINTS, POLYGON, LAT, LNG} from "./constants"
 import {renderPositions} from "./Markers"
-
+import Legend from "./MapLegend";
 
 /*
 **  documents            - Array of documents with latitudes and longitudes
@@ -12,8 +12,10 @@ import {renderPositions} from "./Markers"
 */
 
 
-export const MapViewer = ({documents, zoom=13, scrollWheelZoom, display, onMarkerClick, polyLine}) => {
+export const MapViewer = ({documents, zoom=13, scrollWheelZoom, display, onMarkerClick, polyLine, children}) => {
 	const [mapRef, setMapRef] = useState(createRef())
+	const [map, setMap] = useState(null)
+
 	let type=POINTS
 	if(display) type=display
 
@@ -24,11 +26,13 @@ export const MapViewer = ({documents, zoom=13, scrollWheelZoom, display, onMarke
         return <React.Fragment>{"Cannot display empty documents on map"}</React.Fragment>
     }
 
+
 	return <MapContainer
 		ref={mapRef}
 		scrollWheelZoom = { scrollWheelZoom }
 		center= { [ documents[0][LAT] , documents[0][LNG] ] }
 		zoom={zoom}
+		whenCreated={setMap}
 	>
 		<TileLayer
 			attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -36,8 +40,9 @@ export const MapViewer = ({documents, zoom=13, scrollWheelZoom, display, onMarke
 		/>
 
 		{/*<GeoJSON data={dump}/>*/}
-
+		<Legend map={map} children={children} />
 		{renderPositions(documents, onMarkerClick, polyLine)}
+
 	</MapContainer>
 
 }

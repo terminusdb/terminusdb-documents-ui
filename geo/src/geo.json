@@ -570,3 +570,45 @@
   "type": "Point",
   "@type": "Point"
 }
+
+{
+  "coordinates": [[125.6, 10.1], [125.6, 15.1]],
+  "type": "Point",
+  "@type": "Point"
+}
+
+//feature collecion
+"iri://CAMS#FeatureCollection": {
+  "@type": "Class",
+  "crs": {
+    "@class": "name",
+    "@type": "Optional"
+  },
+  "features": {
+    "@class": "Feature",
+    "@type": "Set"
+  },
+  "name": {
+    "@class": "xsd:string",
+    "@type": "Optional"
+  },
+  "type": {
+    "@id": "FeatureCollection_Type",
+    "@type": "Enum",
+    "@values": [
+      "FeatureCollection"
+    ]
+  }
+},
+
+{
+  @type: "FeatureCollection"
+crs: "name/b2aea57b463f9bbea451a9a0ce695555cbacf4ad466e06a035b36d1ade0008c7"
+name: "test"
+type: "FeatureCollection"
+}
+
+
+
+
+

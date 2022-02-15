@@ -24,80 +24,6 @@ propertiesUI[item]={
         }
         propertiesUI[item]["ui:ArrayFieldTemplate"]=ArrayFieldTemplate
         */
-function singleDimensions_withitem (frame, item, uiFrame, mode, formData) {
-
-
-
-
-
-    var  layout= {
-        type: "array",
-        title: mode === VIEW ? getTitle() : getSetTitle(),
-        items: {
-            type: "string",
-        }
-    }
-
-    if(mode !== CREATE && formData.hasOwnProperty(item)){
-        var filledItems = []
-        var count = 0, defaultValues=formData[item]
-        defaultValues.map(value => {
-            filledItems.push({
-                type: "string",
-                default: defaultValues[count]
-            })
-            count += 1
-        })
-        layout["items"]=filledItems
-    }
-
-    //schema
-    properties[item] = layout
-
-    if(mode !== VIEW) { // we do not allow to add extra on view mode
-        // layout
-        properties[item]["additionalItems"]={
-            type: "string",
-            title: item,
-        }
-        //ui
-        propertiesUI[item] = {
-            "items": {
-                "ui:description": "Coordinates should be in format lat, lng, example 123, 10.8",
-                "ui:placeholder": `Enter coordinates lat,lng format ...`,
-                "ui:options" : {
-                    addable: true,
-                    orderable: true,
-                    removable: true
-                },
-                classNames: "tdb__input mb-3 mt-3"
-            }
-        }
-        propertiesUI[item]["ui:ArrayFieldTemplate"]=ArrayFieldTemplate
-    }
-    else {
-        /*propertiesUI[item]={
-            "items": {
-                "ui:options" : {
-                    addable: false,
-                    orderable: false,
-                    removable: false
-                },
-                classNames: "tdb__input mb-3 mt-3 form-label tdb__view__input"
-            }
-        }
-        propertiesUI[item]["ui:ArrayFieldTemplate"]=ArrayFieldTemplate*/
-        propertiesUI[item]={"ui:field": getMapComponent}
-    }
-
-    //custom ui:schema
-    if(uiFrame && uiFrame[item]) {
-        propertiesUI[item] = uiFrame[item]
-        propertiesUI[item]["ui:title"] = item
-    }
-
-    return {properties, propertiesUI}
-}
 
 function multiDimensions (frame, item, uiFrame, mode, formData) {
     let properties={}, propertiesUI={}
@@ -147,7 +73,7 @@ function multiDimensions (frame, item, uiFrame, mode, formData) {
     if(mode === CREATE) {
         propertiesUI[item] = {
             "items": {
-                "ui:description": "you can enter multiple coordinates example [[125.6, 10.1], [125.6, 15.1]] ",
+                "ui:description": "you can enter multiple coordinates",
                 "ui:options" : {
                     addable: true,
                     orderable: true,
@@ -182,7 +108,7 @@ function multiDimensions (frame, item, uiFrame, mode, formData) {
     else if(mode === EDIT){
         propertiesUI[item] = {
             "items": {
-                "ui:description": "you can enter multiple coordinates example [[125.6, 10.1], [125.6, 15.1]] ",
+                "ui:description": "you can enter multiple coordinates",
                 "ui:options" : {
                     addable: true,
                     orderable: true,
