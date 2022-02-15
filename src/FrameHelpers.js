@@ -95,7 +95,6 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
         else if (frame[item] && isSetType(frame[item])) { //set
 
             let newFrame = constructNewDocumentFrame(frame[item], item)
-            console.log("newFrame", newFrame)
 
             if(Array.isArray(newFrame[item])){
                 //let frames = makeOneOfClassFrames(fullFrame, newFrame, item, uiFrame,  mode, formData, prefix)

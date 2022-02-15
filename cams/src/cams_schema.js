@@ -1205,3 +1205,38 @@ export const CAMS_FORM_DATA_LOCATION = {
 
 export const CAMS_TYPE = "Asset"
 
+/*
+{
+   "location":{
+      "geometry_location":{
+         "@type":"LineString",
+         "coordinates":[
+            [
+               [
+                  15.58333,
+                  -61.46667
+               ],
+               [
+                  15.30174,
+                  -61.38808
+               ]
+            ]
+         ],
+         "comment":"HazzardHELLO",
+         "type":"LineString"
+      },
+      "@type":"Location",
+      "city":"dublin",
+      "postal_code":"6",
+      "state":"Dublin",
+      "street":"5 beverly leinster square rathmines dublin 6"
+   },
+   "asset_identifier":"gas station",
+   "commisioning_date":"2011-01-01T01:00:37Z",
+   "design_standards":"abc",
+   "last_maintained":"2011-01-01T01:00:37Z",
+   "last_modified":"2011-01-01T01:00:37Z",
+   "name":"Kitty Jose",
+   "spatial_web_identifier":"SpatialWebIdentifier/927c5a4328352aa3f43648932a23749b180ad8826375ed3ff26e00e0fcc1e2c6",
+   "@type":"Asset"
+}*/
