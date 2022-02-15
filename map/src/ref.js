@@ -1,5 +1,3 @@
 
 
-export const token ="dGVybWludXNkYjovLy9kYXRhL2tleXNfYXBpL2FiYTgwNWYzZTNmNjkyMzVjMzRkODU5M2Q5NDczYzRmNjY5NDYxYjA2ZGRiYzU2MWI1NmVlNWMxMzA5MWMxZWY=_0f8f1c851e4da15df2cdc88b96511e8f7de432f5ef7f1f3405a5113341ff7bcbfffa987644c9580ed7ca1456aed8904ebf41523dc38ea8268a0e2edaa2628ea5ce4619919af168cf"
-
-
+export const token="enter your token"
