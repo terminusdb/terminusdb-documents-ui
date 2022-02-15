@@ -9,7 +9,15 @@ Object.defineProperty(exports, "FrameViewer", {
     return _FrameViewer.FrameViewer;
   }
 });
+Object.defineProperty(exports, "MapViewer", {
+  enumerable: true,
+  get: function get() {
+    return _MapViewer.MapViewer;
+  }
+});
 
 var _FrameViewer = require("./FrameViewer");
+
+var _MapViewer = require("./MapViewer");
 
 require("./css/terminusdb__styles.css");

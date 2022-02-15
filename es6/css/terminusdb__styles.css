@@ -1,4 +1,7 @@
 
+.rjsf {
+    width: 100%;
+}
 
 .tdb__subdocument__collapse_headers{
     background: none !important;
@@ -10,13 +13,30 @@
     color: #f9d891 !important;
 }
 
-.tdb__input > input, .tdb__input > select{
+.tdb__input > input, .tdb__input > select, .tdb__view__enum__input > select{
     color: #adb5bd !important;
     background-color: transparent !important;
     border-color: rgb(102, 102, 102) !important;
     line-height: 1.5;
 }
 
+
+/** selects ***/
+select, .rbt-input-main {
+    background-color: transparent !important;
+    color: #adb5bd !important;
+    border-color: rgb(102, 102, 102) !important;
+    line-height: 1.5;
+}
+
+.rbt-input-hint{ /** hide hint for typeahead select**/
+    display: none;
+}
+
+.rbt{
+    width: 100%;
+    height: fit-content;
+}
 
 /*** input layouts in view mode ***/
 .tdb__view__input, .tdb__view__enum__input{
@@ -27,7 +47,7 @@
 .tdb__view__input > input,  .tdb__view__enum__input > select{
     border: 0;
     margin: -10px 0px;
-    color: #fff !important;
+    /*color: #fff !important;*/
 }
 
 .tdb__view__input > span.tbd__view__select{
@@ -38,19 +58,24 @@
 }
 
 .tdb__view__input > span > select,
-.tdb__view__input > select {
+.tdb__view__input > select,
+.tdb__view__input > span.tdb__span__select {
     border: 0;
     background-color: transparent !important;
     background-image: none !important; /** hiding select carrot **/
-    margin: -10px 0px 0px -10px !important;
+    margin: 0px 0px 0px -10px !important;
     color: #fff !important;
     text-decoration: underline;
     cursor: pointer;
 }
 
+.css-qc6sy-singleValue {
+    color: #fff !important;
+}
+
 .tdb__view__input > span > select:hover,
 .tdb__view__input > select:hover,
-.tdb__view__input > span:hover{
+.tdb__view__input > span.tdb__span__select:hover{
     color: #2196f3 !important;
 }
 
@@ -111,4 +136,14 @@ i.glyphicon-chevron-down::after {
 
 select > option {
     background-color: #444 !important;
+}
+
+legend {
+    display: none;
+}
+
+
+
+.field-description {
+    color: #888;
 }

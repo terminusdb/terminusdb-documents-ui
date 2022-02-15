@@ -14,15 +14,15 @@ var _constants = require("./constants");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function EnumTypeFrames(frame, item, uiFrame, mode, formData, isSet) {
+function EnumTypeFrames(frame, item, uiFrame, mode, formData, isSet, onSelect) {
   var properties = {},
       propertiesUI = {};
-  var uiDisable = false,
-      type = frame[item];
+  var type = frame[item];
   var layout = {
     type: 'string',
     info: _constants.ENUM,
-    "enum": frame["@values"]
+    "enum": frame["@values"],
+    title: item
   }; //schema
 
   properties[item] = layout;
@@ -33,7 +33,7 @@ function EnumTypeFrames(frame, item, uiFrame, mode, formData, isSet) {
 
 
   propertiesUI[item] = {
-    "ui:disabled": uiDisable,
+    "ui:disabled": mode === _constants.EDIT && (0, _utils.checkIfKey)(item, frame["@key"]) && (0, _utils.isFilled)(formData, item) ? true : false,
     "ui:title": (0, _utils.getTitle)(item, (0, _utils.checkIfKey)(item, frame["@key"])),
     "ui:placeholder": "Select ".concat(frame["@id"], " ..."),
     classNames: mode === _constants.VIEW ? "tdb__input mb-3 mt-3 tdb__view__enum__input" : "tdb__input mb-3 mt-3"
@@ -62,8 +62,8 @@ function EnumTypeFrames(frame, item, uiFrame, mode, formData, isSet) {
 } // mandatory
 
 
-function makeEnumTypeFrames(frame, item, uiFrame, mode, formData, isSet) {
-  var madeFrames = EnumTypeFrames(frame, item, uiFrame, mode, formData, isSet);
+function makeEnumTypeFrames(frame, item, uiFrame, mode, formData, isSet, onSelect) {
+  var madeFrames = EnumTypeFrames(frame, item, uiFrame, mode, formData, isSet, onSelect);
   var required = item;
   var properties = madeFrames.properties;
   var propertiesUI = madeFrames.propertiesUI;

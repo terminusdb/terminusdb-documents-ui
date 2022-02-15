@@ -47,6 +47,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 **  documents - document list
 **  formData  - filled value of the document
 **  onSubmit  - a function which can have custom logic to process data submitted
+**  hideSubmit - hides Submit button - this is helpfull when you want to display nested FrameViewers
+**  onChange   - a function which have custom logic to process data when form data is changed
+**  onSelect   - a js function which gets back the selected value from selects
+**  FieldTemplate - a js function which you can pass at root level of FrameViewer to alter look and feel of fields
 */
 function FrameViewer(_ref) {
   var frame = _ref.frame,
@@ -56,7 +60,11 @@ function FrameViewer(_ref) {
       documents = _ref.documents,
       formData = _ref.formData,
       onSubmit = _ref.onSubmit,
-      onTraverse = _ref.onTraverse;
+      onTraverse = _ref.onTraverse,
+      onSelect = _ref.onSelect,
+      hideSubmit = _ref.hideSubmit,
+      onChange = _ref.onChange,
+      FieldTemplate = _ref.FieldTemplate;
 
   var _useState = (0, _react.useState)(_constants.TDB_SCHEMA),
       _useState2 = _slicedToArray(_useState, 2),
@@ -86,7 +94,8 @@ function FrameViewer(_ref) {
   var _useState11 = (0, _react.useState)({}),
       _useState12 = _slicedToArray(_useState11, 2),
       input = _useState12[0],
-      setInput = _useState12[1];
+      setInput = _useState12[1]; //const [definitions, setDefinitions]=useState({})
+
 
   var _useState13 = (0, _react.useState)(false),
       _useState14 = _slicedToArray(_useState13, 2),
@@ -94,54 +103,86 @@ function FrameViewer(_ref) {
       setMessage = _useState14[1];
 
   if (!frame) return /*#__PURE__*/_react["default"].createElement("div", null, "No schema provided!");
+  if (!mode) return /*#__PURE__*/_react["default"].createElement("div", null, "Please include a mode - Create/ Edit/ View");
+  if (mode === _constants.VIEW && !formData) return /*#__PURE__*/_react["default"].createElement("div", null, "Mode is set to View, please provide filled form data");
+  if (!type) return /*#__PURE__*/_react["default"].createElement("div", null, "Please include the type of document");
+  var extractedPrefix = (0, _utils.getPrefix)(frame);
+  var current = "".concat(extractedPrefix).concat(type);
   (0, _react.useEffect)(function () {
-    var extractedPrefix = (0, _utils.getPrefix)(frame);
     setPrefix(extractedPrefix);
-    var current = "".concat(extractedPrefix).concat(type); //try{
 
-    var properties = (0, _FrameHelpers.getProperties)(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse);
-    var schema = {
-      "type": "object",
-      "properties": properties.properties,
-      "required": properties.required,
-      "dependencies": properties.dependencies
-    }; //console.log("schema", JSON.stringify(schema, null, 2))
+    try {
+      //console.log("extractedPrefix", extractedPrefix)
+      //console.log("frame", frame)
+      var properties = (0, _FrameHelpers.getProperties)(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect);
+      /*let properties ={                properties:{},
+          required: {},
+          dependencies:{},
+          uiSchema:{}
+      }*/
+      //console.log("definitions", definitions)
 
-    console.log("schema", schema);
-    console.log("properties.uiSchema", properties.uiSchema);
-    console.log("uiSchema", uiSchema);
-    console.log("required", properties.required);
+      var definitions = {
+        testdef: {
+          title: "test",
+          type: "string"
+        }
+      };
+      var _schema = {
+        type: "object",
+        properties: properties.properties,
+        required: properties.required,
+        dependencies: properties.dependencies
+      }; //console.log("schema", JSON.stringify(schema, null, 2))
+      //console.log("uiSchema", JSON.stringify(properties.uiSchema, null, 2))
 
-    if (mode === _constants.VIEW) {
-      setReadOnly(true);
-      setInput(formData);
+      console.log("schema", _schema);
+      console.log("properties.uiSchema", properties.uiSchema);
+      console.log("uiSchema", _uiSchema);
+
+      if (mode === _constants.VIEW) {
+        setReadOnly(true);
+        setInput(formData);
+      } else if (mode === _constants.EDIT && (0, _utils.isValueHashDocument)(frame[current])) {
+        setInput(formData);
+        setMessage((0, _utils.getValueHashMessage)());
+        setReadOnly(true);
+      } else if (onChange) {
+        // form nested frame viewers
+        setInput(formData);
+      } else {
+        setReadOnly(false);
+        setInput({});
+      }
+
+      setSchema(_schema);
+      var _uiSchema = properties.uiSchema;
+      if (uiFrame && uiFrame.classNames) _uiSchema["classNames"] = uiFrame.classNames;
+      if (uiFrame && uiFrame["ui:title"]) _uiSchema["ui:title"] = uiFrame["ui:title"];
+      if (uiFrame && uiFrame["ui:description"]) _uiSchema["ui:description"] = uiFrame["ui:description"];
+      setUISchema(_uiSchema);
+    } catch (e) {
+      setError("An error has occured in generating frames. Err - ", e);
     }
-
-    if (mode === _constants.EDIT && (0, _utils.isValueHashDocument)(frame[current])) {
-      setInput(formData);
-      setMessage((0, _utils.getValueHashMessage)());
-      setReadOnly(true);
-    } else {
-      setReadOnly(false);
-      setInput({});
-    }
-
-    setSchema(schema);
-    var uiSchema = properties.uiSchema;
-    if (uiFrame && uiFrame.classNames) uiSchema["classNames"] = uiFrame.classNames;
-    setUISchema(uiSchema); //}
-    //catch(e) {
-    //  setError("An error has occured in generating frames. Err - ", e)
-    //}
   }, [frame, uiFrame, type, mode, formData]);
 
   var handleSubmit = function handleSubmit(_ref2) {
     var formData = _ref2.formData;
+    console.log("Data before extract: ", formData);
 
     if (onSubmit) {
-      var extracted = (0, _utils.formatData)(formData);
+      var extracted = (0, _utils.formatData)(mode, schema, formData, frame, current);
       onSubmit(extracted);
-      console.log("Data submitted: ", extracted);
+      console.log("Data submitted: ", extracted); //console.log("Data submitted: ",  JSON.stringify(extracted, null, 2))
+    }
+  };
+
+  var handleChange = function handleChange(data) {
+    console.log("Data changed: ", data);
+    setInput(data);
+
+    if (onChange) {
+      onChange(data);
     }
   };
 
@@ -149,24 +190,46 @@ function FrameViewer(_ref) {
     return /*#__PURE__*/_react["default"].createElement(_reactBootstrap.Alert, {
       variant: "danger"
     }, error);
-  }
+  } //return <>{"HELLO WORLD"}</>
 
-  return /*#__PURE__*/_react["default"].createElement("div", null, schema && message && message, schema && /*#__PURE__*/_react["default"].createElement(_core["default"], {
+  /*function CustomFieldTemplate(props) {
+      const {id, classNames, label, help, required, description, errors, children} = props;
+      var css
+      console.log("props", props)
+      if(label === "address") css = "d-none"
+      return (
+        <div className={css}>
+          <label htmlFor={id}>{label}{required ? "*" : null}</label>
+          {description}
+          {children}
+          {errors}
+          {help}
+        </div>
+      );
+    }*/
+
+
+  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, schema && message && message, schema && /*#__PURE__*/_react["default"].createElement(_core["default"], {
     schema: schema,
     uiSchema: uiSchema,
     mode: mode,
-    onSubmit: handleSubmit,
+    onSubmit: handleSubmit //onBlur={e => handleBlur(e.formData)}
+    ,
     readonly: readOnly,
     formData: input,
     onChange: function onChange(_ref3) {
       var formData = _ref3.formData;
-      return setInput(formData);
+      return handleChange(formData);
     },
     fields: {
       collapsible: _CollapsibleField["default"]
-    },
-    children: readOnly // hide submit button on view mode
-
+    } //liveValidate={false}
+    //omitExtraData={true}
+    //showErrorList={false}
+    ,
+    children: hideSubmit // hide submit button on view mode
+    ,
+    FieldTemplate: FieldTemplate
   }));
 }
 /*<pre>

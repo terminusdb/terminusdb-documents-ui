@@ -3,7 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.XSD_DATA_TYPE_PREFIX = exports.XDD_DATA_TYPE_PREFIX = exports.VIEW = exports.VALUE_HASH_KEY = exports.TDB_SCHEMA = exports.SUBDOCUMENT = exports.SET = exports.SELECT_STYLES = exports.OPTIONAL = exports.ENUM = exports.EDIT = exports.DOCUMENT = exports.DATA = exports.CREATE = void 0;
+exports["default"] = exports.XSD_DATA_TYPE_PREFIX = exports.XDD_DATA_TYPE_PREFIX = exports.VIEW = exports.VALUE_HASH_KEY = exports.TDB_SCHEMA = exports.SYS_UNIT_DATA_TYPE = exports.SUBDOCUMENT = exports.SET = exports.SELECT_STYLES = exports.REFRESH = exports.POLYLINE = exports.POLYGON = exports.POINTS = exports.OPTIONAL = exports.ONEOFVALUES = exports.ONEOFSUBDOCUMENTS = exports.ONEOFCLASSES = exports.LONGITUDE = exports.LNG = exports.LIST = exports.LATITUDE = exports.LAT = exports.GEO_CORDINATES = exports.ENUM = exports.EDIT = exports.DOCUMENT = exports.DIMENSION = exports.DATA = exports.CREATE = exports.COORDINATES = exports.ARRAY = void 0;
+
+var _leaflet = _interopRequireDefault(require("leaflet"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
@@ -18,16 +22,51 @@ var XDD_DATA_TYPE_PREFIX = "xdd:";
 exports.XDD_DATA_TYPE_PREFIX = XDD_DATA_TYPE_PREFIX;
 var SUBDOCUMENT = "@subdocument";
 exports.SUBDOCUMENT = SUBDOCUMENT;
+var ONEOFSUBDOCUMENTS = "OneOfSubDocuments";
+exports.ONEOFSUBDOCUMENTS = ONEOFSUBDOCUMENTS;
 var OPTIONAL = "Optional";
 exports.OPTIONAL = OPTIONAL;
 var SET = "Set";
 exports.SET = SET;
+var LIST = "List";
+exports.LIST = LIST;
 var DOCUMENT = "Class";
 exports.DOCUMENT = DOCUMENT;
 var ENUM = "Enum";
 exports.ENUM = ENUM;
 var DATA = "DATA";
 exports.DATA = DATA;
+var LATITUDE = "Latitude";
+exports.LATITUDE = LATITUDE;
+var LONGITUDE = "Longitude";
+exports.LONGITUDE = LONGITUDE;
+var GEO_CORDINATES = "GeoCoordinates";
+exports.GEO_CORDINATES = GEO_CORDINATES;
+var ONEOFCLASSES = "OneOfClasses";
+exports.ONEOFCLASSES = ONEOFCLASSES;
+var ONEOFVALUES = "@oneOf";
+exports.ONEOFVALUES = ONEOFVALUES;
+var COORDINATES = "coordinates";
+exports.COORDINATES = COORDINATES;
+var ARRAY = "Array";
+exports.ARRAY = ARRAY;
+var DIMENSION = "@dimensions"; // react leaflet constants
+
+exports.DIMENSION = DIMENSION;
+var LNG = "lng";
+exports.LNG = LNG;
+var LAT = "lat";
+exports.LAT = LAT;
+var REFRESH = "refresh";
+exports.REFRESH = REFRESH;
+var POINTS = "Points";
+exports.POINTS = POINTS;
+var POLYGON = "Polygon";
+exports.POLYGON = POLYGON;
+var POLYLINE = "Polyline";
+exports.POLYLINE = POLYLINE;
+var SYS_UNIT_DATA_TYPE = "sys:Unit";
+exports.SYS_UNIT_DATA_TYPE = SYS_UNIT_DATA_TYPE;
 var CREATE = "Create";
 exports.CREATE = CREATE;
 var EDIT = "Edit";
@@ -64,5 +103,16 @@ var SELECT_STYLES = {
       })
     });
   }
-};
+}; // map icon component
+
 exports.SELECT_STYLES = SELECT_STYLES;
+
+var _default = _leaflet["default"].icon({
+  iconSize: [25, 41],
+  iconAnchor: [10, 41],
+  popupAnchor: [2, -40],
+  iconUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-icon.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
+});
+
+exports["default"] = _default;
