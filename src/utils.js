@@ -271,7 +271,8 @@ function modifyOneOfData(mode, schema, data) {
 		}
 		else if(Array.isArray(data[item])){
 			data[item].map(amd => {
-				modifiedData[item] = [modifyOneOfData(mode, schema, amd)]
+				if(typeof amd === "string") modifiedData[item] =data[item]
+				else modifiedData[item] = [modifyOneOfData(mode, schema, amd)]
 			})
 		}
 		else if(typeof data[item] === "object"){
