@@ -25,7 +25,7 @@ jobs:
         git commit -m "Add changes" -a
     - name: Push changes
       uses: ad-m/github-push-action@master
-      if: github.repository == 'terminusdb/terminusdb' && github.ref == 'refs/heads/main' && github.event_name == 'push'
+      if: github.repository == 'terminusdb/terminusdb-documents-ui' && github.ref == 'refs/heads/main' && github.event_name == 'push'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: main-es6
