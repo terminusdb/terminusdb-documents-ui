@@ -245,7 +245,7 @@ function makeSetSubDocuments(setFrames, item, uiFrame, mode, formData, onTravers
                         <span>{props.formData}</span>
                     </React.Fragment>
                 }
-                  //propertiesUI[item]["items"].push(setFrames.uiSchema[item][props][thing])
+                 //propertiesUI[item]["items"].push(setFrames.uiSchema[item][props][thing])
                 //if(flds === "@type") propertiesUI[item]["items"][count][thing][flds]["ui:widget"]="hidden"
                 //else propertiesUI[item]["items"][count][thing][flds]["ui:field"]=getFieldValue
             }
