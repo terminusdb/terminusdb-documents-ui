@@ -178,7 +178,8 @@ function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame, mode, formData, 
             type: 'object',
             info: ONEOFCLASSES,
             title: item,
-            description: `Choose ${item} from the list ...`
+            description: `Choose ${item} from the list ...`,
+            default: formData.hasOwnProperty(item) ? formData[item] : {}
         }
         if(formData.hasOwnProperty(item)){
             //arrange ordering of options

@@ -129,7 +129,6 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
                 count += 1
             })
         }
-        console.log("filledItems filledItems something", filledItems)
 
         layout["items"]=filledItems
     }
@@ -137,7 +136,6 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
     //schema
     properties[item] = layout
 
-    console.log("properties befire something", properties)
 
     // get filled values on View mode
     if(mode === VIEW && formData.hasOwnProperty(item) && Array.isArray(layout["items"])) {

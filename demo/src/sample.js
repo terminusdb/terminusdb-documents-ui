@@ -424,51 +424,23 @@ export const CURRENT = {
   }
 
 export const CURRENT_DATA = {
-	"@id":"Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd",
-	"@type":"Organization",
-	"domain":[
+	"@id":"Location/0254518b6cd853e561e63aa1e43ced36fd2193b2f986240668e41cb1314567fc",
+	"@type":"Location",
+	"address":[
 	   {
-		  "@id":"Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/domain/Domain/717dfe42543685f8032dea46fced24f2819dd300f3a978008518a9bb91d2a46d",
-		  "@type":"Domain",
+		  "@id":"Location/0254518b6cd853e561e63aa1e43ced36fd2193b2f986240668e41cb1314567fc/address/Address/9663a966e413cd8610ceba0d2050d0cf2268f3ec221604b864224514d308b724",
+		  "@type":"Address",
+		  "city":"SAINT-OUEN",
+		  "country":"France",
 		  "date_from":"2022-02-10T13:17:11.153464Z",
 		  "date_to":"2022-02-10T13:17:11.153464Z",
+		  "post_code":"93400",
 		  "source":{
-			 "@id":"Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/domain/Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/domain/Domain/717dfe42543685f8032dea46fced24f2819dd300f3a978008518a9bb91d2a46d/source/Source/d24e7b23d5d93be863e390f61dc997bba6c2347628644975327d5d466f80fccc",
+			 "@id":"Location/0254518b6cd853e561e63aa1e43ced36fd2193b2f986240668e41cb1314567fc/address/Location/0254518b6cd853e561e63aa1e43ced36fd2193b2f986240668e41cb1314567fc/address/Address/9663a966e413cd8610ceba0d2050d0cf2268f3ec221604b864224514d308b724/source/Source/4facdf2ca15692ac1463ef14237f8327109b3b6f36c4b7332e048518aadffe88",
 			 "@type":"Source",
 			 "name":"../stockopedia_data.csv"
 		  },
-		  "url":"alstom.com"
-	   }
-	],
-	"employee_count":[
-	   {
-		  "@id":"Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/employee_count/EmployeeCount/68c5fe609f463686043cf06593512847808b124efa26b293bbc6a6fdec344f3d",
-		  "@type":"EmployeeCount",
-		  "date_from":"2022-02-10T13:17:11.153464Z",
-		  "date_to":"2022-02-10T13:17:11.153464Z",
-		  "source":{
-			 "@id":"Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/employee_count/Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/employee_count/EmployeeCount/68c5fe609f463686043cf06593512847808b124efa26b293bbc6a6fdec344f3d/source/Source/a82adcc246f04e83f786d754377900239118a306b3ec67b8046594f521f02314",
-			 "@type":"Source",
-			 "name":"../stockopedia_data.csv"
-		  },
-		  "value":44830
-	   }
-	],
-	"location":[
-	   "Location/0254518b6cd853e561e63aa1e43ced36fd2193b2f986240668e41cb1314567fc"
-	],
-	"name":[
-	   {
-		  "@id":"Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/name/Name/746a0f1b092e5b1fb2cc3bdfabe0fe98d05e66f5f1ec1c3244db83e8941af60e",
-		  "@type":"Name",
-		  "date_from":"2022-02-10T13:17:11.153464Z",
-		  "date_to":"2022-02-10T13:17:11.153464Z",
-		  "name":"Alstom SA (PAR)",
-		  "source":{
-			 "@id":"Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/name/Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/name/Name/746a0f1b092e5b1fb2cc3bdfabe0fe98d05e66f5f1ec1c3244db83e8941af60e/source/Source/8c323b0fb9afae8ceba45472376704b2affcf7869577e4aa7126e6f4c0505b45",
-			 "@type":"Source",
-			 "name":"../stockopedia_data.csv"
-		  }
+		  "stress_address":"48 rue Albert Dhalenne"
 	   }
 	]
  }
@@ -9465,7 +9437,7 @@ export const SESHAT_SCHEMA_CAPITAL = {
 
 
 
-export const DEMO_DOCUMENT_TYPE="Organization"
+export const DEMO_DOCUMENT_TYPE="Location"
 
 export const DEMO_FORM_DATA_PERSON= {
 	"@id": "Person/Peter%20+terminusdb%3A%2F%2F%2Fdata%2FJob%2Fadmin",
