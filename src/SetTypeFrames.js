@@ -94,7 +94,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
             }
 
             defaultValues.map(value => {
-                console.log("defaultValues[count]",defaultValues[count], setFrames.properties[item]["properties"])
+                //console.log("defaultValues[count]",defaultValues[count], setFrames.properties[item]["properties"])
                 let subProperties = setFrames.properties[item]["properties"]
 
                 if(subProperties.hasOwnProperty(ONEOFVALUES)) {
@@ -102,11 +102,11 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
                     subProperties[ONEOFVALUES]["anyOf"].map(aOf => {
                         if(defaultValues[count].hasOwnProperty(aOf["title"])) { // filled value available
                             //let stuff = aOf.properties[aOf["title"]].properties
-                            console.log("aOf",aOf)
+                            //console.log("aOf",aOf)
                             aOf.properties[aOf["title"]]["default"] = defaultValues[count][aOf["title"]]
                         }
                     })
-                    
+
                     filledItems.push({
                         type: "object",
                         //properties: checkProperties(setFrames.properties[item]["properties"], value), //setFrames.properties[item]["properties"],
@@ -260,7 +260,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
         //propertiesUI[item] = {"ui:widget" : "hidden"}
     }
 
-    console.log("properties SET", properties)
+    //console.log("properties SET", properties)
 
     return {properties, propertiesUI}
 }

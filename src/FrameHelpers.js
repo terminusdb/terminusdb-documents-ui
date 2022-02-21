@@ -70,7 +70,7 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
             //set properties and ui
             properties[item] = frames.properties[item]
             propertiesUI[item] = frames.propertiesUI[item]
-            required.push(frames.required)
+            if(frames.hasOwnProperty("required")) required.push(frames.required)
         }
         else if (frame[item] && isOptionalType(frame[item])) { // optional
 
@@ -85,7 +85,7 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
             else {
                 let optionalProperties = getProperties(fullFrame, newFrame, uiFrame, documents, mode, formData, false, prefix, onTraverse, onSelect)
 
-                let optionalFrames = OptionalDocumentTypeFrames(optionalProperties, item, mode, onSelect)
+                let optionalFrames = OptionalDocumentTypeFrames(optionalProperties, uiFrame, item, mode, onSelect)
 
                 //set properties and ui
                 properties[item] = optionalFrames.properties[item]
@@ -135,7 +135,7 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
                 else { // sub documents
                     frames=makeSetSubDocuments(setFrames, item, uiFrame, mode, formData, onTraverse)
                     //set properties and ui
-                    console.log("frames", frames)
+                    //console.log("frames", frames)
                     properties[item] = frames.properties[item]
                     propertiesUI[item] = frames.propertiesUI[item]
                 }
@@ -191,13 +191,13 @@ export function getProperties (fullFrame, frame, uiFrame, documents, mode, formD
             required.push(frames.required)
         }
         else if (frame[item] && isEnumType(frame[item])) { // enums
-            let frames = makeEnumTypeFrames(frame[item], item, uiFrame, mode, formData, isSet, onSelect)
+
+            let frames = makeEnumTypeFrames(frame, item, uiFrame, mode, formData, isSet, onSelect)
 
             //set properties and ui
             properties[item] = frames.properties[item]
             propertiesUI[item] = frames.propertiesUI[item]
-            required.push(frames.required)
-
+            if(frames.hasOwnProperty("required")) required.push(frames.required)
         }
         else if(frame[item] && isSubDocumentType(frame[item])) { //subdocument
             //let subDocumentFrame=fullFrame[`${TDB_SCHEMA}${frame[item]["@class"]}`]

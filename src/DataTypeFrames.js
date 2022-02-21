@@ -1,8 +1,8 @@
 import {getTitle, getDefaultValue, checkIfKey, isFilled} from "./utils"
-import {CREATE, VIEW, EDIT} from "./constants"
+import {CREATE, VIEW, EDIT, SUBDOCUMENT} from "./constants"
 
 function DataTypeFrames (frame, item, uiFrame, mode, formData) {
-    let properties={}, propertiesUI={}
+    let properties={}, propertiesUI={}, required=null
 
     var layout = {
         type: 'string',
@@ -12,8 +12,14 @@ function DataTypeFrames (frame, item, uiFrame, mode, formData) {
 
     if(mode !== CREATE && formData.hasOwnProperty(item)) {
         let value = getDefaultValue(item, formData)
-        layout["default"] = value.toString()
-
+        if(typeof value == "number") layout.type="number"
+        layout["default"] = value
+    }
+    else if (mode !== CREATE && Array.isArray(formData) && formData.length && formData[0].hasOwnProperty(item)) {
+        // this data frame will be part of a set or list, so if value is integer we set type to number
+        let value = getDefaultValue(item, formData[0])
+        if(typeof value == "number") layout.type="number"
+        layout["default"] = value
     }
 
     // schema
@@ -35,14 +41,23 @@ function DataTypeFrames (frame, item, uiFrame, mode, formData) {
         propertiesUI[item] = uiFrame[item]
     }
 
-    return {properties, propertiesUI}
+    //gather required properties - required is true only if not set/subdocument/list
+    if(Object.keys(frame).length && !frame.hasOwnProperty(SUBDOCUMENT)) {
+        required=item
+    }
+
+    return {properties, propertiesUI, required}
 }
 
 // mandatory
 export function makeDataTypeFrames (frame, item, uiFrame, mode, formData) {
     let madeFrames = DataTypeFrames (frame, item, uiFrame, mode, formData)
-    let required=item
     let properties = madeFrames.properties
     let propertiesUI = madeFrames.propertiesUI
-    return {properties, propertiesUI, required}
+    if(madeFrames.required !== null) {
+        let required=item
+        return {properties, propertiesUI, required}
+    }
+    else return {properties, propertiesUI}
+
 }

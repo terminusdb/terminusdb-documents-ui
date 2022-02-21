@@ -4,6 +4,475 @@ export const EDIT="Edit"
 export const VIEW="View"
 
 
+export const CURRENT = {
+	"terminusdb:///schema#Address": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "city": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "coordinate": {
+		"@class": {
+		  "@class": "Coordinate",
+		  "@subdocument": []
+		},
+		"@type": "Optional"
+	  },
+	  "country": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "coutry": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "date_from": "xsd:dateTime",
+	  "date_to": {
+		"@class": "xsd:dateTime",
+		"@type": "Optional"
+	  },
+	  "geocode_accuracy": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "metro_area": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "post_code": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "source": {
+		"@class": "Source",
+		"@subdocument": []
+	  },
+	  "state": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "stress_address": "xsd:string"
+	},
+	"terminusdb:///schema#ContactCounts": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "date_from": "xsd:dateTime",
+	  "date_to": {
+		"@class": "xsd:dateTime",
+		"@type": "Optional"
+	  },
+	  "num_of_it_contacts": "xsd:integer",
+	  "num_of_sales_contacts": "xsd:integer",
+	  "source": {
+		"@class": "Source",
+		"@subdocument": []
+	  }
+	},
+	"terminusdb:///schema#Coordinate": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "latitude": "xsd:decimal",
+	  "longtitude": "xsd:decimal"
+	},
+	"terminusdb:///schema#Currency": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "type": {
+		"@id": "CurrencyType",
+		"@type": "Enum",
+		"@values": [
+		  "hkd",
+		  "usd",
+		  "eur",
+		  "gbp"
+		]
+	  },
+	  "value": "xsd:decimal"
+	},
+	"terminusdb:///schema#CurrencyType": {
+	  "@type": "Enum",
+	  "@values": [
+		"hkd",
+		"usd",
+		"eur",
+		"gbp"
+	  ]
+	},
+	"terminusdb:///schema#Domain": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "date_from": "xsd:dateTime",
+	  "date_to": {
+		"@class": "xsd:dateTime",
+		"@type": "Optional"
+	  },
+	  "source": {
+		"@class": "Source",
+		"@subdocument": []
+	  },
+	  "url": "xsd:string"
+	},
+	"terminusdb:///schema#EmployeeCount": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "date_from": "xsd:dateTime",
+	  "date_to": {
+		"@class": "xsd:dateTime",
+		"@type": "Optional"
+	  },
+	  "employee_count_band": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "max": {
+		"@class": "xsd:integer",
+		"@type": "Optional"
+	  },
+	  "min": {
+		"@class": "xsd:integer",
+		"@type": "Optional"
+	  },
+	  "source": {
+		"@class": "Source",
+		"@subdocument": []
+	  },
+	  "value": "xsd:integer"
+	},
+	"terminusdb:///schema#Industry": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "date_from": "xsd:dateTime",
+	  "date_to": {
+		"@class": "xsd:dateTime",
+		"@type": "Optional"
+	  },
+	  "industry_code": "xsd:string",
+	  "industry_code_desc": "xsd:string",
+	  "industry_code_type": "xsd:string",
+	  "source": {
+		"@class": "Source",
+		"@subdocument": []
+	  }
+	},
+	"terminusdb:///schema#IsPublic": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "date_from": "xsd:dateTime",
+	  "date_to": {
+		"@class": "xsd:dateTime",
+		"@type": "Optional"
+	  },
+	  "is_public": "xsd:boolean",
+	  "source": {
+		"@class": "Source",
+		"@subdocument": []
+	  }
+	},
+	"terminusdb:///schema#Location": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "address": {
+		"@class": {
+		  "@class": "Address",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  },
+	  "contact_counts": {
+		"@class": {
+		  "@class": "ContactCounts",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  },
+	  "location_type": {
+		"@class": {
+		  "@class": "LocationType",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  },
+	  "phone_num": {
+		"@class": {
+		  "@class": "PhoneNumber",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  }
+	},
+	"terminusdb:///schema#LocationType": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "date_from": "xsd:dateTime",
+	  "date_to": {
+		"@class": "xsd:dateTime",
+		"@type": "Optional"
+	  },
+	  "source": {
+		"@class": "Source",
+		"@subdocument": []
+	  },
+	  "value": {
+		"@id": "LocationTypeValue",
+		"@type": "Enum",
+		"@values": [
+		  "hq",
+		  "decision_making_location",
+		  "branch"
+		]
+	  }
+	},
+	"terminusdb:///schema#LocationTypeValue": {
+	  "@type": "Enum",
+	  "@values": [
+		"hq",
+		"decision_making_location",
+		"branch"
+	  ]
+	},
+	"terminusdb:///schema#Name": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "date_from": "xsd:dateTime",
+	  "date_to": {
+		"@class": "xsd:dateTime",
+		"@type": "Optional"
+	  },
+	  "name": "xsd:string",
+	  "source": {
+		"@class": "Source",
+		"@subdocument": []
+	  }
+	},
+	"terminusdb:///schema#Organization": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "domain": {
+		"@class": {
+		  "@class": "Domain",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  },
+	  "employee_count": {
+		"@class": {
+		  "@class": "EmployeeCount",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  },
+	  "industry": {
+		"@class": {
+		  "@class": "Industry",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  },
+	  "location": {
+		"@class": "Location",
+		"@type": "Set"
+	  },
+	  "name": {
+		"@class": {
+		  "@class": "Name",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  },
+	  "parent": {
+		"@class": "Organization",
+		"@type": "Set"
+	  },
+	  "public": {
+		"@class": {
+		  "@class": "IsPublic",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  },
+	  "revenue": {
+		"@class": {
+		  "@class": "Revenue",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  }
+	},
+	"terminusdb:///schema#PhoneNumber": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "date_from": "xsd:dateTime",
+	  "date_to": {
+		"@class": "xsd:dateTime",
+		"@type": "Optional"
+	  },
+	  "phone_num": "xsd:string",
+	  "source": {
+		"@class": "Source",
+		"@subdocument": []
+	  }
+	},
+	"terminusdb:///schema#Revenue": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "date_from": "xsd:dateTime",
+	  "date_to": {
+		"@class": "xsd:dateTime",
+		"@type": "Optional"
+	  },
+	  "max": {
+		"@class": {
+		  "@class": "Currency",
+		  "@subdocument": []
+		},
+		"@type": "Optional"
+	  },
+	  "min": {
+		"@class": {
+		  "@class": "Currency",
+		  "@subdocument": []
+		},
+		"@type": "Optional"
+	  },
+	  "revenue_band": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "source": {
+		"@class": "Source",
+		"@subdocument": []
+	  },
+	  "value": {
+		"@class": "Currency",
+		"@subdocument": []
+	  }
+	},
+	"terminusdb:///schema#Source": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "file": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "name": "xsd:string"
+	},
+	"terminusdb:///schema#Sourced": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "source": {
+		"@class": "Source",
+		"@subdocument": []
+	  }
+	},
+	"terminusdb:///schema#TemporalScoping": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "date_from": "xsd:dateTime",
+	  "date_to": {
+		"@class": "xsd:dateTime",
+		"@type": "Optional"
+	  }
+	}
+  }
+
+export const CURRENT_DATA = {
+	"@id":"Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd",
+	"@type":"Organization",
+	"domain":[
+	   {
+		  "@id":"Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/domain/Domain/717dfe42543685f8032dea46fced24f2819dd300f3a978008518a9bb91d2a46d",
+		  "@type":"Domain",
+		  "date_from":"2022-02-10T13:17:11.153464Z",
+		  "date_to":"2022-02-10T13:17:11.153464Z",
+		  "source":{
+			 "@id":"Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/domain/Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/domain/Domain/717dfe42543685f8032dea46fced24f2819dd300f3a978008518a9bb91d2a46d/source/Source/d24e7b23d5d93be863e390f61dc997bba6c2347628644975327d5d466f80fccc",
+			 "@type":"Source",
+			 "name":"../stockopedia_data.csv"
+		  },
+		  "url":"alstom.com"
+	   }
+	],
+	"employee_count":[
+	   {
+		  "@id":"Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/employee_count/EmployeeCount/68c5fe609f463686043cf06593512847808b124efa26b293bbc6a6fdec344f3d",
+		  "@type":"EmployeeCount",
+		  "date_from":"2022-02-10T13:17:11.153464Z",
+		  "date_to":"2022-02-10T13:17:11.153464Z",
+		  "source":{
+			 "@id":"Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/employee_count/Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/employee_count/EmployeeCount/68c5fe609f463686043cf06593512847808b124efa26b293bbc6a6fdec344f3d/source/Source/a82adcc246f04e83f786d754377900239118a306b3ec67b8046594f521f02314",
+			 "@type":"Source",
+			 "name":"../stockopedia_data.csv"
+		  },
+		  "value":44830
+	   }
+	],
+	"location":[
+	   "Location/0254518b6cd853e561e63aa1e43ced36fd2193b2f986240668e41cb1314567fc"
+	],
+	"name":[
+	   {
+		  "@id":"Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/name/Name/746a0f1b092e5b1fb2cc3bdfabe0fe98d05e66f5f1ec1c3244db83e8941af60e",
+		  "@type":"Name",
+		  "date_from":"2022-02-10T13:17:11.153464Z",
+		  "date_to":"2022-02-10T13:17:11.153464Z",
+		  "name":"Alstom SA (PAR)",
+		  "source":{
+			 "@id":"Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/name/Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/name/Name/746a0f1b092e5b1fb2cc3bdfabe0fe98d05e66f5f1ec1c3244db83e8941af60e/source/Source/8c323b0fb9afae8ceba45472376704b2affcf7869577e4aa7126e6f4c0505b45",
+			 "@type":"Source",
+			 "name":"../stockopedia_data.csv"
+		  }
+	   }
+	]
+ }
+
 export const DEMO_SCHEMA_PERSON ={
 	"terminusdb:///schema#Address": {
 	  "@key": {
@@ -8996,7 +9465,7 @@ export const SESHAT_SCHEMA_CAPITAL = {
 
 
 
-export const DEMO_DOCUMENT_TYPE="Polity"
+export const DEMO_DOCUMENT_TYPE="Organization"
 
 export const DEMO_FORM_DATA_PERSON= {
 	"@id": "Person/Peter%20+terminusdb%3A%2F%2F%2Fdata%2FJob%2Fadmin",
@@ -9419,4 +9888,6 @@ export const PROFILE_DEMO_DOCUMENTS = {
 		"City/003"
 	]
 }
+
+
 

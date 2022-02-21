@@ -4,7 +4,7 @@ import AsyncSelect from 'react-select/async'
 import {Form} from "react-bootstrap"
 import {AsyncTypeahead} from 'react-bootstrap-typeahead'
 
-export function OptionalDocumentTypeFrames (optionalFrames, item, mode, onSelect) {
+export function OptionalDocumentTypeFrames (optionalFrames, uiFrame, item, mode, onSelect) {
     if(mode !== VIEW) {
 
         // get select component with no required
@@ -157,5 +157,10 @@ export function OptionalDocumentTypeFrames (optionalFrames, item, mode, onSelect
     if(Array.isArray(optionalFrames.properties[item].required)) {
         delete optionalFrames.properties[item].required
     }
+    //custom ui:schema
+    if(uiFrame && uiFrame[item]) {
+        optionalFrames.uiSchema[item] = uiFrame[item]
+    }
+
     return optionalFrames
 }
