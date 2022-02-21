@@ -17,6 +17,7 @@ export const ONEOFVALUES="@oneOf"
 export const COORDINATES="coordinates"
 export const ARRAY="Array"
 export const DIMENSION= "@dimensions"
+export const POINT_TYPE="Point"
 
 // react leaflet constants
 export const LNG="lng"

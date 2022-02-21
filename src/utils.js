@@ -1,7 +1,7 @@
 
 import React from "react"
 import {Button, Form} from "react-bootstrap"
-import {XSD_DATA_TYPE_PREFIX, CREATE, XDD_DATA_TYPE_PREFIX, DIMENSION, ONEOFVALUES, OPTIONAL, SET, ONEOFCLASSES, DOCUMENT, ENUM, VALUE_HASH_KEY, LIST, SYS_UNIT_DATA_TYPE, TDB_SCHEMA, SUBDOCUMENT, ARRAY, COORDINATES} from "./constants"
+import {XSD_DATA_TYPE_PREFIX, CREATE, XDD_DATA_TYPE_PREFIX, POINT_TYPE, DIMENSION, ONEOFVALUES, OPTIONAL, SET, ONEOFCLASSES, DOCUMENT, ENUM, VALUE_HASH_KEY, LIST, SYS_UNIT_DATA_TYPE, TDB_SCHEMA, SUBDOCUMENT, ARRAY, COORDINATES} from "./constants"
 import {BiKey, BiPlus} from "react-icons/bi"
 import {RiDeleteBin5Fill} from "react-icons/ri"
 import {FcKey} from "react-icons/fc"
@@ -202,7 +202,9 @@ function removeEmptyFields(data) {
 	for(var key in data){
 		if (data.hasOwnProperty(key)) {
 			if(data[key] === undefined) continue
-			if(Array.isArray(data[key])) continue // coordinates
+			if(Array.isArray(data[key]) &&
+				data.hasOwnProperty("@type") &&
+				data["@type"] === POINT_TYPE) continue // coordinates
 			if (Object.keys(data[key]).length && typeof data[key] === 'object') {
 				var cleaned = removeEmptyFields(data[key])
 				if(Object.keys(cleaned).length === 1 && cleaned["@type"]){
@@ -216,9 +218,12 @@ function removeEmptyFields(data) {
 				}
 				else data[key] = cleaned
 			}
-			else if (Object.keys(data[key]).length && typeof data[key] === 'string') {
+			else if (Object.keys(data[key]).length && typeof data[key] === 'string') { // review this check
 				if(data[key] === SYS_UNIT_DATA_TYPE) data[key]={}
 				else data[key] = data[key]
+			}
+			else if (typeof data[key] === 'number') {
+				data[key] = data[key]
 			}
 			else {
 				delete data[key]
@@ -262,7 +267,7 @@ function modifyOneOfData(mode, schema, data) {
 			console.log("^^^newArr ^^^", newArr)
 			modifiedData[item] = newArr*/
 			//if(schema.properties.hasOwnProperty(item) && schema.properties[item].hasOwnProperty(DIMENSION)) {
-			if(data.hasOwnProperty("@type") && data["@type"] === "Point"){
+			if(data.hasOwnProperty("@type") && data["@type"] === POINT_TYPE){
 				modifiedData[item]=data[item]
 			}
 			else if (data.hasOwnProperty("@type") && data["@type"] === "LineString") {
@@ -284,7 +289,7 @@ function modifyOneOfData(mode, schema, data) {
 		}
 		else modifiedData[item] = data[item]
 	}
-	console.log("****** modifiedData ****", modifiedData)
+	//console.log("****** modifiedData ****", modifiedData)
 	return modifiedData
 }
 
@@ -327,7 +332,7 @@ function modifyChoiceTypeData(mode, schema, data, frame) {
 
 
 // removes properties with no filled values on submit form
-export function formatData(mode, schema, data, frame, current) {
+export function formatData(mode, schema, data, frame, current, type) {
 	var extracted={}
 	let currentFrame=frame[current]
 	//let formData=data
@@ -366,8 +371,9 @@ export function formatData(mode, schema, data, frame, current) {
 			extracted[key]=formData[key]
 		}
 	}
-	console.log("extracted", extracted)
+	//console.log("extracted", extracted)
 	let extr = removeEmptyFields(extracted)
+	if(!extr.hasOwnProperty("@type")) extr["@type"]=type
 	return extr
 }
 

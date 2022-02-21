@@ -1,43 +1,24 @@
 
 
 export const CAMS_SCHEMA_EVENTS = {
-    "iri://CAMS#Asset": {
-      "@type": "Class",
-	  "name": "xsd:string",
-      "asset_history": {
-        "@class": [
-          {
-            "@class": "HazardEvent",
-            "@subdocument": []
-          },
-          {
-            "@class": "UpdateEvent",
-            "@subdocument": []
-          }
-        ],
-        "@type": "Set"
-      }
+  "iri://CAMS#Area": {
+    "@type": "Class",
+    "extent": {
+      "@class": {
+        "@class": "AreaExtent",
+        "@subdocument": []
+      },
+      "@type": "Optional"
     },
-    "iri://CAMS#HazardEvent": {
-      "@documentation": {
-        "@comment": "Historical hazard",
-        "@properties": {
-          "comment": "A comment relating to an historic hazard incident.",
-          "date": "The date at which the incident occurred."
-        }
+    "hazard_history": {
+      "@class": {
+        "@class": "HazardEvent",
+        "@subdocument": []
       },
-      "@key": {
-        "@fields": [
-          "hazard",
-          "date"
-        ],
-        "@type": "Lexical"
-      },
-      "@subdocument": [],
-      "@type": "Class",
-      "comment": "xsd:string",
-      "date": "xsd:dateTime",
-      "hazard": {
+      "@type": "Set"
+    },
+    "hazards": {
+      "@class": {
         "@id": "Hazard",
         "@type": "Enum",
         "@values": [
@@ -61,28 +42,508 @@ export const CAMS_SCHEMA_EVENTS = {
           "Other Terrorism",
           "Industrial Accident (Emissions, Releases, Spills, Ect.)"
         ]
+      },
+      "@type": "Set"
+    },
+    "name": "xsd:string",
+    "population": {
+      "@class": "xsd:integer",
+      "@type": "Optional"
+    }
+  },
+  "iri://CAMS#AreaExtent": {
+    "@key": {
+      "@type": "ValueHash"
+    },
+    "@subdocument": [],
+    "@type": "Class",
+    "perimeter": {
+      "@class": "xsd:integer",
+      "@type": "Optional"
+    }
+  },
+  "iri://CAMS#Asset": {
+    "@key": {
+      "@fields": [
+        "asset_identifier"
+      ],
+      "@type": "Lexical"
+    },
+    "@type": "Class",
+    "applicable_hazards": {
+      "@class": {
+        "@id": "Hazard",
+        "@type": "Enum",
+        "@values": [
+          "Volcanos (incl. lahars, pyroclastic flows, volcanic activity)",
+          "Landslides (incl. post wildfire landslides) and Avalanches",
+          "Hurricanes, Typhoons, or Cyclones",
+          "Tropical/Extra Tropical of other extreme storms",
+          "Coast Storm Surge",
+          "Pluvial and Fluvial Flooding",
+          "\"Sunny Day\" Tidal Flooding",
+          "Tornadoes, Derechos, Micro-Bursts",
+          "Lightning Strikes",
+          "Wildfires",
+          "Drought",
+          "Geologic Sink Holes",
+          "Pest Infestations",
+          "Famine",
+          "High Temperature Event",
+          "Low Temperature Event",
+          "Cyber Attack or Failure",
+          "Other Terrorism",
+          "Industrial Accident (Emissions, Releases, Spills, Ect.)"
+        ]
+      },
+      "@type": "Set"
+    },
+    "asset_history": {
+      "@class": [
+        {
+          "@class": "HazardEvent",
+          "@subdocument": []
+        },
+        {
+          "@class": "UpdateEvent",
+          "@subdocument": []
+        }
+      ],
+      "@type": "Set"
+    },
+    "asset_identifier": "xsd:string",
+    "asset_update_history": {
+      "@class": {
+        "@class": "UpdateEvent",
+        "@subdocument": []
+      },
+      "@type": "Set"
+    },
+    "commisioning_date": "xsd:dateTime",
+    "design_standards": "xsd:string",
+    "last_maintained": "xsd:dateTime",
+    "last_modified": "xsd:dateTime",
+    "location": {
+      "@class": "Location",
+      "@subdocument": []
+    },
+    "name": "xsd:string",
+    "owner": {
+      "@class": "Owner",
+      "@type": "Set"
+    },
+    "spatial_web_identifier": {
+      "@class": "SpatialWebIdentifier",
+      "@type": "Optional"
+    }
+  },
+  "iri://CAMS#AssetType": {
+    "@abstract": [],
+    "@type": "Class",
+    "name": "xsd:string"
+  },
+  "iri://CAMS#CRS84": {
+    "@type": "Class",
+    "name": {
+      "@id": "CRS84_Type",
+      "@type": "Enum",
+      "@values": [
+        "urn:ogc:def:crs:OGC:1.3:CRS84"
+      ]
+    }
+  },
+  "iri://CAMS#CRS84_Type": {
+    "@type": "Enum",
+    "@values": [
+      "urn:ogc:def:crs:OGC:1.3:CRS84"
+    ]
+  },
+  "iri://CAMS#DependencyRelation": {
+    "@type": "Class",
+    "comment": "xsd:string",
+    "critical": "xsd:boolean",
+    "dependent": "Asset",
+    "depends_on": "Asset"
+  },
+  "iri://CAMS#Event": {
+    "@abstract": [],
+    "@subdocument": [],
+    "@type": "Class",
+    "date": "xsd:dateTime"
+  },
+  "iri://CAMS#Feature": {
+    "@type": "Class",
+    "bbox": {
+      "@class": "xsd:string",
+      "@dimensions": 1,
+      "@type": "Array"
+    },
+    "centerline": {
+      "@class": [
+        {
+          "@class": "LineString",
+          "@subdocument": []
+        },
+        {
+          "@class": "Point",
+          "@subdocument": []
+        }
+      ],
+      "@type": "Optional"
+    },
+    "geometry": [
+      {
+        "@class": "LineString",
+        "@subdocument": []
+      },
+      {
+        "@class": "Point",
+        "@subdocument": []
+      }
+    ],
+    "id": {
+      "@class": "xsd:string",
+      "@type": "Optional"
+    },
+    "properties": [
+      "CRS84",
+      "OSiProperties"
+    ],
+    "title": {
+      "@class": "xsd:string",
+      "@type": "Optional"
+    },
+    "type": {
+      "@id": "Feature_Type",
+      "@type": "Enum",
+      "@values": [
+        "Feature"
+      ]
+    }
+  },
+  "iri://CAMS#FeatureCollection": {
+    "@type": "Class",
+    "crs": {
+      "@class": "name",
+      "@type": "Optional"
+    },
+    "features": {
+      "@class": "Feature",
+      "@type": "Set"
+    },
+    "name": {
+      "@class": "xsd:string",
+      "@type": "Optional"
+    },
+    "type": {
+      "@id": "FeatureCollection_Type",
+      "@type": "Enum",
+      "@values": [
+        "FeatureCollection"
+      ]
+    }
+  },
+  "iri://CAMS#FeatureCollection_Type": {
+    "@type": "Enum",
+    "@values": [
+      "FeatureCollection"
+    ]
+  },
+  "iri://CAMS#Feature_Type": {
+    "@type": "Enum",
+    "@values": [
+      "Feature"
+    ]
+  },
+  "iri://CAMS#FundingSource": {
+    "@abstract": [],
+    "@type": "Class"
+  },
+  "iri://CAMS#GeoCoordinate": {
+    "@key": {
+      "@fields": [
+        "latitude",
+        "longitude"
+      ],
+      "@type": "Lexical"
+    },
+    "@subdocument": [],
+    "@type": "Class",
+    "latitude": "xsd:decimal",
+    "longitude": "xsd:decimal"
+  },
+  "iri://CAMS#GeoPerimeter": {
+    "@key": {
+      "@fields": [
+        "perimeter"
+      ],
+      "@type": "Lexical"
+    },
+    "@subdocument": [],
+    "@type": "Class",
+    "perimeter": {
+      "@class": {
+        "@class": "GeoCoordinate",
+        "@subdocument": []
+      },
+      "@type": "List"
+    }
+  },
+  "iri://CAMS#Geometry": {
+    "@abstract": [],
+    "@key": {
+      "@type": "Random"
+    },
+    "@subdocument": [],
+    "@type": "Class"
+  },
+  "iri://CAMS#GeometryCollection_Type": {
+    "@type": "Enum",
+    "@values": [
+      "GeometryCollection"
+    ]
+  },
+  "iri://CAMS#Hazard": {
+    "@type": "Enum",
+    "@values": [
+      "Volcanos (incl. lahars, pyroclastic flows, volcanic activity)",
+      "Landslides (incl. post wildfire landslides) and Avalanches",
+      "Hurricanes, Typhoons, or Cyclones",
+      "Tropical/Extra Tropical of other extreme storms",
+      "Coast Storm Surge",
+      "Pluvial and Fluvial Flooding",
+      "\"Sunny Day\" Tidal Flooding",
+      "Tornadoes, Derechos, Micro-Bursts",
+      "Lightning Strikes",
+      "Wildfires",
+      "Drought",
+      "Geologic Sink Holes",
+      "Pest Infestations",
+      "Famine",
+      "High Temperature Event",
+      "Low Temperature Event",
+      "Cyber Attack or Failure",
+      "Other Terrorism",
+      "Industrial Accident (Emissions, Releases, Spills, Ect.)"
+    ]
+  },
+  "iri://CAMS#HazardEvent": {
+    "@documentation": {
+      "@comment": "Historical hazard",
+      "@properties": {
+        "comment": "A comment relating to an historic hazard incident.",
+        "date": "The date at which the incident occurred."
       }
     },
-	"iri://CAMS#UpdateEvent": {
-      "@documentation": {
-        "@comment": "Update history",
-        "@properties": {
-          "comment": "A comment relating to an historic hazard incident.",
-          "date": "The date at which the update occurred."
-        }
-      },
-      "@key": {
-        "@fields": [
-          "comment",
-          "date"
-        ],
-        "@type": "Lexical"
-      },
-      "@subdocument": [],
-      "@type": "Class",
-      "comment": "xsd:string",
-      "date": "xsd:dateTime"
+    "@key": {
+      "@fields": [
+        "hazard",
+        "date"
+      ],
+      "@type": "Lexical"
+    },
+    "@subdocument": [],
+    "@type": "Class",
+    "comment": "xsd:string",
+    "date": "xsd:dateTime",
+    "hazard": {
+      "@id": "Hazard",
+      "@type": "Enum",
+      "@values": [
+        "Volcanos (incl. lahars, pyroclastic flows, volcanic activity)",
+        "Landslides (incl. post wildfire landslides) and Avalanches",
+        "Hurricanes, Typhoons, or Cyclones",
+        "Tropical/Extra Tropical of other extreme storms",
+        "Coast Storm Surge",
+        "Pluvial and Fluvial Flooding",
+        "\"Sunny Day\" Tidal Flooding",
+        "Tornadoes, Derechos, Micro-Bursts",
+        "Lightning Strikes",
+        "Wildfires",
+        "Drought",
+        "Geologic Sink Holes",
+        "Pest Infestations",
+        "Famine",
+        "High Temperature Event",
+        "Low Temperature Event",
+        "Cyber Attack or Failure",
+        "Other Terrorism",
+        "Industrial Accident (Emissions, Releases, Spills, Ect.)"
+      ]
     }
+  },
+  "iri://CAMS#LineString": {
+    "@key": {
+      "@type": "Random"
+    },
+    "@subdocument": [],
+    "@type": "Class",
+    "coordinates": {
+      "@class": "xsd:decimal",
+      "@dimensions": 2,
+      "@type": "Array"
+    },
+    "type": {
+      "@id": "LineString_Type",
+      "@type": "Enum",
+      "@values": [
+        "LineString"
+      ]
+    }
+  },
+  "iri://CAMS#LineString_Type": {
+    "@type": "Enum",
+    "@values": [
+      "LineString"
+    ]
+  },
+  "iri://CAMS#Location": {
+    "@key": {
+      "@type": "Random"
+    },
+    "@subdocument": [],
+    "@type": "Class",
+    "city": "xsd:string",
+    "geometry_location": {
+      "@class": [
+        {
+          "@class": "LineString",
+          "@subdocument": []
+        },
+        {
+          "@class": "Point",
+          "@subdocument": []
+        }
+      ],
+      "@type": "Optional"
+    },
+    "postal_code": {
+      "@class": "xsd:string",
+      "@type": "Optional"
+    },
+    "state": "xsd:string",
+    "street": "xsd:string"
+  },
+  "iri://CAMS#MultiPolygon_Type": {
+    "@type": "Enum",
+    "@values": [
+      "MultiPolygon"
+    ]
+  },
+  "iri://CAMS#Name_Type": {
+    "@type": "Enum",
+    "@values": [
+      "name"
+    ]
+  },
+  "iri://CAMS#OSiProperties": {
+    "@type": "Class",
+    "NAMN1": "xsd:string",
+    "OBJECTID": "xsd:integer"
+  },
+  "iri://CAMS#Owner": {
+    "@type": "Class",
+    "contact_person": "Person",
+    "name": "xsd:string"
+  },
+  "iri://CAMS#Person": {
+    "@type": "Class",
+    "email_address": {
+      "@class": "xsd:string",
+      "@type": "Optional"
+    },
+    "first_name": "xsd:string",
+    "job_title": {
+      "@class": "xsd:string",
+      "@type": "Optional"
+    },
+    "last_name": "xsd:string",
+    "organization": {
+      "@class": "xsd:string",
+      "@type": "Optional"
+    },
+    "phone_number": {
+      "@class": "xsd:string",
+      "@type": "Optional"
+    }
+  },
+  "iri://CAMS#Point": {
+    "@key": {
+      "@type": "Random"
+    },
+    "@subdocument": [],
+    "@type": "Class",
+    "coordinates": {
+      "@class": "xsd:decimal",
+      "@dimensions": 1,
+      "@type": "Array"
+    },
+    "type": {
+      "@id": "Point_Type",
+      "@type": "Enum",
+      "@values": [
+        "Point"
+      ]
+    }
+  },
+  "iri://CAMS#Point_Type": {
+    "@type": "Enum",
+    "@values": [
+      "Point"
+    ]
+  },
+  "iri://CAMS#Polygon_Type": {
+    "@type": "Enum",
+    "@values": [
+      "Polygon"
+    ]
+  },
+  "iri://CAMS#Properties": {
+    "@abstract": [],
+    "@type": "Class"
+  },
+  "iri://CAMS#Source": {
+    "@abstract": [],
+    "@type": "Class"
+  },
+  "iri://CAMS#SpatialWebIdentifier": {
+    "@type": "Class",
+    "id": "xsd:string"
+  },
+  "iri://CAMS#UpdateEvent": {
+    "@documentation": {
+      "@comment": "Update history",
+      "@properties": {
+        "comment": "A comment relating to an historic hazard incident.",
+        "date": "The date at which the update occurred."
+      }
+    },
+    "@key": {
+      "@fields": [
+        "comment",
+        "date"
+      ],
+      "@type": "Lexical"
+    },
+    "@subdocument": [],
+    "@type": "Class",
+    "comment": "xsd:string",
+    "date": "xsd:dateTime"
+  },
+  "iri://CAMS#name": {
+    "@type": "Class",
+    "properties": [
+      "CRS84",
+      "OSiProperties"
+    ],
+    "type": {
+      "@id": "Name_Type",
+      "@type": "Enum",
+      "@values": [
+        "name"
+      ]
+    }
+  }
 }
 
 export const CAMS_SCHEMA = {
@@ -1164,25 +1625,31 @@ export const CAMS_FORM_DATA_OLD = {
 }
 
 export const CAMS_FORM_DATA = {
-  "location":{
-     "geometry_location":{
-        "@type":"Point",
-        "type":"Point",
-        "comment":"Portsmouth location"
-     },
-     "@type":"Location",
-     "city":"Portsmouth",
-     "state":"Portsmouth ",
-     "street":"Portsmouth "
-  },
-  "asset_identifier":"Portsmouth Hospital",
+  "@id":"Asset/Marigot",
+  "@type":"Asset",
+  "asset_identifier":"Marigot",
   "commisioning_date":"2011-01-01T01:00:37Z",
-  "design_standards":"Portsmouth",
+  "design_standards":"Marigot",
   "last_maintained":"2011-01-01T01:00:37Z",
   "last_modified":"2011-01-01T01:00:37Z",
-  "name":"Portsmouth ",
-  "spatial_web_identifier":"SpatialWebIdentifier/927c5a4328352aa3f43648932a23749b180ad8826375ed3ff26e00e0fcc1e2c6",
-  "@type":"Asset"
+  "location":{
+     "@id":"Asset/Marigot/location/Location/cbf3d8956432778d2c3db84533eac02bff76326aa3407436e483361fdf55fd0c",
+     "@type":"Location",
+     "city":"Marigot",
+     "geometry_location":{
+        "@id":"Asset/Marigot/location/Asset/Marigot/location/Location/cbf3d8956432778d2c3db84533eac02bff76326aa3407436e483361fdf55fd0c/geometry_location/Point/3ec3de24dab9a66311ff5010df341b05d67bbcd764537f6f3484a8d03d235843",
+        "@type":"Point",
+        "coordinates":[
+           15.53743,
+           -61.282
+        ],
+        "type":"Point"
+     },
+     "state":"Marigot",
+     "street":"Marigot"
+  },
+  "name":"Marigot",
+  "spatial_web_identifier":"SpatialWebIdentifier/927c5a4328352aa3f43648932a23749b180ad8826375ed3ff26e00e0fcc1e2c6"
 }
 
 

@@ -8,7 +8,7 @@ import {token} from './ref'
 const App= (props) =>{
     const [schema, setSchema]=useState(CAMS_SCHEMA)
     const [message, setMessage]=useState(false)
-    const [mode, setMode]=useState("Create")
+    const [mode, setMode]=useState("Edit")
 
     const team = "termterm";
     const client = new TerminusDBClient.WOQLClient(`https://cloud.terminusdb.com/${team}/`, {
@@ -28,9 +28,9 @@ const App= (props) =>{
         setMessage("Connected to TerminusDB successfully!")
     };
 
-    connectToServer()
+    //connectToServer()
 
-    if(!message) return ("Waiting to connect to TerminusDB ... ")
+    //if(!message) return ("Waiting to connect to TerminusDB ... ")
 
     function handleSelect(inp){
         console.log("*****Select****", inp)

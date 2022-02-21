@@ -49,12 +49,6 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             //console.log("extractedPrefix", extractedPrefix)
             //console.log("frame", frame)
             let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect)
-            /*let properties ={                properties:{},
-                required: {},
-                dependencies:{},
-                uiSchema:{}
-            }*/
-            //console.log("definitions", definitions)
             let definitions = {
                 testdef: {
                     title: "test",
@@ -105,9 +99,9 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
 
 
     const handleSubmit = ({formData}) => {
-        console.log("Data before extract: ",  formData)
+        //console.log("Data before extract: ",  formData)
         if(onSubmit) {
-            var extracted=formatData(mode, schema, formData, frame, current)
+            var extracted=formatData(mode, schema, formData, frame, current, type)
             onSubmit(extracted)
             console.log("Data submitted: ",  extracted)
             //console.log("Data submitted: ",  JSON.stringify(extracted, null, 2))
