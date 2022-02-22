@@ -39,7 +39,9 @@ export function choiceTypeFrames(fullFrame, frame, item, uiFrame, documents, mod
             else if(frame[item][0][thing] !== SYS_UNIT_DATA_TYPE) {
 
                 fieldProperties  = getProperties(fullFrame, newFrame, uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect)
-                console.log("fieldProperties", fieldProperties)
+
+                console.log("***fieldProperties ****",fieldProperties)
+
                 structure = {
                     title: thing,
                     info: ONEOFVALUES,

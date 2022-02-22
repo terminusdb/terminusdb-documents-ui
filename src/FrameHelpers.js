@@ -23,8 +23,9 @@ function constructNewDocumentFrame(frame, item) {
 function constructSubDocumentFrame (fullFrame, uiFrame, item, title, documents, mode, formData, prefix, onTraverse, onSelect) {
     let subDocument = `${prefix}${title}`
     var data=[]
-    if(formData && formData[item]) data=formData[item]
-
+    if(Array.isArray(formData)) data=formData
+    else if(formData && formData[item]) data=formData[item]
+    //console.log("item", item)
     let nestedFrames = getProperties(fullFrame, fullFrame[subDocument], uiFrame, documents, mode, data, false, prefix, onTraverse, onSelect)
     let newProperties=nestedFrames.properties, newUISchema=nestedFrames.uiSchema
     // add type of subdocument

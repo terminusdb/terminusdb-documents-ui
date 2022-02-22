@@ -22,7 +22,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
 
     var  layout= {
         type: "array",
-        title: mode === VIEW ? getTitle() : getSetTitle(),
+        title: mode === VIEW ? getTitle() : item,
         items: [
             {
                 type: "object",
@@ -40,7 +40,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
         }
     }
 
-
+    let test = []
     if(mode !== CREATE && formData.hasOwnProperty(item)){
         var filledItems = []
         propertiesUI[item] = {
@@ -63,71 +63,41 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
                 propertiesUI[item]["items"].push(setFrames.uiSchema[item])
             })
 
-            function checkProperties(properties, value) {
-                for(var props in properties){
-                    if(props === "@oneOf"){ // alter the structure for @oneOf type
-                        for(var thing in value){
-                            properties[props]["oneOf"].map(aOf => {
-                                if(aOf["properties"] && aOf["properties"][thing]){
-                                    properties[thing] = aOf["properties"][thing]
-                                    properties[thing].info = ONEOFSUBDOCUMENTS
-                                }
-                            })
-                        }
-                        propertiesUI[item]["items"][0][thing] = setFrames.uiSchema[item][props][thing]
-                        if(mode === VIEW){ // hide one of calue which are empty
-                            for(var thing in value){
-                                for(var uiProps in propertiesUI[item]["items"][0][thing]) {
-                                    if(!value[thing][uiProps]){
-                                        if(propertiesUI[item]["items"][0][thing][uiProps]["ui:title"]) { // use ui:title here to see the fields - review later
-                                            const hidden = () => <div/>
-                                            propertiesUI[item]["items"][0][thing][uiProps] = {"ui:field": hidden }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        delete properties[props]
-                    }
-                }
-                return properties
-            }
+
+
+            let subProperties = setFrames.properties[item]["properties"]
+
+            console.log("subProperties", subProperties)
+            console.log("defaultValues", defaultValues)
+
 
             defaultValues.map(value => {
-                //console.log("defaultValues[count]",defaultValues[count], setFrames.properties[item]["properties"])
-                let subProperties = setFrames.properties[item]["properties"]
-
-                if(subProperties.hasOwnProperty(ONEOFVALUES)) {
+                if(subProperties.hasOwnProperty(ONEOFVALUES)) { //@oneOf (used in seshat)
 
                     subProperties[ONEOFVALUES]["anyOf"].map(aOf => {
                         if(defaultValues[count].hasOwnProperty(aOf["title"])) { // filled value available
                             //let stuff = aOf.properties[aOf["title"]].properties
-                            //console.log("aOf",aOf)
                             aOf.properties[aOf["title"]]["default"] = defaultValues[count][aOf["title"]]
                         }
                     })
 
+                    //test.push(subProperties)
+
                     filledItems.push({
                         type: "object",
-                        //properties: checkProperties(setFrames.properties[item]["properties"], value), //setFrames.properties[item]["properties"],
-                        properties: setFrames.properties[item]["properties"],
-                        default: defaultValues[count]
+                        properties: setFrames.properties[item]["properties"]
                     })
                 }
                 else {
                     filledItems.push({
                         type: "object",
-                        //properties: checkProperties(setFrames.properties[item]["properties"], value), //setFrames.properties[item]["properties"],
                         properties: setFrames.properties[item]["properties"],
                         default: defaultValues[count]
                     })
                 }
-
-
-
-
                 count += 1
             })
+
         }
 
         layout["items"]=filledItems
