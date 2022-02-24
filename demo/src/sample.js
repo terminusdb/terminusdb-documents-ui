@@ -9329,7 +9329,7 @@ export const SESHAT_FORM_DATA = {
 		  {
 			 "@id":"Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/alternative_names/AlternativeNames/ddf370e067096a0992d24b80e02078a7a9983ba06d3fe1a7c1f6f6b8fb1f958e",
 			 "@type":"AlternativeNames",
-			 "known":{
+			 "inferred":{
 				"@id":"Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/alternative_names/Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/alternative_names/AlternativeNames/ddf370e067096a0992d24b80e02078a7a9983ba06d3fe1a7c1f6f6b8fb1f958e/known/StringValue/054fdf048a0474a99bf7caf435d12a388e0901f26c59af2f987c68b83ae8d0e0",
 				"@type":"StringValue",
 				"value":"Last Afghan Empire",
@@ -9351,7 +9351,33 @@ export const SESHAT_FORM_DATA = {
 		  			"to": "1867/18/05"
 				}
 			 }
-		  }
+		  },
+		  {
+			"@id":"Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5771dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/alternative_names/AlternativeNames/f180e2ed44e144ff594d9fbfef6e85945a94abba30e3a8c8233aee34d4d8fec6",
+			"@type":"AlternativeNames",
+			"known":{
+			   "@id":"Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5771dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/alternative_names/Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/alternative_names/AlternativeNames/f180e2ed44e144ff594d9fbfef6e85945a94abba30e3a8c8233aee34d4d8fec6/known/StringValue/1be33fcf247433bbafa603ff5052fbfbb41d8db504ff64f64c2a469c6819ec1f",
+			   "@type":"StringValue",
+			   "value":"Dislney Kingdom",
+			   "date_range": {
+				   "from": "1990/22/02",
+					 "to": "1650/18/05"
+			   }
+			}
+		 },
+		 {
+			"@id":"Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5771dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/alternative_names/AlternativeNames/f180e2ed44e144ff594d9fbfef6e85945a94abba30e3a8c8233aee34d4d8fec6",
+			"@type":"AlternativeNames",
+			"inferred":{
+			   "@id":"Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5771dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/alternative_names/Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/alternative_names/AlternativeNames/f180e2ed44e144ff594d9fbfef6e85945a94abba30e3a8c8233aee34d4d8fec6/known/StringValue/1be33fcf247433bbafa603ff5052fbfbb41d8db504ff64f64c2a469c6819ec1f",
+			   "@type":"StringValue",
+			   "value":"Pixar Kingdom",
+			   "date_range": {
+				   "from": "1990/22/02",
+					 "to": "1650/18/05"
+			   }
+			}
+		 }
 	   ],
 	   "capital":[
 		  {
@@ -11369,4 +11395,48 @@ export const PROFILE_DEMO_DOCUMENTS = {
 }
 
 
-
+//crete seshat
+export const JUNK = {
+	"@type": "Polity",
+	"general_variables": {
+	  "@type": "GeneralVariables",
+	  "alternative_names": [
+		{
+		  "@type": "AlternativeNames",
+		  "inferred": {
+			"@type": "StringValue",
+			"value": "Last Afghan Empire",
+			"date_range": {
+			  "from": "1400",
+			  "to": "1500",
+			  "@type": "DateRange"
+			}
+		  }
+		},
+		{
+		  "@type": "AlternativeNames",
+		  "known": {
+			"@type": "StringValue",
+			"value": "Sadozai Kingdom",
+			"date_range": {
+			  "from": "1700",
+			  "to": "1800",
+			  "@type": "DateRange"
+			}
+		  }
+		},
+		{
+		  "@type": "AlternativeNames",
+		  "known": {
+			"@type": "StringValue",
+			"value": "Dislney Kingdom",
+			"date_range": {
+			  "from": "1947",
+			  "to": "1989",
+			  "@type": "DateRange"
+			}
+		  }
+		}
+	  ]
+	}
+  }

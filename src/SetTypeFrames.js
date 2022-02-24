@@ -6,6 +6,18 @@ import AsyncSelect from 'react-select/async'
 import {AsyncTypeahead} from 'react-bootstrap-typeahead'
 import {FrameViewer} from "./FrameViewer"
 
+function getAnyOfProperties(formData, setFrames, item) {
+    let anyOfPropertyArray = []
+    /*setFrames.properties[item].properties["@oneOf"]["anyOf"].map(aOf => {
+        let choice = aOf["title"] // title is same as choice name here
+        anyOfPropertyArray.push(aOf.properties[choice])
+    })*/
+    setFrames.properties[item].properties["@oneOf"]["anyOf"].map(aOf => {
+        let choice = aOf["title"] // title is same as choice name here
+        anyOfPropertyArray.push(aOf)
+    })
+    return anyOfPropertyArray
+}
 
 //Set Subdocuments
 export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, onTraverse) {
@@ -31,6 +43,8 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
         ]
     }
 
+
+
     // remove hidden widgets from frames - logic for default in subdocuments done here
     for(var key in setFrames.uiSchema[item]) {
         if(setFrames.uiSchema[item][key]["ui:widget"] &&
@@ -40,9 +54,10 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
         }
     }
 
-    let test = []
+    var filledItems = []
+
     if(mode !== CREATE && formData.hasOwnProperty(item)){
-        var filledItems = []
+
         propertiesUI[item] = {
             "items": []
         }
@@ -64,55 +79,32 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
             })
 
 
+            // normal cases which are not @oneOfs
+            for(var x=0; x<defaultValues.length; x++){
+                filledItems.push({
+                    type: "object",
+                    properties: setFrames.properties[item]["properties"],
+                    default: defaultValues[x]
+                })
+            }
+            layout["items"] = filledItems
 
-            let subProperties = setFrames.properties[item]["properties"]
-
-            console.log("subProperties", subProperties)
-            console.log("defaultValues", defaultValues)
-
-
-            defaultValues.map(value => {
-                if(subProperties.hasOwnProperty(ONEOFVALUES)) { //@oneOf (used in seshat)
-
-                    subProperties[ONEOFVALUES]["anyOf"].map(aOf => {
-                        if(defaultValues[count].hasOwnProperty(aOf["title"])) { // filled value available
-                            //let stuff = aOf.properties[aOf["title"]].properties
-                            aOf.properties[aOf["title"]]["default"] = defaultValues[count][aOf["title"]]
-                        }
-                    })
-
-                    //test.push(subProperties)
-
-                    filledItems.push({
-                        type: "object",
-                        properties: setFrames.properties[item]["properties"]
-                    })
-                }
-                else {
-                    filledItems.push({
-                        type: "object",
-                        properties: setFrames.properties[item]["properties"],
-                        default: defaultValues[count]
-                    })
-                }
-                count += 1
-            })
 
         }
-
-        layout["items"]=filledItems
     }
 
     //schema
     properties[item] = layout
-
 
     // get filled values on View mode
     if(mode === VIEW && formData.hasOwnProperty(item) && Array.isArray(layout["items"])) {
         var count=0
         layout["items"].map(it => {
             for(var thing in it.properties){
-                if(it.properties[thing].info === DOCUMENT && it.default && it.default[thing]) {
+                if(it.properties[thing].info === "ONEOFVALUES" && it.default) {
+
+                }
+                else if(it.properties[thing].info === DOCUMENT && it.default && it.default[thing]) {
                     function getSelect (props) {
                         const [clicked, setClicked]=useState(false)
 
@@ -135,7 +127,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
 
                     propertiesUI[item]["items"][count][thing]["ui:field"]=getSelect
                 }
-                if(it.properties[thing].info === "DATA" && it.default) {
+                else if(it.properties[thing].info === "DATA" && it.default) {
                     function getFieldValue(props){
                         if(!props.formData ||  props.formData===undefined)
                             return <span className="tdb__blank"></span>
@@ -146,7 +138,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
                     }
                     propertiesUI[item]["items"][count][thing]["ui:field"]=getFieldValue
                 }
-                if(it.properties[thing].info === "SUBDOCUMENT" && it.default){
+                else if(it.properties[thing].info === "SUBDOCUMENT" && it.default){
                     for(var flds in it.properties[thing].properties) {
                         function getFieldValue(props){
                             if(!props.formData ||  props.formData===undefined)
@@ -160,23 +152,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
                         else propertiesUI[item]["items"][count][thing][flds]["ui:field"]=getFieldValue
                     }
                 }
-                /*if(it.properties[thing].info === ONEOFSUBDOCUMENTS && it.default){ // we alter properties of @oneOf
-                    for(var flds in it.properties[thing].properties) {
-                        function getFieldValue(props){
-                            if(!props.formData ||  props.formData===undefined)
-                                return <span className="tdb__blank"></span>
-                            return <React.Fragment>
-                                <Form.Label>{props.name}</Form.Label>
-                                <span>{props.formData}</span>
-                            </React.Fragment>
-                        }
-
-                        //propertiesUI[item]["items"].push(setFrames.uiSchema[item][props][thing])
-                        //if(flds === "@type") propertiesUI[item]["items"][count][thing][flds]["ui:widget"]="hidden"
-                        //else propertiesUI[item]["items"][count][thing][flds]["ui:field"]=getFieldValue
-                    }
-                }*/
-                if(it.properties[thing].info === "CHOICE"){
+                else if(it.properties[thing].info === "CHOICE"){
                     function getFieldValue(props){
                         if(!props.formData ||  props.formData===undefined)
                             return <span className="tdb__blank"></span>
@@ -193,6 +169,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
             count+=1
         })
     }
+
 
     if(mode !== VIEW) { // we do not allow to add extra on view mode
         //default ui:schema
@@ -216,6 +193,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
     }
 
 
+
     //custom ui:schema
     if(uiFrame && uiFrame[item]) {
         propertiesUI[item] = uiFrame[item]
@@ -227,6 +205,93 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
         propertiesUI[item] = {"ui:field": hidden }
         //propertiesUI[item] = {"ui:widget" : "hidden"}
     }
+
+
+    var subProperties = setFrames.properties[item]["properties"]
+
+    // check for @oneOf (used in seshat)
+    if(subProperties.hasOwnProperty(ONEOFVALUES)) {
+        filledItems = []
+        var tempFormData = formData[item], anyOfArray = []
+        let anyOfProperties = getAnyOfProperties(formData, setFrames, item)
+
+        // loop through formData
+        for(var x=0; x< defaultValues.length; x++){
+
+            anyOfArray[x] = []
+
+
+            function returnFilledIfExists(json, defaultValue) {
+                let returnJson = {}
+                for(var key in json){
+                    returnJson[key] = json[key]
+                }
+                if(defaultValue) returnJson["default"] = defaultValue
+                return returnJson
+            }
+
+
+            for(var oneOf=0; oneOf < anyOfProperties.length; oneOf++){ // one of properties
+                let choice = anyOfProperties[oneOf]["title"]
+
+                var newJson = {}
+                for(var thing in anyOfProperties[oneOf]){
+                    if(thing === "properties"){
+                        if(tempFormData[x].hasOwnProperty(choice)) {
+                            newJson["properties"] = {
+                                [choice] : returnFilledIfExists(anyOfProperties[oneOf]["properties"][choice], tempFormData[x][choice])
+                            }
+                        }
+                        else {
+                            newJson["properties"] = {
+                                [choice] : anyOfProperties[oneOf]["properties"][choice]
+                            }
+                        }
+                    }
+                    else newJson[thing] = anyOfProperties[oneOf][thing]
+                }
+                //anyOfArray.push(newJson)
+                anyOfArray[x].push(newJson)
+            }
+
+        }
+
+
+        var newPropertiesForOneOf = {}, newItems = [], newItemProperties={}
+
+        for(var x=0; x< anyOfArray.length ; x++) {
+
+            newItemProperties = {
+                "@oneOf": {
+                    anyOf: anyOfArray[x],
+                    title: "@oneOf",
+                    type: "object"
+                },
+                "@type": {type: 'string', title: item}
+            }
+
+            newItems.push({
+                type: "object",
+                default: formData[item][x],
+                properties: newItemProperties
+            })
+        }
+
+        newPropertiesForOneOf[item] = {
+            type : "array",
+            title : item,
+            additionalItems : properties[item].additionalItems,
+            default: properties[item].default,
+            items: newItems
+        }
+        //console.log('newPropertiesForOneOf[item]["items"]', newPropertiesForOneOf)
+
+        properties = newPropertiesForOneOf
+
+    }
+
+
+
 
     //console.log("properties SET", properties)
 
@@ -262,6 +327,8 @@ export function makeSetData (setFrames, item, uiFrame, mode, formData) {
     //schema
     properties[item] = layout
 
+
+
     //default ui:schema
     propertiesUI[item] = {
         "items": setFrames.uiSchema[item]
@@ -290,8 +357,6 @@ export function makeSetData (setFrames, item, uiFrame, mode, formData) {
             removable: false
         }
     }
-
-
 
     //custom ui:schema
     if(uiFrame && uiFrame[item]) {

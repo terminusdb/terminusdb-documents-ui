@@ -40,7 +40,7 @@ export function choiceTypeFrames(fullFrame, frame, item, uiFrame, documents, mod
 
                 fieldProperties  = getProperties(fullFrame, newFrame, uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect)
 
-                console.log("***fieldProperties ****",fieldProperties)
+                //console.log("***fieldProperties ****",fieldProperties)
 
                 structure = {
                     title: thing,
@@ -65,7 +65,7 @@ export function choiceTypeFrames(fullFrame, frame, item, uiFrame, documents, mod
     var layout = {
         title: item,
         type: "object",
-        description: `Choose from the list ...`,
+        description: mode=== CREATE ? `Choose from the list ...` : ``,
         anyOf: anyOfArray
     }
 

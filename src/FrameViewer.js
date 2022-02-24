@@ -99,7 +99,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
 
 
     const handleSubmit = ({formData}) => {
-        //console.log("Data before extract: ",  formData)
+        console.log("Data before extract: ",  formData)
         if(onSubmit) {
             var extracted=formatData(mode, schema, formData, frame, current, type)
             onSubmit(extracted)
