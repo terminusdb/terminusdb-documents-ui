@@ -23,7 +23,6 @@ function getAnyOfProperties(formData, setFrames, item) {
 export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, onTraverse) {
     let properties={}, propertiesUI={}
 
-
     if(mode !== VIEW){
         for(var props in setFrames.properties[item]["properties"]) {
             if(setFrames.properties[item]["properties"][props].info === DOCUMENT) {
@@ -88,8 +87,6 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
                 })
             }
             layout["items"] = filledItems
-
-
         }
     }
 
@@ -210,16 +207,15 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
     var subProperties = setFrames.properties[item]["properties"]
 
     // check for @oneOf (used in seshat)
-    if(subProperties.hasOwnProperty(ONEOFVALUES)) {
+    if(mode!==CREATE && formData.hasOwnProperty(item) && subProperties.hasOwnProperty(ONEOFVALUES)) {
         filledItems = []
         var tempFormData = formData[item], anyOfArray = []
         let anyOfProperties = getAnyOfProperties(formData, setFrames, item)
-
+        var defaultValues=formData[item]
         // loop through formData
         for(var x=0; x< defaultValues.length; x++){
 
             anyOfArray[x] = []
-
 
             function returnFilledIfExists(json, defaultValue) {
                 let returnJson = {}
@@ -238,6 +234,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
                 for(var thing in anyOfProperties[oneOf]){
                     if(thing === "properties"){
                         if(tempFormData[x].hasOwnProperty(choice)) {
+                            newJson["order"] = 1
                             newJson["properties"] = {
                                 [choice] : returnFilledIfExists(anyOfProperties[oneOf]["properties"][choice], tempFormData[x][choice])
                             }
@@ -256,14 +253,28 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
 
         }
 
+        function sortanyOfArray(anyOf) { // sort any ofs to place value with default as first
+            let newAnyOfArray = [], newFirstElement = {}, returnArray =[]
+            anyOf.map(it => {
+                if(it.hasOwnProperty("order")){
+                    newFirstElement = it
+                }
+                else {
+                    newAnyOfArray.push(it)
+                }
+            })
+            returnArray = [newFirstElement].concat(newAnyOfArray)
+            return returnArray
+        }
+
 
         var newPropertiesForOneOf = {}, newItems = [], newItemProperties={}
 
-        for(var x=0; x< anyOfArray.length ; x++) {
 
+        for(var x=0; x< anyOfArray.length ; x++) {
             newItemProperties = {
                 "@oneOf": {
-                    anyOf: anyOfArray[x],
+                    anyOf: sortanyOfArray(anyOfArray[x]),//anyOfArray[x],
                     title: "@oneOf",
                     type: "object"
                 },
@@ -287,13 +298,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
         //console.log('newPropertiesForOneOf[item]["items"]', newPropertiesForOneOf)
 
         properties = newPropertiesForOneOf
-
     }
-
-
-
-
-    //console.log("properties SET", properties)
 
     return {properties, propertiesUI}
 }

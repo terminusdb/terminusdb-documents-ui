@@ -11128,7 +11128,7 @@ export const PROFILE_SCHEMA = {
 		"@type": "Set"
 	  },
 	  "organization_name": "xsd:string",
-	  "owned_by": "User",
+	  /*"owned_by": "User",*/
 	  "status": {
 		"@id": "Status",
 		"@type": "Enum",
@@ -11440,3 +11440,5 @@ export const JUNK = {
 	  ]
 	}
   }
+
+  export const PROFILE_VIEW_3_INIVITAION ={"invitations":[{"@type":"Invitation","creation_date":"2011-01-01 01:00:37","email_to":"kitzkan@gmail.com","status":"needs_invite"},{"@type":"Invitation","creation_date":"2011-01-01 01:00:37","email_to":"kitty@terminusdb.com","status":"active"},{"@type":"Invitation","creation_date":"2011-01-01 01:00:37","email_to":"reyhan@gmail.com","status":"active"}],"stripe_subscription":{"@type":"StripeSubscription","stripe_id":"2123213","billing_email":"kitty@gmail.com","status":"inactive","stripe_quantity":"2","stripe_referrer":"HELO","stripe_user":"User/BLUEME","subscription_id":"asasasa"},"creation_date":"2011-01-01 01:00:37","organization_name":"RK","owned_by":"User/WHO","status":"needs_invite","@type":"Organization"}

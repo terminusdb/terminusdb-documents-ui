@@ -275,10 +275,25 @@ function modifyOneOfData(mode, schema, data) {
 			}
 		}
 		else if(Array.isArray(data[item])){
+			let arr =[]
 			data[item].map(amd => {
 				if(typeof amd === "string") modifiedData[item] =data[item]
-				else modifiedData[item] = [modifyOneOfData(mode, schema, amd)]
+				else if (amd.hasOwnProperty(ONEOFVALUES)){
+					var thing = modifyOneOfData(mode, schema, amd) //set @oneOfs - example seshat
+					//console.log("thng", thing)
+					let choice = Object.keys(thing)[0]
+					arr.push({
+						"@type": amd["@type"],
+						[choice]: thing[choice]
+					})
+				}
+				else {
+					//modifiedData[item] = [modifyOneOfData(mode, schema, amd)] - review this logic
+					var thing = modifyOneOfData(mode, schema, amd) //set subdocuments - example invitation
+					arr.push(thing)
+				}
 			})
+			if(arr.length) modifiedData[item]=arr
 		}
 		else if(typeof data[item] === "object"){
 			let modified = modifyOneOfData(mode, schema, data[item])
