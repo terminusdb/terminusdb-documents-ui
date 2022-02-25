@@ -9254,6 +9254,13 @@ export const SESHAT_SCHEMA_SMALL= {
 		},
 		"@type": "Set"
 	  },
+	  "capital": {
+		"@class": {
+		  "@class": "Capital",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  }
 	},
 	"http://lib.seshatdatabank.info/schema#AlternativeNames": {
 	  "@key": {
@@ -9298,6 +9305,21 @@ export const SESHAT_SCHEMA_SMALL= {
 	  "from": "xsd:integer",
 	  "to": "xsd:integer"
 	},
+	"http://lib.seshatdatabank.info/schema#Capital": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@oneOf": [
+		{
+		  "inferred": "CapitalValue",
+		  "known": "CapitalValue",
+		  "suspected_unknown": "sys:Unit",
+		  "unknown": "sys:Unit"
+		}
+	  ],
+	  "@subdocument": [],
+	  "@type": "Class"
+	},
 	"http://lib.seshatdatabank.info/schema#CapitalValue": {
 	  "@key": {
 		"@type": "Random"
@@ -9325,7 +9347,7 @@ export const SESHAT_FORM_DATA = {
 	"general_variables":{
 	   "@id":"Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88",
 	   "@type":"GeneralVariables",
-	   "alternative_names":[
+	   /*"alternative_names":[
 		  {
 			 "@id":"Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/alternative_names/AlternativeNames/ddf370e067096a0992d24b80e02078a7a9983ba06d3fe1a7c1f6f6b8fb1f958e",
 			 "@type":"AlternativeNames",
@@ -9378,7 +9400,7 @@ export const SESHAT_FORM_DATA = {
 			   }
 			}
 		 }
-	   ],
+	   ],*/
 	   "capital":[
 		  {
 			 "@id":"Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/capital/Capital/5f2ef02ee819d1a80b3447b214572ebd61e937330a8d97ad1f2e3747a3ded1dc",
@@ -9386,7 +9408,7 @@ export const SESHAT_FORM_DATA = {
 			 "known":{
 				"@id":"Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/capital/Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/capital/Capital/5f2ef02ee819d1a80b3447b214572ebd61e937330a8d97ad1f2e3747a3ded1dc/known/CapitalValue/a7cdfaef45d3433863c85f2ed1a4f49cf7b49a62fb292a6418a6c2431e1255c9",
 				"@type":"CapitalValue",
-				"value":"City/Peshwar"
+				"value":"City/Tokyo"
 			 }
 		  },
 		  {

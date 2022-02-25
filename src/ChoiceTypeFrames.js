@@ -59,7 +59,7 @@ export function choiceTypeFrames(fullFrame, frame, item, uiFrame, documents, mod
         }
     }
 
-    console.log("***anyOfArray ****",formData,  anyOfArray)
+    //console.log("***anyOfArray ****",formData,  anyOfArray)
 
 
     var layout = {

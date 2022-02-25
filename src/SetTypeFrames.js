@@ -220,12 +220,51 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
             function returnFilledIfExists(json, defaultValue) {
                 let returnJson = {}
                 for(var key in json){
-                    returnJson[key] = json[key]
+                    if(key === "properties") {
+                        returnJson["properties"] = {}
+                        // removing defaults which are not filled at this point for document links
+                        for(var thing in json["properties"]){
+                            if(defaultValue.hasOwnProperty(thing)){ //if match found
+                                returnJson["properties"][thing] = {}
+                                for(var stuff in json["properties"][thing]) {
+                                    returnJson["properties"][thing][stuff]=json["properties"][thing][stuff]
+                                    function getCorrectDefault(props) {
+                                        const [clicked, setClicked]=useState(false)
+                                        useEffect(() => {
+                                            if(!clicked) return
+                                            if(onTraverse) onTraverse(clicked)
+                                        }, [clicked])
+
+                                        const handleClick = (e, val) => { // view if on traverse function defined
+                                            setClicked(val)
+                                        }
+
+                                        return <React.Fragment>
+                                            <Form.Label className="control-label">{props.name}</Form.Label>
+                                            <span onClick={(e) => handleClick(e, props.formData)} className="tdb__span__select form-control">
+                                                {props.formData}
+                                            </span>
+                                        </React.Fragment>
+                                    }
+                                    propertiesUI[item]["items"].map(pUi =>{
+                                        for(var its in pUi["@oneOf"]){
+                                            if(pUi["@oneOf"][its].hasOwnProperty(thing) && thing !== "@type")
+                                                pUi["@oneOf"][its][thing]["ui:field"]=getCorrectDefault
+                                        }
+                                    })
+                                }
+                                returnJson["properties"][thing]["default"] = defaultValue[thing]
+                            }
+                            else returnJson["properties"][thing]=json["properties"][thing]
+                        }
+                    }
+                    else returnJson[key] = json[key]
                 }
+                // add correct filled value for sets here
                 if(defaultValue) returnJson["default"] = defaultValue
+
                 return returnJson
             }
-
 
             for(var oneOf=0; oneOf < anyOfProperties.length; oneOf++){ // one of properties
                 let choice = anyOfProperties[oneOf]["title"]
@@ -247,7 +286,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
                     }
                     else newJson[thing] = anyOfProperties[oneOf][thing]
                 }
-                //anyOfArray.push(newJson)
+
                 anyOfArray[x].push(newJson)
             }
 
@@ -299,6 +338,8 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
 
         properties = newPropertiesForOneOf
     }
+
+    //propertiesUI[item] = {}
 
     return {properties, propertiesUI}
 }
