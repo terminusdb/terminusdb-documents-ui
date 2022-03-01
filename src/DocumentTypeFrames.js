@@ -157,7 +157,8 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
         //"ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
         "ui:placeholder": `Search for ${frame[item]} ...`,
         classNames: mode===VIEW ? "tdb__input mb-3 mt-3 tdb__view__input" : "tdb__input mb-3 mt-3",
-        "ui:field": mode ===VIEW ? getViewSelect : getSelect
+        "ui:field": mode ===VIEW ? getViewSelect : getSelect,
+        "ui:info": DOCUMENT
     }
 
     if(mode === VIEW && !layout.hasOwnProperty("default")){

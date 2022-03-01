@@ -5,12 +5,11 @@ import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'
 import {AsyncTypeahead} from 'react-bootstrap-typeahead'
 import {FrameViewer} from "./FrameViewer"
-
+import {getFilledChoiceTypeFrames} from "./FilledChoiceTypeFrames"
 
 //Set Subdocuments
 export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, onTraverse) {
     let properties={}, propertiesUI={}
-
 
     if(mode !== VIEW){
         for(var props in setFrames.properties[item]["properties"]) {
@@ -22,7 +21,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
 
     var  layout= {
         type: "array",
-        title: mode === VIEW ? getTitle() : getSetTitle(),
+        title: mode === VIEW ? getTitle() : item,
         items: [
             {
                 type: "object",
@@ -30,6 +29,8 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
             }
         ]
     }
+
+
 
     // remove hidden widgets from frames - logic for default in subdocuments done here
     for(var key in setFrames.uiSchema[item]) {
@@ -40,9 +41,10 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
         }
     }
 
+    var filledItems = []
 
     if(mode !== CREATE && formData.hasOwnProperty(item)){
-        var filledItems = []
+
         propertiesUI[item] = {
             "items": []
         }
@@ -63,88 +65,31 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
                 propertiesUI[item]["items"].push(setFrames.uiSchema[item])
             })
 
-            function checkProperties(properties, value) {
-                for(var props in properties){
-                    if(props === "@oneOf"){ // alter the structure for @oneOf type
-                        for(var thing in value){
-                            properties[props]["oneOf"].map(aOf => {
-                                if(aOf["properties"] && aOf["properties"][thing]){
-                                    properties[thing] = aOf["properties"][thing]
-                                    properties[thing].info = ONEOFSUBDOCUMENTS
-                                }
-                            })
-                        }
-                        propertiesUI[item]["items"][0][thing] = setFrames.uiSchema[item][props][thing]
-                        if(mode === VIEW){ // hide one of calue which are empty
-                            for(var thing in value){
-                                for(var uiProps in propertiesUI[item]["items"][0][thing]) {
-                                    if(!value[thing][uiProps]){
-                                        if(propertiesUI[item]["items"][0][thing][uiProps]["ui:title"]) { // use ui:title here to see the fields - review later
-                                            const hidden = () => <div/>
-                                            propertiesUI[item]["items"][0][thing][uiProps] = {"ui:field": hidden }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        delete properties[props]
-                    }
-                }
-                return properties
+
+            // normal cases which are not @oneOfs
+            for(var x=0; x<defaultValues.length; x++){
+                filledItems.push({
+                    type: "object",
+                    properties: setFrames.properties[item]["properties"],
+                    default: defaultValues[x]
+                })
             }
-
-            defaultValues.map(value => {
-                console.log("defaultValues[count]",defaultValues[count], setFrames.properties[item]["properties"])
-                let subProperties = setFrames.properties[item]["properties"]
-
-                if(subProperties.hasOwnProperty(ONEOFVALUES)) {
-
-                    subProperties[ONEOFVALUES]["anyOf"].map(aOf => {
-                        if(defaultValues[count].hasOwnProperty(aOf["title"])) { // filled value available
-                            //let stuff = aOf.properties[aOf["title"]].properties
-                            console.log("aOf",aOf)
-                            aOf.properties[aOf["title"]]["default"] = defaultValues[count][aOf["title"]]
-                        }
-                    })
-                    
-                    filledItems.push({
-                        type: "object",
-                        //properties: checkProperties(setFrames.properties[item]["properties"], value), //setFrames.properties[item]["properties"],
-                        properties: setFrames.properties[item]["properties"],
-                        default: defaultValues[count]
-                    })
-                }
-                else {
-                    filledItems.push({
-                        type: "object",
-                        //properties: checkProperties(setFrames.properties[item]["properties"], value), //setFrames.properties[item]["properties"],
-                        properties: setFrames.properties[item]["properties"],
-                        default: defaultValues[count]
-                    })
-                }
-
-
-
-
-                count += 1
-            })
+            layout["items"] = filledItems
         }
-        console.log("filledItems filledItems something", filledItems)
-
-        layout["items"]=filledItems
     }
 
     //schema
     properties[item] = layout
-
-    console.log("properties befire something", properties)
 
     // get filled values on View mode
     if(mode === VIEW && formData.hasOwnProperty(item) && Array.isArray(layout["items"])) {
         var count=0
         layout["items"].map(it => {
             for(var thing in it.properties){
-                if(it.properties[thing].info === DOCUMENT && it.default && it.default[thing]) {
+                if(it.properties[thing].info === "ONEOFVALUES" && it.default) {
+
+                }
+                else if(it.properties[thing].info === DOCUMENT && it.default && it.default[thing]) {
                     function getSelect (props) {
                         const [clicked, setClicked]=useState(false)
 
@@ -167,7 +112,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
 
                     propertiesUI[item]["items"][count][thing]["ui:field"]=getSelect
                 }
-                if(it.properties[thing].info === "DATA" && it.default) {
+                else if(it.properties[thing].info === "DATA" && it.default) {
                     function getFieldValue(props){
                         if(!props.formData ||  props.formData===undefined)
                             return <span className="tdb__blank"></span>
@@ -178,7 +123,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
                     }
                     propertiesUI[item]["items"][count][thing]["ui:field"]=getFieldValue
                 }
-                if(it.properties[thing].info === "SUBDOCUMENT" && it.default){
+                else if(it.properties[thing].info === "SUBDOCUMENT" && it.default){
                     for(var flds in it.properties[thing].properties) {
                         function getFieldValue(props){
                             if(!props.formData ||  props.formData===undefined)
@@ -192,23 +137,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
                         else propertiesUI[item]["items"][count][thing][flds]["ui:field"]=getFieldValue
                     }
                 }
-                /*if(it.properties[thing].info === ONEOFSUBDOCUMENTS && it.default){ // we alter properties of @oneOf
-                    for(var flds in it.properties[thing].properties) {
-                        function getFieldValue(props){
-                            if(!props.formData ||  props.formData===undefined)
-                                return <span className="tdb__blank"></span>
-                            return <React.Fragment>
-                                <Form.Label>{props.name}</Form.Label>
-                                <span>{props.formData}</span>
-                            </React.Fragment>
-                        }
-
-                        //propertiesUI[item]["items"].push(setFrames.uiSchema[item][props][thing])
-                        //if(flds === "@type") propertiesUI[item]["items"][count][thing][flds]["ui:widget"]="hidden"
-                        //else propertiesUI[item]["items"][count][thing][flds]["ui:field"]=getFieldValue
-                    }
-                }*/
-                if(it.properties[thing].info === "CHOICE"){
+                else if(it.properties[thing].info === "CHOICE"){
                     function getFieldValue(props){
                         if(!props.formData ||  props.formData===undefined)
                             return <span className="tdb__blank"></span>
@@ -225,6 +154,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
             count+=1
         })
     }
+
 
     if(mode !== VIEW) { // we do not allow to add extra on view mode
         //default ui:schema
@@ -248,6 +178,7 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
     }
 
 
+
     //custom ui:schema
     if(uiFrame && uiFrame[item]) {
         propertiesUI[item] = uiFrame[item]
@@ -260,7 +191,19 @@ export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, o
         //propertiesUI[item] = {"ui:widget" : "hidden"}
     }
 
-    console.log("properties SET", properties)
+
+    var subProperties = setFrames.properties[item]["properties"]
+
+    // check for @oneOf (used in seshat) // separate logic to get filled frames
+    if(mode!==CREATE && formData.hasOwnProperty(item) && subProperties.hasOwnProperty(ONEOFVALUES)) {
+        let filledChoiceTypeFrames = getFilledChoiceTypeFrames(item, formData, mode, setFrames, properties, propertiesUI)
+        properties[item] = filledChoiceTypeFrames[item]
+    }
+    /*else if(mode === VIEW && !formData.hasOwnProperty(item)) {
+        const hidden = () => <div/>
+        propertiesUI[item]={"ui:field": hidden}
+        return {properties, propertiesUI}
+    }*/
 
     return {properties, propertiesUI}
 }
@@ -294,6 +237,8 @@ export function makeSetData (setFrames, item, uiFrame, mode, formData) {
     //schema
     properties[item] = layout
 
+
+
     //default ui:schema
     propertiesUI[item] = {
         "items": setFrames.uiSchema[item]
@@ -322,8 +267,6 @@ export function makeSetData (setFrames, item, uiFrame, mode, formData) {
             removable: false
         }
     }
-
-
 
     //custom ui:schema
     if(uiFrame && uiFrame[item]) {
@@ -535,182 +478,5 @@ export function makeSetDocuments  (setFrames, item, selectDocType, uiFrame, mode
     return {properties, propertiesUI}
 }
 
-// Set One Of Class frames
-export function makeSetOneOfClassFrames_OLD(fullFrame, frame, item, uiFrame,  mode, formData, prefix) {
 
-
-    let properties={}, propertiesUI={}
-
-    let anyOfArray=[]
-
-    function getUIField(props) {
-        let formDataValue = props.schema.hasOwnProperty("default") ? props.schema.default : {}
-        const [input, setInput]=useState(formDataValue)
-        let schema = fullFrame
-
-        function handleFormChange(data){
-            let jsonData = {
-                "@type": props.name,
-                "@info": ONEOFCLASSES
-            }
-            setInput(data)
-            for(var thing in data){
-                jsonData[thing] = data[thing]
-            }
-            if(props.onChange) {
-                //console.log("value stored in props", jsonData)
-                props.onChange(jsonData)
-            }
-        }
-
-        let uiSchema = {
-            classNames : "card bg-secondary p-4 mt-4 mb-4"
-        }
-
-        return <React.Fragment>
-            {props.name}
-            <FrameViewer
-                frame={schema}
-                mode={mode}
-                hideSubmit={true}
-                onChange={handleFormChange}
-                type={props.name}
-                uiFrame={uiSchema}
-                formData={input}
-            />
-        </React.Fragment>
-    }
-
-
-
-    function extractProperties(subFrame, documentClass, item, formData, count, mode) {
-        var structure = {}
-        structure = {
-            title: documentClass,
-            properties: {
-                [documentClass]: {
-                    type: typeof subFrame === "object" ? "object" : "string"
-                }
-            }
-        }
-        if(mode !== CREATE && formData.hasOwnProperty(item)){
-            formData[item].map(par => {
-                if(typeof subFrame === "object" && par.hasOwnProperty("@type") && par["@type"] === documentClass) {
-                    structure.properties[documentClass]["default"] = par
-                }
-                else if(typeof subFrame === "string"){
-                    structure.properties[documentClass]["default"] = par
-                }
-            })
-        }
-        if(mode !== CREATE && formData.hasOwnProperty(item) && formData[item][count]["@type"] !== documentClass){
-            return {}
-        }
-        else return structure
-    }
-
-    if(frame[item] && Array.isArray(frame[item]))  {
-        var extracted=[], documentClass, documentClassUi = {}
-        var count = 0
-        frame[item].map(it => {
-            if(typeof it === "object"){
-                documentClass=it["@class"]
-                extracted.push(extractProperties(it, it["@class"], item, formData, count, mode))
-                documentClassUi[documentClass] =  {
-                    "ui:field": getUIField
-                }
-            }
-            else { // document class
-                documentClass=it
-                extracted.push(extractProperties(it, it, item, formData, count, mode))
-            }
-
-            count += 1
-        })
-        anyOfArray = extracted
-        //item property ui
-        if(mode === VIEW && !formData.hasOwnProperty(item)){ // do not display if no value in formdata
-            propertiesUI[item] = {}
-        }
-        propertiesUI[item] = {
-            "items" : documentClassUi
-        }
-    }
-
-    var layout = {}
-
-    if(Array.isArray(frame[item]) && frame[item].length > 0) {
-        layout = {
-            type: "array",
-            info: "DATA",
-            title: item,
-            description: `Choose ${item} from the list ...`,
-            items: {
-                type: "object",
-                anyOf: anyOfArray
-            }
-        }
-    }
-
-    if(mode === VIEW && !formData.hasOwnProperty(item)) { // do not display
-        layout = {
-            type: 'object',
-            info: "DATA",
-            title: item
-        }
-    }
-
-    //if(mode !== CREATE && formData.hasOwnProperty(item)) {
-        //layout["default"]=getDefaultValue(item, formData)
-    //}
-
-    // schema
-    properties[item] = layout
-
-
-    propertiesUI[item]["ui:title"] = getTitle(item, checkIfKey(item, frame["@key"]))
-    propertiesUI[item]["classNames"] = mode===VIEW ? "tdb__input mb-3 mt-3 form-label tdb__view__input" : "tdb__input mb-3 mt-3"
-
-
-
-
-    if(mode !== VIEW) { // we do not allow to add extra on view mode
-        // layout
-        properties[item]["additionalItems"]={
-            type: "object",
-            anyOf: anyOfArray
-        }
-        //ui
-        //propertiesUI[item]["additionalItems"]=setFrames.uiSchema[item]
-        propertiesUI[item]["ui:options"] = {
-            addable: true,
-            orderable: false,
-            removable: true
-        }
-        propertiesUI[item]["ui:ArrayFieldTemplate"]=ArrayFieldTemplate
-    }
-    else if(mode === VIEW){
-        propertiesUI[item]["ui:options"] = { // disable add more on view
-            addable: false,
-            orderable: false,
-            removable: false
-        }
-    }
-
-
-
-
-    if(mode === VIEW && !Array.isArray(formData) && !formData.hasOwnProperty(item)){ // set of subdocuments
-        const hidden = () => <div/>
-        propertiesUI[item]["ui:widget"]= hidden
-    }
-
-    //custom ui:schema
-    if(uiFrame && uiFrame[item]) {
-        propertiesUI[item] = uiFrame[item]
-    }
-
-    return {properties, propertiesUI}
-
-}
 

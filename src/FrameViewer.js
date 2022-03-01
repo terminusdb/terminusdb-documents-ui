@@ -6,7 +6,7 @@ import {TDB_SCHEMA} from "./constants"
 import {Alert} from "react-bootstrap"
 import {VIEW, EDIT} from "./constants"
 import {formatData, getPrefix, isValueHashDocument, getValueHashMessage} from "./utils"
-
+import {transformData} from "./extract"
 
 /*
 **  frame     - full json schema of a document
@@ -45,16 +45,10 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
 
     useEffect(() => {
         setPrefix(extractedPrefix)
-        try{
+        //try{
             //console.log("extractedPrefix", extractedPrefix)
             //console.log("frame", frame)
             let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect)
-            /*let properties ={                properties:{},
-                required: {},
-                dependencies:{},
-                uiSchema:{}
-            }*/
-            //console.log("definitions", definitions)
             let definitions = {
                 testdef: {
                     title: "test",
@@ -96,10 +90,10 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             if(uiFrame && uiFrame["ui:title"]) uiSchema["ui:title"]= uiFrame["ui:title"]
             if(uiFrame && uiFrame["ui:description"]) uiSchema["ui:description"]= uiFrame["ui:description"]
             setUISchema(uiSchema)
-        }
-        catch(e) {
-            setError("An error has occured in generating frames. Err - ", e)
-        }
+        //}
+        //catch(e) {
+          //  setError("An error has occured in generating frames. Err - ", e)
+        //}
 
     }, [frame, uiFrame, type, mode, formData])
 
@@ -107,7 +101,10 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
     const handleSubmit = ({formData}) => {
         console.log("Data before extract: ",  formData)
         if(onSubmit) {
-            var extracted=formatData(mode, schema, formData, frame, current)
+
+            var extracted = transformData(mode, schema, formData, frame, current, type)
+
+            //var extracted=formatData(mode, schema, formData, frame, current, type)
             onSubmit(extracted)
             console.log("Data submitted: ",  extracted)
             //console.log("Data submitted: ",  JSON.stringify(extracted, null, 2))

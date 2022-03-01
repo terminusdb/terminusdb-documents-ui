@@ -226,7 +226,7 @@ function singleDimensions (frame, item, uiFrame, mode, formData) {
         }
         propertiesUI[item]["ui:ArrayFieldTemplate"]=ArrayFieldTemplate
     }
-    else {
+    else { //view
         function getMapComponent(props) {
             if(!formData.hasOwnProperty(item)) return <div/>
             let co = [{lat: formData[item][0], lng: formData[item][1]}]

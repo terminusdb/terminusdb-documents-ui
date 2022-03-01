@@ -39,7 +39,7 @@ export function choiceTypeFrames(fullFrame, frame, item, uiFrame, documents, mod
             else if(frame[item][0][thing] !== SYS_UNIT_DATA_TYPE) {
 
                 fieldProperties  = getProperties(fullFrame, newFrame, uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect)
-                console.log("fieldProperties", fieldProperties)
+
                 structure = {
                     title: thing,
                     info: ONEOFVALUES,
@@ -57,13 +57,10 @@ export function choiceTypeFrames(fullFrame, frame, item, uiFrame, documents, mod
         }
     }
 
-    console.log("***anyOfArray ****",formData,  anyOfArray)
-
-
     var layout = {
         title: item,
         type: "object",
-        description: `Choose from the list ...`,
+        description: mode=== CREATE ? `Choose from the list ...` : ``,
         anyOf: anyOfArray
     }
 

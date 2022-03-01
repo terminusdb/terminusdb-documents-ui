@@ -1,12 +1,13 @@
 
 import React from "react"
 import {Button, Form} from "react-bootstrap"
-import {XSD_DATA_TYPE_PREFIX, CREATE, XDD_DATA_TYPE_PREFIX, DIMENSION, ONEOFVALUES, OPTIONAL, SET, ONEOFCLASSES, DOCUMENT, ENUM, VALUE_HASH_KEY, LIST, SYS_UNIT_DATA_TYPE, TDB_SCHEMA, SUBDOCUMENT, ARRAY, COORDINATES} from "./constants"
+import {XSD_DATA_TYPE_PREFIX, CREATE, XDD_DATA_TYPE_PREFIX, POINT_TYPE, DIMENSION, ONEOFVALUES, OPTIONAL, SET, ONEOFCLASSES, DOCUMENT, ENUM, VALUE_HASH_KEY, LIST, SYS_UNIT_DATA_TYPE, TDB_SCHEMA, SUBDOCUMENT, ARRAY, COORDINATES} from "./constants"
 import {BiKey, BiPlus} from "react-icons/bi"
 import {RiDeleteBin5Fill} from "react-icons/ri"
 import {FcKey} from "react-icons/fc"
 import {BiErrorCircle} from "react-icons/bi"
 import {FaArrowDown, FaArrowUp} from "react-icons/fa"
+import { getFilledChoiceTypeFrames } from "./FilledChoiceTypeFrames"
 
 //returns extracted prefix
 export function getPrefix(frame) {
@@ -200,30 +201,38 @@ export function ArrayFieldTemplate(props) {
 
 function removeEmptyFields(data) {
 	for(var key in data){
-		if (data.hasOwnProperty(key)) {
-			if(data[key] === undefined) continue
-			if(Array.isArray(data[key])) continue // coordinates
-			if (Object.keys(data[key]).length && typeof data[key] === 'object') {
-				var cleaned = removeEmptyFields(data[key])
-				if(Object.keys(cleaned).length === 1 && cleaned["@type"]){
-					cleaned = {}
-				}
-				if(Array.isArray(cleaned) && cleaned.length === 0) {
-					delete data[key]
-				}
-				else if(Object.keys(cleaned).length === 0) {
-					delete data[key]
-				}
-				else data[key] = cleaned
-			}
-			else if (Object.keys(data[key]).length && typeof data[key] === 'string') {
-				if(data[key] === SYS_UNIT_DATA_TYPE) data[key]={}
-				else data[key] = data[key]
-			}
-			else {
+		//if(checkIfOnlyType(data)) return false // remove only when @type is available
+		if(data[key] === undefined) continue
+		if(Array.isArray(data[key]) &&
+			data.hasOwnProperty("@type") &&
+			data["@type"] === POINT_TYPE) continue // coordinates
+		if (Object.keys(data[key]).length && typeof data[key] === 'object') {
+			var cleaned = removeEmptyFields(data[key])
+			if(!cleaned) { // delete this coz no filled value {@type: "sometype"}
 				delete data[key]
 			}
+			if(Object.keys(cleaned).length === 1 && cleaned["@type"]){
+				cleaned = {}
+			}
+			if(Array.isArray(cleaned) && cleaned.length === 0) {
+				delete data[key]
+			}
+			else if(Object.keys(cleaned).length === 0) {
+				delete data[key]
+			}
+			else data[key] = cleaned
 		}
+		else if (Object.keys(data[key]).length && typeof data[key] === 'string') { // review this check
+			if(data[key] === SYS_UNIT_DATA_TYPE) data[key]={}
+			else data[key] = data[key]
+		}
+		else if (typeof data[key] === 'number') {
+			data[key] = data[key]
+		}
+		else {
+			delete data[key]
+		}
+
 	}
 	return data;
 
@@ -248,6 +257,13 @@ function containsGeoTypes(json) { // altering data
 	return false
 }
 
+function checkIfOnlyType(jsonFrame){
+	if(Object.keys(jsonFrame).length === 1 && jsonFrame.hasOwnProperty("@type")) return true
+	return false
+}
+
+
+
 
 //alter formData of one of data
 function modifyOneOfData(mode, schema, data) {
@@ -262,7 +278,7 @@ function modifyOneOfData(mode, schema, data) {
 			console.log("^^^newArr ^^^", newArr)
 			modifiedData[item] = newArr*/
 			//if(schema.properties.hasOwnProperty(item) && schema.properties[item].hasOwnProperty(DIMENSION)) {
-			if(data.hasOwnProperty("@type") && data["@type"] === "Point"){
+			if(data.hasOwnProperty("@type") && data["@type"] === POINT_TYPE){
 				modifiedData[item]=data[item]
 			}
 			else if (data.hasOwnProperty("@type") && data["@type"] === "LineString") {
@@ -270,10 +286,26 @@ function modifyOneOfData(mode, schema, data) {
 			}
 		}
 		else if(Array.isArray(data[item])){
+			let arr =[]
 			data[item].map(amd => {
 				if(typeof amd === "string") modifiedData[item] =data[item]
-				else modifiedData[item] = [modifyOneOfData(mode, schema, amd)]
+				else if (amd.hasOwnProperty(ONEOFVALUES)){
+					var thing = modifyOneOfData(mode, schema, amd) //set @oneOfs - example seshat
+					//console.log("thng", thing)
+					//let choice = getFilledChoiceKey(thing)
+					let choice = Object.keys(thing)[0]
+					arr.push({
+						"@type": amd["@type"],
+						[choice]: thing[choice]
+					})
+				}
+				else {
+					//modifiedData[item] = [modifyOneOfData(mode, schema, amd)] - review this logic
+					var thing = modifyOneOfData(mode, schema, amd) //set subdocuments - example invitation
+					arr.push(thing)
+				}
 			})
+			if(arr.length) modifiedData[item]=arr
 		}
 		else if(typeof data[item] === "object"){
 			let modified = modifyOneOfData(mode, schema, data[item])
@@ -284,7 +316,7 @@ function modifyOneOfData(mode, schema, data) {
 		}
 		else modifiedData[item] = data[item]
 	}
-	console.log("****** modifiedData ****", modifiedData)
+	//console.log("****** modifiedData ****", modifiedData)
 	return modifiedData
 }
 
@@ -327,7 +359,7 @@ function modifyChoiceTypeData(mode, schema, data, frame) {
 
 
 // removes properties with no filled values on submit form
-export function formatData(mode, schema, data, frame, current) {
+export function formatData(mode, schema, data, frame, current, type) {
 	var extracted={}
 	let currentFrame=frame[current]
 	//let formData=data
@@ -366,10 +398,13 @@ export function formatData(mode, schema, data, frame, current) {
 			extracted[key]=formData[key]
 		}
 	}
-	console.log("extracted", extracted)
+	//console.log("extracted", extracted)
 	let extr = removeEmptyFields(extracted)
+	if(!extr.hasOwnProperty("@type")) extr["@type"]=type
 	return extr
 }
+
+
 
 // function checks if formData has a filled value for item
 export function isFilled (formData, item){
