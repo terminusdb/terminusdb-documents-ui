@@ -77,7 +77,7 @@ export const makeSetOneOfClassFrames = (fullFrame, frame, item, uiFrame,  mode, 
                 onChange={handleFormChange}
                 type={type}
                 uiFrame={uiSchema}
-               // formData={input}
+               formData={input}
             />
         </React.Fragment>
     }

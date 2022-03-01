@@ -7,6 +7,7 @@ import {RiDeleteBin5Fill} from "react-icons/ri"
 import {FcKey} from "react-icons/fc"
 import {BiErrorCircle} from "react-icons/bi"
 import {FaArrowDown, FaArrowUp} from "react-icons/fa"
+import { getFilledChoiceTypeFrames } from "./FilledChoiceTypeFrames"
 
 //returns extracted prefix
 export function getPrefix(frame) {
@@ -200,35 +201,38 @@ export function ArrayFieldTemplate(props) {
 
 function removeEmptyFields(data) {
 	for(var key in data){
-		if (data.hasOwnProperty(key)) {
-			if(data[key] === undefined) continue
-			if(Array.isArray(data[key]) &&
-				data.hasOwnProperty("@type") &&
-				data["@type"] === POINT_TYPE) continue // coordinates
-			if (Object.keys(data[key]).length && typeof data[key] === 'object') {
-				var cleaned = removeEmptyFields(data[key])
-				if(Object.keys(cleaned).length === 1 && cleaned["@type"]){
-					cleaned = {}
-				}
-				if(Array.isArray(cleaned) && cleaned.length === 0) {
-					delete data[key]
-				}
-				else if(Object.keys(cleaned).length === 0) {
-					delete data[key]
-				}
-				else data[key] = cleaned
-			}
-			else if (Object.keys(data[key]).length && typeof data[key] === 'string') { // review this check
-				if(data[key] === SYS_UNIT_DATA_TYPE) data[key]={}
-				else data[key] = data[key]
-			}
-			else if (typeof data[key] === 'number') {
-				data[key] = data[key]
-			}
-			else {
+		//if(checkIfOnlyType(data)) return false // remove only when @type is available
+		if(data[key] === undefined) continue
+		if(Array.isArray(data[key]) &&
+			data.hasOwnProperty("@type") &&
+			data["@type"] === POINT_TYPE) continue // coordinates
+		if (Object.keys(data[key]).length && typeof data[key] === 'object') {
+			var cleaned = removeEmptyFields(data[key])
+			if(!cleaned) { // delete this coz no filled value {@type: "sometype"}
 				delete data[key]
 			}
+			if(Object.keys(cleaned).length === 1 && cleaned["@type"]){
+				cleaned = {}
+			}
+			if(Array.isArray(cleaned) && cleaned.length === 0) {
+				delete data[key]
+			}
+			else if(Object.keys(cleaned).length === 0) {
+				delete data[key]
+			}
+			else data[key] = cleaned
 		}
+		else if (Object.keys(data[key]).length && typeof data[key] === 'string') { // review this check
+			if(data[key] === SYS_UNIT_DATA_TYPE) data[key]={}
+			else data[key] = data[key]
+		}
+		else if (typeof data[key] === 'number') {
+			data[key] = data[key]
+		}
+		else {
+			delete data[key]
+		}
+
 	}
 	return data;
 
@@ -252,6 +256,13 @@ function containsGeoTypes(json) { // altering data
 	if(json.hasOwnProperty("LineString")) return json["LineString"]
 	return false
 }
+
+function checkIfOnlyType(jsonFrame){
+	if(Object.keys(jsonFrame).length === 1 && jsonFrame.hasOwnProperty("@type")) return true
+	return false
+}
+
+
 
 
 //alter formData of one of data
@@ -281,6 +292,7 @@ function modifyOneOfData(mode, schema, data) {
 				else if (amd.hasOwnProperty(ONEOFVALUES)){
 					var thing = modifyOneOfData(mode, schema, amd) //set @oneOfs - example seshat
 					//console.log("thng", thing)
+					//let choice = getFilledChoiceKey(thing)
 					let choice = Object.keys(thing)[0]
 					arr.push({
 						"@type": amd["@type"],
@@ -391,6 +403,8 @@ export function formatData(mode, schema, data, frame, current, type) {
 	if(!extr.hasOwnProperty("@type")) extr["@type"]=type
 	return extr
 }
+
+
 
 // function checks if formData has a filled value for item
 export function isFilled (formData, item){

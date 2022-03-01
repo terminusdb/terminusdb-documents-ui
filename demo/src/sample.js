@@ -9340,6 +9340,186 @@ export const SESHAT_SCHEMA_SMALL= {
 	}
 }
 
+export const SESHAT_TEST_FORM_DATA={
+	   "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7",
+	   "@type":"Polity",
+	   "general_variables":{
+		  "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/GeneralVariables/177d2ef58cb358ca64cdf861c3fa0ec7ad2a06570456dc1f49c94a650bd892c9",
+		  "@type":"GeneralVariables",
+		  "alternative_names":[
+			 {
+				"@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/GeneralVariables/177d2ef58cb358ca64cdf861c3fa0ec7ad2a06570456dc1f49c94a650bd892c9/alternative_names/AlternativeNames/4aadbbecee6ee577f9a394ecedbbf6407d2200e749f98ba254e3c8cf81d35835",
+				"@type":"AlternativeNames",
+				"known":{
+				   "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/GeneralVariables/177d2ef58cb358ca64cdf861c3fa0ec7ad2a06570456dc1f49c94a650bd892c9/alternative_names/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/GeneralVariables/177d2ef58cb358ca64cdf861c3fa0ec7ad2a06570456dc1f49c94a650bd892c9/alternative_names/AlternativeNames/4aadbbecee6ee577f9a394ecedbbf6407d2200e749f98ba254e3c8cf81d35835/known/StringValue/eba154d9d78b874db7f8154ba5698cfe7ce95553c81164d0c1256b8f1d46b695",
+				   "@type":"StringValue",
+				   "date_range":{
+					  "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/GeneralVariables/177d2ef58cb358ca64cdf861c3fa0ec7ad2a06570456dc1f49c94a650bd892c9/alternative_names/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/GeneralVariables/177d2ef58cb358ca64cdf861c3fa0ec7ad2a06570456dc1f49c94a650bd892c9/alternative_names/AlternativeNames/4aadbbecee6ee577f9a394ecedbbf6407d2200e749f98ba254e3c8cf81d35835/known/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/GeneralVariables/177d2ef58cb358ca64cdf861c3fa0ec7ad2a06570456dc1f49c94a650bd892c9/alternative_names/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/GeneralVariables/177d2ef58cb358ca64cdf861c3fa0ec7ad2a06570456dc1f49c94a650bd892c9/alternative_names/AlternativeNames/4aadbbecee6ee577f9a394ecedbbf6407d2200e749f98ba254e3c8cf81d35835/known/StringValue/eba154d9d78b874db7f8154ba5698cfe7ce95553c81164d0c1256b8f1d46b695/date_range/DateRange/69a4c52cd108343d3bacc897166b4ab46ee5e0c171dcb589caa9e77d75087e94",
+					  "@type":"DateRange",
+					  "from":2019,
+					  "to":2018
+				   },
+				   "value":"KNOWN VAL"
+				}
+			 }
+		  ],
+		  "capital":[
+			 {
+				"@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/GeneralVariables/177d2ef58cb358ca64cdf861c3fa0ec7ad2a06570456dc1f49c94a650bd892c9/capital/Capital/16560cb655a8ae475130d65d5902766ef41995cdef4035cc92fc056e5f823954",
+				"@type":"Capital",
+				"known":{
+				   "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/GeneralVariables/177d2ef58cb358ca64cdf861c3fa0ec7ad2a06570456dc1f49c94a650bd892c9/capital/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/GeneralVariables/177d2ef58cb358ca64cdf861c3fa0ec7ad2a06570456dc1f49c94a650bd892c9/capital/Capital/16560cb655a8ae475130d65d5902766ef41995cdef4035cc92fc056e5f823954/known/CapitalValue/294451adef0a5b6a5afb6cfa8b3c76cf8d4cd790956aa1400c3f5598b116ca0c",
+				   "@type":"CapitalValue",
+				   "value":"City/Tokyo"
+				}
+			 }
+		  ],
+		  "degree_of_centralization":[
+			 {
+				"@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/GeneralVariables/177d2ef58cb358ca64cdf861c3fa0ec7ad2a06570456dc1f49c94a650bd892c9/degree_of_centralization/DegreeOfCentralization/bbf39a2d8452ca78a928f92bd65ce58f6120385f8e58005f6607edb78dfa37d2",
+				"@type":"DegreeOfCentralization"
+			 }
+		  ],
+		  "duration":[
+			 {
+				"@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/GeneralVariables/177d2ef58cb358ca64cdf861c3fa0ec7ad2a06570456dc1f49c94a650bd892c9/duration/Duration/81b196dd4bd3bbfb0155b6ea2c9939f5fcab51d504841d2720fcd85a1446fa32",
+				"@type":"Duration"
+			 }
+		  ]
+	   },
+	   "institutional_variables":{
+		  "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/institutional_variables/InstitutionalVariables/6f9f623f9066d353672180e75501445c4702cf5398b3427548cecb4cd4c3d5ec",
+		  "@type":"InstitutionalVariables",
+		  "limits_on_power_of_the_chief_executive":{
+			 "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/institutional_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/institutional_variables/InstitutionalVariables/6f9f623f9066d353672180e75501445c4702cf5398b3427548cecb4cd4c3d5ec/limits_on_power_of_the_chief_executive/LimitsOnPowerOfTheChiefExecutive/93221d896da7308a76a598fc8955d2d2b6cb583d719a5fabc3a08f4ccb64b4ec",
+			 "@type":"LimitsOnPowerOfTheChiefExecutive"
+		  }
+	   },
+	   "religion_and_normative_ideology":{
+		  "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/religion_and_normative_ideology/ReligionAndNormativeIdeology/4385e035e5dd9bcafa9df44f682c39eedb5be7b03315dc8f8aca8deadad81253",
+		  "@type":"ReligionAndNormativeIdeology",
+		  "deification_of_rulers":{
+			 "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/religion_and_normative_ideology/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/religion_and_normative_ideology/ReligionAndNormativeIdeology/4385e035e5dd9bcafa9df44f682c39eedb5be7b03315dc8f8aca8deadad81253/deification_of_rulers/DeificationOfRulers/3b570ff14ae63d9dbaf1ea70ef23cf120d4ddaf7d6cb04c8b4a27d7ab6d34b06",
+			 "@type":"DeificationOfRulers"
+		  },
+		  "moralizing_supernatural_powers":{
+			 "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/religion_and_normative_ideology/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/religion_and_normative_ideology/ReligionAndNormativeIdeology/4385e035e5dd9bcafa9df44f682c39eedb5be7b03315dc8f8aca8deadad81253/moralizing_supernatural_powers/MoralizingSupernaturalPowers/7e0f8a4861623fe3d570f50cbdcdf431006cd1ae98143adb1278ac2985dee45a",
+			 "@type":"MoralizingSupernaturalPowers"
+		  },
+		  "normative_ideological_aspects_of_equity_and_prosociality":{
+			 "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/religion_and_normative_ideology/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/religion_and_normative_ideology/ReligionAndNormativeIdeology/4385e035e5dd9bcafa9df44f682c39eedb5be7b03315dc8f8aca8deadad81253/normative_ideological_aspects_of_equity_and_prosociality/NormativeIdeologicalAspectsOfEquityAndProsociality/adefe7fcca9f695af2f1b40a5ac7b2b6146f83cb95cfd1d629bb92a4efb25233",
+			 "@type":"NormativeIdeologicalAspectsOfEquityAndProsociality"
+		  }
+	   },
+	   "social_complexity_variables":{
+		  "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/social_complexity_variables/SocialComplexityVariables/5ab30a605faae054e4f8ce7a0657a28ec026a6694ceff41d8d26bcbcedcea60e",
+		  "@type":"SocialComplexityVariables",
+		  "bureaucracy_characteristics":{
+			 "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/social_complexity_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/social_complexity_variables/SocialComplexityVariables/5ab30a605faae054e4f8ce7a0657a28ec026a6694ceff41d8d26bcbcedcea60e/bureaucracy_characteristics/BureaucracyCharacteristics/36506cb97679203ea100eeaa9bfa06236276ad8992a63c940e397e48b432169e",
+			 "@type":"BureaucracyCharacteristics"
+		  },
+		  "hierarchical_complexity":{
+			 "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/social_complexity_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/social_complexity_variables/SocialComplexityVariables/5ab30a605faae054e4f8ce7a0657a28ec026a6694ceff41d8d26bcbcedcea60e/hierarchical_complexity/HierarchicalComplexity/3d74f2701abea43ff7d737d6f0c2d2f83c07a194061033843197cd7992c0133b",
+			 "@type":"HierarchicalComplexity"
+		  },
+		  "information":{
+			 "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/social_complexity_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/social_complexity_variables/SocialComplexityVariables/5ab30a605faae054e4f8ce7a0657a28ec026a6694ceff41d8d26bcbcedcea60e/information/Information/5c565314103637b8fd677de13be73ce5e5ae466d74089fc7642da08440932cd0",
+			 "@type":"Information"
+		  },
+		  "law":{
+			 "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/social_complexity_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/social_complexity_variables/SocialComplexityVariables/5ab30a605faae054e4f8ce7a0657a28ec026a6694ceff41d8d26bcbcedcea60e/law/Law/5afb0e8b0ce2136b668635af637570a1fdffebc74c8f874ff8c292e0cf4df17d",
+			 "@type":"Law"
+		  },
+		  "professions":{
+			 "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/social_complexity_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/social_complexity_variables/SocialComplexityVariables/5ab30a605faae054e4f8ce7a0657a28ec026a6694ceff41d8d26bcbcedcea60e/professions/Professions/1fa541c45557b607f0a5430695d132e12a62bcbd74d8a555a63dfd8ff30c8dca",
+			 "@type":"Professions"
+		  },
+		  "social_scale":{
+			 "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/social_complexity_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/social_complexity_variables/SocialComplexityVariables/5ab30a605faae054e4f8ce7a0657a28ec026a6694ceff41d8d26bcbcedcea60e/social_scale/SocialScale/0a8e5e94ffb5a6d1bc760c4a9193b2e3fb6cedbf1ef483565d54770c65931e10",
+			 "@type":"SocialScale"
+		  },
+		  "specialized_buildings%3A_polity_owned":{
+			 "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/social_complexity_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/social_complexity_variables/SocialComplexityVariables/5ab30a605faae054e4f8ce7a0657a28ec026a6694ceff41d8d26bcbcedcea60e/specialized_buildings%3A_polity_owned/SpecializedBuildings%3APolityOwned/283740f800ed0245308e7ba6eb1ca5046d5ce9a6a82315e7aea5ff423672d3fe",
+			 "@type":"SpecializedBuildings%3APolityOwned"
+		  }
+	   },
+	   "social_mobility":{
+		  "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/social_mobility/SocialMobility/805b4e148f94d0f58d51b6f9254f84a83580db1d9389328c27f86df7459500f8",
+		  "@type":"SocialMobility",
+		  "status":{
+			 "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/social_mobility/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/social_mobility/SocialMobility/805b4e148f94d0f58d51b6f9254f84a83580db1d9389328c27f86df7459500f8/status/Status/d3aa6dde8e76977387c2903fd525f47b540df6db0f98be0b4802068ba3936393",
+			 "@type":"Status"
+		  }
+	   },
+	   "warfare_variables":{
+		  "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/WarfareVariables/56de9363d55ef6bed427d07db3e33abd4b73596ab808133ebb972dfcaf12f101",
+		  "@type":"WarfareVariables",
+		  "atlatl":[
+			 {
+				"@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/WarfareVariables/56de9363d55ef6bed427d07db3e33abd4b73596ab808133ebb972dfcaf12f101/atlatl/Atlatl/90b571248bc2590386a4d72802aefd91c5cee3da83caf1bb5c36f1e7a1ce2180",
+				"@type":"Atlatl",
+				"inferred":{
+				   "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/WarfareVariables/56de9363d55ef6bed427d07db3e33abd4b73596ab808133ebb972dfcaf12f101/atlatl/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/WarfareVariables/56de9363d55ef6bed427d07db3e33abd4b73596ab808133ebb972dfcaf12f101/atlatl/Atlatl/90b571248bc2590386a4d72802aefd91c5cee3da83caf1bb5c36f1e7a1ce2180/inferred/PresenceValue/ece4266d8ba2643c324c2e07416456fafb18afdfb37f868c2f4021bc9b53dc16",
+				   "@type":"PresenceValue",
+				   "date_range":{
+					  "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/WarfareVariables/56de9363d55ef6bed427d07db3e33abd4b73596ab808133ebb972dfcaf12f101/atlatl/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/WarfareVariables/56de9363d55ef6bed427d07db3e33abd4b73596ab808133ebb972dfcaf12f101/atlatl/Atlatl/90b571248bc2590386a4d72802aefd91c5cee3da83caf1bb5c36f1e7a1ce2180/inferred/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/WarfareVariables/56de9363d55ef6bed427d07db3e33abd4b73596ab808133ebb972dfcaf12f101/atlatl/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/WarfareVariables/56de9363d55ef6bed427d07db3e33abd4b73596ab808133ebb972dfcaf12f101/atlatl/Atlatl/90b571248bc2590386a4d72802aefd91c5cee3da83caf1bb5c36f1e7a1ce2180/inferred/PresenceValue/ece4266d8ba2643c324c2e07416456fafb18afdfb37f868c2f4021bc9b53dc16/date_range/DateRange/cecbd45be0950e87838d1015c427d91490be4f3f228e327902c1de8d5474c98f",
+					  "@type":"DateRange",
+					  "from":45,
+					  "to":7
+				   },
+				   "value":"present"
+				}
+			 }
+		  ],
+		  "bronze":[
+			 {
+				"@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/WarfareVariables/56de9363d55ef6bed427d07db3e33abd4b73596ab808133ebb972dfcaf12f101/bronze/Bronze/7578ba6a9c1989bdf29f0d5fd61c7e9d1f0cdf37d24a3f855f1cc1e151e924f3",
+				"@type":"Bronze",
+				"known":{
+				   "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/WarfareVariables/56de9363d55ef6bed427d07db3e33abd4b73596ab808133ebb972dfcaf12f101/bronze/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/WarfareVariables/56de9363d55ef6bed427d07db3e33abd4b73596ab808133ebb972dfcaf12f101/bronze/Bronze/7578ba6a9c1989bdf29f0d5fd61c7e9d1f0cdf37d24a3f855f1cc1e151e924f3/known/PresenceValue/be160844bce04db2f7ea712c65cf004fd3028c885e0f18603ce2edb57bfdc76b",
+				   "@type":"PresenceValue",
+				   "date_range":{
+					  "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/WarfareVariables/56de9363d55ef6bed427d07db3e33abd4b73596ab808133ebb972dfcaf12f101/bronze/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/WarfareVariables/56de9363d55ef6bed427d07db3e33abd4b73596ab808133ebb972dfcaf12f101/bronze/Bronze/7578ba6a9c1989bdf29f0d5fd61c7e9d1f0cdf37d24a3f855f1cc1e151e924f3/known/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/WarfareVariables/56de9363d55ef6bed427d07db3e33abd4b73596ab808133ebb972dfcaf12f101/bronze/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/WarfareVariables/56de9363d55ef6bed427d07db3e33abd4b73596ab808133ebb972dfcaf12f101/bronze/Bronze/7578ba6a9c1989bdf29f0d5fd61c7e9d1f0cdf37d24a3f855f1cc1e151e924f3/known/PresenceValue/be160844bce04db2f7ea712c65cf004fd3028c885e0f18603ce2edb57bfdc76b/date_range/DateRange/bf409c817dc2045098aecf9de9ddd6299620562b9432680d7ade1148be0a538a",
+					  "@type":"DateRange",
+					  "from":522,
+					  "to":1950
+				   },
+				   "value":"absent"
+				}
+			 }
+		  ],
+		  "camels":[
+			 {
+				"@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/WarfareVariables/56de9363d55ef6bed427d07db3e33abd4b73596ab808133ebb972dfcaf12f101/camels/Camels/4af8be4c6513071801027cc5924642e22c6468e6bfe7c45b41b65d80b43a0e58",
+				"@type":"Camels"
+			 }
+		  ],
+		  "largest_scale_collective_ritual_of_the_official_cult":{
+			 "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/WarfareVariables/56de9363d55ef6bed427d07db3e33abd4b73596ab808133ebb972dfcaf12f101/largest_scale_collective_ritual_of_the_official_cult/LargestScaleCollectiveRitualOfTheOfficialCult/6b2bbfa5a89c8f16f8ed0d093f7daa015d1539f622058479a9b819b87b98b587",
+			 "@type":"LargestScaleCollectiveRitualOfTheOfficialCult"
+		  },
+		  "military_technologies":{
+			 "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/WarfareVariables/56de9363d55ef6bed427d07db3e33abd4b73596ab808133ebb972dfcaf12f101/military_technologies/MilitaryTechnologies/fa7ff66d6ecc1e4d2fbc72e714efe2de559d3b6ef366e3e3517d26de7182c01c",
+			 "@type":"MilitaryTechnologies"
+		  },
+		  "most_dysphoric_collective_ritual_of_the_official_cult":{
+			 "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/WarfareVariables/56de9363d55ef6bed427d07db3e33abd4b73596ab808133ebb972dfcaf12f101/most_dysphoric_collective_ritual_of_the_official_cult/MostDysphoricCollectiveRitualOfTheOfficialCult/776b55545f042a325c14a9d97e255b76ae262c2395523751523bdcd4d9287d85",
+			 "@type":"MostDysphoricCollectiveRitualOfTheOfficialCult"
+		  },
+		  "most_euphoric_collective_ritual_of_the_official_cult":{
+			 "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/WarfareVariables/56de9363d55ef6bed427d07db3e33abd4b73596ab808133ebb972dfcaf12f101/most_euphoric_collective_ritual_of_the_official_cult/MostEuphoricCollectiveRitualOfTheOfficialCult/bb07a3160814e8656d00499b3f54de7586e5a1a75b021c11074f3caa9680b427",
+			 "@type":"MostEuphoricCollectiveRitualOfTheOfficialCult"
+		  },
+		  "most_frequent_collective_ritual_of_the_official_cult":{
+			 "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/WarfareVariables/56de9363d55ef6bed427d07db3e33abd4b73596ab808133ebb972dfcaf12f101/most_frequent_collective_ritual_of_the_official_cult/MostFrequentCollectiveRitualOfTheOfficialCult/925950197ee9038f4294a7623f89f57ef40338995944c564c3b64e42ec6de3a0",
+			 "@type":"MostFrequentCollectiveRitualOfTheOfficialCult"
+		  },
+		  "most_widespread_collective_ritual_of_the_official_cult":{
+			 "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/warfare_variables/WarfareVariables/56de9363d55ef6bed427d07db3e33abd4b73596ab808133ebb972dfcaf12f101/most_widespread_collective_ritual_of_the_official_cult/MostWidespreadCollectiveRitualOfTheOfficialCult/b1cace2273dcd882ccab6dddef568f72bcf778ecc513d32eaba687297aa72299",
+			 "@type":"MostWidespreadCollectiveRitualOfTheOfficialCult"
+		  }
+	   }
+	}
 
 export const SESHAT_FORM_DATA = {
 	"@id":"Polity/AfDurrn",
@@ -9347,7 +9527,7 @@ export const SESHAT_FORM_DATA = {
 	"general_variables":{
 	   "@id":"Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88",
 	   "@type":"GeneralVariables",
-	   /*"alternative_names":[
+	   "alternative_names":[
 		  {
 			 "@id":"Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/alternative_names/AlternativeNames/ddf370e067096a0992d24b80e02078a7a9983ba06d3fe1a7c1f6f6b8fb1f958e",
 			 "@type":"AlternativeNames",
@@ -9400,7 +9580,7 @@ export const SESHAT_FORM_DATA = {
 			   }
 			}
 		 }
-	   ],*/
+	   ],
 	   "capital":[
 		  {
 			 "@id":"Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/capital/Capital/5f2ef02ee819d1a80b3447b214572ebd61e937330a8d97ad1f2e3747a3ded1dc",
@@ -10992,7 +11172,7 @@ export const SESHAT_SCHEMA_CAPITAL = {
 
 
 
-export const DEMO_DOCUMENT_TYPE="Polity"
+export const DEMO_DOCUMENT_TYPE="Organization"
 
 export const DEMO_FORM_DATA_PERSON= {
 	"@id": "Person/Peter%20+terminusdb%3A%2F%2F%2Fdata%2FJob%2Fadmin",
@@ -11464,3 +11644,474 @@ export const JUNK = {
   }
 
   export const PROFILE_VIEW_3_INIVITAION ={"invitations":[{"@type":"Invitation","creation_date":"2011-01-01 01:00:37","email_to":"kitzkan@gmail.com","status":"needs_invite"},{"@type":"Invitation","creation_date":"2011-01-01 01:00:37","email_to":"kitty@terminusdb.com","status":"active"},{"@type":"Invitation","creation_date":"2011-01-01 01:00:37","email_to":"reyhan@gmail.com","status":"active"}],"stripe_subscription":{"@type":"StripeSubscription","stripe_id":"2123213","billing_email":"kitty@gmail.com","status":"inactive","stripe_quantity":"2","stripe_referrer":"HELO","stripe_user":"User/BLUEME","subscription_id":"asasasa"},"creation_date":"2011-01-01 01:00:37","organization_name":"RK","owned_by":"User/WHO","status":"needs_invite","@type":"Organization"}
+
+  export const MRP_SCHEMA = {
+	"terminusdb:///schema#Address": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "city": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "coordinate": {
+		"@class": {
+		  "@class": "Coordinate",
+		  "@subdocument": []
+		},
+		"@type": "Optional"
+	  },
+	  "country": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "coutry": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "date_from": "xsd:dateTime",
+	  "date_to": {
+		"@class": "xsd:dateTime",
+		"@type": "Optional"
+	  },
+	  "geocode_accuracy": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "metro_area": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "post_code": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "source": {
+		"@class": "Source",
+		"@subdocument": []
+	  },
+	  "state": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "stress_address": "xsd:string"
+	},
+	"terminusdb:///schema#ContactCounts": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "date_from": "xsd:dateTime",
+	  "date_to": {
+		"@class": "xsd:dateTime",
+		"@type": "Optional"
+	  },
+	  "num_of_it_contacts": "xsd:integer",
+	  "num_of_sales_contacts": "xsd:integer",
+	  "source": {
+		"@class": "Source",
+		"@subdocument": []
+	  }
+	},
+	"terminusdb:///schema#Coordinate": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "latitude": "xsd:decimal",
+	  "longtitude": "xsd:decimal"
+	},
+	"terminusdb:///schema#Currency": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "type": {
+		"@id": "CurrencyType",
+		"@type": "Enum",
+		"@values": [
+		  "hkd",
+		  "usd",
+		  "eur",
+		  "gbp"
+		]
+	  },
+	  "value": "xsd:decimal"
+	},
+	"terminusdb:///schema#CurrencyType": {
+	  "@type": "Enum",
+	  "@values": [
+		"hkd",
+		"usd",
+		"eur",
+		"gbp"
+	  ]
+	},
+	"terminusdb:///schema#Domain": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "date_from": "xsd:dateTime",
+	  "date_to": {
+		"@class": "xsd:dateTime",
+		"@type": "Optional"
+	  },
+	  "source": {
+		"@class": "Source",
+		"@subdocument": []
+	  },
+	  "url": "xsd:string"
+	},
+	"terminusdb:///schema#EmployeeCount": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "date_from": "xsd:dateTime",
+	  "date_to": {
+		"@class": "xsd:dateTime",
+		"@type": "Optional"
+	  },
+	  "employee_count_band": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "max": {
+		"@class": "xsd:integer",
+		"@type": "Optional"
+	  },
+	  "min": {
+		"@class": "xsd:integer",
+		"@type": "Optional"
+	  },
+	  "source": {
+		"@class": "Source",
+		"@subdocument": []
+	  },
+	  "value": "xsd:integer"
+	},
+	"terminusdb:///schema#Industry": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "date_from": "xsd:dateTime",
+	  "date_to": {
+		"@class": "xsd:dateTime",
+		"@type": "Optional"
+	  },
+	  "industry_code": "xsd:string",
+	  "industry_code_desc": "xsd:string",
+	  "industry_code_type": "xsd:string",
+	  "source": {
+		"@class": "Source",
+		"@subdocument": []
+	  }
+	},
+	"terminusdb:///schema#IsPublic": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "date_from": "xsd:dateTime",
+	  "date_to": {
+		"@class": "xsd:dateTime",
+		"@type": "Optional"
+	  },
+	  "is_public": "xsd:boolean",
+	  "source": {
+		"@class": "Source",
+		"@subdocument": []
+	  }
+	},
+	"terminusdb:///schema#Location": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "address": {
+		"@class": {
+		  "@class": "Address",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  },
+	  "contact_counts": {
+		"@class": {
+		  "@class": "ContactCounts",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  },
+	  "location_type": {
+		"@class": {
+		  "@class": "LocationType",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  },
+	  "phone_num": {
+		"@class": {
+		  "@class": "PhoneNumber",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  }
+	},
+	"terminusdb:///schema#LocationType": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "date_from": "xsd:dateTime",
+	  "date_to": {
+		"@class": "xsd:dateTime",
+		"@type": "Optional"
+	  },
+	  "source": {
+		"@class": "Source",
+		"@subdocument": []
+	  },
+	  "value": {
+		"@id": "LocationTypeValue",
+		"@type": "Enum",
+		"@values": [
+		  "hq",
+		  "decision_making_location",
+		  "branch"
+		]
+	  }
+	},
+	"terminusdb:///schema#LocationTypeValue": {
+	  "@type": "Enum",
+	  "@values": [
+		"hq",
+		"decision_making_location",
+		"branch"
+	  ]
+	},
+	"terminusdb:///schema#Name": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "date_from": "xsd:dateTime",
+	  "date_to": {
+		"@class": "xsd:dateTime",
+		"@type": "Optional"
+	  },
+	  "name": "xsd:string",
+	  "source": {
+		"@class": "Source",
+		"@subdocument": []
+	  }
+	},
+	"terminusdb:///schema#Organization": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "domain": {
+		"@class": {
+		  "@class": "Domain",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  },
+	  "employee_count": {
+		"@class": {
+		  "@class": "EmployeeCount",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  },
+	  "industry": {
+		"@class": {
+		  "@class": "Industry",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  },
+	  "location": {
+		"@class": "Location",
+		"@type": "Set"
+	  },
+	  "name": {
+		"@class": {
+		  "@class": "Name",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  },
+	  "parent": {
+		"@class": "Organization",
+		"@type": "Set"
+	  },
+	  "public": {
+		"@class": {
+		  "@class": "IsPublic",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  },
+	  "revenue": {
+		"@class": {
+		  "@class": "Revenue",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  }
+	},
+	"terminusdb:///schema#PhoneNumber": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "date_from": "xsd:dateTime",
+	  "date_to": {
+		"@class": "xsd:dateTime",
+		"@type": "Optional"
+	  },
+	  "phone_num": "xsd:string",
+	  "source": {
+		"@class": "Source",
+		"@subdocument": []
+	  }
+	},
+	"terminusdb:///schema#Revenue": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "date_from": "xsd:dateTime",
+	  "date_to": {
+		"@class": "xsd:dateTime",
+		"@type": "Optional"
+	  },
+	  "max": {
+		"@class": {
+		  "@class": "Currency",
+		  "@subdocument": []
+		},
+		"@type": "Optional"
+	  },
+	  "min": {
+		"@class": {
+		  "@class": "Currency",
+		  "@subdocument": []
+		},
+		"@type": "Optional"
+	  },
+	  "revenue_band": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "source": {
+		"@class": "Source",
+		"@subdocument": []
+	  },
+	  "value": {
+		"@class": "Currency",
+		"@subdocument": []
+	  }
+	},
+	"terminusdb:///schema#Source": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "file": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "name": "xsd:string"
+	},
+	"terminusdb:///schema#Sourced": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "source": {
+		"@class": "Source",
+		"@subdocument": []
+	  }
+	},
+	"terminusdb:///schema#TemporalScoping": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "date_from": "xsd:dateTime",
+	  "date_to": {
+		"@class": "xsd:dateTime",
+		"@type": "Optional"
+	  }
+	}
+  }
+
+  export const MRP_SCHEMA_FORM_DATA = {
+	"@id": "Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd",
+	"@type": "Organization",
+	"domain": [
+	  {
+		"@id": "Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/domain/Domain/39fe8f782b3faf6a08ed4e98ad7ed0cb8cab3b2dce4b18c5137a11d725ce79e4",
+		"@type": "Domain",
+		"date_from": "2022-02-10T13:17:11.153464Z",
+		"date_to": "2022-02-10T13:17:11.153464Z",
+		"source": {
+		  "@id": "Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/domain/Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/domain/Domain/39fe8f782b3faf6a08ed4e98ad7ed0cb8cab3b2dce4b18c5137a11d725ce79e4/source/Source/078c7fb38d8d210af850731f0c6ad6e78ecb747f6415b21c6dd8617935a7b7bf",
+		  "@type": "Source",
+		  "name": "../stockopedia_data.csv"
+		},
+		"url": "alstom.com"
+	  }
+	],
+	"employee_count": [
+	  {
+		"@id": "Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/employee_count/EmployeeCount/fa29d60589546ba11e572b58c40dd38d08f1500ee80e73d03fd10f598c73b1a2",
+		"@type": "EmployeeCount",
+		"date_from": "2022-02-10T13:17:11.153464Z",
+		"date_to": "2022-02-10T13:17:11.153464Z",
+		"employee_count_band": "12",
+		"source": {
+		  "@id": "Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/employee_count/Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/employee_count/EmployeeCount/fa29d60589546ba11e572b58c40dd38d08f1500ee80e73d03fd10f598c73b1a2/source/Source/06b982a7e49a1970652668e10b360de59331c9729eedbcdd3584456e498debff",
+		  "@type": "Source",
+		  "name": "../stockopedia_data.csv"
+		},
+		"value": 44830
+	  }
+	],
+	"location": [
+	  "Location/0254518b6cd853e561e63aa1e43ced36fd2193b2f986240668e41cb1314567fc"
+	],
+	"name": [
+	  {
+		"@id": "Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/name/Name/d0b3ade462fcb05c1d9759f874c44ac9e9072650d7bf4664de6107f7b71abfc2",
+		"@type": "Name",
+		"date_from": "2022-02-10T13:17:11.153464Z",
+		"date_to": "2022-02-10T13:17:11.153464Z",
+		"name": "Alstom SA (PAR)",
+		"source": {
+		  "@id": "Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/name/Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/name/Name/d0b3ade462fcb05c1d9759f874c44ac9e9072650d7bf4664de6107f7b71abfc2/source/Source/3f316cf906ec01c5cb21149bd24340355d45f9960b9b3138c7dcc1d472fbc95b",
+		  "@type": "Source",
+		  "file": "editing this field",
+		  "name": "Alstom SA (PAR)"
+		}
+	  }
+	]
+  }

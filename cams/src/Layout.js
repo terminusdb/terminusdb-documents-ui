@@ -1,14 +1,14 @@
 import React,{useState, useEffect} from 'react'
 import {Container, Row} from "react-bootstrap"
-import {CAMS_SCHEMA, CAMS_FORM_DATA, CAMS_TYPE} from "./cams_schema"
+import {CAMS_SCHEMA, CAMS_SCHEMA_EVENTS, CAMS_SCHEMA_FULL_ASSET, CAMS_SCHEMA_FULL, CAMS_FORM_DATA, CAMS_TYPE} from "./cams_schema"
 import {FrameViewer} from '@terminusdb/terminusdb-documents-ui'
 const TerminusDBClient = require("@terminusdb/terminusdb-client")
 import {token} from './ref'
 
 const App= (props) =>{
-    const [schema, setSchema]=useState(CAMS_SCHEMA)
+    const [schema, setSchema]=useState(CAMS_SCHEMA_FULL_ASSET)
     const [message, setMessage]=useState(false)
-    const [mode, setMode]=useState("Edit")
+    const [mode, setMode]=useState("Create")
 
     const team = "termterm";
     const client = new TerminusDBClient.WOQLClient(`https://cloud.terminusdb.com/${team}/`, {
@@ -48,7 +48,7 @@ const App= (props) =>{
                 matched.push(item)
             }
         })
-        console.log("matched", matched)
+        //console.log("matched", matched)
         return matched
     }
 

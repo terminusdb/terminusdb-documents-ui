@@ -12,8 +12,11 @@ function DataTypeFrames (frame, item, uiFrame, mode, formData) {
 
     if(mode !== CREATE && formData.hasOwnProperty(item)) {
         let value = getDefaultValue(item, formData)
-        if(typeof value == "number") layout.type="number"
-        layout["default"] = value
+        if(typeof value == "number") {
+            layout.type="number"
+            layout["default"] = value
+        }
+        else layout["default"] = value
     }
     else if (mode !== CREATE && Array.isArray(formData) && formData.length && formData[0].hasOwnProperty(item)) {
         // this data frame will be part of a set or list, so if value is integer we set type to number

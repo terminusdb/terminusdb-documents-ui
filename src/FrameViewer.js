@@ -6,7 +6,7 @@ import {TDB_SCHEMA} from "./constants"
 import {Alert} from "react-bootstrap"
 import {VIEW, EDIT} from "./constants"
 import {formatData, getPrefix, isValueHashDocument, getValueHashMessage} from "./utils"
-
+import {transformData} from "./extract"
 
 /*
 **  frame     - full json schema of a document
@@ -101,7 +101,10 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
     const handleSubmit = ({formData}) => {
         console.log("Data before extract: ",  formData)
         if(onSubmit) {
-            var extracted=formatData(mode, schema, formData, frame, current, type)
+
+            var extracted = transformData(mode, schema, formData, frame, current, type)
+
+            //var extracted=formatData(mode, schema, formData, frame, current, type)
             onSubmit(extracted)
             console.log("Data submitted: ",  extracted)
             //console.log("Data submitted: ",  JSON.stringify(extracted, null, 2))

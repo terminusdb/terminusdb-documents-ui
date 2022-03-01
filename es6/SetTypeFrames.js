@@ -140,7 +140,6 @@ function makeSetSubDocuments(setFrames, item, uiFrame, mode, formData, onTravers
         propertiesUI[item]["items"].push(setFrames.uiSchema[item]);
       });
       defaultValues.map(function (value) {
-        console.log("defaultValues[count]", defaultValues[count], setFrames.properties[item]["properties"]);
         var subProperties = setFrames.properties[item]["properties"];
 
         if (subProperties.hasOwnProperty(_constants.ONEOFVALUES)) {
@@ -148,7 +147,6 @@ function makeSetSubDocuments(setFrames, item, uiFrame, mode, formData, onTravers
             if (defaultValues[count].hasOwnProperty(aOf["title"])) {
               // filled value available
               //let stuff = aOf.properties[aOf["title"]].properties
-              console.log("aOf", aOf);
               aOf.properties[aOf["title"]]["default"] = defaultValues[count][aOf["title"]];
             }
           });

@@ -3,7 +3,7 @@ import React, {useState, createRef} from "react"
 import {MapContainer, TileLayer,  MapControl, withLeaflet, GeoJSON, Polyline} from 'react-leaflet'
 import {LATITUDE, LONGITUDE, POINTS, POLYGON, LAT, LNG} from "./constants"
 import {renderPositions} from "./Markers"
-import Legend from "./MapLegend";
+import Legend from "./MapLegend"
 
 /*
 **  documents            - Array of documents with latitudes and longitudes
@@ -30,6 +30,7 @@ export const MapViewer = ({documents, zoom=13, scrollWheelZoom, display, onMarke
 	return <MapContainer
 		ref={mapRef}
 		scrollWheelZoom = { scrollWheelZoom }
+		fullscreenControl = {true}
 		center= { [ documents[0][LAT] , documents[0][LNG] ] }
 		zoom={zoom}
 		whenCreated={setMap}

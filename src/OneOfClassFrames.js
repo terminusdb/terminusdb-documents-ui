@@ -55,6 +55,7 @@ function oneOfClassTypeFrames (fullFrame, frame, item, uiFrame, mode, formData, 
                 "@type": props.name,
                 //"@info": ONEOFCLASSES
             }
+
             setInput(data)
             for(var thing in data){
                 if(thing === "@id") continue
