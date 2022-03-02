@@ -11725,24 +11725,7 @@ export const JUNK = {
 	  "latitude": "xsd:decimal",
 	  "longtitude": "xsd:decimal"
 	},
-	"terminusdb:///schema#Currency": {
-	  "@key": {
-		"@type": "Random"
-	  },
-	  "@subdocument": [],
-	  "@type": "Class",
-	  "type": {
-		"@id": "CurrencyType",
-		"@type": "Enum",
-		"@values": [
-		  "hkd",
-		  "usd",
-		  "eur",
-		  "gbp"
-		]
-	  },
-	  "value": "xsd:decimal"
-	},
+
 	"terminusdb:///schema#CurrencyType": {
 	  "@type": "Enum",
 	  "@values": [
@@ -11991,17 +11974,35 @@ export const JUNK = {
 		"@subdocument": []
 	  }
 	},
+	"terminusdb:///schema#Currency": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "type": {
+		"@id": "CurrencyType",
+		"@type": "Enum",
+		"@values": [
+		  "hkd",
+		  "usd",
+		  "eur",
+		  "gbp"
+		]
+	  },
+	  "value": "xsd:decimal"
+	},
 	"terminusdb:///schema#Revenue": {
 	  "@key": {
 		"@type": "Random"
 	  },
 	  "@subdocument": [],
 	  "@type": "Class",
-	  "date_from": "xsd:dateTime",
+	  /*"date_from": "xsd:dateTime",
 	  "date_to": {
 		"@class": "xsd:dateTime",
 		"@type": "Optional"
-	  },
+	  },*/
 	  "max": {
 		"@class": {
 		  "@class": "Currency",
@@ -12016,7 +12017,7 @@ export const JUNK = {
 		},
 		"@type": "Optional"
 	  },
-	  "revenue_band": {
+	  /*"revenue_band": {
 		"@class": "xsd:string",
 		"@type": "Optional"
 	  },
@@ -12027,7 +12028,7 @@ export const JUNK = {
 	  "value": {
 		"@class": "Currency",
 		"@subdocument": []
-	  }
+	  }*/
 	},
 	"terminusdb:///schema#Source": {
 	  "@key": {
@@ -12064,54 +12065,158 @@ export const JUNK = {
 	}
   }
 
-  export const MRP_SCHEMA_FORM_DATA = {
-	"@id": "Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd",
+  export const MRP_SCHEMA_FORM_DATA_FULL = {
+	"@id": "Organization/9bee8036aa5617bbf5b077b332f32b15233244b00bab238414b002d1e851d28c",
 	"@type": "Organization",
 	"domain": [
 	  {
-		"@id": "Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/domain/Domain/39fe8f782b3faf6a08ed4e98ad7ed0cb8cab3b2dce4b18c5137a11d725ce79e4",
+		"@id": "Organization/9bee8036aa5617bbf5b077b332f32b15233244b00bab238414b002d1e851d28c/domain/Domain/71217134753bd7c1fb26dd4c99c20b705bf0cba6acc36f886112f4bd5e0383d5",
 		"@type": "Domain",
 		"date_from": "2022-02-10T13:17:11.153464Z",
 		"date_to": "2022-02-10T13:17:11.153464Z",
 		"source": {
-		  "@id": "Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/domain/Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/domain/Domain/39fe8f782b3faf6a08ed4e98ad7ed0cb8cab3b2dce4b18c5137a11d725ce79e4/source/Source/078c7fb38d8d210af850731f0c6ad6e78ecb747f6415b21c6dd8617935a7b7bf",
+		  "@id": "Organization/9bee8036aa5617bbf5b077b332f32b15233244b00bab238414b002d1e851d28c/domain/Organization/9bee8036aa5617bbf5b077b332f32b15233244b00bab238414b002d1e851d28c/domain/Domain/71217134753bd7c1fb26dd4c99c20b705bf0cba6acc36f886112f4bd5e0383d5/source/Source/2073e66ac1aab09a219bf94815b281b8c07ae78a5aae790cc5621206180725d5",
 		  "@type": "Source",
-		  "name": "../stockopedia_data.csv"
+		  "file": "KKK",
+		  "name": "../stockope3dia_data.csv"
 		},
-		"url": "alstom.com"
+		"url": "https://react-bootstrap.github.io/components/navbar/"
 	  }
 	],
 	"employee_count": [
 	  {
-		"@id": "Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/employee_count/EmployeeCount/fa29d60589546ba11e572b58c40dd38d08f1500ee80e73d03fd10f598c73b1a2",
+		"@id": "Organization/9bee8036aa5617bbf5b077b332f32b15233244b00bab238414b002d1e851d28c/employee_count/EmployeeCount/b5515edfb7e108f72ed3b3216e8869e08f16f2616a8b0c377257d586f0d8301b",
 		"@type": "EmployeeCount",
 		"date_from": "2022-02-10T13:17:11.153464Z",
 		"date_to": "2022-02-10T13:17:11.153464Z",
-		"employee_count_band": "12",
+		"employee_count_band": "213",
+		"max": 2,
+		"min": 2,
 		"source": {
-		  "@id": "Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/employee_count/Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/employee_count/EmployeeCount/fa29d60589546ba11e572b58c40dd38d08f1500ee80e73d03fd10f598c73b1a2/source/Source/06b982a7e49a1970652668e10b360de59331c9729eedbcdd3584456e498debff",
+		  "@id": "Organization/9bee8036aa5617bbf5b077b332f32b15233244b00bab238414b002d1e851d28c/employee_count/Organization/9bee8036aa5617bbf5b077b332f32b15233244b00bab238414b002d1e851d28c/employee_count/EmployeeCount/b5515edfb7e108f72ed3b3216e8869e08f16f2616a8b0c377257d586f0d8301b/source/Source/05eab9b1e4000efac6e5b4395209116625124cfa64b553107f80bc5fedbfefb0",
 		  "@type": "Source",
-		  "name": "../stockopedia_data.csv"
+		  "file": "sdsads",
+		  "name": "asdsadsad"
 		},
-		"value": 44830
+		"value": 445555
 	  }
 	],
-	"location": [
-	  "Location/0254518b6cd853e561e63aa1e43ced36fd2193b2f986240668e41cb1314567fc"
+	"industry": [
+	  {
+		"@id": "Organization/9bee8036aa5617bbf5b077b332f32b15233244b00bab238414b002d1e851d28c/industry/Industry/d5b419e1485e253e88af3f5cb55fc60c387449cec815d7d2d2628a4b64b0a4df",
+		"@type": "Industry",
+		"date_from": "2022-02-10T13:17:11.153464Z",
+		"date_to": "2022-02-10T13:17:11.153464Z",
+		"industry_code": "adasd",
+		"industry_code_desc": "sadasd",
+		"industry_code_type": "asdasd",
+		"source": {
+		  "@id": "Organization/9bee8036aa5617bbf5b077b332f32b15233244b00bab238414b002d1e851d28c/industry/Organization/9bee8036aa5617bbf5b077b332f32b15233244b00bab238414b002d1e851d28c/industry/Industry/d5b419e1485e253e88af3f5cb55fc60c387449cec815d7d2d2628a4b64b0a4df/source/Source/701c6c5df1811b2b3c9ff580921e0cb696121d0aa33dd0f8bd09df56951fafc7",
+		  "@type": "Source",
+		  "file": "sadsad",
+		  "name": "zczc"
+		}
+	  }
 	],
 	"name": [
 	  {
-		"@id": "Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/name/Name/d0b3ade462fcb05c1d9759f874c44ac9e9072650d7bf4664de6107f7b71abfc2",
+		"@id": "Organization/9bee8036aa5617bbf5b077b332f32b15233244b00bab238414b002d1e851d28c/name/Name/c43531fb646adf2962df5afc3922e1b831a55a8e96cfa913b3b9e7b94f01fb93",
 		"@type": "Name",
 		"date_from": "2022-02-10T13:17:11.153464Z",
 		"date_to": "2022-02-10T13:17:11.153464Z",
-		"name": "Alstom SA (PAR)",
+		"name": "sadasdsd",
 		"source": {
-		  "@id": "Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/name/Organization/0b20e34a1ff51c19ebd96ebdc3df889c775e1e332f1a4ec154f5e58ffcc832fd/name/Name/d0b3ade462fcb05c1d9759f874c44ac9e9072650d7bf4664de6107f7b71abfc2/source/Source/3f316cf906ec01c5cb21149bd24340355d45f9960b9b3138c7dcc1d472fbc95b",
+		  "@id": "Organization/9bee8036aa5617bbf5b077b332f32b15233244b00bab238414b002d1e851d28c/name/Organization/9bee8036aa5617bbf5b077b332f32b15233244b00bab238414b002d1e851d28c/name/Name/c43531fb646adf2962df5afc3922e1b831a55a8e96cfa913b3b9e7b94f01fb93/source/Source/3fbd70e5794c099ce15d4334c06dbc559ddcbe4fedb9bd10427d83fd72adf56d",
 		  "@type": "Source",
-		  "file": "editing this field",
-		  "name": "Alstom SA (PAR)"
+		  "file": "sadsd",
+		  "name": "asdasdsad"
+		}
+	  }
+	],
+	"public": [
+	  {
+		"@id": "Organization/9bee8036aa5617bbf5b077b332f32b15233244b00bab238414b002d1e851d28c/public/IsPublic/62de537a1db92bc0c2cb9ae001af6c18a14165c09ee067934d366a5fd4147e91",
+		"@type": "IsPublic",
+		"date_from": "2022-02-10T13:17:11.153464Z",
+		"date_to": "2022-02-10T13:17:11.153464Z",
+		"is_public": true,
+		"source": {
+		  "@id": "Organization/9bee8036aa5617bbf5b077b332f32b15233244b00bab238414b002d1e851d28c/public/Organization/9bee8036aa5617bbf5b077b332f32b15233244b00bab238414b002d1e851d28c/public/IsPublic/62de537a1db92bc0c2cb9ae001af6c18a14165c09ee067934d366a5fd4147e91/source/Source/3bd2b23d2125fd10def77bbdffa85d8a3d415e1869042b3f38b6ea1a0aae8634",
+		  "@type": "Source",
+		  "file": "sdsadas",
+		  "name": "asdsd"
+		}
+	  }
+	],
+	"revenue": [
+	  {
+		"@id": "Organization/9bee8036aa5617bbf5b077b332f32b15233244b00bab238414b002d1e851d28c/revenue/Revenue/e84afbd9d61f72297893cd48a08891cf98f618e2fdbf76b84c7dd9df34adfb70",
+		"@type": "Revenue",
+		"date_from": "2022-02-10T13:17:11.153464Z",
+		"date_to": "2022-02-10T13:17:11.153464Z",
+		"max": {
+		  "@id": "Organization/9bee8036aa5617bbf5b077b332f32b15233244b00bab238414b002d1e851d28c/revenue/Organization/9bee8036aa5617bbf5b077b332f32b15233244b00bab238414b002d1e851d28c/revenue/Revenue/e84afbd9d61f72297893cd48a08891cf98f618e2fdbf76b84c7dd9df34adfb70/max/Currency/c5a7afae14856a43003f32879b313628e108b14a27e2b765f70f3b2c6390bcd7",
+		  "@type": "Currency",
+		  "type": "hkd",
+		  "value": 23
+		},
+		"min": {
+		  "@id": "Organization/9bee8036aa5617bbf5b077b332f32b15233244b00bab238414b002d1e851d28c/revenue/Organization/9bee8036aa5617bbf5b077b332f32b15233244b00bab238414b002d1e851d28c/revenue/Revenue/e84afbd9d61f72297893cd48a08891cf98f618e2fdbf76b84c7dd9df34adfb70/min/Currency/1abcdbe9e48c611bf1c832a9d561f2e57bf4aa73773f6204394a34d03da0f7da",
+		  "@type": "Currency",
+		  "type": "usd",
+		  "value": 83
+		},
+		"revenue_band": "sdsadsadsad",
+		"source": {
+		  "@id": "Organization/9bee8036aa5617bbf5b077b332f32b15233244b00bab238414b002d1e851d28c/revenue/Organization/9bee8036aa5617bbf5b077b332f32b15233244b00bab238414b002d1e851d28c/revenue/Revenue/e84afbd9d61f72297893cd48a08891cf98f618e2fdbf76b84c7dd9df34adfb70/source/Source/722417590b31ed579ea8995e35e3c309aa2a063401092b52d5c958bebd30d27a",
+		  "@type": "Source",
+		  "file": "sadsad",
+		  "name": "sadsad"
+		},
+		"value": {
+		  "@id": "Organization/9bee8036aa5617bbf5b077b332f32b15233244b00bab238414b002d1e851d28c/revenue/Organization/9bee8036aa5617bbf5b077b332f32b15233244b00bab238414b002d1e851d28c/revenue/Revenue/e84afbd9d61f72297893cd48a08891cf98f618e2fdbf76b84c7dd9df34adfb70/value/Currency/afd790df661c66b3e6626a0cd76e150672c6049281449083c6d0b33dfc23b1be",
+		  "@type": "Currency",
+		  "type": "hkd",
+		  "value": 123
 		}
 	  }
 	]
   }
+
+  export const MRP_SCHEMA_FORM_DATA= {
+	"@id":"Organization/cf12a116f589390778d45f875ef164db9f4344b96cfa5bb15f236fc6e2ea48d2",
+	"@type":"Organization",
+	"revenue":[
+	   {
+		  "@id":"Organization/cf12a116f589390778d45f875ef164db9f4344b96cfa5bb15f236fc6e2ea48d2/revenue/Revenue/4cad8977c6749599287ee94c0350f17a26c0b34ed246fc067e426ff40cf9ecfc",
+		  "@type":"Revenue",
+		  "date_from":"2022-02-10T13:17:11.153464Z",
+		  "date_to":"2022-02-10T13:17:11.153464Z",
+		  "max":{
+			 "@id":"Organization/cf12a116f589390778d45f875ef164db9f4344b96cfa5bb15f236fc6e2ea48d2/revenue/Organization/cf12a116f589390778d45f875ef164db9f4344b96cfa5bb15f236fc6e2ea48d2/revenue/Revenue/4cad8977c6749599287ee94c0350f17a26c0b34ed246fc067e426ff40cf9ecfc/max/Currency/f0c7a6822d522dbb12ba72e2e4a6d04fad28f2a4fc1d21fb8b7ad1c859987981",
+			 "@type":"Currency",
+			 "type":"usd",
+			 "value":87
+		  },
+		  "min":{
+			 "@id":"Organization/cf12a116f589390778d45f875ef164db9f4344b96cfa5bb15f236fc6e2ea48d2/revenue/Organization/cf12a116f589390778d45f875ef164db9f4344b96cfa5bb15f236fc6e2ea48d2/revenue/Revenue/4cad8977c6749599287ee94c0350f17a26c0b34ed246fc067e426ff40cf9ecfc/min/Currency/46214185c6585868eb59c6999fe9b7d37e965d862e8a828aaeadefd72601f437",
+			 "@type":"Currency",
+			 "type":"gbp",
+			 "value":21
+		  },
+		  "revenue_band":"sdf",
+		  "source":{
+			 "@id":"Organization/cf12a116f589390778d45f875ef164db9f4344b96cfa5bb15f236fc6e2ea48d2/revenue/Organization/cf12a116f589390778d45f875ef164db9f4344b96cfa5bb15f236fc6e2ea48d2/revenue/Revenue/4cad8977c6749599287ee94c0350f17a26c0b34ed246fc067e426ff40cf9ecfc/source/Source/bcaad018eeb88a3429f97ed09d8a0b25482459711b4320bdce733cba76e86b8e",
+			 "@type":"Source",
+			 "file":"dsfs",
+			 "name":"sdf"
+		  },
+		  "value":{
+			 "@id":"Organization/cf12a116f589390778d45f875ef164db9f4344b96cfa5bb15f236fc6e2ea48d2/revenue/Organization/cf12a116f589390778d45f875ef164db9f4344b96cfa5bb15f236fc6e2ea48d2/revenue/Revenue/4cad8977c6749599287ee94c0350f17a26c0b34ed246fc067e426ff40cf9ecfc/value/Currency/2e64df92397a2895adbba144dfd302e40708079221fa99c8b9f3b9c6d6e35a96",
+			 "@type":"Currency",
+			 "type":"hkd",
+			 "value":123
+		  }
+	   }
+	]
+ }

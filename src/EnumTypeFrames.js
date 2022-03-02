@@ -15,9 +15,7 @@ export function EnumTypeFrames (frame, item, uiFrame, mode, formData, isSet, onS
         title: item
     }
 
-    if(item === "type") {
-        console.log("I am type")
-    }
+
 
     //schema
     properties[item] = layout

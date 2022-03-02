@@ -12,7 +12,7 @@ const App= (props) =>{
 
     const [schema, setSchema]=useState(MRP_SCHEMA) //schema
     const [uiSchema, setUISchema]=useState(DEMO_SCHEMA_UI) //ui schema
-    const [type, setType]=useState(DEMO_DOCUMENT_TYPE)  // document type
+    const [type, setType]=useState("Organization")  // document type
     const [mode, setMode]=useState("Edit")  // mode
     const [formData, setFormData]=useState(MRP_SCHEMA_FORM_DATA) // formdata => required only on edit/ view
 
