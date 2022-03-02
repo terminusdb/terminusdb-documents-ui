@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react"
 import {getSubDocumentTitle, getSubDocumentDescription} from "./utils"
-import {CREATE, DOCUMENT, VIEW, SELECT_STYLES} from "./constants"
+import {CREATE, DOCUMENT, EDIT, VIEW, SELECT_STYLES} from "./constants"
 import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'
 import {AsyncTypeahead} from 'react-bootstrap-typeahead'
@@ -28,9 +28,7 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
                 }
             }
         }
-
     }
-
 
     let layout = {
         type: "object",
@@ -38,6 +36,28 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
         info: "SUBDOCUMENT",
         properties: frame.properties,
         required: Array.isArray(frame.required) ? frame.required : []
+    }
+
+
+
+
+    if(mode === EDIT && Array.isArray(formData) && formData.length) { // subdocument can be a part of set
+        let filled= formData[0]
+        if(filled.hasOwnProperty(item)) {
+            for(var key in layout.properties) {
+                if(filled[item].hasOwnProperty(key)) {
+                    var value = filled[item][key]
+                    if(typeof value == "number") {
+                        layout.properties[key].type = "number"
+                    }
+                    else if(typeof value == "boolean") {
+                        layout.properties[key].type = "boolean"
+                    }
+                    layout.properties[key]["default"] = filled[item][key]
+                }
+            }
+            //layout["default"] = filled[item]
+        }
     }
 
     //schema

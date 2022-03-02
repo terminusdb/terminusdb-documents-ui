@@ -9,6 +9,7 @@ function checkIfNotFilled (json){
 // return new constructed frame for choices filled by user
 function constructNewOneOfFilledFrame (mode, schema, data, frame, current, type) {
     let choice, selectedChoices = transformData(mode, schema, data[ONEOFVALUES], current, type)
+
     for(var sc in selectedChoices) {
         if(checkIfNotFilled(selectedChoices[sc])){
             // ignore, dont do anything when only type available
@@ -82,6 +83,7 @@ export const transformData = (mode, schema, data, frame, current, type) => {
                 // loop over each frames in Set/ List
                 if(checkIfNotFilled(fd)) {
                     // object with only @type in it , we dont extract this value as it is not filled
+                    //return extracted
                     return
                 }
                 if(typeof fd === "string") { // set of document classes
@@ -100,11 +102,12 @@ export const transformData = (mode, schema, data, frame, current, type) => {
             // objects
             let transformed=transformData(mode, schema, formData[key], frame, current, type)
             if(key === POINT_TYPE) return transformed
-            extracted[key]=transformed
+            if(transformed) extracted[key]=transformed
         }
         else if(checkIfNotFilled(formData[key])) {
             // object with only @type in it , we dont extract this value as it is not filled
-            return
+            //return extracted
+            continue
         }
         else if(typeof formData[key] === "string" || typeof formData[key] === "number") {
             // data types
@@ -112,6 +115,7 @@ export const transformData = (mode, schema, data, frame, current, type) => {
         }
     }
 
+    if(checkIfNotFilled(extracted)) return null
     return extracted
 }
 

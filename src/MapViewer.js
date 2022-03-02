@@ -26,7 +26,6 @@ export const MapViewer = ({documents, zoom=13, scrollWheelZoom, display, onMarke
         return <React.Fragment>{"Cannot display empty documents on map"}</React.Fragment>
     }
 
-
 	return <MapContainer
 		ref={mapRef}
 		scrollWheelZoom = { scrollWheelZoom }
@@ -41,7 +40,7 @@ export const MapViewer = ({documents, zoom=13, scrollWheelZoom, display, onMarke
 		/>
 
 		{/*<GeoJSON data={dump}/>*/}
-		<Legend map={map} children={children} />
+		{/*<Legend map={map} children={children} />*/}
 		{renderPositions(documents, onMarkerClick, polyLine)}
 
 	</MapContainer>
