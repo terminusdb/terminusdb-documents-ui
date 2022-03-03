@@ -93,7 +93,7 @@
     "bootstrap": "^5.1.3",
     "leaflet": "^1.7.1",
     "react": "^16.10.3",
-    "@rjsf/core": "^4.0.1",
+    "@terminusdb/rjsf-core": "^4.0.5",
     "react-jsonschema-form": "^1.8.1",
     "react-jsonschema-form-extras": "^0.9.67",
     "react-bootstrap": "^2.1.2",
