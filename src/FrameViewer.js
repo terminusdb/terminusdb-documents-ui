@@ -99,7 +99,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
 
 
     const handleSubmit = ({formData}) => {
-        console.log("Data before extract: ",  formData)
+        //console.log("Data before extract: ",  formData)
         if(onSubmit) {
 
             var extracted = transformData(mode, schema, formData, frame, current, type)
@@ -112,7 +112,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
     }
 
     const handleChange = (data) => {
-        //console.log("Data changed: ",  data)
+        console.log("Data changed: ",  data)
         setInput(data)
         if(onChange) {
             onChange(data)
