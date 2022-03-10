@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react"
-import Form from "@rjsf/core"
+import Form from "@terminusdb/rjsf-core"
 import {getProperties} from "./FrameHelpers"
 import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField"
 import {TDB_SCHEMA} from "./constants"
