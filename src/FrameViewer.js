@@ -5,7 +5,7 @@ import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField"
 import {TDB_SCHEMA} from "./constants"
 import {Alert} from "react-bootstrap"
 import {VIEW, EDIT} from "./constants"
-import {formatData, getPrefix, isValueHashDocument, getValueHashMessage} from "./utils" 
+import {formatData, getPrefix, isValueHashDocument, getValueHashMessage} from "./utils"
 import {transformData} from "./extract"
 
 /*
@@ -99,7 +99,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
 
 
     const handleSubmit = ({formData}) => {
-        console.log("Data before extract: ",  formData)
+        //console.log("Data before extract: ",  formData)
         if(onSubmit) {
 
             var extracted = transformData(mode, schema, formData, frame, current, type)
@@ -112,7 +112,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
     }
 
     const handleChange = (data) => {
-        //console.log("Data changed: ",  data)
+        console.log("Data changed: ",  data)
         setInput(data)
         if(onChange) {
             onChange(data)
