@@ -1,6 +1,6 @@
 
-import React, {useState} from "react"
-import {Marker, Popup, Polyline, Tooltip} from 'react-leaflet'
+import React, {useState, useRef, useEffect} from "react"
+import {Marker, Popup, Tooltip,Polyline} from 'react-leaflet'
 import {LATITUDE, LONGITUDE, REFRESH} from "./constants"
 import icon from "./constants"
 
@@ -23,9 +23,10 @@ const MarkerInfo = ({clicked}) => {
 
 
 
-export function  renderPositions(positions, onMarkerClick, polyLine) {
-    const [clicked, setClicked] = useState(false)
 
+
+export function  renderPositions(positions, onMarkerClick, polyLine, mapRef) {
+    const [clicked, setClicked] = useState(false)
 
 
     return <React.Fragment>
@@ -54,8 +55,9 @@ export function  renderPositions(positions, onMarkerClick, polyLine) {
 
 
         {Array.isArray(polyLine) && polyLine.map(pl => {
+            //console.log("pl.data", pl.data)
             return <>
-                <Polyline color={pl.color} positions={pl.data} />
+                <Polyline color={pl.color} positions={pl.data}/>
             </>
         })}
 
@@ -63,3 +65,7 @@ export function  renderPositions(positions, onMarkerClick, polyLine) {
     </React.Fragment>
 }
 
+/*
+return <>
+<Polyline color={pl.color} positions={pl.data} arrowheads />
+</>*/

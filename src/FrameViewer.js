@@ -5,7 +5,7 @@ import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField"
 import {TDB_SCHEMA} from "./constants"
 import {Alert} from "react-bootstrap"
 import {VIEW, EDIT} from "./constants"
-import {formatData, getPrefix, isValueHashDocument, getValueHashMessage} from "./utils"
+import {formatData, getPrefix, isValueHashDocument, getValueHashMessage} from "./utils" 
 import {transformData} from "./extract"
 
 /*
