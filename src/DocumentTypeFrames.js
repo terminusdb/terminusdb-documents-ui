@@ -1,7 +1,7 @@
 
 import React, {useState, useEffect} from "react"
 import {getTitle, getDefaultValue, checkIfKey, getRequiredSelect, isFilled, ArrayFieldTemplate} from "./utils"
-import {DOCUMENT, SELECT_STYLES, CREATE, VIEW, EDIT} from "./constants"
+import {DOCUMENT, SELECT_STYLES, CREATE, VIEW, EDIT, SELECT_STYLE_KEY} from "./constants"
 import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'
 import Select from 'react-select'
@@ -12,6 +12,13 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
     let properties={}, propertiesUI={}
     var type=frame[item]
 
+    // can pass custom styles via ui frame for react-select
+    let selectStyle=SELECT_STYLES
+
+    //custom ui:schema
+    if(uiFrame && uiFrame.hasOwnProperty(SELECT_STYLE_KEY)) {
+        selectStyle=uiFrame[SELECT_STYLE_KEY]
+    }
 
     var layout = {
         type: 'string',
@@ -74,7 +81,7 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
             <AsyncSelect
                 cacheOptions
                 classNames="tdb__input"
-                styles={SELECT_STYLES}
+                styles={selectStyle}
                 placeholder={props.uiSchema["ui:placeholder"]}
                 onChange={onChange}
                 loadOptions={loadOptions}
@@ -90,7 +97,7 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
             <AsyncSelect
                 cacheOptions
                 classNames="tdb__input"
-                styles={SELECT_STYLES}
+                styles={selectStyle}
                 placeholder={props.uiSchema["ui:placeholder"]}
                 onChange={onChange}
                 loadOptions={loadOptions}
@@ -139,7 +146,7 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
                     onSearch={handleSearch}
                     options={options}
                     classNames="tdb__input"
-                    styles={SELECT_STYLES}
+                    styles={selectStyle}
                     placeholder={`Type to search for ${props.schema.linked_to} ...`}
                     renderMenuItemChildren={(option, props) => (
                     <React.Fragment>
@@ -281,7 +288,7 @@ export function choiceDocumentTypeFrames(frame, item, uiFrame, documents, mode, 
             <Form.Label>{props.name} <span class="required">*</span> </Form.Label>
             <Select
                 classNames="tdb__input"
-                styles={SELECT_STYLES}
+                styles={selectStyle}
                 placeholder={props.uiSchema["ui:placeholder"]}
                 onChange={onChange}
                 options={opts}

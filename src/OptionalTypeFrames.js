@@ -1,13 +1,22 @@
 import React, {useState, useEffect} from "react"
-import {DOCUMENT, VIEW, SELECT_STYLES} from "./constants"
+import {DOCUMENT, VIEW, SELECT_STYLES, SELECT_STYLE_KEY} from "./constants"
 import AsyncSelect from 'react-select/async'
 import {Form} from "react-bootstrap"
 import {AsyncTypeahead} from 'react-bootstrap-typeahead'
 
-export function OptionalDocumentTypeFrames (optionalFrames, uiFrame, item, mode, onSelect) {
+export function OptionalDocumentTypeFrames (optionalFrames, uiFrame, item, mode, onSelect, onTraverse) {
+
+    // can pass custom styles via ui frame for react-select
+    let selectStyle=SELECT_STYLES
+
+    //custom ui:schema
+    if(uiFrame && uiFrame.hasOwnProperty(SELECT_STYLE_KEY)) {
+        selectStyle=uiFrame[SELECT_STYLE_KEY]
+    }
+
     if(mode !== VIEW) {
 
-        // get select component with no required
+        // get select component with no required -
         function getOptionalSelect (props) {
             const loadOptions = async (inputValue, callback) => {
                 var classType
@@ -19,6 +28,7 @@ export function OptionalDocumentTypeFrames (optionalFrames, uiFrame, item, mode,
                 }
 
                 let opts = await onSelect(inputValue, classType)
+
                 callback(opts)
                 return opts
             }
@@ -38,7 +48,7 @@ export function OptionalDocumentTypeFrames (optionalFrames, uiFrame, item, mode,
                     <AsyncSelect
                         cacheOptions
                         classNames="tdb__input"
-                        styles={SELECT_STYLES}
+                        styles={selectStyle}
                         placeholder={props.uiSchema["ui:placeholder"]}
                         onChange={onChange}
                         loadOptions={loadOptions}
@@ -54,7 +64,7 @@ export function OptionalDocumentTypeFrames (optionalFrames, uiFrame, item, mode,
                 <AsyncSelect
                     cacheOptions
                     classNames="tdb__input"
-                    styles={SELECT_STYLES}
+                    styles={selectStyle}
                     placeholder={props.uiSchema["ui:placeholder"]}
                     onChange={onChange}
                     loadOptions={loadOptions}

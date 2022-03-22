@@ -33,6 +33,10 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
 
     const [message, setMessage]=useState(false)
 
+    if(type === "Owner") {
+        console.log("Owner")
+    }
+
 
     if(!frame) return <div>No schema provided!</div>
     if(!mode) return  <div>Please include a mode - Create/ Edit/ View</div>
@@ -99,7 +103,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
 
 
     const handleSubmit = ({formData}) => {
-        //console.log("Data before extract: ",  formData)
+        console.log("Data before extract: ",  formData)
         if(onSubmit) {
 
             var extracted = transformData(mode, schema, formData, frame, current, type)

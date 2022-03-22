@@ -160,7 +160,8 @@ export const LeafletMap = () => {
 				"Critical": simpleVector0.addTo(map),
 				//"Vecoor 3": simpleVectorPM.addTo(map),
 				"Non Critical": simpleVectorFailureChains.addTo(map),
-			})
+			},
+			{position: 'bottomleft', collapsed: false})
 			.addTo(map)
 
 			let options = {

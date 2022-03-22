@@ -39,37 +39,41 @@ export const VALUE_HASH_KEY="ValueHash"
 
 export const TDB_SCHEMA= "terminusdb:///schema#"
 
-
+// default select styles
 export const SELECT_STYLES = {
-    control: (styles) => ({ ...styles, backgroundColor: 'dark', borderColor: "rgb(102, 102, 102) !important" }),
-    menu: (styles) => ({ ...styles, backgroundColor: '#444'}),
-    option: (styles, { data, isDisabled, isFocused, isSelected }) => {
-      return {
-        ...styles,
-        backgroundColor: isDisabled
-          ? undefined
-          : isSelected
-          ? "black"
-          : isFocused
-          ? "black"
+  control: (styles) => ({ ...styles, backgroundColor: 'dark', borderColor: "rgb(102, 102, 102) !important", width: "100%" }),
+  menu: (styles) => ({ ...styles, backgroundColor: '#444', width: "100%" }),
+  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+    return {
+      ...styles,
+      backgroundColor: isDisabled
+        ? undefined
+        : isSelected
+        ? "black"
+        : isFocused
+        ? "black"
+        : undefined,
+      color: isDisabled
+        ? '#ccc'
+        : isSelected,
+      cursor: isDisabled ? 'not-allowed' : 'default',
+
+      ':active': {
+        ...styles[':active'],
+        backgroundColor: !isDisabled
+          ? isSelected
+            ? "black"
+            : "black"
           : undefined,
-        color: isDisabled
-          ? '#ccc'
-          : isSelected,
-        cursor: isDisabled ? 'not-allowed' : 'default',
-
-        ':active': {
-          ...styles[':active'],
-          backgroundColor: !isDisabled
-            ? isSelected
-              ? "black"
-              : "black"
-            : undefined,
-        },
-      }
+      },
     }
+  }
 }
+export const SELECT_STYLE_KEY="select_styles"
 
+//default subdocument background
+export const SUBDOCUMENT_BACKGROUND="bg-secondary"
+export const SUBDOCUMENT_STYLE_KEY= "subDocument_styles"
 
 
 // map icon component

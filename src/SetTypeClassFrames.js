@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react"
 import {getTitle, getDefaultValue, checkIfKey, isFilled, getPrefix, extractClassName, ArrayFieldTemplate, removeIds} from "./utils"
-import {CREATE, VIEW, EDIT, ONEOFCLASSES, SUBDOCUMENT,DOCUMENT,SELECT_STYLES} from "./constants"
+import {CREATE, VIEW, EDIT, ONEOFCLASSES, SELECT_STYLE_KEY, SUBDOCUMENT,DOCUMENT,SELECT_STYLES, SUBDOCUMENT_BACKGROUND, SUBDOCUMENT_STYLE_KEY} from "./constants"
 import {getProperties} from "./FrameHelpers"
 import {FrameViewer} from "./FrameViewer"
 import AsyncSelect from 'react-select/async'
@@ -40,7 +40,17 @@ export const makeSetOneOfClassFrames = (fullFrame, frame, item, uiFrame,  mode, 
 
     let anyOfArray=[]
 
+    // can pass custom styles via ui frame for react-select
+    let selectStyle=SELECT_STYLES, subDocumentStyles=SUBDOCUMENT_BACKGROUND
 
+    //custom ui:schema
+    if(uiFrame && uiFrame.hasOwnProperty(SELECT_STYLE_KEY)) {
+        selectStyle=uiFrame[SELECT_STYLE_KEY]
+    }
+    //subdocument styles
+    if(uiFrame && uiFrame.hasOwnProperty(SUBDOCUMENT_STYLE_KEY)) {
+        subDocumentStyles=uiFrame[SUBDOCUMENT_STYLE_KEY]
+    }
 
     function getSubDocumentProperties(props) {
 
@@ -65,7 +75,7 @@ export const makeSetOneOfClassFrames = (fullFrame, frame, item, uiFrame,  mode, 
         }
 
         let uiSchema = {
-            classNames : "card bg-secondary p-4 mt-4 mb-4"
+            classNames : `card ${selectStyle} p-4 mt-4 mb-4`
         }
 
         return <React.Fragment>
@@ -121,7 +131,7 @@ export const makeSetOneOfClassFrames = (fullFrame, frame, item, uiFrame,  mode, 
                         <AsyncSelect
                             cacheOptions
                             classNames="tdb__input"
-                            styles={SELECT_STYLES}
+                            styles={selectStyle}
                             placeholder={props.uiSchema["ui:placeholder"]}
                             onChange={onChange}
                             loadOptions={loadOptions}
@@ -211,7 +221,7 @@ export const makeSetOneOfClassFrames = (fullFrame, frame, item, uiFrame,  mode, 
         function getEditSubDocuments(props) {
             let schema = fullFrame
             let uiSchema = {
-                classNames : "card bg-secondary p-4 mt-4 mb-4"
+                classNames : `card ${subDocumentStyles} p-4 mt-4 mb-4`
             }
             let filled = []
             if(formData.hasOwnProperty(item)) {
@@ -287,7 +297,7 @@ export const makeSetOneOfClassFrames = (fullFrame, frame, item, uiFrame,  mode, 
                             <AsyncSelect
                                 cacheOptions
                                 classNames="tdb__input"
-                                styles={SELECT_STYLES}
+                                styles={selectStyle}
                                 //placeholder={props.uiSchema["ui:placeholder"]}
                                 onChange={onChange}
                                 loadOptions={loadOptions}
@@ -313,7 +323,7 @@ export const makeSetOneOfClassFrames = (fullFrame, frame, item, uiFrame,  mode, 
             function getViewSubDocuments(props) {
                 let schema = fullFrame
                 let uiSchema = {
-                    classNames : "card bg-secondary p-4 mt-4 mb-4"
+                    classNames :  `card ${subDocumentStyles} p-4 mt-4 mb-4`
                 }
                 let filled = []
                 if(formData.hasOwnProperty(item)) {
