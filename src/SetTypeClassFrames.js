@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from "react"
 import {getTitle, getDefaultValue, checkIfKey, isFilled, getPrefix, extractClassName, ArrayFieldTemplate, removeIds} from "./utils"
 import {CREATE, VIEW, EDIT, ONEOFCLASSES, SELECT_STYLE_KEY, SUBDOCUMENT,DOCUMENT,SELECT_STYLES, SUBDOCUMENT_BACKGROUND, SUBDOCUMENT_STYLE_KEY} from "./constants"
-import {getProperties} from "./FrameHelpers"
 import {FrameViewer} from "./FrameViewer"
 import AsyncSelect from 'react-select/async'
 import {Form} from "react-bootstrap"
+import {getProperties} from "./FrameHelpers"
+
 
 function getAnyOfDocuments(documentClass) {
     var structure = {}
@@ -39,6 +40,7 @@ export const makeSetOneOfClassFrames = (fullFrame, frame, item, uiFrame,  mode, 
     let properties={}, propertiesUI={}, subPropertiesUI={}, layout = {}
 
     let anyOfArray=[]
+    let extractedPrefix = getPrefix(fullFrame)
 
     // can pass custom styles via ui frame for react-select
     let selectStyle=SELECT_STYLES, subDocumentStyles=SUBDOCUMENT_BACKGROUND
@@ -151,6 +153,45 @@ export const makeSetOneOfClassFrames = (fullFrame, frame, item, uiFrame,  mode, 
         })
     }
 
+    function getFormDataItems(formData) {
+        if(!Array.isArray(formData) && formData.length===0) return {type: "object"}
+
+        let anyOfProperties = {}
+        frame[item].map(fd=>{
+            let newFrame = {"@class" : fd["@class"]}
+            let fieldProperties  = getProperties(fullFrame, newFrame, uiFrame, false, mode, formData, false, extractedPrefix, onTraverse, onSelect)
+            //console.log("fieldProperties", fieldProperties)
+            let newProps = {}
+
+
+            for(var fps in fieldProperties.properties["@class"].properties) {
+                newProps[fps] = {}
+                for(var stuff in fieldProperties.properties["@class"].properties[fps]) {
+                    if(stuff !== "default"){
+                        newProps[fps][stuff] = fieldProperties.properties["@class"].properties[fps][stuff]
+                    }
+                }
+            }
+            anyOfProperties[fd["@class"]]=newProps
+        })
+
+        let filled=[]
+
+        formData.map(fd=>{
+            let anyOfProperty = {}
+            if(anyOfProperties.hasOwnProperty(fd["@type"]))
+                anyOfProperty=anyOfProperties[fd["@type"]]
+            let obj = {
+                type: "object",
+                properties: anyOfProperty,
+                default: fd
+            }
+            filled.push(obj)
+        })
+
+        return filled
+    }
+
 
     if(mode === CREATE) {
         layout = {
@@ -165,14 +206,14 @@ export const makeSetOneOfClassFrames = (fullFrame, frame, item, uiFrame,  mode, 
         }
     }
     else {//if (mode === VIEW) {
-        if(formData.hasOwnProperty(item) && Array.isArray(formData[item]) && typeof formData[item][0] === "object"){
+        if(formData.hasOwnProperty(item)
+            && Array.isArray(formData[item])
+            && typeof formData[item][0] === "object"){
             layout = {
                 type: 'array',
                 info: ONEOFCLASSES,
                 title: item,
-                items : {
-                    type: "object"
-                }
+                items : getFormDataItems(formData[item])
             }
         }
         else {
@@ -231,11 +272,7 @@ export const makeSetOneOfClassFrames = (fullFrame, frame, item, uiFrame,  mode, 
                     const [input, setInput] = useState(formDataValue)
 
                     function handleFormChange(data){
-                        let jsonData = {
-                            "@type": props.name
-                        }
                         setInput(data)
-
                         if(props.onChange) {
                             let populate = []
                             // gather other formData too
@@ -248,7 +285,6 @@ export const makeSetOneOfClassFrames = (fullFrame, frame, item, uiFrame,  mode, 
                             props.onChange(removeIds(populate))
                         }
                     }
-
 
                     filled.push(
                         <React.Fragment>
@@ -270,6 +306,7 @@ export const makeSetOneOfClassFrames = (fullFrame, frame, item, uiFrame,  mode, 
             return <div className="w-100">{filled}</div>
         }
         if(frame.hasOwnProperty(item) && Array.isArray(frame[item]) && typeof frame[item][0] === "object") {
+
             propertiesUI[item]["ui:field"] = getEditSubDocuments
         }
         else if(frame.hasOwnProperty(item) && Array.isArray(frame[item]) && typeof frame[item][0] === "string") {

@@ -10,3 +10,9 @@ div.editor {
 }
 
 
+.subDocumentCard{
+    background-color: #e91e1e1c !important;
+    border-color: transparent !important;
+    border: 1px solid #ced4da !important;
+    color: #000;
+}

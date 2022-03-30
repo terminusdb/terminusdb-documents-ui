@@ -1315,12 +1315,12 @@ export const CAMS_SCHEMA_FULL = {
     },
     /*"design_standards": "xsd:string",
     "last_maintained": "xsd:dateTime",
-    "last_modified": "xsd:dateTime",
+    "last_modified": "xsd:dateTime",*/
     "location": {
       "@class": "Location",
       "@subdocument": []
     },
-    "name": "xsd:string",
+    /*"name": "xsd:string",
     "owner": {
       "@class": "Owner",
       "@type": "Set"
@@ -1997,7 +1997,7 @@ export const CAMS_SCHEMA_LATEST_LOCATION = {
 }
 
 export const LOCATION_FORM_DATA = {
-  /*location: {
+  location: {
     "@id": "Asset/Portsmouth/location/Location/084aa8f65af81a000625d235b5399c3fe6142ed55570207a94a6acc3478b1e54",
     "@type": "Location",
     "city": "Portsmouth City",
@@ -2010,7 +2010,7 @@ export const LOCATION_FORM_DATA = {
     "postal_code": "Portsmouth City",
     "state": "Portsmouth City",
     "street": "Portsmouth City"
-}*/"asset_history": [
+},"asset_history": [
   {
     "@id": "Asset/e8be3b68397b2bdbeab147c7f2b993e3abc69dadf893defcebde5761cfe52539/asset_history/UpdateEvent/UE+2011-01-01T01%3A00%3A37Z",
     "@type": "UpdateEvent",

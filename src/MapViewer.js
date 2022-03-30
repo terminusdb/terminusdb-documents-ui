@@ -43,14 +43,18 @@ const LeafletMap = ({documents, onMarkerClick}) => {
 
 	const map = () => {
 		const map = L.map("map-leaflet-id", mapOptions)
+		const tileLayer = new  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
-		const tileLayer = new L.TileLayer(
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        })
+
+		/*const tileLayer = new L.TileLayer(
 			"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
 			{
 				attribution:
 				'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
 			}
-		)
+		)*/
 
 		tileLayer.addTo(map)
 

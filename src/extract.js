@@ -28,6 +28,7 @@ function constructNewOneOfFilledFrame (mode, schema, data, frame, current, type)
 function checkIfChoiceTypeData(mode, schema, data, frame, current, type) {
     //ONEOFCLASSES
     let modifiedData = data
+    if(!data) return false
     if(!Object.keys(data).length) return false
     let choiceClassName = Object.keys(data)[0]
     // loop over schema to find the type of choiceClassName
@@ -121,7 +122,7 @@ export const transformData = (mode, schema, data, frame, current, type, itemSche
             //return extracted
             continue
         }
-        else if(typeof formData[key] === "string" || typeof formData[key] === "number") {
+        else if(typeof formData[key] === "string" || typeof formData[key] === "number" || typeof formData[key] === "boolean") {
             // data types
             extracted[key] = formData[key]
         }

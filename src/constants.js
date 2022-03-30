@@ -1,6 +1,7 @@
 // DATA PROPERTY TYPE
 export const XSD_DATA_TYPE_PREFIX = "xsd:"
 export const XDD_DATA_TYPE_PREFIX = "xdd:"
+export const XSD_BOOLEAN="xsd:boolean"
 export const SUBDOCUMENT="@subdocument"
 export const ONEOFSUBDOCUMENTS="OneOfSubDocuments"
 export const OPTIONAL="Optional"
@@ -67,13 +68,69 @@ export const SELECT_STYLES = {
           : undefined,
       },
     }
-  }
+  },
+  input: (styles) => {
+    return {
+        ...styles,
+        color: '#fff'
+    }
+},
+singleValue:(styles) => {
+    return {
+        ...styles,
+        color: '#fff'
+    }
 }
+}
+
+/*export const SELECT_STYLES = {
+  control: (styles) => ({ ...styles, backgroundColor: '#fff', borderColor: "#ccc", width: "100%" }),
+  menu: (styles) => ({ ...styles, backgroundColor: '#fff', width: "100%" }),
+  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+    return {
+      ...styles,
+      backgroundColor: isDisabled
+        ? undefined
+        : isSelected
+        ? "#fff"
+        : isFocused
+        ? "#fff"
+        : undefined,
+      color: isDisabled
+        ? '#000'
+        : isSelected,
+      cursor: isDisabled ? 'not-allowed' : 'default',
+
+      ':active': {
+        ...styles[':active'],
+        backgroundColor: !isDisabled
+          ? isSelected
+            ? "#f8f8f8"
+            : "#f8f8f8"
+          : undefined,
+      },
+    }
+  },
+  input: (styles) => {
+    return {
+        ...styles,
+        color: '#000'
+    }
+},
+singleValue:(styles) => {
+    return {
+        ...styles,
+        color: '#000'
+    }
+}
+}*/
 export const SELECT_STYLE_KEY="select_styles"
 
 //default subdocument background
 export const SUBDOCUMENT_BACKGROUND="bg-secondary"
 export const SUBDOCUMENT_STYLE_KEY= "subDocument_styles"
+
+export const SUBMIT_BUTTON_STYLE_KEY= "submitButton_styles"
 
 
 // map icon component

@@ -57,9 +57,8 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
     }
 
 
-    // create and edit
-    function getSelect(props) {
-
+    // get select component with no required -
+    function getMandatorySelect (props) {
         const loadOptions = async (inputValue, callback) => {
             let opts = await onSelect(inputValue, frame[item])
             callback(opts)
@@ -75,88 +74,37 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
             props.onChange(e.value)
         }
 
-        if(layout.default) {
+        if(props.formData) { //edit
             return <React.Fragment>
-            <Form.Label>{props.name} <span class="required">*</span> </Form.Label>
-            <AsyncSelect
-                cacheOptions
-                classNames="tdb__input"
-                styles={selectStyle}
-                placeholder={props.uiSchema["ui:placeholder"]}
-                onChange={onChange}
-                loadOptions={loadOptions}
-                defaultOptions
-                defaultValue={{value: layout.default, label: layout.default}}
-                onInputChange={handleInputChange}
-            />
-        </React.Fragment>
-        }
-
-        return <React.Fragment>
-            <Form.Label>{props.name} <span class="required">*</span> </Form.Label>
-            <AsyncSelect
-                cacheOptions
-                classNames="tdb__input"
-                styles={selectStyle}
-                placeholder={props.uiSchema["ui:placeholder"]}
-                onChange={onChange}
-                loadOptions={loadOptions}
-                onInputChange={handleInputChange}
-            />
-        </React.Fragment>
-    }
-
-    function getTypeAheadSelect(props) {
-
-        const [isLoading, setIsLoading] = useState(false)
-        const [options, setOptions] = useState([])
-
-        const handleSearch = async(inputValue) => {
-            setIsLoading(true)
-            let opts = await onSelect(inputValue, frame[item])
-            setOptions(opts)
-            setIsLoading(false)
-        }
-
-        const getLabelKey = (option) => {
-            props.onChange(option.value)
-            return option.label
-        }
-
-        const getDefaultSelected = () => {
-            if(mode === EDIT && formData.hasOwnProperty(item)) {
-                return formData[item]
-            }
-        }
-
-        // Bypass client-side filtering by returning `true`. Results are already
-        // filtered by the search endpoint, so no need to do it again.
-        const filterBy = () => true
-
-        return <React.Fragment>
-            <Form.Label>{props.name} <span class="required">*</span> </Form.Label>
-            <Form.Group className="d-flex">
-                <AsyncTypeahead
-                    clearButton
-                    filterBy={filterBy}
-                    id={`${props.name}_async_search`}
-                    isLoading={isLoading}
-                    labelKey={(option) => `${getLabelKey(option)}`}
-                    minLength={2}
-                    onSearch={handleSearch}
-                    options={options}
+                <Form.Label>{props.name} </Form.Label>
+                <AsyncSelect
+                    cacheOptions
                     classNames="tdb__input"
                     styles={selectStyle}
-                    placeholder={`Type to search for ${props.schema.linked_to} ...`}
-                    renderMenuItemChildren={(option, props) => (
-                    <React.Fragment>
-                        <span>{option.label}</span>
-                    </React.Fragment>
-                    )}
+                    placeholder={props.uiSchema["ui:placeholder"]}
+                    onChange={onChange}
+                    loadOptions={loadOptions}
+                    defaultOptions
+                    defaultValue={{value: props.formData, label: props.formData}}
+                    onInputChange={handleInputChange}
                 />
-            </Form.Group>
+            </React.Fragment>
+        }
+
+        return <React.Fragment>
+            <Form.Label>{props.name} </Form.Label>
+            <AsyncSelect
+                cacheOptions
+                classNames="tdb__input"
+                styles={selectStyle}
+                placeholder={props.uiSchema["ui:placeholder"]}
+                onChange={onChange}
+                loadOptions={loadOptions}
+                onInputChange={handleInputChange}
+            />
         </React.Fragment>
     }
+
 
     //default ui:schema
     propertiesUI[item] = {
@@ -164,7 +112,7 @@ export function DocumentTypeFrames (frame, item, uiFrame, documents, mode, formD
         //"ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
         "ui:placeholder": `Search for ${frame[item]} ...`,
         classNames: mode===VIEW ? "tdb__input mb-3 mt-3 tdb__view__input" : "tdb__input mb-3 mt-3",
-        "ui:field": mode ===VIEW ? getViewSelect : getSelect,
+        "ui:field": mode ===VIEW ? getViewSelect : getMandatorySelect,
         "ui:info": DOCUMENT
     }
 
@@ -268,7 +216,7 @@ export function choiceDocumentTypeFrames(frame, item, uiFrame, documents, mode, 
     }
 
     // create and edit
-    function getSelect(props) {
+    function getChoiceSelect(props) {
 
         function constructOptions(docOptions){
             let constructedOpts = []
@@ -301,7 +249,7 @@ export function choiceDocumentTypeFrames(frame, item, uiFrame, documents, mode, 
         itemUi[it] =  {
             "ui:placeholder": `Select ${it} ...`,
             classNames: mode===VIEW ? "tdb__input mb-3 mt-3 tdb__view__input" : "tdb__input mb-3 mt-3",
-            "ui:field": mode=== VIEW ? getViewSelect : getSelect
+            "ui:field": mode=== VIEW ? getViewSelect : getChoiceSelect
         }
     })
 
@@ -349,3 +297,57 @@ export function makeChoiceDocumentTypeFrames(frame, item, uiFrame, documents, mo
     let propertiesUI = madeFrames.propertiesUI
     return {properties, propertiesUI}
 }
+
+
+
+/*function getTypeAheadSelect(props) {
+
+    const [isLoading, setIsLoading] = useState(false)
+    const [options, setOptions] = useState([])
+
+    const handleSearch = async(inputValue) => {
+        setIsLoading(true)
+        let opts = await onSelect(inputValue, frame[item])
+        setOptions(opts)
+        setIsLoading(false)
+    }
+
+    const getLabelKey = (option) => {
+        props.onChange(option.value)
+        return option.label
+    }
+
+    const getDefaultSelected = () => {
+        if(mode === EDIT && formData.hasOwnProperty(item)) {
+            return formData[item]
+        }
+    }
+
+    // Bypass client-side filtering by returning `true`. Results are already
+    // filtered by the search endpoint, so no need to do it again.
+    const filterBy = () => true
+
+    return <React.Fragment>
+        <Form.Label>{props.name} <span class="required">*</span> </Form.Label>
+        <Form.Group className="d-flex">
+            <AsyncTypeahead
+                clearButton
+                filterBy={filterBy}
+                id={`${props.name}_async_search`}
+                isLoading={isLoading}
+                labelKey={(option) => `${getLabelKey(option)}`}
+                minLength={2}
+                onSearch={handleSearch}
+                options={options}
+                classNames="tdb__input"
+                styles={selectStyle}
+                placeholder={`Type to search for ${props.schema.linked_to} ...`}
+                renderMenuItemChildren={(option, props) => (
+                <React.Fragment>
+                    <span>{option.label}</span>
+                </React.Fragment>
+                )}
+            />
+        </Form.Group>
+    </React.Fragment>
+}*/
