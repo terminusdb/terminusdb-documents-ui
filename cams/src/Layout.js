@@ -1,14 +1,14 @@
 import React,{useState, useEffect} from 'react'
 import {Container, Row} from "react-bootstrap"
-import {CAMS_SCHEMA, CAMS_SCHEMA_EVENTS, CAMS_SCHEMA_FULL_ASSET, CAMS_SCHEMA_FULL, CAMS_FORM_DATA, CAMS_TYPE} from "./cams_schema"
+import {CAMS_SCHEMA, CAMS_SCHEMA_EVENTS, LOCATION_FORM_DATA, CAMS_SCHEMA_LATEST_LOCATION, CAMS_SCHEMA_FULL_ASSET, CAMS_SCHEMA_FULL, CAMS_FORM_DATA, CAMS_TYPE} from "./cams_schema"
 import {FrameViewer} from '@terminusdb/terminusdb-documents-ui'
 const TerminusDBClient = require("@terminusdb/terminusdb-client")
 import {token} from './ref'
 
 const App= (props) =>{
-    const [schema, setSchema]=useState(CAMS_SCHEMA_FULL_ASSET)
+    const [schema, setSchema]=useState(CAMS_SCHEMA_FULL)
     const [message, setMessage]=useState(false)
-    const [mode, setMode]=useState("Create")
+    const [mode, setMode]=useState("Edit")
 
     const team = "termterm";
     const client = new TerminusDBClient.WOQLClient(`https://cloud.terminusdb.com/${team}/`, {
@@ -56,6 +56,13 @@ const App= (props) =>{
         console.log("*****Data Submitted ****", data)
     }
 
+    let uiSchema = {
+        "spatial_web_identifier": {
+            classNames: "text-danger myOWNSelect",
+            "ui:placeholder": "select kitty go for it",
+
+        }
+    }
 
 
     return <React.Fragment>
@@ -66,7 +73,7 @@ const App= (props) =>{
                     frame={schema}
                     //uiFrame={uiSchema}
                     mode={mode}
-                    formData={CAMS_FORM_DATA}
+                    formData={LOCATION_FORM_DATA}
                     type={CAMS_TYPE}
                     onSelect={handleSelect}
                     onSubmit={handleSubmit}

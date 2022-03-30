@@ -560,29 +560,34 @@ export const DEMO_SCHEMA_PERSON ={
   }
 
 export const DEMO_SCHEMA={
-	"terminusdb:///schema#Person": {
+	"terminusdb:///schema#Something": {
 	  "@key": {
-		"@fields": [
-		  "name"
-		],
-		"@type": "Lexical"
+		"@type": "Random"
 	  },
 	  "@type": "Class",
 	  "name": {
 		"@class": "xsd:string",
 		"@type": "Optional"
-	  },
-	  "watched": "movies"
+	  }
 	},
-	"terminusdb:///schema#movies": {
+	"terminusdb:///schema#Thing": {
 	  "@key": {
-		"@fields": [
-		  "title"
-		],
-		"@type": "Lexical"
+		"@type": "Random"
 	  },
 	  "@type": "Class",
-	  "title": {
+	  "someLink": "Something",
+	  "subLink": {
+		"@class": "sub",
+		"@subdocument": []
+	  }
+	},
+	"terminusdb:///schema#sub": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "name": {
 		"@class": "xsd:string",
 		"@type": "Optional"
 	  }
@@ -11172,7 +11177,7 @@ export const SESHAT_SCHEMA_CAPITAL = {
 
 
 
-export const DEMO_DOCUMENT_TYPE="Organization"
+export const DEMO_DOCUMENT_TYPE="Thing"
 
 export const DEMO_FORM_DATA_PERSON= {
 	"@id": "Person/Peter%20+terminusdb%3A%2F%2F%2Fdata%2FJob%2Fadmin",

@@ -1,5 +1,5 @@
 import {getTitle, getDefaultValue, checkIfKey, isFilled} from "./utils"
-import {CREATE, VIEW, EDIT, SUBDOCUMENT} from "./constants"
+import {CREATE, VIEW, EDIT, SUBDOCUMENT, XSD_BOOLEAN} from "./constants"
 
 function DataTypeFrames (frame, item, uiFrame, mode, formData) {
     let properties={}, propertiesUI={}, required=null
@@ -9,6 +9,8 @@ function DataTypeFrames (frame, item, uiFrame, mode, formData) {
         info: "DATA",
         title: item
     }
+
+    if(frame[item] === XSD_BOOLEAN) layout.type="boolean"
 
     if(mode !== CREATE && formData.hasOwnProperty(item)) {
         let value = getDefaultValue(item, formData)

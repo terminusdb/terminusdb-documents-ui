@@ -2,9 +2,8 @@ import React, {useEffect, useState} from "react"
 import Form from "@terminusdb/rjsf-core"
 import {getProperties} from "./FrameHelpers"
 import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField"
-import {TDB_SCHEMA} from "./constants"
-import {Alert} from "react-bootstrap"
-import {VIEW, EDIT} from "./constants"
+import {TDB_SCHEMA, SUBMIT_BUTTON_STYLE_KEY, VIEW, EDIT} from "./constants"
+import {Alert, Button} from "react-bootstrap"
 import {formatData, getPrefix, isValueHashDocument, getValueHashMessage} from "./utils"
 import {transformData} from "./extract"
 
@@ -99,7 +98,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
 
 
     const handleSubmit = ({formData}) => {
-        //console.log("Data before extract: ",  formData)
+        console.log("Data before extract: ",  formData)
         if(onSubmit) {
 
             var extracted = transformData(mode, schema, formData, frame, current, type)
@@ -141,25 +140,31 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
         );
       }*/
 
+    let submitButtonCss="btn-info"
+    if(uiFrame && Object.keys(uiFrame).length && uiFrame.hasOwnProperty(SUBMIT_BUTTON_STYLE_KEY)) {
+        submitButtonCss=uiFrame[SUBMIT_BUTTON_STYLE_KEY]
+    }
+
     return <React.Fragment>
         {schema && message && message}
         {schema && <Form schema={schema}
             uiSchema={uiSchema}
             mode={mode}
             onSubmit={handleSubmit}
-            //onBlur={e => handleBlur(e.formData)}
             readonly={readOnly}
             formData={input}
             onChange={({formData}) => handleChange(formData)}
             fields={{
                 collapsible: CollapsibleField
             }}
-            //liveValidate={false}
-            //omitExtraData={true}
-            //showErrorList={false}
             children={hideSubmit} // hide submit button on view mode
             FieldTemplate={FieldTemplate}
-        />}
+        >
+            <div>
+                <Button type="submit" className={submitButtonCss}>Submit</Button>
+            </div>
+        </Form>
+    }
     </React.Fragment>
  }
 

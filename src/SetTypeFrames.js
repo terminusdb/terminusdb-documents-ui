@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react"
 import {ArrayFieldTemplate, getSetTitle, getTitle, getOptionalSelect, checkIfKey, getDefaultValue, removeDefaultsFromSubDocumentFrame, removeDefaultsFromDataFrame} from "./utils"
-import {CREATE, DATA, VIEW, EDIT, DOCUMENT, ONEOFVALUES, SELECT_STYLES, ONEOFSUBDOCUMENTS, ONEOFCLASSES} from "./constants"
+import {CREATE, DATA, VIEW, EDIT, SELECT_STYLE_KEY, DOCUMENT, ONEOFVALUES, SELECT_STYLES, ONEOFSUBDOCUMENTS, ONEOFCLASSES} from "./constants"
 import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'
 import {AsyncTypeahead} from 'react-bootstrap-typeahead'
@@ -10,6 +10,14 @@ import {getFilledChoiceTypeFrames} from "./FilledChoiceTypeFrames"
 //Set Subdocuments
 export function makeSetSubDocuments (setFrames, item, uiFrame, mode, formData, onTraverse) {
     let properties={}, propertiesUI={}
+
+    // can pass custom styles via ui frame for react-select
+    let selectStyle=SELECT_STYLES
+
+    //custom ui:schema
+    if(uiFrame && uiFrame.hasOwnProperty(SELECT_STYLE_KEY)) {
+        selectStyle=uiFrame[SELECT_STYLE_KEY]
+    }
 
     if(mode !== VIEW){
         for(var props in setFrames.properties[item]["properties"]) {
@@ -282,6 +290,15 @@ export function makeSetData (setFrames, item, uiFrame, mode, formData) {
 export function makeSetDocuments  (setFrames, item, selectDocType, uiFrame, mode, formData, onTraverse, onSelect) {
     let properties={}, propertiesUI={}
 
+    // can pass custom styles via ui frame for react-select
+    let selectStyle=SELECT_STYLES
+
+    //custom ui:schema
+    if(uiFrame && uiFrame.hasOwnProperty(SELECT_STYLE_KEY)) {
+        selectStyle=uiFrame[SELECT_STYLE_KEY]
+    }
+
+
     var  layout= {
         type: "array",
         title: mode === VIEW ? getTitle() : getSetTitle(),
@@ -332,7 +349,7 @@ export function makeSetDocuments  (setFrames, item, selectDocType, uiFrame, mode
                 <AsyncSelect
                     cacheOptions
                     classNames="tdb__input"
-                    styles={SELECT_STYLES}
+                    styles={selectStyle}
                     placeholder={props.uiSchema["ui:placeholder"]}
                     onChange={onChange}
                     loadOptions={loadOptions}
@@ -348,7 +365,7 @@ export function makeSetDocuments  (setFrames, item, selectDocType, uiFrame, mode
             <AsyncSelect
                 cacheOptions
                 classNames="tdb__input"
-                styles={SELECT_STYLES}
+                styles={selectStyle}
                 placeholder={props.uiSchema["ui:placeholder"]}
                 onChange={onChange}
                 loadOptions={loadOptions}
@@ -391,7 +408,7 @@ export function makeSetDocuments  (setFrames, item, selectDocType, uiFrame, mode
                     onSearch={handleSearch}
                     options={options}
                     classNames="tdb__input"
-                    styles={SELECT_STYLES}
+                    styles={selectStyle}
                     placeholder={`Type to search for ${props.schema.linked_to} ...`}
                     renderMenuItemChildren={(option, props) => (
                     <React.Fragment>
