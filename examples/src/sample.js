@@ -3,8 +3,8 @@ export const CREATE="Create"
 export const EDIT="Edit"
 export const VIEW="View"
 
-export const DEMO_ACTION=VIEW
-export const DEMO_DOCUMENT_TYPE="SetEnumTypes"
+export const DEMO_ACTION=EDIT
+export const DEMO_DOCUMENT_TYPE="MandatoryChoiceProperty"
 
 
 export const DEMO_SCHEMA={
@@ -22,7 +22,11 @@ export const DEMO_SCHEMA={
 		"addressLine": {
 			"@class": "xsd:string",
 			"@type": "Optional"
-		  }
+		},
+		"person": {
+			"@class": "MandatoryDocumentLink",
+			"@type": "Set"
+		}
 	},
 	"terminusdb:///schema#MandatoryDataTypes": {
 		"@key": {
@@ -196,8 +200,35 @@ export const DEMO_SCHEMA={
 			},
 			"@type": "Set"
 		}
+  	},
+	"terminusdb:///schema#MandatoryChoiceProperty": {
+		"@key": {
+			"@type": "Random"
+		},
+		"@type": "Class",
+		"choiceProperty": [
+			"Choice1",
+			"Choice2"
+		],
+	},
+	"terminusdb:///schema#Choice1": {
+		"@key": {
+			"@type": "Random"
+		},
+		"@type": "Class",
+		"Choice1Name": "xsd:string",
+		"Choice1Comment": "xsd:dateTime"
+  	},
+  	"terminusdb:///schema#Choice2": {
+		"@key": {
+			"@type": "Random"
+		},
+		"@type": "Class",
+		"Choice2Name": "xsd:string",
+		"Choice2Comment": "xsd:dateTime"
   	}
 }
+
 
 const DEMO_FORM_DATA_MANDATORY_DATA_TYPES = {
 	"@id":"MandatoryDataTypes/Kitty%20Jose",
@@ -287,11 +318,28 @@ const DEMO_FORM_DATA_SET_ENUM_TYPES={
 	   "four",
 	   "one"
 	]
- }
+}
+
+const DEMO_FORM_DATA_MANDATORY_CHOICE_DOCUMENT_TYPES= {
+	"@id": "MandatoryChoiceProperty/908cdf8db2fa9f843f063669171280eb448e3403d837cb440726ab394043e918",
+	"@type": "MandatoryChoiceProperty",
+	/*"choiceProperty": {
+		"@id": "MandatoryChoiceProperty/908cdf8db2fa9f843f063669171280eb448e3403d837cb440726ab394043e918/choiceProperty/Choice1/iri%3A%2F%2FCAMS%23Hazard%2FVolcanos%2520(incl.%2520lahars,%2520pyroclastic%2520flows,%2520volcanic%2520activity)+2011-01-01T01%3A00%3A37Z",
+		"@type": "Choice1",
+		"Choice1Name": "Choice One Name",
+		"Choice1Comment": "2011-01-01T01:00:37Z",
+	}*/
+	"choiceProperty": {
+		"@id": "MandatoryChoiceProperty/908cdf8db2fa9f843f063669171280eb448e3403d837cb440726ab394043e918/choiceProperty/Choice2/iri%3A%2F%2FCAMS%23Hazard%2FVolcanos%2520(incl.%2520lahars,%2520pyroclastic%2520flows,%2520volcanic%2520activity)+2011-01-01T01%3A00%3A37Z",
+		"@type": "Choice2",
+		"Choice2Name": "Choice Two Name",
+		"Choice2Comment": "2021-11-01T01:00:37Z",
+	}
+}
 
 
 
-export const DEMO_FORM_DATA=DEMO_FORM_DATA_SET_ENUM_TYPES
+export const DEMO_FORM_DATA=DEMO_FORM_DATA_MANDATORY_CHOICE_DOCUMENT_TYPES
 
 export const DEMO_SCHEMA_UI = {
   "placeholder": "xsd:dateTime"

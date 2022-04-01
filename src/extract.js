@@ -1,4 +1,4 @@
-import {ONEOFVALUES, CREATE, COORDINATES, ONEOFCLASSES, POINT_TYPE, SYS_UNIT_DATA_TYPE} from "./constants"
+import {ONEOFVALUES, CREATE, COORDINATES, CHOICECLASSES, POINT_TYPE, SYS_UNIT_DATA_TYPE} from "./constants"
 
 // return true if only @type is available
 function checkIfNotFilled (json){
@@ -26,13 +26,13 @@ function constructNewOneOfFilledFrame (mode, schema, data, frame, current, type)
 
 // return new constructed frame for choice classes
 function checkIfChoiceTypeData(mode, schema, data, frame, current, type) {
-    //ONEOFCLASSES
+    //CHOICECLASSES
     let modifiedData = data
     if(!Object.keys(data).length) return false
     let choiceClassName = Object.keys(data)[0]
     // loop over schema to find the type of choiceClassName
     for(var item in schema.properties) {
-		if(schema.properties[item].hasOwnProperty("info") && schema.properties[item]["info"] === ONEOFCLASSES) {
+		if(schema.properties[item].hasOwnProperty("info") && schema.properties[item]["info"] === CHOICECLASSES) {
             if(Array.isArray(modifiedData[item])){ //set
                 if(mode === CREATE) {
                     let newArray = []

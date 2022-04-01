@@ -15,7 +15,7 @@ import {
 
 
 export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
-    let properties={}, propertiesUI={}, required=null, layout ={}, uiLayout={}
+    let properties={}, propertiesUI={}, layout ={}, uiLayout={}
 
     if (mode === CREATE) {
         layout=getCreateLayout(frame, item)
@@ -40,7 +40,7 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
     // ui schema
     propertiesUI[item]=uiLayout
 
-    return {properties, propertiesUI, required}
+    return {properties, propertiesUI}
 }
 
 
@@ -48,9 +48,5 @@ export const makeSubDocumentFrames = (frame, item, uiFrame, mode, formData, onTr
     let madeFrames = subDocumentTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect)
     let properties = madeFrames.properties
     let propertiesUI = madeFrames.propertiesUI
-    if(frame.hasOwnProperty("required")) {
-        let required=frame.required
-        return {properties, propertiesUI, required}
-    }
     return {properties, propertiesUI}
 }

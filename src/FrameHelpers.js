@@ -6,12 +6,13 @@ import {makeOptionalTypeFrames} from "./optionalTypeFrames/optionalTypeFrames"
 import {makeDocumentTypeFrames} from "./documentTypeFrames/documentTypeFrames"
 import {makeSetTypeFrames} from "./setTypeFrames/setTypeFrames"
 import {makeEnumTypeFrames} from "./enumTypeFrames/enumTypeFrames"
+import {makeChoiceDocumentTypeFrames} from "./choiceDocumentTypeFrames/choiceDocumentTypeFrames"
 //import {makeSetSubDocuments, makeSetData, makeSetDocuments} from "./SetTypeFrame Ref "
 import {makeSetOneOfClassFrames} from "./SetTypeClassFrames"
 import {makeListData, makeListDocuments, makeListSubDocuments} from "./ListTypeFrames"
 //import {makeDocumentTypeFrames} from "./DocumentTypeFrames"
 //import {makeEnumTypeFrames} from "./EnumTypeFrames"
-import {extractPrefix, isDataType, isSubDocumentType, isOptionalType, isSetType, isDocumentType, isEnumType, isListType, isSubDocumentAndClassType, isDocumentClassArrayType} from "./utils"
+import {extractPrefix, isChoiceDocumentType, isDataType, isSubDocumentType, isOptionalType, isSetType, isDocumentType, isEnumType, isListType, isSubDocumentAndClassType, isDocumentClassArrayType} from "./utils"
 import {DOCUMENT, ENUM, DATA, LONGITUDE, LATITUDE, VIEW, GEO_CORDINATES, COORDINATES, SUBDOCUMENT} from "./constants"
 import {OptionalDocumentTypeFrames} from "./OptionalTypeFrames"
 import {makeChoiceTypeFrames} from "./ChoiceTypeFrames"
@@ -70,6 +71,15 @@ export function getProperties (fullFrame, frame, uiFrame, mode, formData, onTrav
             propertiesUI[item] = frames.propertiesUI[item]
             required.push(item)
         }
+        else if (frame[item] && isChoiceDocumentType(frame[item])) { // choice Document
+            //let constructedChoiceFrame = constructOptionalFrame(frame[item], item)
+            //console.log("constructedChoiceFrame", constructedChoiceFrame)
+
+            let frames = makeChoiceDocumentTypeFrames(fullFrame, frame, item, uiFrame, mode, formData, onTraverse, onSelect)
+            properties[item] = frames.properties[item]
+            propertiesUI[item] = frames.propertiesUI[item]
+            required.push(item)
+        }
         else if (frame[item] && isOptionalType(frame[item])) { // optional
             let constructedOptionalFrame = constructOptionalFrame(frame[item], item)
             let optionalProperties = getProperties(fullFrame, constructedOptionalFrame, uiFrame, mode, formData, onTraverse, onSelect)
@@ -85,8 +95,8 @@ export function getProperties (fullFrame, frame, uiFrame, mode, formData, onTrav
             //set properties and ui
             properties[item] = frames.properties[item]
             propertiesUI[item] = frames.propertiesUI[item]
-            if(frames.hasOwnProperty("required"))
-                required = frames.required
+            //if(frames.hasOwnProperty("required"))
+            //required = item
         }
         else if(frame[item] && isDocumentType(frame[item], fullFrame, extractPrefix(fullFrame))) { //link documents
             let frames = makeDocumentTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect)
@@ -98,12 +108,19 @@ export function getProperties (fullFrame, frame, uiFrame, mode, formData, onTrav
         }
         else if (frame[item] && isSetType(frame[item])) { //set
             let constructedSetFrame = constructSetFrame(frame[item], item)
-            let setProperties = getProperties(fullFrame, constructedSetFrame, uiFrame, mode, formData, onTraverse, onSelect)
-            let setFrames = makeSetTypeFrames(setProperties, item, uiFrame, mode, formData, onTraverse, onSelect)
 
-            //set properties and ui
-            properties[item] = setFrames.properties[item]
-            propertiesUI[item] = setFrames.propertiesUI[item]
+            if(constructedSetFrame.hasOwnProperty(item)
+                && Array.isArray(constructedSetFrame[item])) { // choice class
+
+            }
+            else {
+                let setProperties = getProperties(fullFrame, constructedSetFrame, uiFrame, mode, formData, onTraverse, onSelect)
+                let setFrames = makeSetTypeFrames(setProperties, item, uiFrame, mode, formData, onTraverse, onSelect)
+
+                //set properties and ui
+                properties[item] = setFrames.properties[item]
+                propertiesUI[item] = setFrames.propertiesUI[item]
+            }
         }
         else if (frame[item] && isEnumType(frame[item])) { // enums
 
@@ -114,7 +131,6 @@ export function getProperties (fullFrame, frame, uiFrame, mode, formData, onTrav
             propertiesUI[item] = frames.propertiesUI[item]
             required.push(item)
         }
-
     }
 
     return {

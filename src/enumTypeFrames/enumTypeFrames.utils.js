@@ -1,38 +1,9 @@
 import {getTitle, getDefaultValue, checkIfKey, isFilled} from "../utils"
 import {
-    XSD_STRING,
-    XSD_DECIMAL,
-    XSD_DATE_TIME,
-    XSD_BOOLEAN,
-    STRING_TYPE,
-    NUMBER_TYPE,
-    BOOLEAN_TYPE,
-    DATE_TYPE,
-    DATA_TYPE,
     ENUM
 } from "../constants"
 
-// function to provide a ui widget to dates
-function getDateTimeUIWidget () {
-    let uiLayout = {}
-    uiLayout["ui:widget"] = "alt-datetime",
-    uiLayout["ui:options"] = {
-        "yearsRange": [
-            1980,
-            2030
-        ]
-    }
-    uiLayout["classNames"] = "tdb__input mb-3 mt-3 date-list-style"
-    return uiLayout
-}
 
-//get data type xsd: or xdd:
-function getDataType(type) {
-    if(type === XSD_STRING) return STRING_TYPE
-    else if(type === XSD_DECIMAL) return NUMBER_TYPE
-    else if(type === XSD_BOOLEAN) return BOOLEAN_TYPE
-    else if(type === XSD_DATE_TIME) return DATE_TYPE
-}
 
 // Create Layout
 export function getCreateLayout(frame, item) {

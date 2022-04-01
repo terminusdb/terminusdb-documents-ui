@@ -30,6 +30,12 @@ export const isSubDocumentType = (property) => {
 	return false
 }
 
+// to identify if choice documenst
+export const isChoiceDocumentType = (property) => {
+	if(typeof property !== "object") return false
+	if(Array.isArray(property)) return true
+}
+
 // returns true for optional
 export const isOptionalType = (property) => {
 	if(typeof property !== "object") return false
