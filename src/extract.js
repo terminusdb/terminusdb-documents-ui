@@ -109,7 +109,7 @@ export const transformData = (mode, schema, data, frame, current, type) => {
             //return extracted
             continue
         }
-        else if(typeof formData[key] === "string" || typeof formData[key] === "number") {
+        else if(typeof formData[key] === "string" || typeof formData[key] === "number" || typeof formData[key] === "boolean") {
             // data types
             extracted[key] = formData[key]
         }

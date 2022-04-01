@@ -1,0 +1,30 @@
+{
+    "classNames": "bg-light p-3",
+    "name" : {
+        "classNames": "text-success bg-danger",
+        "ui:placeholder": "ur cool",
+        "ui:description": "hello u aint that cool no more",
+        "ui:widget": "textarea"
+    },
+    "nicknames": {
+        "items" : {
+                "ui:widget": "textarea"
+        }
+    },
+    "lives_in" :{
+        "classNames": "bg-warning p-5",
+        "items" :{
+            "Country" : {
+                "classNames": "bg-success",
+                "ui:placeholder": "some country"
+            },
+            "address_code": {
+                "classNames": "bg-info"
+            },
+            "AddressLine1": {
+                "classNames": "text-success",
+                "ui:widget": "hidden"
+            }
+        }
+    }
+}

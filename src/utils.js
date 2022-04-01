@@ -26,7 +26,7 @@ export const isDataType = (property) => {
 
 // returns true for properties which are subdocuments
 export const isSubDocumentType = (property) => {
-	if(property["@subdocument"]) return true
+	if(property.hasOwnProperty(SUBDOCUMENT)) return true
 	return false
 }
 
@@ -122,14 +122,18 @@ export function getFieldTitle(item, uiDisable) {
 
 // get default values to document/ enum types
 export function getDefaultValue(item, formData) {
-	var match
+	if(!formData) return false
+	if(Object.keys(formData).length === 0) return false
+	if(formData.hasOwnProperty(item)) return formData[item]
+	return false
+	/*var match
 	for(var key in formData){
 		if(key === item) {
 			match=formData[key]
 			return match
 		}
 	}
-	return match
+	return match */
 }
 
 // List required min 1 item in it so forthe first subdocument we make all its fields mandatory
@@ -404,11 +408,14 @@ export function formatData(mode, schema, data, frame, current, type) {
 	return extr
 }
 
-
+// hide a field
+export const hidden = () => <div/>
 
 // function checks if formData has a filled value for item
 export function isFilled (formData, item){
-	if(formData[item]) return true
+	if(!formData) return false
+	if(Array.isArray(formData)) return true
+	if(formData.hasOwnProperty(item) && formData[item]) return true
 }
 
 // function checks in property is key of a document
@@ -428,6 +435,7 @@ export function checkIfKey(property, key) {
 
  // check if document has ValueHash type key
 export function isValueHashDocument(frame) {
+	if(!frame) return null
 	if(frame["@key"] && frame["@key"]["@type"] &&
 		frame["@key"]["@type"] === VALUE_HASH_KEY) {
 			return true
@@ -593,3 +601,28 @@ export function removeIds(dataArray){
 	})
 	return newDataArray
 }
+
+// extract prefix from frame
+export function extractPrefix (fullFrame) {
+	if(!fullFrame) return null
+	if(fullFrame.hasOwnProperty("@schema")) return fullFrame["@schema"]
+	return TDB_SCHEMA
+}
+
+// add custom ui layout to existing default ui layout
+export function addCustomUI (item, uiFrame, uiLayout) {
+	if(!uiFrame) return uiLayout
+	if(!Object.keys(uiFrame).length) return uiLayout
+	let customUILayout = uiLayout
+	if(uiFrame && uiFrame.hasOwnProperty(item)) {
+        for (var uiItems in uiFrame[item]) {
+            if(customUILayout.hasOwnProperty(uiItems)) {
+                let uiDefault = customUILayout[uiItems]
+                customUILayout[uiItems] = `${uiDefault} ${uiFrame[item][uiItems]}`
+            }
+            else customUILayout[uiItems] = customUILayout[uiItems]
+        }
+    }
+	return customUILayout
+}
+
