@@ -3,8 +3,8 @@ export const CREATE="Create"
 export const EDIT="Edit"
 export const VIEW="View"
 
-export const DEMO_ACTION=EDIT
-export const DEMO_DOCUMENT_TYPE="MandatoryChoiceProperty"
+export const DEMO_ACTION=VIEW
+export const DEMO_DOCUMENT_TYPE="MandatoryLocation"
 
 
 export const DEMO_SCHEMA={
@@ -211,13 +211,40 @@ export const DEMO_SCHEMA={
 			"Choice2"
 		],
 	},
+	"terminusdb:///schema#OptionalChoiceProperty": {
+		"@key": {
+			"@type": "Random"
+		},
+		"@type": "Class",
+		"choiceProperty":{
+			"@class": [
+				"Choice1",
+				"Choice2"
+			  ],
+			"@type": "Optional"
+		}
+	},
+	"terminusdb:///schema#SetChoiceProperty": {
+		"@key": {
+			"@type": "Random"
+		},
+		"@type": "Class",
+		"choiceProperty":{
+			"@class": [
+				"Choice1",
+				"Choice2"
+			  ],
+			"@type": "Set"
+		}
+	},
 	"terminusdb:///schema#Choice1": {
 		"@key": {
 			"@type": "Random"
 		},
 		"@type": "Class",
 		"Choice1Name": "xsd:string",
-		"Choice1Comment": "xsd:dateTime"
+		"Choice1Comment": "xsd:dateTime",
+
   	},
   	"terminusdb:///schema#Choice2": {
 		"@key": {
@@ -226,6 +253,86 @@ export const DEMO_SCHEMA={
 		"@type": "Class",
 		"Choice2Name": "xsd:string",
 		"Choice2Comment": "xsd:dateTime"
+  	},
+	"terminusdb:///schema#OneOfDocuemntClasses": {
+		"@key": {
+			"@type": "Random"
+		},
+		"@oneOf": [
+			{
+				"choice1": "OneOfChoice",
+				"choice2": "Choice2",
+				"suspected_unknown": "sys:Unit",
+				"unknown": "sys:Unit"
+			}
+		],
+		"@subdocument": [],
+		"@type": "Class"
+	},
+	"terminusdb:///schema#OneOfChoice": {
+		"@key": {
+		  "@type": "Random"
+		},
+		"@subdocument": [],
+		"@type": "Class",
+		"date_range": {
+		  "@class": {
+			"@class": "DateRange",
+			"@subdocument": []
+		  },
+		  "@type": "Optional"
+		},
+		"value": "xsd:string"
+	},
+	"terminusdb:///schema#DateRange": {
+	  "@key": {
+		"@fields": [
+		  "from",
+		  "to"
+		],
+		"@type": "Hash"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "from": "xsd:integer",
+	  "to": "xsd:integer"
+	},
+	"terminusdb:///schema#MandatoryLocation": {
+		"@type": "Class",
+		"name": "xsd:string",
+		"location": "Location"
+	},
+	"terminusdb:///schema#Location": {
+		"@key": {
+			"@fields": [
+			  "city"
+			],
+			"@type": "Lexical"
+		  },
+		  "@subdocument": [],
+		  "@type": "Class",
+		  "city": "xsd:string",
+		  "geometry_location": {
+				//"@class": [
+				//	{
+						"@class": "Point",
+						"@subdocument": []
+				//	}
+				//],
+				//"@type": "Optional"
+			}
+    },
+	"terminusdb:///schema#Point": {
+		"@key": {
+			"@type": "Random"
+		},
+		"@subdocument": [],
+		"@type": "Class",
+		"coordinates": {
+			"@class": "xsd:decimal",
+			"@dimensions": 1,
+			"@type": "Array"
+		}
   	}
 }
 
@@ -320,6 +427,24 @@ const DEMO_FORM_DATA_SET_ENUM_TYPES={
 	]
 }
 
+const DEMO_FORM_DATA_MANDATORY_LOCATION={
+	"@id":"Asset/Communication%20tower%20near%20Good%20Hope%20",
+	"@type":"Asset",
+	"location":{
+	   "@id":"Asset/Communication%20tower%20near%20Good%20Hope%20/location/Location/2cbba189f6718e60702a87c57d47e645bb1985296ad19dbbb36bd9b0f6aad544",
+	   "@type":"Location",
+	   "geometry_location":{
+		  "@id":"Asset/Communication%20tower%20near%20Good%20Hope%20/location/Asset/Communication%20tower%20near%20Good%20Hope%20/location/Location/2cbba189f6718e60702a87c57d47e645bb1985296ad19dbbb36bd9b0f6aad544/geometry_location/Point/7e41ec2d01dccf740db4133480e91150c9cdf5fa2208876b0228752e50bec5e5",
+		  "@type":"Point",
+		  "coordinates":[
+			 15.4125,
+			 -61.2554
+		  ],
+		  "type":"Point"
+	   }
+	}
+ }
+
 const DEMO_FORM_DATA_MANDATORY_CHOICE_DOCUMENT_TYPES= {
 	"@id": "MandatoryChoiceProperty/908cdf8db2fa9f843f063669171280eb448e3403d837cb440726ab394043e918",
 	"@type": "MandatoryChoiceProperty",
@@ -339,7 +464,7 @@ const DEMO_FORM_DATA_MANDATORY_CHOICE_DOCUMENT_TYPES= {
 
 
 
-export const DEMO_FORM_DATA=DEMO_FORM_DATA_MANDATORY_CHOICE_DOCUMENT_TYPES
+export const DEMO_FORM_DATA=DEMO_FORM_DATA_MANDATORY_LOCATION
 
 export const DEMO_SCHEMA_UI = {
   "placeholder": "xsd:dateTime"

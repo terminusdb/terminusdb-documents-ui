@@ -11,13 +11,13 @@ import {
     getEditUILayout,
     getViewLayout,
     getViewUILayout
-} from "./choiceDocumentTypeFrames.utils"
+} from "./oneOfTypeFrames.utils"
 
 import {addCustomUI} from "../utils"
 
 
-// get choice  type frames
-function choiceDocumentTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
+// get one of  type frames
+function oneOfTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
     let properties={}, propertiesUI={}, layout ={}, uiLayout={}
 
     if (mode === CREATE) {
@@ -32,23 +32,23 @@ function choiceDocumentTypeFrames (fullFrame, current, frame, item, uiFrame, mod
     }
     else if (mode === VIEW) {
         layout=getViewLayout(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect)
-        uiLayout=getViewUILayout(frame, item, layout)
+        uiLayout=getViewUILayout(frame, item, layout, formData)
     }
 
     // custom ui:schema - add to default ui schema
     let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
 
     // schema
-    properties[item] = layout
+    properties[current] = layout
     // ui schema
-    propertiesUI[item] = addedCustomUI
+    propertiesUI[current] = addedCustomUI
 
     return {properties, propertiesUI}
 }
 
 // mandatory
-export function makeChoiceDocumentTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
-    let madeFrames = choiceDocumentTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect)
+export function makeOneOfTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
+    let madeFrames = oneOfTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect)
 
     let properties = madeFrames.properties
     let propertiesUI = madeFrames.propertiesUI

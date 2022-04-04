@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react"
 import {ArrayFieldTemplate, getSubDocumentDescription, addCustomUI} from "../utils"
-import {CREATE, DOCUMENT, EDIT, VIEW, SELECT_STYLES,ENUM, DATA_TYPE, SUBDOCUMENT_TYPE} from "../constants"
+import {CREATE, DOCUMENT, EDIT, VIEW, CHOICECLASSES, SELECT_STYLES,ENUM, DATA_TYPE, SUBDOCUMENT_TYPE} from "../constants"
 import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'
 import {AsyncTypeahead} from 'react-bootstrap-typeahead'
@@ -28,10 +28,43 @@ import {
     getEditSetEnumTypeLayout,
     getEditSetEnumTypeUILayout,
     getViewSetEnumTypeLayout,
-    geViewSetEnumTypeUILayout
+    geViewSetEnumTypeUILayout,
+    getCreateSetChoiceDocumentTypeLayout,
+    getCreateSetChoiceDocumentTypeUILayout,
+    getEditSetChoiceDocumentTypeLayout,
+    getEditSetChoiceDocumentTypeUILayout,
+    getViewSetChoiceDocumentTypeLayout,
+    getViewSetChoiceDocumentTypeUILayout
 
 } from "./setType.utils"
 import { DEMO_DOCUMENT_TYPE } from "../../examples/src/sample"
+
+// set choice document types
+export function makeSetChoiceTypeFrames (frame, item, uiFrame, mode, formData) {
+    let properties={}, propertiesUI={}, layout ={}, uiLayout={}
+
+    if (mode === CREATE) {
+        layout=getCreateSetChoiceDocumentTypeLayout(frame, item)
+        uiLayout=getCreateSetChoiceDocumentTypeUILayout(frame, item)
+    }
+
+    if (mode === EDIT) {
+        layout=getEditSetChoiceDocumentTypeLayout(frame, item, formData)
+        uiLayout=getEditSetChoiceDocumentTypeUILayout(frame, item)
+    }
+
+    if (mode === VIEW) {
+        layout=getViewSetChoiceDocumentTypeLayout(frame, item, formData)
+        uiLayout=getViewSetChoiceDocumentTypeUILayout(frame, item)
+    }
+
+    // schema
+    properties[item]=layout
+    // ui schema
+    propertiesUI[item]=uiLayout
+
+    return {properties, propertiesUI}
+}
 
 // set Enum Types
 export function  makeSetEnumTypeFrames(frame, item, uiFrame, mode, formData) {
@@ -174,6 +207,13 @@ export const makeSetTypeFrames = (frame, item, uiFrame, mode, formData, onTraver
         if(frame["properties"][item].hasOwnProperty("info")
             && frame["properties"][item]["info"] === ENUM)
             madeFrames=makeSetEnumTypeFrames(frame, item, uiFrame, mode, formData)
+    }
+
+    // set Choice Document classes
+    if(frame.hasOwnProperty("properties") && frame["properties"].hasOwnProperty(item)) {
+        if(frame["properties"][item].hasOwnProperty("info")
+            && frame["properties"][item]["info"] === CHOICECLASSES)
+            madeFrames=makeSetChoiceTypeFrames(frame, item, uiFrame, mode, formData)
     }
 
     let properties = madeFrames.properties

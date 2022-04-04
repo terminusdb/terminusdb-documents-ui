@@ -9361,7 +9361,22 @@ export const SESHAT_TEST_FORM_DATA={
 				   },
 				   "value":"KNOWN VAL"
 				}
-			 }
+			 },
+			 /*{
+				"@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/GeneralVariables/177d2ef58cb358ca64cdf861c3fa0ec7ad2a06570456dc1f49c94a650bd892c9/alternative_names/AlternativeNames/4aadbbecee6ee577f9a394ecedbbf6407d2200e749f98ba254e3c8cf81d35835",
+				"@type":"AlternativeNames",
+				"inferred":{
+				   "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/GeneralVariables/177d2ef58cb358ca64cdf861c3fa0ec7ad2a06570456dc1f49c94a650bd892c9/alternative_names/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/GeneralVariables/177d2ef58cb358ca64cdf861c3fa0ec7ad2a06570456dc1f49c94a650bd892c9/alternative_names/AlternativeNames/4aadbbecee6ee577f9a394ecedbbf6407d2200e749f98ba254e3c8cf81d35835/known/StringValue/eba154d9d78b874db7f8154ba5698cfe7ce95553c81164d0c1256b8f1d46b695",
+				   "@type":"StringValue",
+				   "date_range":{
+					  "@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/GeneralVariables/177d2ef58cb358ca64cdf861c3fa0ec7ad2a06570456dc1f49c94a650bd892c9/alternative_names/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/GeneralVariables/177d2ef58cb358ca64cdf861c3fa0ec7ad2a06570456dc1f49c94a650bd892c9/alternative_names/AlternativeNames/4aadbbecee6ee577f9a394ecedbbf6407d2200e749f98ba254e3c8cf81d35835/known/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/GeneralVariables/177d2ef58cb358ca64cdf861c3fa0ec7ad2a06570456dc1f49c94a650bd892c9/alternative_names/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/GeneralVariables/177d2ef58cb358ca64cdf861c3fa0ec7ad2a06570456dc1f49c94a650bd892c9/alternative_names/AlternativeNames/4aadbbecee6ee577f9a394ecedbbf6407d2200e749f98ba254e3c8cf81d35835/known/StringValue/eba154d9d78b874db7f8154ba5698cfe7ce95553c81164d0c1256b8f1d46b695/date_range/DateRange/69a4c52cd108343d3bacc897166b4ab46ee5e0c171dcb589caa9e77d75087e94",
+					  "@type":"DateRange",
+					  "from":1019,
+					  "to":2018
+				   },
+				   "value":"INFERRED VAL"
+				}
+			 }*/
 		  ],
 		  "capital":[
 			 {
@@ -11581,20 +11596,36 @@ export const PROFILE_FORM_DATA_SIMPle = {
 	"user_id": "PETERPETER"
 }
 export const PROFILE_DEMO_DOCUMENTS = {
-	"User": [
-		"User/WHO",
-		"User/MOO"],
-	"Organization": [
-		"Organization/001",
-		"Organization/002",
-		"Organization/003",
-		"Organization/004"],
-	"City": [
-		"City/001",
-		"City/002",
-		"City/003"
-	]
-}
+	"collaborators":[
+	   "User/PRETO",
+	   "User/HELLO"
+	],
+	"invitations":[
+	   {
+		  "@type":"Invitation",
+		  "email_to":"kitzkan@gmail.com",
+		  "invited_by":"User/HELLO",
+		  "note":"BELOKJWQHD",
+		  "sent_date":"2022-04-04T14:24:48.000Z",
+		  "status":"active"
+	   }
+	],
+	"stripe_subscription":{
+	   "@type":"StripeSubscription",
+	   "billing_email":"kitzkan@gmail.com",
+	   "status":"inactive",
+	   "stripe_id":"2123213",
+	   "stripe_quantity":2,
+	   "stripe_user":"User/MGIC",
+	   "subscription_id":"423wsad"
+	},
+	"creation_date":"2022-04-04T14:24:37.000Z",
+	"expiration_data":"2022-04-04T14:24:38.000Z",
+	"organization_name":"MICRO",
+	"owned_by":"User/HELLO",
+	"status":"inactive",
+	"@type":"Organization"
+ }
 
 
 //crete seshat

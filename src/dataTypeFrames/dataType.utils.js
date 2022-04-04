@@ -4,6 +4,7 @@ import {
     XSD_DECIMAL,
     XSD_DATE_TIME,
     XSD_BOOLEAN,
+    XSD_INTEGER,
     STRING_TYPE,
     NUMBER_TYPE,
     BOOLEAN_TYPE,
@@ -29,6 +30,7 @@ function getDateTimeUIWidget () {
 function getDataType(type) {
     if(type === XSD_STRING) return STRING_TYPE
     else if(type === XSD_DECIMAL) return NUMBER_TYPE
+    else if(type === XSD_INTEGER) return NUMBER_TYPE
     else if(type === XSD_BOOLEAN) return BOOLEAN_TYPE
     else if(type === XSD_DATE_TIME) return DATE_TYPE
 }

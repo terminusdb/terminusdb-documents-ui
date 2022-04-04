@@ -130,7 +130,8 @@ export function getViewSetSubDocumentTypeUILayout(frame, item, formData) {
 
     // hide widget if formData of item is empty
     if(!isFilled(formData, item)) {
-        uiLayout={ "ui:widget" : "hidden" }
+        const hidden =() => <div/>
+        uiLayout={ "ui:widget" : hidden }
         return uiLayout
     }
 
@@ -709,4 +710,171 @@ export function geViewSetEnumTypeUILayout (frame, item) {
     }
     return uiLayout
 }
+
+/**************   Set Choice Document Types       *****************/
+// create set Choice Document type layout
+export function getCreateSetChoiceDocumentTypeLayout(frame, item) {
+    let layout={
+        type: "array",
+        title: getSetTitle(item),
+        items: frame.properties[item],
+        additionalItems: frame.properties[item]
+    }
+    return layout
+}
+
+// create set Choice Document type ui layout
+export function getCreateSetChoiceDocumentTypeUILayout (frame, item) {
+    let uiLayout= {}
+    if(frame.hasOwnProperty("uiSchema")) {
+        uiLayout= {
+            items: frame.uiSchema[item],
+            additionalItems: frame.uiSchema[item],
+            "ui:options": {
+                addable: true,
+                orderable: false,
+                removable: true
+            },
+            "ui:ArrayFieldTemplate" : ArrayFieldTemplate
+        }
+    }
+
+    return uiLayout
+}
+
+// edit set Choice Document type layout
+export function getEditSetChoiceDocumentTypeLayout(frame, item, formData) {
+    let layout={
+        type: "array",
+        title: getSetTitle(item),
+        items: frame.properties[item],
+        additionalItems: frame.properties[item]
+    }
+
+    // get default value and fill items of array
+    let defaultValues=getDefaultValue(item, formData)
+    let filledItems=[]
+    if(Array.isArray(defaultValues) && defaultValues.length) {
+        defaultValues.map(value => {
+            if(frame.properties[item].hasOwnProperty("anyOf")) {
+
+                frame.properties[item]["anyOf"].map(aOf => {
+                    if(aOf.title === value["@type"]) {
+                        let structure = {}
+                        for(var props in aOf) {
+                            structure[props]=aOf[props]
+                        }
+                        structure["default"] = value
+                        filledItems.push(structure)
+                    }
+                })
+            }
+        })
+    }
+
+    //console.log("filledItems", filledItems)
+
+    // get filled items
+    layout.items = filledItems
+
+    let properties = {}
+    // get additional items
+    for(var props in frame.properties[item]) {
+        if(props !== "default"){
+            properties[props] = frame.properties[item][props]
+        }
+    }
+    // additional items
+    layout.additionalItems = properties
+    return layout
+}
+
+// edit set Choice Document type ui layout
+export function getEditSetChoiceDocumentTypeUILayout (frame, item) {
+    let uiLayout= {}
+    if(frame.hasOwnProperty("uiSchema")) {
+        uiLayout= {
+            items: frame.uiSchema[item],
+            additionalItems: frame.uiSchema[item],
+            "ui:options": {
+                addable: true,
+                orderable: false,
+                removable: true
+            },
+            "ui:ArrayFieldTemplate" : ArrayFieldTemplate
+        }
+    }
+
+    return uiLayout
+}
+
+// view set Choice Document type layout
+export function getViewSetChoiceDocumentTypeLayout(frame, item, formData) {
+    let layout={
+        type: "array",
+        title: getSetTitle(item),
+        items: frame.properties[item],
+        additionalItems: frame.properties[item]
+    }
+
+    // get default value and fill items of array
+    let defaultValues=getDefaultValue(item, formData)
+    let filledItems=[]
+    if(Array.isArray(defaultValues) && defaultValues.length) {
+        defaultValues.map(value => {
+            if(frame.properties[item].hasOwnProperty("anyOf")) {
+
+                frame.properties[item]["anyOf"].map(aOf => {
+                    if(aOf.title === value["@type"]) {
+                        let structure = {}
+                        for(var props in aOf) {
+                            structure[props]=aOf[props]
+                        }
+                        structure["default"] = value
+                        filledItems.push(structure)
+                    }
+                })
+            }
+        })
+    }
+
+    //console.log("filledItems", filledItems)
+
+    // get filled items
+    layout.items = filledItems
+
+    let properties = {}
+    // get additional items
+    for(var props in frame.properties[item]) {
+        if(props !== "default"){
+            properties[props] = frame.properties[item][props]
+        }
+    }
+    // additional items
+    layout.additionalItems = properties
+    return layout
+}
+
+// view set Choice Document type ui layout
+export function getViewSetChoiceDocumentTypeUILayout (frame, item) {
+    let uiLayout= {}
+    if(frame.hasOwnProperty("uiSchema")) {
+        uiLayout= {
+            items: frame.uiSchema[item],
+            additionalItems: frame.uiSchema[item],
+            "ui:options": {
+                addable: false,
+                orderable: false,
+                removable: false
+            },
+            "ui:ArrayFieldTemplate" : ArrayFieldTemplate
+        }
+    }
+
+    return uiLayout
+}
+
+
+
+
 

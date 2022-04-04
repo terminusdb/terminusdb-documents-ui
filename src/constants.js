@@ -7,6 +7,7 @@ export const XSD_DATA_TYPE_PREFIX = "xsd:"
 export const XDD_DATA_TYPE_PREFIX = "xdd:"
 export const XSD_STRING="xsd:string"
 export const XSD_DECIMAL="xsd:decimal"
+export const XSD_INTEGER="xsd:integer"
 export const XSD_DATE_TIME="xsd:dateTime"
 export const XSD_BOOLEAN="xsd:boolean"
 

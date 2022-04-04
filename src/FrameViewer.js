@@ -50,7 +50,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             //console.log("extractedPrefix", extractedPrefix)
             //console.log("frame", frame)
             //let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect)
-            let properties=getProperties(frame, frame[current], uiFrame, mode, formData, onTraverse, onSelect)
+            let properties=getProperties(frame, type, frame[current], uiFrame, mode, formData, onTraverse, onSelect)
             let definitions = {
                 testdef: {
                     title: "test",

@@ -33,7 +33,9 @@ export const isSubDocumentType = (property) => {
 // to identify if choice documenst
 export const isChoiceDocumentType = (property) => {
 	if(typeof property !== "object") return false
-	if(Array.isArray(property)) return true
+	if(Array.isArray(property)) {
+		return true
+	}
 }
 
 // returns true for optional
@@ -69,13 +71,29 @@ export const isDocumentType = (property, frame, prefix) => {
 	return false
 }
 
+//returns true if @class is POINT type
+export const isPointType = (property, frame, prefix) => {
+	if(typeof property !== "object") return false
+
+
+	if(property.hasOwnProperty("@class")
+		&& property["@class"] === POINT_TYPE) {
+			let pointProperty=`${prefix}${property["@class"]}`
+			if(frame.hasOwnProperty(pointProperty)) {
+				return frame[pointProperty]
+			}
+		return false
+	}
+	return false
+}
+
 // returns true if @subdocuments and type class
 export const isSubDocumentAndClassType = (property, frame, prefix) => {
 	if(typeof property === "object") return false
 	if(!frame) return false
 	let document = `${prefix}${property}`
 	if(frame[document]) {
-		if(frame[document]["@type"] === DOCUMENT && frame[document]["@subdocument"]) return true
+		if(frame[document]["@type"] === DOCUMENT && frame[document]["@subdocument"]) return frame[document]
 	}
 	return false
 }
@@ -421,7 +439,9 @@ export const hidden = () => <div/>
 export function isFilled (formData, item){
 	if(!formData) return false
 	if(Array.isArray(formData)) return true
+	if(formData.hasOwnProperty(item) && Array.isArray(formData[item]) && formData[item].length) return true
 	if(formData.hasOwnProperty(item) && formData[item]) return true
+	return false
 }
 
 // function checks in property is key of a document
@@ -613,7 +633,11 @@ export function extractPrefix (fullFrame) {
 	if(!fullFrame) return null
 	if(fullFrame.hasOwnProperty("@schema")) return fullFrame["@schema"]
 	return TDB_SCHEMA
+	//return "http://lib.seshatdatabank.info/schema#"
+	//return "iri://CAMS#"
 }
+
+
 
 // add custom ui layout to existing default ui layout
 export function addCustomUI (item, uiFrame, uiLayout) {

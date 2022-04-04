@@ -687,7 +687,7 @@ export const CAMS_SCHEMA_FULL_ASSET = {
       "@type": "Lexical"
     },
     "@type": "Class",
-    "applicable_hazards": {
+    /*"applicable_hazards": {
       "@class": {
         "@id": "Hazard",
         "@type": "Enum",
@@ -714,7 +714,7 @@ export const CAMS_SCHEMA_FULL_ASSET = {
         ]
       },
       "@type": "Set"
-    },
+    },*/
     "asset_history": {
       "@class": [
         {
@@ -728,7 +728,7 @@ export const CAMS_SCHEMA_FULL_ASSET = {
       ],
       "@type": "Set"
     },
-    "asset_identifier": "xsd:string",
+    /*"asset_identifier": "xsd:string",
     "asset_update_history": {
       "@class": {
         "@class": "UpdateEvent",
@@ -752,7 +752,7 @@ export const CAMS_SCHEMA_FULL_ASSET = {
     "spatial_web_identifier": {
       "@class": "SpatialWebIdentifier",
       "@type": "Optional"
-    }
+    }*/
   },
   "iri://CAMS#AssetType": {
     "@abstract": [],
@@ -1588,7 +1588,29 @@ export const CAMS_FORM_DATA_OLD = {
 export const CAMS_FORM_DATA = {
   "@id":"Asset/Marigot",
   "@type":"Asset",
-  "asset_identifier":"Marigot",
+  "asset_history": [
+    {
+      "@id": "Asset/e8be3b68397b2bdbeab147c7f2b993e3abc69dadf893defcebde5761cfe52539/asset_history/UpdateEvent/UE+2011-01-01T01%3A00%3A37Z",
+      "@type": "UpdateEvent",
+      "comment": "UE",
+      "date": "2011-01-01T01:00:37Z"
+    },
+    {
+      "@id": "Asset/908cdf8db2fa9f843f063669171280eb448e3403d837cb440726ab394043e918/asset_history/HazardEvent/iri%3A%2F%2FCAMS%23Hazard%2FVolcanos%2520(incl.%2520lahars,%2520pyroclastic%2520flows,%2520volcanic%2520activity)+2011-01-01T01%3A00%3A37Z",
+      "@type": "HazardEvent",
+      "comment": "Hazzard",
+      "date": "2011-01-01T01:00:37Z",
+      "hazard": "Volcanos (incl. lahars, pyroclastic flows, volcanic activity)"
+    },
+    {
+      "@id": "Asset/345e3b68397b2bdbeab147c7f2b993e3abc69dadf893defcebde5761cfe52539/asset_history/UpdateEvent/UE+2011-01-01T01%3A00%3A37Z",
+      "@type": "UpdateEvent",
+      "comment": "UEMiddle",
+      "date": "2011-01-01T01:00:37Z"
+    }
+
+  ]
+  /*"asset_identifier":"Marigot",
   "commisioning_date":"2011-01-01T01:00:37Z",
   "design_standards":"Marigot",
   "last_maintained":"2011-01-01T01:00:37Z",
@@ -1611,6 +1633,7 @@ export const CAMS_FORM_DATA = {
   },
   "name":"Marigot",
   "spatial_web_identifier":"SpatialWebIdentifier/927c5a4328352aa3f43648932a23749b180ad8826375ed3ff26e00e0fcc1e2c6"
+  */
 }
 
 
