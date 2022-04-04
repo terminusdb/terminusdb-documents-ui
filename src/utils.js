@@ -631,7 +631,8 @@ export function removeIds(dataArray){
 // extract prefix from frame
 export function extractPrefix (fullFrame) {
 	if(!fullFrame) return null
-	if(fullFrame.hasOwnProperty("@schema")) return fullFrame["@schema"]
+	if(fullFrame.hasOwnProperty("@context") && fullFrame["@context"].hasOwnProperty("@schema"))
+		return fullFrame["@context"]["@schema"]
 	return TDB_SCHEMA
 	//return "http://lib.seshatdatabank.info/schema#"
 	//return "iri://CAMS#"
