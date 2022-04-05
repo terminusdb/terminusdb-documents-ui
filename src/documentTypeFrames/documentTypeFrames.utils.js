@@ -24,8 +24,7 @@ export function getCreateUILayout (frame, item, onSelect, uiFrame) {
     // create
     function displayEmptySelect(props) {
 
-        const [inputValue, setInputValue]=useState(props.formData) // select value
-        const [value, setValue]=useState(props.formData) // select value
+        const [value, setValue]=useState(props.formData ? {value: props.formData, label: props.formData} : null)// select value
 
         const loadOptions = async (inputValue, callback) => {
             let opts = await onSelect(inputValue, frame[item])
@@ -35,21 +34,13 @@ export function getCreateUILayout (frame, item, onSelect, uiFrame) {
 
         const handleInputChange = (newValue) => {
             const inp = newValue.replace(/\W/g, '')
-            console.log("inp", inp, newValue)
-            setInputValue(inp)
             return inp
         }
 
-        /*function onChange(e, {action}) {
-            console.log("action",action)
-            setValue({value:e.value, label: e.label})
-            if(action === "select-option") props.onChange(e.value)
-        } */
-
         const onChange = e => {
-            setValue(e.value)
+            setValue({value: e.value, label: e.value})
             props.onChange(e.value)
-          };
+        }
 
         // extracting custom ui styles
         let selectStyle = extractUIFrameSelectTemplate(uiFrame) ? extractUIFrameSelectTemplate(uiFrame) : SELECT_STYLES
@@ -91,10 +82,11 @@ export function getEditLayout (frame, item, formData) {
 }
 
 // edit ui layout
-export function getEditUILayout (frame, item, onSelect, defaultValue) {
+export function getEditUILayout (frame, item, onSelect, defaultValue, uiFrame) {
     let uiLayout= {}
 
     function displayFilledSelect(props) {
+        const [value, setValue]=useState(props.formData ? {value: props.formData, label: props.formData} : null)// select value
 
         // loadOptions on AsyncSelect
         const loadOptions = async (inputValue, callback) => {
@@ -109,14 +101,19 @@ export function getEditUILayout (frame, item, onSelect, defaultValue) {
             return inputValue
         }
 
-        function onChange(e) {
+        const onChange = e => {
+            setValue({value: e.value, label: e.value})
             props.onChange(e.value)
         }
+
+        // extracting custom ui styles
+        let selectStyle = extractUIFrameSelectTemplate(uiFrame) ? extractUIFrameSelectTemplate(uiFrame) : SELECT_STYLES
+
 
         if (defaultValue) {
             return <FilledDocumentSelect
                 label={props.name}
-                styles={SELECT_STYLES}
+                styles={selectStyle}
                 placeholder={props.uiSchema["ui:placeholder"]}
                 onChange={onChange}
                 loadOptions={loadOptions}
@@ -127,10 +124,11 @@ export function getEditUILayout (frame, item, onSelect, defaultValue) {
 
         return <EmptyDocumentSelect
             label={props.name}
-            styles={SELECT_STYLES}
+            styles={selectStyle}
             placeholder={props.uiSchema["ui:placeholder"]}
             onChange={onChange}
             loadOptions={loadOptions}
+            value={value}
             handleInputChange={handleInputChange}
         />
 

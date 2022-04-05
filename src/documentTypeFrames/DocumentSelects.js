@@ -32,21 +32,22 @@ export const EmptyDocumentSelect = ({label, styles, placeholder, value, onChange
 
     return <React.Fragment>
         <Form.Label>{label} {/*<span class="required">*</span>*/} </Form.Label>
-        <AsyncSelect
-          onChange={onChange}
-          cacheOptions
-          loadOptions={loadOptions}
-          defaultOptions
-        />
-        {/*<AsyncSelect
+        {value && <AsyncSelect
                 classNames="tdb__input"
                 styles={styles}
-                placeholder={placeholder}
-                //value={value}
+                value={value}
                 onChange={onChange}
                 loadOptions={loadOptions}
                 onInputChange={handleInputChange}
-            />*/}
+        />}
+        {!value && <AsyncSelect
+                classNames="tdb__input"
+                styles={styles}
+                placeholder={placeholder}
+                onChange={onChange}
+                loadOptions={loadOptions}
+                onInputChange={handleInputChange}
+        />}
     </React.Fragment>
 }
 

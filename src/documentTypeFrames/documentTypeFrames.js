@@ -17,8 +17,6 @@ import {
 export function documentTypeFrames (frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
     let properties={}, propertiesUI={}, required=null, layout ={}, uiLayout={}
 
-    console.log("uiFrame", uiFrame)
-
     if (mode === CREATE) {
         layout=getCreateLayout(frame, item)
         uiLayout=getCreateUILayout(frame, item, onSelect, uiFrame)
@@ -28,7 +26,7 @@ export function documentTypeFrames (frame, item, uiFrame, mode, formData, onTrav
         layout=getEditLayout(frame, item, formData)
         let defaultValue=false
         if(layout.hasOwnProperty("default")) defaultValue=layout.default
-        uiLayout=getEditUILayout(frame, item, onSelect, defaultValue)
+        uiLayout=getEditUILayout(frame, item, onSelect, defaultValue, uiFrame)
     }
 
     if (mode === VIEW) {
