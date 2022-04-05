@@ -4,7 +4,7 @@ export const EDIT="Edit"
 export const VIEW="View"
 
 export const DEMO_ACTION=VIEW
-export const DEMO_DOCUMENT_TYPE="MandatoryLocation"
+export const DEMO_DOCUMENT_TYPE="SetSubDocumentType"
 
 
 export const DEMO_SCHEMA={
@@ -464,7 +464,7 @@ const DEMO_FORM_DATA_MANDATORY_CHOICE_DOCUMENT_TYPES= {
 
 
 
-export const DEMO_FORM_DATA=DEMO_FORM_DATA_MANDATORY_LOCATION
+export const DEMO_FORM_DATA=DEMO_FORM_DATA_SET_SUBDOCUMENT_TYPES
 
 export const DEMO_SCHEMA_UI = {
   "placeholder": "xsd:dateTime"

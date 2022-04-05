@@ -83,7 +83,8 @@ export const SELECT_STYLES = {
     }
 }
 
-
+export const UI_FRAME_SELECT_STYLE="select_styles"
+export const UI_FRAME_SUBDOCUMENT_STYLE="subDocument_styles"
 
 // map icon component
 import L from "leaflet";

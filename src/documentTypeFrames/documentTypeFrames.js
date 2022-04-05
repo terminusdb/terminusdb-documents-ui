@@ -17,9 +17,11 @@ import {
 export function documentTypeFrames (frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
     let properties={}, propertiesUI={}, required=null, layout ={}, uiLayout={}
 
+    console.log("uiFrame", uiFrame)
+
     if (mode === CREATE) {
         layout=getCreateLayout(frame, item)
-        uiLayout=getCreateUILayout(frame, item, onSelect)
+        uiLayout=getCreateUILayout(frame, item, onSelect, uiFrame)
     }
 
     if (mode === EDIT) {

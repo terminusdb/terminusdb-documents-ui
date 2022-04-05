@@ -19,17 +19,17 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
 
     if (mode === CREATE) {
         layout=getCreateLayout(frame, item)
-        uiLayout=getCreateUILayout(frame, item)
+        uiLayout=getCreateUILayout(frame, item, uiFrame)
     }
 
     if (mode === EDIT) {
         layout=getEditLayout(frame, item, formData)
-        uiLayout=getEditUILayout(frame, item, formData)
+        uiLayout=getEditUILayout(frame, item, formData, uiFrame)
     }
 
     if (mode === VIEW) {
         layout=getViewLayout(frame, item, formData)
-        uiLayout=getViewUILayout(frame, item, formData)
+        uiLayout=getViewUILayout(frame, item, formData, uiFrame)
     }
 
     // custom ui:schema - add to default ui schema
@@ -38,7 +38,7 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
     // schema
     properties[item]=layout
     // ui schema
-    propertiesUI[item]=uiLayout
+    propertiesUI[item]=addedCustomUI
 
     return {properties, propertiesUI}
 }

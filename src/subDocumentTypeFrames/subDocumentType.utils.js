@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import {getSubDocumentTitle, getSubDocumentDescription, getDefaultValue, isFilled} from "../utils"
+import {getSubDocumentTitle, getSubDocumentDescription, getDefaultValue, isFilled, extractUIFrameSubDocumentTemplate} from "../utils"
 import {CREATE, DOCUMENT, EDIT, VIEW, SELECT_STYLES, SUBDOCUMENT_TYPE} from "../constants"
 
 
@@ -17,8 +17,9 @@ export function getCreateLayout (frame, item) {
 }
 
 // create ui layout
-export function getCreateUILayout (frame, item) {
+export function getCreateUILayout (frame, item, uiFrame) {
     let uiLayout= {}
+    let subDocuemntBg = extractUIFrameSubDocumentTemplate(uiFrame) ? extractUIFrameSubDocumentTemplate(uiFrame) : 'bg-secondary'
     if(frame.hasOwnProperty("uiSchema")) {
         uiLayout=frame["uiSchema"]
     }
@@ -27,7 +28,7 @@ export function getCreateUILayout (frame, item) {
         field: "ObjectField",
         classNames:"tdb__subdocument__collapse_headers"
     }
-    uiLayout["classNames"]="card bg-secondary p-4 mt-4 mb-4"
+    uiLayout["classNames"]=`card ${subDocuemntBg} p-4 mt-4 mb-4`
     uiLayout["ui:description"]=getSubDocumentDescription(item)
     uiLayout["ui:title"]=getSubDocumentTitle(item)
     return uiLayout
@@ -51,8 +52,10 @@ export function getEditLayout (frame, item, formData) {
 }
 
 // edit ui layout
-export function getEditUILayout (frame, item) {
+export function getEditUILayout (frame, item, uiFrame) {
     let uiLayout= {}
+    let subDocuemntBg = extractUIFrameSubDocumentTemplate(uiFrame) ? extractUIFrameSubDocumentTemplate(uiFrame) : 'bg-secondary'
+
     if(frame.hasOwnProperty("uiSchema")) {
         uiLayout=frame["uiSchema"]
     }
@@ -61,7 +64,7 @@ export function getEditUILayout (frame, item) {
         field: "ObjectField",
         classNames:"tdb__subdocument__collapse_headers"
     }
-    uiLayout["classNames"]="card bg-secondary p-4 mt-4 mb-4"
+    uiLayout["classNames"]=`card ${subDocuemntBg} p-4 mt-4 mb-4`
     uiLayout["ui:description"]=getSubDocumentDescription(item)
     uiLayout["ui:title"]=getSubDocumentTitle(item)
     return uiLayout
@@ -84,8 +87,10 @@ export function getViewLayout(frame, item, formData) {
 }
 
 // View UI Layout
-export function getViewUILayout(frame, item, formData) {
+export function getViewUILayout(frame, item, formData, uiFrame) {
     let uiLayout= {}
+    let subDocuemntBg = extractUIFrameSubDocumentTemplate(uiFrame) ? extractUIFrameSubDocumentTemplate(uiFrame) : 'bg-secondary'
+
     // hide widget if formData of item is empty
     if(!isFilled(formData, item)) {
         uiLayout={ "ui:widget" : "hidden" }
@@ -100,8 +105,9 @@ export function getViewUILayout(frame, item, formData) {
         field: "ObjectField",
         classNames:"tdb__subdocument__collapse_headers"
     }
-    uiLayout["classNames"]="card bg-secondary p-4 mt-4 mb-4"
+    uiLayout["classNames"]=`card ${subDocuemntBg} p-4 mt-4 mb-4`
     uiLayout["ui:description"]=getSubDocumentDescription(item)
     uiLayout["ui:title"]=getSubDocumentTitle(item)
     return uiLayout
 }
+//  classNames: `card ${subDocumentStyles} p-4 mt-4 mb-4`,

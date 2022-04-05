@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react"
 import {ArrayFieldTemplate, getSubDocumentTitle, getSubDocumentDescription, getDefaultValue, isFilled, getSetTitle} from "../utils"
-import {CREATE, DOCUMENT, EDIT, VIEW, SELECT_STYLES, SUBDOCUMENT_TYPE, ONEOFVALUES} from "../constants"
+import {CREATE, DOCUMENT, EDIT, VIEW, SELECT_STYLES, SUBDOCUMENT_TYPE} from "../constants"
 import {FilledDocumentSelect, EmptyDocumentSelect} from "../documentTypeFrames/DocumentSelects"
 
 /**************   Set SubDocuments Types       *****************/
@@ -24,7 +24,7 @@ export function getCreateSetSubDocumentTypeUILayout (frame, item) {
             additionalItems: frame.uiSchema[item],
             "ui:options": {
                 addable: true,
-                orderable: false,
+                orderable: true,
                 removable: true
             },
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
@@ -79,7 +79,7 @@ export function getEditSetSubDocumentTypeUILayout (frame, item) {
             additionalItems: frame.uiSchema[item],
             "ui:options": {
                 addable: true,
-                orderable: false,
+                orderable: true,
                 removable: true
             },
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
@@ -141,7 +141,7 @@ export function getViewSetSubDocumentTypeUILayout(frame, item, formData) {
             additionalItems: frame.uiSchema[item],
             "ui:options": {
                 addable: false,
-                orderable: false,
+                orderable: true,
                 removable: false
             },
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
@@ -172,7 +172,7 @@ export function getCreateSetDataTypeUILayout (frame, item) {
             additionalItems: frame.uiSchema[item],
             "ui:options": {
                 addable: true,
-                orderable: false,
+                orderable: true,
                 removable: true
             },
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
@@ -227,7 +227,7 @@ export function getEditSetDataTypeUILayout (frame, item) {
             additionalItems: frame.uiSchema[item],
             "ui:options": {
                 addable: true,
-                orderable: false,
+                orderable: true,
                 removable: true
             },
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
@@ -286,7 +286,7 @@ export function getViewSetDataTypeUILayout(frame, item, formData) {
             additionalItems: frame.uiSchema[item],
             "ui:options": {
                 addable: false,
-                orderable: false,
+                orderable: true,
                 removable: false
             },
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
@@ -316,7 +316,7 @@ export function getCreateSetDocumentTypeUILayout (frame, item) {
             additionalItems: frame.uiSchema[item],
             "ui:options": {
                 addable: true,
-                orderable: false,
+                orderable: true,
                 removable: true
             },
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
@@ -437,7 +437,7 @@ export function getEditSetDocumentTypeUILayout (frame, item, onSelect) {
             additionalItems: additionalItemsUiStruct,
             "ui:options": {
                 addable: true,
-                orderable: false,
+                orderable: true,
                 removable: true
             },
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
@@ -556,7 +556,7 @@ export function getViewSetDocumentTypeUILayout (frame, item, onSelect) {
             additionalItems: additionalItemsUiStruct,
             "ui:options": {
                 addable: false,
-                orderable: false,
+                orderable: true,
                 removable: false
             },
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
@@ -586,7 +586,7 @@ export function getCreateSetEnumTypeUILayout (frame, item) {
             additionalItems: frame.uiSchema[item],
             "ui:options": {
                 addable: true,
-                orderable: false,
+                orderable: true,
                 removable: true
             },
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
@@ -645,7 +645,7 @@ export function getEditSetEnumTypeUILayout (frame, item) {
             additionalItems: frame.uiSchema[item],
             "ui:options": {
                 addable: true,
-                orderable: false,
+                orderable: true,
                 removable: true
             },
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
@@ -702,7 +702,7 @@ export function geViewSetEnumTypeUILayout (frame, item) {
             additionalItems: frame.uiSchema[item],
             "ui:options": {
                 addable: false,
-                orderable: false,
+                orderable: true,
                 removable: false
             },
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
@@ -732,7 +732,7 @@ export function getCreateSetChoiceDocumentTypeUILayout (frame, item) {
             additionalItems: frame.uiSchema[item],
             "ui:options": {
                 addable: true,
-                orderable: false,
+                orderable: true,
                 removable: true
             },
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
@@ -798,7 +798,7 @@ export function getEditSetChoiceDocumentTypeUILayout (frame, item) {
             additionalItems: frame.uiSchema[item],
             "ui:options": {
                 addable: true,
-                orderable: false,
+                orderable: true,
                 removable: true
             },
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
@@ -864,7 +864,7 @@ export function getViewSetChoiceDocumentTypeUILayout (frame, item) {
             additionalItems: frame.uiSchema[item],
             "ui:options": {
                 addable: false,
-                orderable: false,
+                orderable: true,
                 removable: false
             },
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
@@ -874,73 +874,6 @@ export function getViewSetChoiceDocumentTypeUILayout (frame, item) {
     return uiLayout
 }
 
-
-export function getEditSetOneOfTypeLayout(frame, item, formData) {
-    let layout={
-        type: "array",
-        title: getSetTitle(item),
-        items: frame.properties[item],
-        additionalItems: frame.properties[item]
-    }
-
-    // get default value and fill items of array
-    let defaultValues=getDefaultValue(item, formData)
-    console.log("defaultValues", defaultValues)
-    let filledItems=[]
-
-    if(Array.isArray(defaultValues) && defaultValues.length) {
-        defaultValues.map(value => {
-            console.log("frame.properties[item]", frame.properties[item])
-            let structure = {}
-            if(frame["properties"][item]["properties"].hasOwnProperty(ONEOFVALUES)
-                && frame["properties"][item]["properties"][ONEOFVALUES].hasOwnProperty("anyOf")
-                && frame["properties"][item]["properties"][ONEOFVALUES]["anyOf"][0].hasOwnProperty("properties")) {
-
-                let anyOfProperties=frame["properties"][item]["properties"][ONEOFVALUES]["anyOf"][0]["properties"]
-                for (var props in anyOfProperties) {
-                    let propertyValue = {}
-                    for(var keys in anyOfProperties[props]) {
-                        /*if(key === "default"
-                            && ) {
-
-                        }
-                        else propertyValue[keys] = anyOfProperties[props][keys] */
-                    }
-                }
-            }
-
-            /*if(frame.properties[item].hasOwnProperty("anyOf")) {
-
-                frame.properties[item]["anyOf"].map(aOf => {
-                    if(aOf.title === value["@type"]) {
-                        let structure = {}
-                        for(var props in aOf) {
-                            structure[props]=aOf[props]
-                        }
-                        structure["default"] = value
-                        filledItems.push(structure)
-                    }
-                })
-            }*/
-        })
-    }
-
-    //console.log("filledItems", filledItems)
-
-    // get filled items
-    layout.items = filledItems
-
-    let properties = {}
-    // get additional items
-    for(var props in frame.properties[item]) {
-        if(props !== "default"){
-            properties[props] = frame.properties[item][props]
-        }
-    }
-    // additional items
-    layout.additionalItems = properties
-    return layout
-}
 
 
 

@@ -5,12 +5,12 @@ import {makeSubDocumentFrames} from "./subDocumentTypeFrames/subDocumentTypeFram
 import {makeOptionalTypeFrames} from "./optionalTypeFrames/optionalTypeFrames"
 import {makeDocumentTypeFrames} from "./documentTypeFrames/documentTypeFrames"
 import {makeSetTypeFrames} from "./setTypeFrames/setTypeFrames"
+import {makeListTypeFrames} from "./listTypeFrames/listTypeFrames"
 import {makeEnumTypeFrames} from "./enumTypeFrames/enumTypeFrames"
 import {makeChoiceDocumentTypeFrames} from "./choiceDocumentTypeFrames/choiceDocumentTypeFrames"
 import {makeOneOfTypeFrames} from "./oneOfTypeFrames/oneOfTypeFrames"
 //import {makeSetSubDocuments, makeSetData, makeSetDocuments} from "./SetTypeFrame Ref "
 import {makeSetOneOfClassFrames} from "./SetTypeClassFrames"
-import {makeListData, makeListDocuments, makeListSubDocuments} from "./ListTypeFrames"
 //import {makeDocumentTypeFrames} from "./DocumentTypeFrames"
 //import {makeEnumTypeFrames} from "./EnumTypeFrames"
 import {extractPrefix, isChoiceDocumentType, isDataType,isPointType, isSubDocumentType, isOptionalType, isSetType, isDocumentType, isEnumType, isListType, isSubDocumentAndClassType, isDocumentClassArrayType} from "./utils"
@@ -148,6 +148,18 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
             let setProperties = getProperties(fullFrame, item, constructedSetFrame, uiFrame, mode, formData, onTraverse, onSelect)
 
             let setFrames = makeSetTypeFrames(setProperties, item, uiFrame, mode, formData, onTraverse, onSelect)
+
+            //set properties and ui
+            properties[item] = setFrames.properties[item]
+            propertiesUI[item] = setFrames.propertiesUI[item]
+
+        }
+        else if (frame[item] && isListType(frame[item])) { //list
+            let constructedListFrame = constructSetFrame(frame[item], item)
+
+            let setProperties = getProperties(fullFrame, item, constructedListFrame, uiFrame, mode, formData, onTraverse, onSelect)
+
+            let setFrames = makeListTypeFrames(setProperties, item, uiFrame, mode, formData, onTraverse, onSelect)
 
             //set properties and ui
             properties[item] = setFrames.properties[item]

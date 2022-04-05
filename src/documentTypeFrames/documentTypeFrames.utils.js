@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import {getSubDocumentTitle, getSubDocumentDescription, getDefaultValue, isFilled} from "../utils"
+import {getSubDocumentTitle, getSubDocumentDescription, getDefaultValue, isFilled, extractUIFrameSelectTemplate} from "../utils"
 import {CREATE, DOCUMENT, EDIT, VIEW, SELECT_STYLES, SUBDOCUMENT_TYPE} from "../constants"
 import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'
@@ -19,34 +19,48 @@ export function getCreateLayout (frame, item) {
 }
 
 // create ui layout
-export function getCreateUILayout (frame, item, onSelect) {
+export function getCreateUILayout (frame, item, onSelect, uiFrame) {
     let uiLayout= {}
     // create
     function displayEmptySelect(props) {
 
-        // loadOptions on AsyncSelect
+        const [inputValue, setInputValue]=useState(props.formData) // select value
+        const [value, setValue]=useState(props.formData) // select value
+
         const loadOptions = async (inputValue, callback) => {
             let opts = await onSelect(inputValue, frame[item])
             callback(opts)
             return opts
         }
 
-        // handle input change on AsyncSelect
         const handleInputChange = (newValue) => {
-            const inputValue = newValue.replace(/\W/g, '');
-            return inputValue
+            const inp = newValue.replace(/\W/g, '')
+            console.log("inp", inp, newValue)
+            setInputValue(inp)
+            return inp
         }
 
-        function onChange(e) {
+        /*function onChange(e, {action}) {
+            console.log("action",action)
+            setValue({value:e.value, label: e.label})
+            if(action === "select-option") props.onChange(e.value)
+        } */
+
+        const onChange = e => {
+            setValue(e.value)
             props.onChange(e.value)
-        }
+          };
+
+        // extracting custom ui styles
+        let selectStyle = extractUIFrameSelectTemplate(uiFrame) ? extractUIFrameSelectTemplate(uiFrame) : SELECT_STYLES
 
         return <EmptyDocumentSelect
             label={props.name}
-            styles={SELECT_STYLES}
+            styles={selectStyle}
             placeholder={props.uiSchema["ui:placeholder"]}
             onChange={onChange}
             loadOptions={loadOptions}
+            value={value}
             handleInputChange={handleInputChange}
         />
 

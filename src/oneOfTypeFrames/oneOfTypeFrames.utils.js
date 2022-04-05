@@ -117,7 +117,7 @@ export function getEditLayout(fullFrame, current, frame, item, uiFrame, mode, fo
     // get choice documents
     let anyOfArray = []
 
-    //console.log("frame one of", frame)
+    //console.log("frame one of formData one of", formData)
 
     frame[item].map(fr => {
         for(var oneOf in fr) {
@@ -166,6 +166,37 @@ export function getEditUILayout(frame, item, layout) {
 }
 
 // View Layout
+/*export function getViewLayout(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
+    // get choice documents
+    let anyOfArray = []
+
+    //console.log("frame one of", frame)
+
+    frame[item].map(fr => {
+        for(var oneOf in fr) {
+            let documentName=fr[oneOf]
+            let currentChoice=oneOf
+
+            let filledData = (formData && Array.isArray(formData) && formData[0].hasOwnProperty(oneOf))? formData[0][oneOf] : null
+
+            if(documentName !== SYS_UNIT_DATA_TYPE && filledData) {
+                anyOfArray.push(getDocumentLayout(documentName, fullFrame, currentChoice, item, uiFrame, mode, filledData, onTraverse, onSelect))
+            }
+        }
+    })
+
+    let layout = {
+        type: 'object',
+        info: ONEOFVALUES,
+        title: item,
+        description: `Choose ${item} from the list ...`,
+        anyOf: anyOfArray
+    }
+    return layout
+} */
+
+
+// View Layout
 export function getViewLayout(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
     // get choice documents
     let anyOfArray = []
@@ -176,6 +207,7 @@ export function getViewLayout(fullFrame, current, frame, item, uiFrame, mode, fo
         for(var oneOf in fr) {
             let documentName=fr[oneOf]
             let currentChoice=oneOf
+
             let filledData = (formData && Array.isArray(formData) && formData[0].hasOwnProperty(oneOf))? formData[0][oneOf] : null
 
             if(documentName !== SYS_UNIT_DATA_TYPE && filledData) {
@@ -193,6 +225,7 @@ export function getViewLayout(fullFrame, current, frame, item, uiFrame, mode, fo
     }
     return layout
 }
+
 
 // View UI Layout
 export function getViewUILayout(frame, item, layout, formData) {

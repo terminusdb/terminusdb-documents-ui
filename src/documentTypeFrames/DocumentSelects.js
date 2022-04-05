@@ -25,19 +25,25 @@ export const FilledDocumentViewSelect = ({item, defaultValue, onTraverse}) => {
 }
 
 // empty Select - edit mode
-export const EmptyDocumentSelect = ({label, styles, placeholder, onChange, loadOptions, handleInputChange}) => {
+export const EmptyDocumentSelect = ({label, styles, placeholder, value, onChange, loadOptions, handleInputChange}) => {
+
     return <React.Fragment>
         <Form.Label>{label} {/*<span class="required">*</span>*/} </Form.Label>
         <AsyncSelect
-            cacheOptions
-            classNames="tdb__input"
-            styles={styles}
-            placeholder={placeholder}
-            onChange={onChange}
-            loadOptions={loadOptions}
-            defaultOptions
-            onInputChange={handleInputChange}
+          onChange={onChange}
+          cacheOptions
+          loadOptions={loadOptions}
+          defaultOptions
         />
+        {/*<AsyncSelect
+                classNames="tdb__input"
+                styles={styles}
+                placeholder={placeholder}
+                //value={value}
+                onChange={onChange}
+                loadOptions={loadOptions}
+                onInputChange={handleInputChange}
+            />*/}
     </React.Fragment>
 }
 

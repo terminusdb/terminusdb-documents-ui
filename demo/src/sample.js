@@ -9232,51 +9232,53 @@ export const SESHAT_SCHEMA_FULL = {
 
 export const SESHAT_SCHEMA_SMALL= {
 	"http://lib.seshatdatabank.info/schema#Polity": {
-	  "@type": "Class",
-	  "general_variables": {
-		"@class": {
-		  "@class": "GeneralVariables",
-		  "@subdocument": []
-		},
-		"@type": "Optional"
-	  }
+		"@type": "Class",
+		"general_variables": {
+			"@class": {
+				"@class": "GeneralVariables",
+				"@subdocument": []
+			},
+			"@type": "Optional"
+		}
 	},
 	"http://lib.seshatdatabank.info/schema#GeneralVariables": {
-	  "@key": {
-		"@type": "Random"
-	  },
-	  "@subdocument": [],
-	  "@type": "Class",
-	  "alternative_names": {
-		"@class": {
-		  "@class": "AlternativeNames",
-		  "@subdocument": []
+		"@key": {
+			"@type": "Random"
 		},
-		"@type": "Set"
-	  },
-	  "capital": {
-		"@class": {
-		  "@class": "Capital",
-		  "@subdocument": []
+		"@subdocument": [],
+		"@type": "Class",
+		"alternative_names": {
+			"@class": {
+				"@class": "AlternativeNames",
+				"@subdocument": []
+			},
+			"@type": "Set"
 		},
-		"@type": "Set"
-	  }
-	},
-	"http://lib.seshatdatabank.info/schema#AlternativeNames": {
-	  "@key": {
-		"@type": "Random"
-	  },
-	  "@oneOf": [
-		{
-		  "inferred": "StringValue",
-		  "known": "StringValue",
-		  "suspected_unknown": "sys:Unit",
-		  "unknown": "sys:Unit"
+		"capital": {
+			"@class": {
+				"@class": "Capital",
+				"@subdocument": []
+			},
+			"@type": "Set"
 		}
-	  ],
-	  "@subdocument": [],
-	  "@type": "Class"
 	},
+
+	"http://lib.seshatdatabank.info/schema#AlternativeNames": {
+        "@key": {
+            "@type": "Random"
+        },
+        "@oneOf": [
+            {
+                "inferred": "StringValue",
+                "known": "StringValue",
+                "suspected_unknown": "sys:Unit",
+                "unknown": "sys:Unit"
+            }
+        ],
+        "@subdocument": [],
+        "@type": "Class"
+    },
+
 	"http://lib.seshatdatabank.info/schema#StringValue": {
 		"@key": {
 		  "@type": "Random"
@@ -9362,7 +9364,7 @@ export const SESHAT_TEST_FORM_DATA={
 				   "value":"KNOWN VAL"
 				}
 			 },
-			 /*{
+			 {
 				"@id":"Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa26e0264af3748acd0151d7/general_variables/GeneralVariables/177d2ef58cb358ca64cdf861c3fa0ec7ad2a06570456dc1f49c94a650bd892c9/alternative_names/AlternativeNames/4aadbbecee6ee577f9a394ecedbbf6407d2200e749f98ba254e3c8cf81d35835",
 				"@type":"AlternativeNames",
 				"inferred":{
@@ -9376,7 +9378,7 @@ export const SESHAT_TEST_FORM_DATA={
 				   },
 				   "value":"INFERRED VAL"
 				}
-			 }*/
+			 }
 		  ],
 		  "capital":[
 			 {

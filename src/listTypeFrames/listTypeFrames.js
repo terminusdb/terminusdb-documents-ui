@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react"
 import {ArrayFieldTemplate, getSubDocumentDescription, addCustomUI} from "../utils"
-import {CREATE, DOCUMENT, EDIT, VIEW, CHOICECLASSES, SELECT_STYLES,ENUM, DATA_TYPE, SUBDOCUMENT_TYPE, ONEOFVALUES} from "../constants"
+import {CREATE, DOCUMENT, EDIT, VIEW, CHOICECLASSES, SELECT_STYLES,ENUM, DATA_TYPE, SUBDOCUMENT_TYPE} from "../constants"
 import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'
 import {AsyncTypeahead} from 'react-bootstrap-typeahead'
@@ -34,10 +34,9 @@ import {
     getEditSetChoiceDocumentTypeLayout,
     getEditSetChoiceDocumentTypeUILayout,
     getViewSetChoiceDocumentTypeLayout,
-    getViewSetChoiceDocumentTypeUILayout,
-    getEditSetOneOfTypeLayout
+    getViewSetChoiceDocumentTypeUILayout
 
-} from "./setType.utils"
+} from "./listType.utils"
 import { DEMO_DOCUMENT_TYPE } from "../../examples/src/sample"
 
 // set choice document types
@@ -177,43 +176,8 @@ export function makeSetDataTypeFrames (frame, item, uiFrame, mode, formData, onT
     return {properties, propertiesUI}
 }
 
-// function which checks if properties of a set has @oneOf
-function checkIfSubPropertiesHasOneOf(frame, item){
-    if(frame["properties"][item].hasOwnProperty("properties")
-        && frame["properties"][item]["properties"].hasOwnProperty(ONEOFVALUES)) {
-            return true
-    }
-}
 
-// set @oneOfs
-function makeSubOneOfTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
-    let properties={}, propertiesUI={}, layout ={}, uiLayout={}
-
-    /*if (mode === CREATE) {
-        layout=getCreateSetDataTypeLayout(frame, item)
-        uiLayout=getCreateSetDataTypeUILayout(frame, item)
-    }*/
-
-    if (mode === EDIT) {
-        layout=getEditSetOneOfTypeLayout(frame, item, formData)
-        //uiLayout=getEditSetDataTypeUILayout(frame, item)
-    }
-
-    /*if (mode === VIEW) {
-        layout=getViewSetOneOfTypeLayout(frame, item, formData)
-        // /uiLayout=getViewSetDataTypeUILayout(frame, item, formData)
-    }*/
-
-    // schema
-    properties[item]=layout
-    // ui schema
-    propertiesUI[item]=uiLayout
-
-    return {properties, propertiesUI}
-}
-
-
-export const makeSetTypeFrames = (frame, item, uiFrame, mode, formData, onTraverse, onSelect) => {
+export const makeListTypeFrames = (frame, item, uiFrame, mode, formData, onTraverse, onSelect) => {
     console.log("!!! SET frame", frame)
     let madeFrames = {}
 
@@ -223,14 +187,6 @@ export const makeSetTypeFrames = (frame, item, uiFrame, mode, formData, onTraver
             && frame["properties"][item]["info"] === DATA_TYPE)
             madeFrames=makeSetDataTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect)
     }
-
-    // check if any subdocument has a @oneOf property?
-    /*if(frame.hasOwnProperty("properties") && frame["properties"].hasOwnProperty(item)) {
-        if(frame["properties"][item].hasOwnProperty("info")
-            && frame["properties"][item]["info"] === SUBDOCUMENT_TYPE
-            && checkIfSubPropertiesHasOneOf(frame, item))
-            madeFrames=makeSubOneOfTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect)
-    }*/
 
     // set Sub Document Types
     if(frame.hasOwnProperty("properties") && frame["properties"].hasOwnProperty(item)) {
