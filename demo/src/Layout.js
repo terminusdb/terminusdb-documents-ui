@@ -10,19 +10,11 @@ import {DEMO_SCHEMA, CURRENT, CURRENT_DATA, MRP_SCHEMA, MRP_SCHEMA_FORM_DATA, SE
 
 const App= (props) =>{
 
-<<<<<<< HEAD
     const [schema, setSchema]=useState(SESHAT_SCHEMA_SMALL) //schema
     const [uiSchema, setUISchema]=useState(DEMO_SCHEMA_UI) //ui schema
     const [type, setType]=useState("Polity")  // document type
     const [mode, setMode]=useState("Edit")  // mode
     const [formData, setFormData]=useState(SESHAT_TEST_FORM_DATA) // formdata => required only on edit/ view
-=======
-    const [schema, setSchema]=useState(DEMO_SCHEMA) //schema
-    const [uiSchema, setUISchema]=useState(DEMO_SCHEMA_UI) //ui schema
-    const [type, setType]=useState(DEMO_DOCUMENT_TYPE)  // document type
-    const [mode, setMode]=useState("Create")  // mode
-    const [formData, setFormData]=useState(MRP_SCHEMA_FORM_DATA) // formdata => required only on edit/ view
->>>>>>> a184db559dc755015588749237e3758cc54fca07
 
     return <Container fluid className="p-0 h-100 d-flex">
         <div className="side-black ml-2 mt-4 w-100 d-flex">

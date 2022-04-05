@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import {getTitle, getDefaultValue, checkIfKey, isFilled, getPrefix, extractClassName, ArrayFieldTemplate, removeIds} from "./utils"
+import {getTitle, getDefaultValue, checkIfKey, isFilled, extractPrefix, extractClassName, ArrayFieldTemplate, removeIds} from "./utils"
 import {CREATE, VIEW, EDIT, ONEOFCLASSES, SELECT_STYLE_KEY, SUBDOCUMENT,DOCUMENT,SELECT_STYLES, SUBDOCUMENT_BACKGROUND, SUBDOCUMENT_STYLE_KEY} from "./constants"
 import {FrameViewer} from "./FrameViewer"
 import AsyncSelect from 'react-select/async'
@@ -40,7 +40,7 @@ export const makeSetOneOfClassFrames = (fullFrame, frame, item, uiFrame,  mode, 
     let properties={}, propertiesUI={}, subPropertiesUI={}, layout = {}
 
     let anyOfArray=[]
-    let extractedPrefix = getPrefix(fullFrame)
+    let extractedPrefix = extractPrefix(fullFrame)
 
     // can pass custom styles via ui frame for react-select
     let selectStyle=SELECT_STYLES, subDocumentStyles=SUBDOCUMENT_BACKGROUND
