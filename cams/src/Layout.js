@@ -8,7 +8,7 @@ import {token} from './ref'
 const App= (props) =>{
     const [schema, setSchema]=useState(CAMS_SCHEMA_FULL_ASSET)
     const [message, setMessage]=useState(false)
-    const [mode, setMode]=useState("Create")
+    const [mode, setMode]=useState("View")
 
     const team = "termterm";
     const client = new TerminusDBClient.WOQLClient(`https://cloud.terminusdb.com/${team}/`, {

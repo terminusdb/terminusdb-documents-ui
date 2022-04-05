@@ -166,6 +166,8 @@ export const MapViewer = ({documents, zoom=13, scrollWheelZoom, display, onMarke
 	const [mapRef, setMapRef] = useState(createRef())
 	const [map, setMap] = useState(null)
 
+	console.log("documents",documents)
+
 	let type=POINTS
 	if(display) type=display
 

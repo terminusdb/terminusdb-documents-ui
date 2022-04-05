@@ -1,6 +1,16 @@
 // DATA PROPERTY TYPE
+export const STRING_TYPE="string"
+export const NUMBER_TYPE="number"
+export const BOOLEAN_TYPE="boolean"
+export const DATE_TYPE="string"
 export const XSD_DATA_TYPE_PREFIX = "xsd:"
 export const XDD_DATA_TYPE_PREFIX = "xdd:"
+export const XSD_STRING="xsd:string"
+export const XSD_DECIMAL="xsd:decimal"
+export const XSD_INTEGER="xsd:integer"
+export const XSD_DATE_TIME="xsd:dateTime"
+export const XSD_BOOLEAN="xsd:boolean"
+
 export const SUBDOCUMENT="@subdocument"
 export const ONEOFSUBDOCUMENTS="OneOfSubDocuments"
 export const OPTIONAL="Optional"
@@ -9,10 +19,13 @@ export const LIST="List"
 export const DOCUMENT="Class"
 export const ENUM="Enum"
 export const DATA="DATA"
+export const DATA_TYPE="DATA_TYPE"
+export const SUBDOCUMENT_TYPE="SUBDOCUMENT_TYPE"
 export const LATITUDE="Latitude"
 export const LONGITUDE="Longitude"
 export const GEO_CORDINATES="GeoCoordinates"
 export const ONEOFCLASSES="OneOfClasses"
+export const CHOICECLASSES="ChoiceClasses"
 export const ONEOFVALUES="@oneOf"
 export const COORDINATES="coordinates"
 export const ARRAY="Array"
@@ -70,7 +83,8 @@ export const SELECT_STYLES = {
     }
 }
 
-
+export const UI_FRAME_SELECT_STYLE="select_styles"
+export const UI_FRAME_SUBDOCUMENT_STYLE="subDocument_styles"
 
 // map icon component
 import L from "leaflet";

@@ -1,4 +1,4 @@
-import {ONEOFVALUES, CREATE, COORDINATES, ONEOFCLASSES, POINT_TYPE, SYS_UNIT_DATA_TYPE} from "./constants"
+import {ONEOFVALUES, CREATE, COORDINATES, CHOICECLASSES, POINT_TYPE, SYS_UNIT_DATA_TYPE} from "./constants"
 
 // return true if only @type is available
 function checkIfNotFilled (json){
@@ -26,13 +26,13 @@ function constructNewOneOfFilledFrame (mode, schema, data, frame, current, type)
 
 // return new constructed frame for choice classes
 function checkIfChoiceTypeData(mode, schema, data, frame, current, type) {
-    //ONEOFCLASSES
+    //CHOICECLASSES
     let modifiedData = data
     if(!Object.keys(data).length) return false
     let choiceClassName = Object.keys(data)[0]
     // loop over schema to find the type of choiceClassName
     for(var item in schema.properties) {
-		if(schema.properties[item].hasOwnProperty("info") && schema.properties[item]["info"] === ONEOFCLASSES) {
+		if(schema.properties[item].hasOwnProperty("info") && schema.properties[item]["info"] === CHOICECLASSES) {
             if(Array.isArray(modifiedData[item])){ //set
                 if(mode === CREATE) {
                     let newArray = []
@@ -56,19 +56,74 @@ function checkIfChoiceTypeData(mode, schema, data, frame, current, type) {
 	return modifiedData
 }
 
+function modifyChoiceDocuments (mode, schema, data, frame, current, type) {
+    let modifiedData = data
+    if(!Object.keys(data).length) return false
+    for(var item in schema.properties) {
+		if(schema.properties[item].items.hasOwnProperty("info") && schema.properties[item].items["info"] === CHOICECLASSES) {
+            if(Array.isArray(modifiedData[item])){ //set
+                console.log("modifiedData[item]",modifiedData[item])
+                if(mode === CREATE) {
+                    let newArray = []
+                    modifiedData[item].map(choices => {
+                        //if()
+                        for(var keys in choices){
+                            newArray.push(choices[keys])
+                        }
+                    })
+                    modifiedData[item] = newArray
+                }
+            }
+            else {
+
+            }
+        }
+    }
+}
+
+
+/*
+@oneOf:
+    {
+        @choice: "known",
+        @type: "StringValue",
+        date_range: {
+            @type: "DateRange",
+            from: 23,
+            to: 3
+        }
+        value: "hello"
+        @type: "AlternativeNames"
+    } */
+
+
 
 export const transformData = (mode, schema, data, frame, current, type) => {
 	var extracted={}
 	//let currentFrame=frame[current]
     let formData = data
 
-    let newFd = checkIfChoiceTypeData(mode, schema, data, frame, current, type)
-
     for(var key in formData){
         if(formData[key] === undefined) continue //undefined
         else if(formData[key] === SYS_UNIT_DATA_TYPE) return {[key] : []} // sys:Units
         else if(key === ONEOFVALUES) { //@oneOf
-            return constructNewOneOfFilledFrame(mode, schema, formData, frame, current, type)
+            let oneOfData=formData[key]
+            let choice = oneOfData["@choice"]
+            let choiceData = {}
+            for(var cds in oneOfData) {
+                if(cds !== "@choice") {
+                    choiceData[cds]= oneOfData[cds]
+                }
+            }
+            let newOneOfData = {
+                [choice]: choiceData
+            }
+            //console.log("newOneOfData",newOneOfData)
+            return newOneOfData
+            //let oneOfData=formData[key]
+            //formData[]
+            //console.log("IN HERE", formData[key])
+            //return constructNewOneOfFilledFrame(mode, schema, formData, frame, current, type)
         }
         else if(key === COORDINATES && Array.isArray(formData[key])) {
             // coordinates for geo jsons - we only support POINT TYPE
@@ -109,7 +164,7 @@ export const transformData = (mode, schema, data, frame, current, type) => {
             //return extracted
             continue
         }
-        else if(typeof formData[key] === "string" || typeof formData[key] === "number") {
+        else if(typeof formData[key] === "string" || typeof formData[key] === "number" || typeof formData[key] === "boolean") {
             // data types
             extracted[key] = formData[key]
         }

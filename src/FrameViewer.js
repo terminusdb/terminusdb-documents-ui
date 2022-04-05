@@ -5,7 +5,7 @@ import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField"
 import {TDB_SCHEMA} from "./constants"
 import {Alert} from "react-bootstrap"
 import {VIEW, EDIT} from "./constants"
-import {formatData, getPrefix, isValueHashDocument, getValueHashMessage} from "./utils"
+import {isValueHashDocument, getValueHashMessage, extractPrefix} from "./utils"
 import {transformData} from "./extract"
 
 /*
@@ -39,16 +39,18 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
     if(mode === VIEW && !formData) return <div>Mode is set to View, please provide filled form data</div>
     if(!type) return  <div>Please include the type of document</div>
 
-    let extractedPrefix = getPrefix(frame)
-    let current = `${extractedPrefix}${type}`
+    //let extractedPrefix = getPrefix(frame)
+    //let current = `${extractedPrefix}${type}`
+    let current = `${extractPrefix(frame)}${type}`
 
 
     useEffect(() => {
-        setPrefix(extractedPrefix)
+        //setPrefix(extractedPrefix)
         //try{
             //console.log("extractedPrefix", extractedPrefix)
             //console.log("frame", frame)
-            let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect)
+            //let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect)
+            let properties=getProperties(frame, type, frame[current], uiFrame, mode, formData, onTraverse, onSelect)
             let definitions = {
                 testdef: {
                     title: "test",
@@ -92,7 +94,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             setUISchema(uiSchema)
         //}
         //catch(e) {
-          //  setError("An error has occured in generating frames. Err - ", e)
+           // setError("An error has occured in generating frames. Err - ", e)
         //}
 
     }, [frame, uiFrame, type, mode, formData])
@@ -104,7 +106,6 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
 
             var extracted = transformData(mode, schema, formData, frame, current, type)
 
-            //var extracted=formatData(mode, schema, formData, frame, current, type)
             onSubmit(extracted)
             console.log("Data submitted: ",  extracted)
             //console.log("Data submitted: ",  JSON.stringify(extracted, null, 2))

@@ -1,6 +1,6 @@
 
 import React, {useState, useEffect} from "react"
-import {getTitle, getDefaultValue, checkIfKey, ArrayFieldTemplate, getPrefix} from "./utils"
+import {getTitle, getDefaultValue, checkIfKey, ArrayFieldTemplate} from "./utils"
 import {DOCUMENT, SELECT_STYLES, CREATE, VIEW, EDIT, ONEOFVALUES, SYS_UNIT_DATA_TYPE, DATA} from "./constants"
 import {Form} from "react-bootstrap"
 import {getProperties} from "./FrameHelpers"
