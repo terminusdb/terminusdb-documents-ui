@@ -161,7 +161,7 @@ export function getViewLayout(frame, item, formData) {
 }
 
 // View UI Layout
-export function getViewUILayout(frame, item, formData, onTraverse) {
+export function getViewUILayout(frame, item, formData, onTraverse, uiFrame) {
     let uiLayout= {}
 
     // hide widget if formData of item is empty
@@ -169,10 +169,14 @@ export function getViewUILayout(frame, item, formData, onTraverse) {
         uiLayout={ "ui:widget" : "hidden" }
         return uiLayout
     }
+    // extracting custom ui styles
+    let selectStyle = extractUIFrameSelectTemplate(uiFrame) ? extractUIFrameSelectTemplate(uiFrame) : SELECT_STYLES
+
 
     function displayFilledSelect(props) {
         return <FilledDocumentViewSelect
             item={item}
+            styles={selectStyle}
             defaultValue={props.formData}
             onTraverse={onTraverse}
         />

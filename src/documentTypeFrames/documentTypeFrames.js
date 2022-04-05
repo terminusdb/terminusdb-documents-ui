@@ -35,7 +35,7 @@ export function documentTypeFrames (frame, item, uiFrame, mode, formData, onTrav
         layout=getViewLayout(frame, item, formData)
         let defaultValue=false
         if(layout.hasOwnProperty("default")) defaultValue=layout.default
-        uiLayout=getViewUILayout(frame, item, formData, onTraverse)
+        uiLayout=getViewUILayout(frame, item, formData, onTraverse, uiFrame)
     }
 
     // custom ui:schema - add to default ui schema
