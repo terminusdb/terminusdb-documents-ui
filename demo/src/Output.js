@@ -1,5 +1,6 @@
 import React from 'react'
 import {FrameViewer} from '@terminusdb/terminusdb-documents-ui'
+import {UI_FRAMES} from "./uiSample"
 import {DEMO_DOCUMENTS, PROFILE_DEMO_DOCUMENTS, VIEW, EDIT} from "./sample"
 
 export const Output = ({schema, uiSchema, type, mode, formData}) => {
@@ -36,13 +37,14 @@ export const Output = ({schema, uiSchema, type, mode, formData}) => {
         <h3 className="mt-5 mb-4 text-warning">{`Output - ${type}`}</h3>
         <FrameViewer
             frame={schema}
-            uiFrame={uiSchema}
+            //uiFrame={uiSchema}
+            uiFrame={UI_FRAMES}
             type={type}
             documents={PROFILE_DEMO_DOCUMENTS}
             formData={formData}
             onSelect={handleSelect}
             mode={mode}
             onTraverse={handleTraverse}
-            onSubmit={handleSubmit}/>
+            onSubmit={handleSubmit}/> 
     </React.Fragment>
 }

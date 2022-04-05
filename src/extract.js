@@ -28,6 +28,7 @@ function constructNewOneOfFilledFrame (mode, schema, data, frame, current, type)
 function checkIfChoiceTypeData(mode, schema, data, frame, current, type) {
     //CHOICECLASSES
     let modifiedData = data
+    if(!data) return false
     if(!Object.keys(data).length) return false
     let choiceClassName = Object.keys(data)[0]
     // loop over schema to find the type of choiceClassName
@@ -98,7 +99,7 @@ function modifyChoiceDocuments (mode, schema, data, frame, current, type) {
 
 
 
-export const transformData = (mode, schema, data, frame, current, type) => {
+export const transformData = (mode, schema, data, frame, current, type, itemSchema) => {
 	var extracted={}
 	//let currentFrame=frame[current]
     let formData = data
@@ -124,6 +125,18 @@ export const transformData = (mode, schema, data, frame, current, type) => {
             //formData[]
             //console.log("IN HERE", formData[key])
             //return constructNewOneOfFilledFrame(mode, schema, formData, frame, current, type)
+        }
+        else if(key === "geometry_location") { // temporary fix => review required
+            if(formData.hasOwnProperty(key) && !formData[key].hasOwnProperty(POINT_TYPE)) {
+                let defaultValue= {}
+                for(var schemaItems in itemSchema.properties[key].default) {
+                    if(schemaItems !=="@id")
+                        defaultValue[schemaItems] = itemSchema.properties[key].default[schemaItems]
+                }
+                extracted[key] = defaultValue
+            }
+            else extracted[key] = formData[key][POINT_TYPE]
+            //console.log("formData", formData, schema)
         }
         else if(key === COORDINATES && Array.isArray(formData[key])) {
             // coordinates for geo jsons - we only support POINT TYPE
@@ -155,7 +168,7 @@ export const transformData = (mode, schema, data, frame, current, type) => {
         }
         else if(typeof formData[key] !== "string" && Object.keys(formData[key]).length > 1) {
             // objects
-            let transformed=transformData(mode, schema, formData[key], frame, current, type)
+            let transformed=transformData(mode, schema, formData[key], frame, current, type, schema.properties[key])
             if(key === POINT_TYPE) return transformed
             if(transformed) extracted[key]=transformed
         }

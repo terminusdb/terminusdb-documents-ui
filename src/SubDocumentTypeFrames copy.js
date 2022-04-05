@@ -1,13 +1,24 @@
 import React, {useState, useEffect} from "react"
 import {getSubDocumentTitle, getSubDocumentDescription} from "./utils"
-import {CREATE, DOCUMENT, EDIT, VIEW, SELECT_STYLES} from "./constants"
+import {CREATE, DOCUMENT, EDIT, SELECT_STYLE_KEY, VIEW, SELECT_STYLES, SUBDOCUMENT_BACKGROUND, SUBDOCUMENT_STYLE_KEY} from "./constants"
 import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'
 import {AsyncTypeahead} from 'react-bootstrap-typeahead'
 
 export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
     let properties={}, propertiesUI={}
-    var defaultValue
+
+    // can pass custom styles via ui frame for react-select
+    let selectStyle=SELECT_STYLES, subDocumentStyles=SUBDOCUMENT_BACKGROUND
+
+    //custom ui:schema
+    if(uiFrame && uiFrame.hasOwnProperty(SELECT_STYLE_KEY)) {
+        selectStyle=uiFrame[SELECT_STYLE_KEY]
+    }
+    //subdocument styles
+    if(uiFrame && uiFrame.hasOwnProperty(SUBDOCUMENT_STYLE_KEY)) {
+        subDocumentStyles=uiFrame[SUBDOCUMENT_STYLE_KEY]
+    }
 
     // on edit or view
     if(mode !== CREATE && formData && formData.hasOwnProperty(item)){
@@ -69,7 +80,7 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
             field: "ObjectField",
             classNames:"tdb__subdocument__collapse_headers",
         },
-        classNames: "card bg-secondary p-4 mt-4 mb-4",
+        classNames: `card ${subDocumentStyles} p-4 mt-4 mb-4`,
         "ui:description": getSubDocumentDescription(item),
         "ui:title": getSubDocumentTitle(item),
     }
@@ -100,7 +111,7 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
                         <AsyncSelect
                             cacheOptions
                             classNames="tdb__input"
-                            styles={SELECT_STYLES}
+                            styles={selectStyle}
                             placeholder={props.uiSchema["ui:placeholder"]}
                             onChange={onChange}
                             loadOptions={loadOptions}
@@ -116,7 +127,7 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
                     <AsyncSelect
                         cacheOptions
                         classNames="tdb__input"
-                        styles={SELECT_STYLES}
+                        styles={selectStyle}
                         placeholder={props.uiSchema["ui:placeholder"]}
                         onChange={onChange}
                         loadOptions={loadOptions}
@@ -158,7 +169,7 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
                             onSearch={handleSearch}
                             options={options}
                             classNames="tdb__input"
-                            styles={SELECT_STYLES}
+                            styles={selectStyle}
                             placeholder={`Type to search for ${props.schema.linked_to} ...`}
                             renderMenuItemChildren={(option, props) => (
                             <React.Fragment>
