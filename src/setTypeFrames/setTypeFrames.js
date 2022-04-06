@@ -35,7 +35,10 @@ import {
     getEditSetChoiceDocumentTypeUILayout,
     getViewSetChoiceDocumentTypeLayout,
     getViewSetChoiceDocumentTypeUILayout,
-    getEditSetOneOfTypeLayout
+    getEditSetOneOfTypeLayout,
+    getEditSetOneOfTypeUILayout,
+    getViewSetOneOfTypeLayout,
+    getViewSetOneOfTypeUILayout
 
 } from "./setType.utils"
 import { DEMO_DOCUMENT_TYPE } from "../../examples/src/sample"
@@ -183,26 +186,27 @@ function checkIfSubPropertiesHasOneOf(frame, item){
         && frame["properties"][item]["properties"].hasOwnProperty(ONEOFVALUES)) {
             return true
     }
+    return false
 }
 
 // set @oneOfs
 function makeSubOneOfTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
     let properties={}, propertiesUI={}, layout ={}, uiLayout={}
 
-    /*if (mode === CREATE) {
+    if (mode === CREATE) {
         layout=getCreateSetDataTypeLayout(frame, item)
         uiLayout=getCreateSetDataTypeUILayout(frame, item)
-    }*/
-
-    if (mode === EDIT) {
-        layout=getEditSetOneOfTypeLayout(frame, item, formData)
-        //uiLayout=getEditSetDataTypeUILayout(frame, item)
     }
 
-    /*if (mode === VIEW) {
-        layout=getViewSetOneOfTypeLayout(frame, item, formData)
-        // /uiLayout=getViewSetDataTypeUILayout(frame, item, formData)
-    }*/
+    if (mode === EDIT) {
+        layout=getEditSetOneOfTypeLayout(frame, item, formData, uiFrame)
+        uiLayout=getEditSetOneOfTypeUILayout(frame, item, layout, uiFrame)
+    }
+
+    if (mode === VIEW) {
+        layout=getViewSetOneOfTypeLayout(frame, item, formData, uiFrame)
+        uiLayout=getViewSetOneOfTypeUILayout(frame, item, layout, uiFrame)
+    }
 
     // schema
     properties[item]=layout
@@ -225,17 +229,18 @@ export const makeSetTypeFrames = (frame, item, uiFrame, mode, formData, onTraver
     }
 
     // check if any subdocument has a @oneOf property?
-    /*if(frame.hasOwnProperty("properties") && frame["properties"].hasOwnProperty(item)) {
+    if(frame.hasOwnProperty("properties") && frame["properties"].hasOwnProperty(item)) {
         if(frame["properties"][item].hasOwnProperty("info")
             && frame["properties"][item]["info"] === SUBDOCUMENT_TYPE
             && checkIfSubPropertiesHasOneOf(frame, item))
             madeFrames=makeSubOneOfTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect)
-    }*/
+    }
 
     // set Sub Document Types
     if(frame.hasOwnProperty("properties") && frame["properties"].hasOwnProperty(item)) {
         if(frame["properties"][item].hasOwnProperty("info")
-            && frame["properties"][item]["info"] === SUBDOCUMENT_TYPE)
+            && frame["properties"][item]["info"] === SUBDOCUMENT_TYPE
+            && !checkIfSubPropertiesHasOneOf(frame, item))
             madeFrames=makeSubDocumentTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect)
     }
 

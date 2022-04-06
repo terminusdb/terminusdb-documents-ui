@@ -126,7 +126,7 @@ export const transformData = (mode, schema, data, frame, current, type, itemSche
             //console.log("IN HERE", formData[key])
             //return constructNewOneOfFilledFrame(mode, schema, formData, frame, current, type)
         }
-        else if(key === "geometry_location") { // temporary fix => review required
+        /*else if(key === "geometry_location") { // temporary fix => review required
             if(formData.hasOwnProperty(key) && !formData[key].hasOwnProperty(POINT_TYPE)) {
                 let defaultValue= {}
                 for(var schemaItems in itemSchema.properties[key].default) {
@@ -137,13 +137,13 @@ export const transformData = (mode, schema, data, frame, current, type, itemSche
             }
             else extracted[key] = formData[key][POINT_TYPE]
             //console.log("formData", formData, schema)
-        }
-        else if(key === COORDINATES && Array.isArray(formData[key])) {
+        }*/
+        /*else if(key === COORDINATES && Array.isArray(formData[key])) {
             // coordinates for geo jsons - we only support POINT TYPE
             if(formData.hasOwnProperty("@type") && formData["@type"] === POINT_TYPE){
 				return formData
 			}
-        }
+        }*/
         else if(Array.isArray(formData[key])) {
             // array
             let transformedArray = [], transformed

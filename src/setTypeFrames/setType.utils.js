@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import {ArrayFieldTemplate, getSubDocumentTitle, getSubDocumentDescription, getDefaultValue, isFilled, getSetTitle} from "../utils"
+import {ArrayFieldTemplate, extractUIFrameSubDocumentTemplate, getSubDocumentTitle, getTitle, getDefaultValue, isFilled, getSetTitle} from "../utils"
 import {CREATE, DOCUMENT, EDIT, VIEW, SELECT_STYLES, SUBDOCUMENT_TYPE, ONEOFVALUES} from "../constants"
 import {FilledDocumentSelect, EmptyDocumentSelect} from "../documentTypeFrames/DocumentSelects"
 
@@ -874,63 +874,90 @@ export function getViewSetChoiceDocumentTypeUILayout (frame, item) {
     return uiLayout
 }
 
-
+/**************   Set oneOfs Document Types       *****************/
+// edit set oneOf Document type layout
 export function getEditSetOneOfTypeLayout(frame, item, formData) {
     let layout={
         type: "array",
         title: getSetTitle(item),
-        items: frame.properties[item],
+        //items: frame.properties[item],
         additionalItems: frame.properties[item]
     }
 
-    // get default value and fill items of array
-    let defaultValues=getDefaultValue(item, formData)
-    console.log("defaultValues", defaultValues)
+    //console.log("frame.properties[item]",frame.properties[item])
+
     let filledItems=[]
+    let defaultValue = (formData && Array.isArray(formData[item])) ? formData[item] : null
 
-    if(Array.isArray(defaultValues) && defaultValues.length) {
-        defaultValues.map(value => {
-            console.log("frame.properties[item]", frame.properties[item])
-            let structure = {}
-            if(frame["properties"][item]["properties"].hasOwnProperty(ONEOFVALUES)
-                && frame["properties"][item]["properties"][ONEOFVALUES].hasOwnProperty("anyOf")
-                && frame["properties"][item]["properties"][ONEOFVALUES]["anyOf"][0].hasOwnProperty("properties")) {
-
-                let anyOfProperties=frame["properties"][item]["properties"][ONEOFVALUES]["anyOf"][0]["properties"]
-                for (var props in anyOfProperties) {
-                    let propertyValue = {}
-                    for(var keys in anyOfProperties[props]) {
-                        /*if(key === "default"
-                            && ) {
-
-                        }
-                        else propertyValue[keys] = anyOfProperties[props][keys] */
-                    }
-                }
-            }
-
-            /*if(frame.properties[item].hasOwnProperty("anyOf")) {
-
-                frame.properties[item]["anyOf"].map(aOf => {
-                    if(aOf.title === value["@type"]) {
-                        let structure = {}
-                        for(var props in aOf) {
-                            structure[props]=aOf[props]
-                        }
-                        structure["default"] = value
-                        filledItems.push(structure)
-                    }
-                })
-            }*/
-        })
+    if(!defaultValue) {
+        layout["items"]=frame.properties[item]
+        return layout
     }
 
-    //console.log("filledItems", filledItems)
+    // get filled frames
+    defaultValue.map(value => {
+
+        if(frame.properties[item].hasOwnProperty("properties")
+        && frame.properties[item]["properties"].hasOwnProperty("@oneOf")
+        && frame.properties[item]["properties"]["@oneOf"].hasOwnProperty("anyOf")) {
+            let filledAnyOfs=frame.properties[item]["properties"]["@oneOf"]["anyOf"]
+            filledAnyOfs.map(fAnyOf => {
+                let title=fAnyOf.title
+                let structure = {}
+
+                if(value.hasOwnProperty(title)){ // match
+                    let filledProperties={}
+
+                    for(var props in fAnyOf.properties) {
+                        let gatherProperties={}
+                        for(var key in fAnyOf.properties[props]) {
+                            gatherProperties[key] = fAnyOf.properties[props][key]
+                        }
+                        if(!gatherProperties.hasOwnProperty("default")) {
+                            gatherProperties["default"] = value[title][props]
+                        }
+                        filledProperties[props] = gatherProperties
+                    }
+                    //console.log("filledProperties",filledProperties)
+
+                    let anyOfStructure={
+                        type: "object",
+                        title: title,
+                        properties: filledProperties,
+                        uiProperties: fAnyOf.uiProperties,
+                        //default: value[title]
+                    }
+
+                    // anyOf structure
+                    structure = {
+                        type: 'object',
+                        info: ONEOFVALUES,
+                        title: item,
+                        anyOf: [anyOfStructure]
+                    }
+
+                }
+                // oneOf structure
+                if(Object.keys(structure).length) {
+                    //filledItems.push(structure)
+                    filledItems.push({
+                        properties: {
+                            "@oneOf": structure,
+                            "@type": {type: 'string', title: item, default: item}
+                        }
+                    })
+                }
+            })
+        }
+
+    })
+
+    console.log("filledItems", filledItems)
 
     // get filled items
-    layout.items = filledItems
+    layout["items"] = filledItems
 
-    let properties = {}
+    /*let properties = {}
     // get additional items
     for(var props in frame.properties[item]) {
         if(props !== "default"){
@@ -938,10 +965,219 @@ export function getEditSetOneOfTypeLayout(frame, item, formData) {
         }
     }
     // additional items
-    layout.additionalItems = properties
+    layout.additionalItems = properties */
     return layout
 }
 
 
+// edit set oneOf Document type ui layout
+export const getEditSetOneOfTypeUILayout = (frame, item, layout, uiFrame) => {
+
+    let subDocuemntBg = extractUIFrameSubDocumentTemplate(uiFrame) ? extractUIFrameSubDocumentTemplate(uiFrame) : 'bg-secondary'
+    let uiItemsLayout = {
+        classNames: `card ${subDocuemntBg} p-4 mt-4 mb-4`
+    }
+    let uiLayout = {}, itemsLayout=[], itemCount=0
+
+    //console.log("layout", layout)
+
+    if(layout.hasOwnProperty("items") && Array.isArray(layout.items)) {
+
+        layout.items.map(its => {
+            if(its.hasOwnProperty("properties")
+                && its["properties"].hasOwnProperty("@oneOf")
+                && its["properties"]["@oneOf"].hasOwnProperty("anyOf")
+                && Array.isArray(its["properties"]["@oneOf"]["anyOf"])){
+            //if(its.hasOwnProperty("anyOf") && Array.isArray(its["anyOf"])) {
+                let filledAnyOf=  its["properties"]["@oneOf"]["anyOf"][0] // at this point there will only be one value
+                if(filledAnyOf.hasOwnProperty("uiProperties"))
+                for(var ui in filledAnyOf["uiProperties"]) {
+                    uiItemsLayout[ui]=filledAnyOf["uiProperties"][ui]
+                }
+                itemCount+=1
+            }
+        })
+    }
+
+    // get number of items layout
+    for(var count = 0; count < itemCount; count ++) {
+        itemsLayout.push({
+            "@oneOf": uiItemsLayout
+        })
+    }
+
+    //console.log("uiItemsLayout", uiItemsLayout)
+
+    if(frame.hasOwnProperty("uiSchema")) {
+        uiLayout= {
+            //items: uiItemsLayout,
+            //classNames: `card ${subDocuemntBg} p-4 mt-4 mb-4`,
+            items: itemsLayout,
+            additionalItems: frame.uiSchema[item],
+            "ui:options": {
+                addable: true,
+                orderable: false,
+                removable: true
+            },
+            "ui:ArrayFieldTemplate" : ArrayFieldTemplate
+        }
+    }
+
+    return uiLayout
+}
+
+// view set oneOf Document type layout
+export function getViewSetOneOfTypeLayout(frame, item, formData) {
+    let layout={
+        type: "array",
+        title: getSetTitle(item),
+        //items: frame.properties[item],
+        //additionalItems: frame.properties[item]
+    }
+
+    console.log("frame.properties[item]",frame.properties[item])
+
+    let filledItems=[]
+    let defaultValue = (formData && Array.isArray(formData[item])) ? formData[item] : null
+
+    if(!defaultValue) {
+        layout["items"]=frame.properties[item]
+        return layout
+    }
+
+    // get filled frames
+    defaultValue.map(value => {
+
+        if(frame.properties[item].hasOwnProperty("properties")
+        && frame.properties[item]["properties"].hasOwnProperty("@oneOf")
+        && frame.properties[item]["properties"]["@oneOf"].hasOwnProperty("anyOf")) {
+            let filledAnyOfs=frame.properties[item]["properties"]["@oneOf"]["anyOf"]
+            filledAnyOfs.map(fAnyOf => {
+                let title=fAnyOf.title
+                let structure = {}
+
+                if(value.hasOwnProperty(title)){ // match
+                    let filledProperties={}
+
+                    for(var props in fAnyOf.properties) {
+                        let gatherProperties={}
+                        for(var key in fAnyOf.properties[props]) {
+                            gatherProperties[key] = fAnyOf.properties[props][key]
+                        }
+                        if(!gatherProperties.hasOwnProperty("default")) {
+                            gatherProperties["default"] = value[title][props]
+                        }
+                        else if (!gatherProperties["default"]) {
+                            gatherProperties["default"] = value[title][props]
+                        }
+                        filledProperties[props] = gatherProperties
+                    }
+                    //console.log("filledProperties",filledProperties)
+
+                    let anyOfStructure={
+                        type: "object",
+                        title: title,
+                        properties: filledProperties,
+                        uiProperties: fAnyOf.uiProperties,
+                        //default: value[title]
+                    }
+
+                    // anyOf structure
+                    structure = {
+                        type: 'object',
+                        info: ONEOFVALUES,
+                        title: item,
+                        anyOf: [anyOfStructure]
+                    }
+
+                }
+                // oneOf structure
+                if(Object.keys(structure).length) {
+                    //filledItems.push(structure)
+                    filledItems.push({
+                        properties: {
+                            "@oneOf": structure,
+                            "@type": {type: 'string', title: item, default: item}
+                        }
+                    })
+                }
+            })
+        }
+
+    })
+
+    console.log("filledItems", filledItems)
+
+    // get filled items
+    layout["items"] = filledItems
+
+    /*let properties = {}
+    // get additional items
+    for(var props in frame.properties[item]) {
+        if(props !== "default"){
+            properties[props] = frame.properties[item][props]
+        }
+    }
+    // additional items
+    layout.additionalItems = properties */
+    return layout
+}
+
+
+// view set oneOf Document type ui layout
+export const getViewSetOneOfTypeUILayout = (frame, item, layout, uiFrame) => {
+
+    let subDocuemntBg = extractUIFrameSubDocumentTemplate(uiFrame) ? extractUIFrameSubDocumentTemplate(uiFrame) : 'bg-secondary'
+    let uiItemsLayout = {
+        classNames: `card ${subDocuemntBg} p-4 mt-4 mb-4`
+
+    }
+    let uiLayout = {}, itemsLayout=[], itemCount=0
+
+    console.log("layout", layout)
+
+    if(layout.hasOwnProperty("items") && Array.isArray(layout.items)) {
+
+        layout.items.map(its => {
+            if(its.hasOwnProperty("properties")
+                && its["properties"].hasOwnProperty("@oneOf")
+                && its["properties"]["@oneOf"].hasOwnProperty("anyOf")
+                && Array.isArray(its["properties"]["@oneOf"]["anyOf"])){
+            //if(its.hasOwnProperty("anyOf") && Array.isArray(its["anyOf"])) {
+                let filledAnyOf=  its["properties"]["@oneOf"]["anyOf"][0] // at this point there will only be one value
+                if(filledAnyOf.hasOwnProperty("uiProperties"))
+                for(var ui in filledAnyOf["uiProperties"]) {
+                    uiItemsLayout[ui]=filledAnyOf["uiProperties"][ui]
+                }
+                itemCount+=1
+            }
+        })
+    }
+
+    // get number of items layout
+    for(var count = 0; count < itemCount; count ++) {
+        itemsLayout.push({
+            "@oneOf": uiItemsLayout
+        })
+    }
+
+    //console.log("uiItemsLayout", uiItemsLayout)
+
+    if(frame.hasOwnProperty("uiSchema")) {
+        uiLayout= {
+            //items: uiItemsLayout,
+            items: itemsLayout,
+            //additionalItems: frame.uiSchema[item],
+            "ui:options": {
+                addable: false,
+                orderable: false,
+                removable: false
+            },
+            "ui:ArrayFieldTemplate" : ArrayFieldTemplate
+        }
+    }
+
+    return uiLayout
+}
 
 

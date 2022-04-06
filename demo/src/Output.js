@@ -38,13 +38,13 @@ export const Output = ({schema, uiSchema, type, mode, formData}) => {
         <FrameViewer
             frame={schema}
             //uiFrame={uiSchema}
-            uiFrame={UI_FRAMES}
+            //uiFrame={UI_FRAMES}
             type={type}
             documents={PROFILE_DEMO_DOCUMENTS}
             formData={formData}
             onSelect={handleSelect}
             mode={mode}
             onTraverse={handleTraverse}
-            onSubmit={handleSubmit}/> 
+            onSubmit={handleSubmit}/>
     </React.Fragment>
 }

@@ -62,7 +62,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
                 required: properties.required,
                 dependencies: properties.dependencies,
             }
-            //console.log("schema", JSON.stringify(schema, null, 2))
+            console.log("schema", JSON.stringify(schema, null, 2))
             //console.log("uiSchema", JSON.stringify(properties.uiSchema, null, 2))
 
             console.log("schema", schema)

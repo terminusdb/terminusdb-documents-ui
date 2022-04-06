@@ -25,11 +25,130 @@ date_range: {@id: 'Polity/7c8970c578b2fdad1ebd8b4a3693a560cb95febafa2…d3bacc89
 value: "KNOWN VAL"*/
 
 // get layout of document class
-function getDocumentLayout(documentClass, fullFrame, current, item, uiFrame, mode, formData, onTraverse, onSelect) {
-    var layout = {}
+export function getCreateDocumentLayout(documentClass, fullFrame, current, item, uiFrame, mode, formData, onTraverse, onSelect) {
+    var layout = {}, currentData, exractedUiProperties={}
     let documentClassIRI = `${extractPrefix(fullFrame)}${documentClass}`
     let frame = fullFrame[documentClassIRI]
+
+    let exractedProperties = getProperties (fullFrame, current, frame, uiFrame, mode, {}, onTraverse, onSelect)
+    //console.log("exractedProperties", exractedProperties)
+    // add subdocument type as @type field
+    exractedProperties.properties["@type"]={
+        type: "string",
+        title: documentClass,
+        default: documentClass
+    }
+    exractedProperties.properties["@choice"]={
+        type: "string",
+        title: current,
+        default: current
+    }
+
+    // hide @type field
+    exractedProperties.uiSchema["@type"]={"ui:widget": "hidden"}
+    // hide @choice field
+    exractedProperties.uiSchema["@choice"]={"ui:widget": "hidden"}
+
+    layout = {
+        title: current,
+        type: "object",
+        properties: exractedProperties.properties,
+        uiProperties: exractedProperties.uiSchema
+    }
+    return layout
+}
+
+// get layout of document class
+function getCreateDocumentLayoutOLD(documentClass, fullFrame, current, item, uiFrame, mode, formData, onTraverse, onSelect) {
+    var layout = {}, currentData
+    let documentClassIRI = `${extractPrefix(fullFrame)}${documentClass}`
+    let frame = fullFrame[documentClassIRI]
+
     let exractedProperties = getProperties (fullFrame, current, frame, uiFrame, mode, formData, onTraverse, onSelect)
+    //console.log("exractedProperties", exractedProperties)
+    // add subdocument type as @type field
+    exractedProperties.properties["@type"]={
+        type: "string",
+        title: documentClass,
+        default: documentClass
+    }
+    exractedProperties.properties["@choice"]={
+        type: "string",
+        title: current,
+        default: current
+    }
+
+    // hide @type field
+    exractedProperties.uiSchema["@type"]={"ui:widget": "hidden"}
+    // hide @choice field
+    exractedProperties.uiSchema["@choice"]={"ui:widget": "hidden"}
+
+    layout = {
+        title: current,
+        type: "object",
+        properties: exractedProperties.properties,
+        uiProperties: exractedProperties.uiSchema
+    }
+    return layout
+}
+
+// get layout of document class
+function getEditDocumentLayout(documentClass, fullFrame, current, item, uiFrame, mode, formData, onTraverse, onSelect) {
+    var layout = {}, currentData
+    let documentClassIRI = `${extractPrefix(fullFrame)}${documentClass}`
+    let frame = fullFrame[documentClassIRI]
+
+
+
+    let exractedProperties = getProperties (fullFrame, current, frame, uiFrame, mode, formData, onTraverse, onSelect)
+    //console.log("exractedProperties", exractedProperties)
+    // add subdocument type as @type field
+    exractedProperties.properties["@type"]={
+        type: "string",
+        title: documentClass,
+        default: documentClass
+    }
+    exractedProperties.properties["@choice"]={
+        type: "string",
+        title: current,
+        default: current
+    }
+
+
+    // hide @type field
+    exractedProperties.uiSchema["@type"]={"ui:widget": "hidden"}
+    // hide @choice field
+    exractedProperties.uiSchema["@choice"]={"ui:widget": "hidden"}
+
+    layout = {
+        title: current,
+        type: "object",
+        properties: exractedProperties.properties,
+        uiProperties: exractedProperties.uiSchema
+    }
+    return layout
+}
+
+// get layout of document class
+function getDocumentLayout(documentClass, fullFrame, current, item, uiFrame, mode, formData, onTraverse, onSelect) {
+    var layout = {}, currentData
+    let documentClassIRI = `${extractPrefix(fullFrame)}${documentClass}`
+    let frame = fullFrame[documentClassIRI]
+
+    console.log("formData", formData)
+
+    if(formData && Array.isArray(formData)) {
+        formData.map(fds => {
+            if(!fds.hasOwnProperty("used") && fds.hasOwnProperty(current)) {
+                currentData=fds[current]
+                fds["used"]=true
+                return
+            }
+        })
+    }
+    //console.log("currentData",currentData)
+
+    let exractedProperties = getProperties (fullFrame, current, frame, uiFrame, mode, currentData, onTraverse, onSelect)
     //console.log("exractedProperties", exractedProperties)
     // add subdocument type as @type field
     exractedProperties.properties["@type"]={
@@ -72,7 +191,7 @@ export function getCreateLayout(fullFrame, current, frame, item, uiFrame, mode, 
             let documentName=fr[oneOf]
             let currentChoice=oneOf
             if(documentName !== SYS_UNIT_DATA_TYPE) {
-                anyOfArray.push(getDocumentLayout(documentName, fullFrame, currentChoice, item, uiFrame, mode, formData, onTraverse, onSelect))
+                anyOfArray.push(getCreateDocumentLayout(documentName, fullFrame, currentChoice, item, uiFrame, mode, formData, onTraverse, onSelect))
             }
         }
     })
@@ -117,16 +236,17 @@ export function getEditLayout(fullFrame, current, frame, item, uiFrame, mode, fo
     // get choice documents
     let anyOfArray = []
 
-    //console.log("frame one of formData one of", formData)
+    let defaultValues=(formData && Array.isArray(formData)) ? formData : null
+
+    let defaultValueArray=formData
 
     frame[item].map(fr => {
         for(var oneOf in fr) {
-            let documentName=fr[oneOf]
+            let documentName=fr[oneOf], data={}
             let currentChoice=oneOf
-            let filledData = (formData && Array.isArray(formData) && formData[0].hasOwnProperty(oneOf))? formData[0][oneOf] : null
 
-            if(documentName !== SYS_UNIT_DATA_TYPE && filledData) {
-                anyOfArray.push(getDocumentLayout(documentName, fullFrame, currentChoice, item, uiFrame, mode, filledData, onTraverse, onSelect))
+            if(documentName !== SYS_UNIT_DATA_TYPE){
+                anyOfArray.push(getEditDocumentLayout(documentName, fullFrame, currentChoice, item, uiFrame, mode, formData, onTraverse, onSelect))
             }
         }
     })
@@ -201,17 +321,17 @@ export function getViewLayout(fullFrame, current, frame, item, uiFrame, mode, fo
     // get choice documents
     let anyOfArray = []
 
-    //console.log("frame one of", frame)
+    let defaultValues=(formData && Array.isArray(formData)) ? formData : null
+
+    let defaultValueArray=formData
 
     frame[item].map(fr => {
         for(var oneOf in fr) {
-            let documentName=fr[oneOf]
+            let documentName=fr[oneOf], data={}
             let currentChoice=oneOf
 
-            let filledData = (formData && Array.isArray(formData) && formData[0].hasOwnProperty(oneOf))? formData[0][oneOf] : null
-
-            if(documentName !== SYS_UNIT_DATA_TYPE && filledData) {
-                anyOfArray.push(getDocumentLayout(documentName, fullFrame, currentChoice, item, uiFrame, mode, filledData, onTraverse, onSelect))
+            if(documentName !== SYS_UNIT_DATA_TYPE){
+                anyOfArray.push(getDocumentLayout(documentName, fullFrame, currentChoice, item, uiFrame, mode, formData, onTraverse, onSelect))
             }
         }
     })
@@ -228,16 +348,8 @@ export function getViewLayout(fullFrame, current, frame, item, uiFrame, mode, fo
 
 
 // View UI Layout
-export function getViewUILayout(frame, item, layout, formData) {
-    let uiLayout={}
-
-    // hide widget if formData of item is empty
-    if(!isFilled(formData, item)) {
-        uiLayout={ "ui:widget" : "hidden" }
-        return uiLayout
-    }
-
-    uiLayout = {
+export function getViewUILayout(frame, item, layout) {
+    let uiLayout = {
         "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
         classNames: "tdb__input mb-3 mt-3"
     }

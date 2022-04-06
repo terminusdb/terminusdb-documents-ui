@@ -4,13 +4,17 @@ import {
     EDIT
 } from "../constants"
 
+import {SYS_UNIT_DATA_TYPE, ONEOFVALUES} from "../constants"
+import {getTitle, getDefaultValue, checkIfKey, isFilled, extractPrefix} from "../utils"
+import {getProperties} from "../FrameHelpers"
 import {
     getCreateLayout,
     getCreateUILayout,
     getEditLayout,
     getEditUILayout,
     getViewLayout,
-    getViewUILayout
+    getViewUILayout,
+    getCreateDocumentLayout
 } from "./oneOfTypeFrames.utils"
 
 import {addCustomUI} from "../utils"
@@ -18,21 +22,49 @@ import {addCustomUI} from "../utils"
 
 // get one of  type frames
 function oneOfTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
-    let properties={}, propertiesUI={}, layout ={}, uiLayout={}
+    let properties={}, propertiesUI={}
 
-    if (mode === CREATE) {
-        layout=getCreateLayout(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect)
-        // pass layout here, since it has the ui layout as well from getProperties()
-        uiLayout=getCreateUILayout(frame, item, layout)
+    // get choice documents
+    let anyOfArray = []
+
+    //layout
+    frame[item].map(fr => {
+        for(var oneOf in fr) {
+            let documentName=fr[oneOf]
+            let currentChoice=oneOf
+            if(documentName !== SYS_UNIT_DATA_TYPE) {
+                anyOfArray.push(getCreateDocumentLayout(documentName, fullFrame, currentChoice, item, uiFrame, mode, formData, onTraverse, onSelect))
+            }
+        }
+    })
+
+    let layout = {
+        type: 'object',
+        info: ONEOFVALUES,
+        title: item,
+        description: `Choose ${item} from the list ...`,
+        anyOf: anyOfArray
     }
-    else if (mode === EDIT) {
-        layout=getEditLayout(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect)
-        //// pass layout here, since it has the ui layout as well from getProperties()
-        uiLayout=getEditUILayout(frame, item, layout)
+
+    //ui layout
+    let uiLayout = {
+        "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
+        classNames: "tdb__input mb-3 mt-3"
     }
-    else if (mode === VIEW) {
-        layout=getViewLayout(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect)
-        uiLayout=getViewUILayout(frame, item, layout, formData)
+
+    console.log("qqq layout", layout)
+
+    if(layout.hasOwnProperty("anyOf") && Array.isArray(layout.anyOf)) {
+
+        layout.anyOf.map(aOf => {
+            if(aOf.hasOwnProperty("properties")) {
+                //let DocumentClassName = aOf.title
+                //uiLayout[DocumentClassName] = aOf.properties[DocumentClassName].uiProperties
+                for(var ui in aOf.uiProperties) {
+                    uiLayout[ui]=aOf.uiProperties[ui]
+                }
+            }
+        })
     }
 
     // custom ui:schema - add to default ui schema

@@ -30,7 +30,10 @@ function constructSetFrame (frame, item) {
     let optionalFrame = {[item]: frame["@class"]}
     return optionalFrame
 }
-
+/*
+@id: "SetSubDocumentType/51f602b5529f8c94e56a38d456e584cd0ab63cee6cc9069bf9ee81e7970cfd56"
+@type: "SetSubDocumentType"
+subDoc: (2) [{…}, {…}]*/
 function constructSubDocumentFrame (fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
     let subDocumentName=item
     let subDocument = `${extractPrefix(fullFrame)}${subDocumentName}`

@@ -48,6 +48,8 @@ export function getEditLayout (frame, item, formData) {
     let defaultValue=getDefaultValue(item, formData)
     if(defaultValue) layout["default"]=defaultValue
 
+    //console.log("SUB LAYOUT", layout)
+
     return layout
 }
 
