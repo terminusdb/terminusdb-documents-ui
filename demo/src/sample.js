@@ -596,7 +596,57 @@ export const DEMO_SCHEMA={
 
 
 export const SMALL_SCHEMA = {
-	"terminusdb:///schema#NuclearPowerPlant": {
+	"http://lib.terminusdb.com/nuclear#AnnualCapacityFactor": {
+	  "@documentation": {
+		"@comment": "Annual Capacity Factor of a Nuclear Power Plant",
+		"@properties": {
+		  "capacity_factor": "Fraction of maximum output.",
+		  "year": "Year of annual recorded data."
+		}
+	  },
+	  "@key": {
+		"@fields": [
+		  "year"
+		],
+		"@type": "Lexical"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "capacity_factor": "xsd:decimal",
+	  "year": "xsd:gYear"
+	},
+	"http://lib.terminusdb.com/nuclear#AnnualOutput": {
+	  "@documentation": {
+		"@comment": "Annual Total Output of a Nuclear Power Plant",
+		"@properties": {
+		  "output": "Total energy output.",
+		  "year": "Year of annual recorded data."
+		}
+	  },
+	  "@key": {
+		"@fields": [
+		  "year"
+		],
+		"@type": "Lexical"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "output": {
+		"@class": "Quantity",
+		"@subdocument": []
+	  },
+	  "year": "xsd:gYear"
+	},
+	"http://lib.terminusdb.com/nuclear#Compound": {
+	  "@type": "Class",
+	  "elements": {
+		"@class": "Element",
+		"@type": "Set"
+	  },
+	  "formula": "xsd:string",
+	  "name": "xsd:string"
+	},
+	"http://lib.terminusdb.com/nuclear#Country": {
 	  "@key": {
 		"@fields": [
 		  "name"
@@ -604,51 +654,1540 @@ export const SMALL_SCHEMA = {
 		"@type": "Lexical"
 	  },
 	  "@type": "Class",
-	  "name": {
+	  "name": "xsd:string"
+	},
+	"http://lib.terminusdb.com/nuclear#Dimension": {
+	  "@type": "Enum",
+	  "@values": [
+		"currency",
+		"time",
+		"length",
+		"mass",
+		"area",
+		"space",
+		"temperature",
+		"energy",
+		"power",
+		"force",
+		"torque",
+		"speed",
+		"rotational_speed",
+		"acceleration",
+		"charge",
+		"electric_potential",
+		"electric_current",
+		"electric_resistance",
+		"momentum",
+		"angular_momentum",
+		"dimensionless"
+	  ]
+	},
+	"http://lib.terminusdb.com/nuclear#Element": {
+	  "@type": "Class",
+	  "atomic_number": "xsd:nonNegativeInteger",
+	  "element_name": {
+		"@id": "ElementName",
+		"@type": "Enum",
+		"@values": [
+		  "Hydrogen",
+		  "Helium",
+		  "Lithium",
+		  "Beryllium",
+		  "Boron",
+		  "Carbon",
+		  "Nitrogen",
+		  "Oxygen",
+		  "Fluorine",
+		  "Neon",
+		  "Sodium",
+		  "Magnesium",
+		  "Aluminum",
+		  "Silicon",
+		  "Phosphorus",
+		  "Sulphur",
+		  "Chlorine",
+		  "Argon",
+		  "Potassium",
+		  "Calcium",
+		  "Scandium",
+		  "Titanium",
+		  "Vanadium",
+		  "Chromium",
+		  "Manganese",
+		  "Iron",
+		  "Cobalt",
+		  "Nickel",
+		  "Copper",
+		  "Zinc",
+		  "Gallium",
+		  "Germanium",
+		  "Arsenic",
+		  "Selenium",
+		  "Bromine",
+		  "Krypton",
+		  "Rubidium",
+		  "Strontium",
+		  "Yttrium",
+		  "Zirconium",
+		  "Niobium",
+		  "Molybdenum",
+		  "Technetium",
+		  "Ruthenium",
+		  "Rhodium",
+		  "Palladium",
+		  "Silver",
+		  "Cadmium",
+		  "Indium",
+		  "Tin",
+		  "Antimony",
+		  "Tellurium",
+		  "Iodine",
+		  "Xenon",
+		  "Cesium",
+		  "Barium",
+		  "Lanthanum",
+		  "Cerium",
+		  "Praseodymium",
+		  "Neodymium",
+		  "Promethium",
+		  "Samarium",
+		  "Europium",
+		  "Gadolinium",
+		  "Terbium",
+		  "Dysprosium",
+		  "Holmium",
+		  "Erbium",
+		  "Thulium",
+		  "Ytterbium",
+		  "Lutetium",
+		  "Hafnium",
+		  "Tantalum",
+		  "Tungsten",
+		  "Rhenium",
+		  "Osmium",
+		  "Iridium",
+		  "Platinum",
+		  "Gold",
+		  "Mercury",
+		  "Thallium",
+		  "Lead",
+		  "Bismuth",
+		  "Polonium",
+		  "Astatine",
+		  "Radon",
+		  "Francium",
+		  "Radium",
+		  "Actinium",
+		  "Thorium",
+		  "Protactinium",
+		  "Uranium",
+		  "Neptunium",
+		  "Plutonium",
+		  "Americium",
+		  "Curium",
+		  "Berkelium",
+		  "Californium",
+		  "Einsteinium",
+		  "Fermium",
+		  "Mendelevium",
+		  "Nobelium",
+		  "Lawrencium",
+		  "Rutherfordium",
+		  "Dubnium",
+		  "Seaborgium",
+		  "Bohrium",
+		  "Hassium",
+		  "Meitnerium",
+		  "Ununnilium",
+		  "Unununium",
+		  "Ununbium",
+		  "Ununquadium",
+		  "Ununhexium",
+		  "Ununoctium"
+		]
+	  },
+	  "element_symbol": {
+		"@id": "ElementSymbol",
+		"@type": "Enum",
+		"@values": [
+		  "H",
+		  "He",
+		  "Li",
+		  "Be",
+		  "B",
+		  "C",
+		  "N",
+		  "O",
+		  "F",
+		  "Ne",
+		  "Na",
+		  "Mg",
+		  "Al",
+		  "Si",
+		  "P",
+		  "S",
+		  "Cl",
+		  "Ar",
+		  "K",
+		  "Ca",
+		  "Sc",
+		  "Ti",
+		  "V",
+		  "Cr",
+		  "Mn",
+		  "Fe",
+		  "Co",
+		  "Ni",
+		  "Cu",
+		  "Zn",
+		  "Ga",
+		  "Ge",
+		  "As",
+		  "Se",
+		  "Br",
+		  "Kr",
+		  "Rb",
+		  "Sr",
+		  "Y",
+		  "Zr",
+		  "Nb",
+		  "Mo",
+		  "Tc",
+		  "Ru",
+		  "Rh",
+		  "Pd",
+		  "Ag",
+		  "Cd",
+		  "In",
+		  "Sn",
+		  "Sb",
+		  "Te",
+		  "I",
+		  "Xe",
+		  "Cs",
+		  "Ba",
+		  "La",
+		  "Ce",
+		  "Pr",
+		  "Nd",
+		  "Pm",
+		  "Sm",
+		  "Eu",
+		  "Gd",
+		  "Tb",
+		  "Dy",
+		  "Ho",
+		  "Er",
+		  "Tm",
+		  "Yb",
+		  "Lu",
+		  "Hf",
+		  "Ta",
+		  "W",
+		  "Re",
+		  "Os",
+		  "Ir",
+		  "Pt",
+		  "Au",
+		  "Hg",
+		  "Tl",
+		  "Pb",
+		  "Bi",
+		  "Po",
+		  "At",
+		  "Rn",
+		  "Fr",
+		  "Ra",
+		  "Ac",
+		  "Th",
+		  "Pa",
+		  "U",
+		  "Np",
+		  "Pu",
+		  "Am",
+		  "Cm",
+		  "Bk",
+		  "Cf",
+		  "Es",
+		  "Fm",
+		  "Md",
+		  "No",
+		  "Lr",
+		  "Rf",
+		  "Db",
+		  "Sg",
+		  "Bh",
+		  "Hs",
+		  "Mt",
+		  "Uun",
+		  "Uuu",
+		  "Uub",
+		  "Uuq",
+		  "Uuh",
+		  "Uuo"
+		]
+	  },
+	  "isotopes": {
+		"@class": "Isotope",
+		"@type": "Set"
+	  },
+	  "name": "xsd:string"
+	},
+	"http://lib.terminusdb.com/nuclear#ElementName": {
+	  "@type": "Enum",
+	  "@values": [
+		"Hydrogen",
+		"Helium",
+		"Lithium",
+		"Beryllium",
+		"Boron",
+		"Carbon",
+		"Nitrogen",
+		"Oxygen",
+		"Fluorine",
+		"Neon",
+		"Sodium",
+		"Magnesium",
+		"Aluminum",
+		"Silicon",
+		"Phosphorus",
+		"Sulphur",
+		"Chlorine",
+		"Argon",
+		"Potassium",
+		"Calcium",
+		"Scandium",
+		"Titanium",
+		"Vanadium",
+		"Chromium",
+		"Manganese",
+		"Iron",
+		"Cobalt",
+		"Nickel",
+		"Copper",
+		"Zinc",
+		"Gallium",
+		"Germanium",
+		"Arsenic",
+		"Selenium",
+		"Bromine",
+		"Krypton",
+		"Rubidium",
+		"Strontium",
+		"Yttrium",
+		"Zirconium",
+		"Niobium",
+		"Molybdenum",
+		"Technetium",
+		"Ruthenium",
+		"Rhodium",
+		"Palladium",
+		"Silver",
+		"Cadmium",
+		"Indium",
+		"Tin",
+		"Antimony",
+		"Tellurium",
+		"Iodine",
+		"Xenon",
+		"Cesium",
+		"Barium",
+		"Lanthanum",
+		"Cerium",
+		"Praseodymium",
+		"Neodymium",
+		"Promethium",
+		"Samarium",
+		"Europium",
+		"Gadolinium",
+		"Terbium",
+		"Dysprosium",
+		"Holmium",
+		"Erbium",
+		"Thulium",
+		"Ytterbium",
+		"Lutetium",
+		"Hafnium",
+		"Tantalum",
+		"Tungsten",
+		"Rhenium",
+		"Osmium",
+		"Iridium",
+		"Platinum",
+		"Gold",
+		"Mercury",
+		"Thallium",
+		"Lead",
+		"Bismuth",
+		"Polonium",
+		"Astatine",
+		"Radon",
+		"Francium",
+		"Radium",
+		"Actinium",
+		"Thorium",
+		"Protactinium",
+		"Uranium",
+		"Neptunium",
+		"Plutonium",
+		"Americium",
+		"Curium",
+		"Berkelium",
+		"Californium",
+		"Einsteinium",
+		"Fermium",
+		"Mendelevium",
+		"Nobelium",
+		"Lawrencium",
+		"Rutherfordium",
+		"Dubnium",
+		"Seaborgium",
+		"Bohrium",
+		"Hassium",
+		"Meitnerium",
+		"Ununnilium",
+		"Unununium",
+		"Ununbium",
+		"Ununquadium",
+		"Ununhexium",
+		"Ununoctium"
+	  ]
+	},
+	"http://lib.terminusdb.com/nuclear#ElementSymbol": {
+	  "@type": "Enum",
+	  "@values": [
+		"H",
+		"He",
+		"Li",
+		"Be",
+		"B",
+		"C",
+		"N",
+		"O",
+		"F",
+		"Ne",
+		"Na",
+		"Mg",
+		"Al",
+		"Si",
+		"P",
+		"S",
+		"Cl",
+		"Ar",
+		"K",
+		"Ca",
+		"Sc",
+		"Ti",
+		"V",
+		"Cr",
+		"Mn",
+		"Fe",
+		"Co",
+		"Ni",
+		"Cu",
+		"Zn",
+		"Ga",
+		"Ge",
+		"As",
+		"Se",
+		"Br",
+		"Kr",
+		"Rb",
+		"Sr",
+		"Y",
+		"Zr",
+		"Nb",
+		"Mo",
+		"Tc",
+		"Ru",
+		"Rh",
+		"Pd",
+		"Ag",
+		"Cd",
+		"In",
+		"Sn",
+		"Sb",
+		"Te",
+		"I",
+		"Xe",
+		"Cs",
+		"Ba",
+		"La",
+		"Ce",
+		"Pr",
+		"Nd",
+		"Pm",
+		"Sm",
+		"Eu",
+		"Gd",
+		"Tb",
+		"Dy",
+		"Ho",
+		"Er",
+		"Tm",
+		"Yb",
+		"Lu",
+		"Hf",
+		"Ta",
+		"W",
+		"Re",
+		"Os",
+		"Ir",
+		"Pt",
+		"Au",
+		"Hg",
+		"Tl",
+		"Pb",
+		"Bi",
+		"Po",
+		"At",
+		"Rn",
+		"Fr",
+		"Ra",
+		"Ac",
+		"Th",
+		"Pa",
+		"U",
+		"Np",
+		"Pu",
+		"Am",
+		"Cm",
+		"Bk",
+		"Cf",
+		"Es",
+		"Fm",
+		"Md",
+		"No",
+		"Lr",
+		"Rf",
+		"Db",
+		"Sg",
+		"Bh",
+		"Hs",
+		"Mt",
+		"Uun",
+		"Uuu",
+		"Uub",
+		"Uuq",
+		"Uuh",
+		"Uuo"
+	  ]
+	},
+	"http://lib.terminusdb.com/nuclear#ExperimentalReactor": {
+	  "@key": {
+		"@fields": [
+		  "name"
+		],
+		"@type": "Lexical"
+	  },
+	  "@type": "Class",
+	  "capacity": {
+		"@class": {
+		  "@class": "Quantity",
+		  "@subdocument": []
+		},
+		"@type": "Optional"
+	  },
+	  "coolant": {
+		"@class": "Substance",
+		"@type": "Optional"
+	  },
+	  "moderator": {
+		"@class": "Substance",
+		"@type": "Optional"
+	  },
+	  "name": "xsd:string",
+	  "type": {
+		"@class": {
+		  "@id": "ReactorType",
+		  "@type": "Enum",
+		  "@values": [
+			"BWR",
+			"PWR",
+			"HTGR",
+			"AGR",
+			"CANDU",
+			"MSR",
+			"SFR",
+			"LFR"
+		  ]
+		},
+		"@type": "Optional"
+	  }
+	},
+	"http://lib.terminusdb.com/nuclear#GeoCoordinate": {
+	  "@key": {
+		"@fields": [
+		  "latitude",
+		  "longitude"
+		],
+		"@type": "Lexical"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "latitude": "xsd:decimal",
+	  "longitude": "xsd:decimal"
+	},
+	"http://lib.terminusdb.com/nuclear#GeoPerimeter": {
+	  "@key": {
+		"@fields": [
+		  "perimeter"
+		],
+		"@type": "Lexical"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "perimeter": {
+		"@class": {
+		  "@class": "GeoCoordinate",
+		  "@subdocument": []
+		},
+		"@type": "List"
+	  }
+	},
+	"http://lib.terminusdb.com/nuclear#Isotope": {
+	  "@type": "Class",
+	  "abundance": {
+		"@class": {
+		  "@class": "Quantity",
+		  "@subdocument": []
+		},
+		"@type": "Optional"
+	  },
+	  "isotope_name": {
+		"@id": "IsotopeName",
+		"@type": "Enum",
+		"@values": [
+		  "1H",
+		  "2H",
+		  "3H",
+		  "3He",
+		  "He",
+		  "6Li",
+		  "7Li",
+		  "9Be",
+		  "10B",
+		  "11B",
+		  "12C",
+		  "13C",
+		  "14C",
+		  "14N",
+		  "15N",
+		  "16O",
+		  "17O",
+		  "18O",
+		  "19F",
+		  "20Ne",
+		  "21Ne",
+		  "22Ne",
+		  "23Na",
+		  "24Mg",
+		  "25Mg",
+		  "26Mg",
+		  "27Al",
+		  "28Si",
+		  "29Si",
+		  "30Si",
+		  "31P",
+		  "32S",
+		  "33S",
+		  "34S",
+		  "36S",
+		  "35Cl",
+		  "37Cl",
+		  "36Ar",
+		  "38Ar",
+		  "40Ar",
+		  "39K",
+		  "40K",
+		  "41K",
+		  "40Ca",
+		  "42Ca",
+		  "43Ca",
+		  "44Ca",
+		  "46Ca",
+		  "48Ca",
+		  "45Sc",
+		  "46Ti",
+		  "47Ti",
+		  "48Ti",
+		  "49Ti",
+		  "50Ti",
+		  "50V",
+		  "51V",
+		  "50Cr",
+		  "52Cr",
+		  "53Cr",
+		  "54Cr",
+		  "55Mn",
+		  "54Fe",
+		  "56Fe",
+		  "57Fe",
+		  "58Fe",
+		  "59Co",
+		  "58Ni",
+		  "60Ni",
+		  "61Ni",
+		  "62Ni",
+		  "64Ni",
+		  "63Cu",
+		  "65Cu",
+		  "64Zn",
+		  "66Zn",
+		  "67Zn",
+		  "68Zn",
+		  "70Zn",
+		  "69Ga",
+		  "71Ga",
+		  "70Ge",
+		  "72Ge",
+		  "73Ge",
+		  "74Ge",
+		  "76Ge",
+		  "75As",
+		  "74Se",
+		  "76Se",
+		  "77Se",
+		  "78Se",
+		  "80Se",
+		  "82Se",
+		  "79Br",
+		  "81Br",
+		  "78Kr",
+		  "80Kr",
+		  "82Kr",
+		  "83Kr",
+		  "84Kr",
+		  "86Kr",
+		  "85Rb",
+		  "87Rb",
+		  "84Sr",
+		  "86Sr",
+		  "87Sr",
+		  "88Sr",
+		  "89Y",
+		  "90Zr",
+		  "91Zr",
+		  "92Zr",
+		  "94Zr",
+		  "96Zr",
+		  "93Nb",
+		  "92Mo",
+		  "94Mo",
+		  "95Mo",
+		  "96Mo",
+		  "97Mo",
+		  "98Mo",
+		  "100Mo",
+		  "98Tc",
+		  "96Ru",
+		  "98Ru",
+		  "99Ru",
+		  "100Ru",
+		  "101Ru",
+		  "102Ru",
+		  "104Ru",
+		  "103Rh",
+		  "102Pd",
+		  "104Pd",
+		  "105Pd",
+		  "106Pd",
+		  "108Pd",
+		  "110Pd",
+		  "107Ag",
+		  "109Ag",
+		  "106Cd",
+		  "108Cd",
+		  "110Cd",
+		  "111Cd",
+		  "112Cd",
+		  "113Cd",
+		  "114Cd",
+		  "116Cd",
+		  "113In",
+		  "115In",
+		  "112Sn",
+		  "114Sn",
+		  "115Sn",
+		  "116Sn",
+		  "117Sn",
+		  "118Sn",
+		  "119Sn",
+		  "120Sn",
+		  "122Sn",
+		  "124Sn",
+		  "121Sb",
+		  "123Sb",
+		  "120Te",
+		  "122Te",
+		  "123Te",
+		  "124Te",
+		  "125Te",
+		  "126Te",
+		  "128Te",
+		  "130Te",
+		  "127I",
+		  "124Xe",
+		  "126Xe",
+		  "128Xe",
+		  "129Xe",
+		  "130Xe",
+		  "131Xe",
+		  "132Xe",
+		  "134Xe",
+		  "136Xe",
+		  "133Cs",
+		  "130Ba",
+		  "132Ba",
+		  "134Ba",
+		  "135Ba",
+		  "136Ba",
+		  "137Ba",
+		  "138Ba",
+		  "138La",
+		  "139La",
+		  "136Ce",
+		  "138Ce",
+		  "140Ce",
+		  "142Ce",
+		  "141Pr",
+		  "142Nd",
+		  "143Nd",
+		  "144Nd",
+		  "145Nd",
+		  "146Nd",
+		  "148Nd",
+		  "150Nd",
+		  "145Pm",
+		  "144Sm",
+		  "147Sm",
+		  "148Sm",
+		  "149Sm",
+		  "150Sm",
+		  "152Sm",
+		  "154Sm",
+		  "151Eu",
+		  "153Eu",
+		  "152Gd",
+		  "154Gd",
+		  "155Gd",
+		  "156Gd",
+		  "157Gd",
+		  "158Gd",
+		  "160Gd",
+		  "159Tb",
+		  "156Dy",
+		  "158Dy",
+		  "160Dy",
+		  "161Dy",
+		  "162Dy",
+		  "163Dy",
+		  "164Dy",
+		  "165Ho",
+		  "162Er",
+		  "164Er",
+		  "166Er",
+		  "167Er",
+		  "168Er",
+		  "170Er",
+		  "169Tm",
+		  "168Yb",
+		  "170Yb",
+		  "171Yb",
+		  "172Yb",
+		  "173Yb",
+		  "174Yb",
+		  "176Yb",
+		  "175Lu",
+		  "176Lu",
+		  "174Hf",
+		  "176Hf",
+		  "177Hf",
+		  "178Hf",
+		  "179Hf",
+		  "180Hf",
+		  "180Ta",
+		  "181Ta",
+		  "180W",
+		  "182W",
+		  "183W",
+		  "184W",
+		  "186W",
+		  "185Re",
+		  "187Re",
+		  "184Os",
+		  "186Os",
+		  "187Os",
+		  "188Os",
+		  "189Os",
+		  "190Os",
+		  "192Os",
+		  "191Ir",
+		  "193Ir",
+		  "190Pt",
+		  "192Pt",
+		  "194Pt",
+		  "195Pt",
+		  "196Pt",
+		  "198Pt",
+		  "197Au",
+		  "196Hg",
+		  "198Hg",
+		  "199Hg",
+		  "200Hg",
+		  "201Hg",
+		  "202Hg",
+		  "204Hg",
+		  "203Tl",
+		  "205Tl",
+		  "204Pb",
+		  "206Pb",
+		  "207Pb",
+		  "208Pb",
+		  "209Bi",
+		  "209Po",
+		  "210At",
+		  "222Rn",
+		  "223Fr",
+		  "226Ra",
+		  "227Ac",
+		  "232Th",
+		  "231Pa",
+		  "234U",
+		  "235U",
+		  "238U",
+		  "237Np",
+		  "244Pu",
+		  "243Am",
+		  "247Cm",
+		  "247Bk",
+		  "251Cf",
+		  "252Es",
+		  "257Fm",
+		  "258Md",
+		  "259No",
+		  "262Lr",
+		  "263Rf",
+		  "262Db",
+		  "266Sg",
+		  "264Bh",
+		  "269Hs",
+		  "268Mt",
+		  "272Uun",
+		  "272Uuu",
+		  "277Uub",
+		  "289Uuq",
+		  "289Uuh",
+		  "293Uuo"
+		]
+	  },
+	  "mass": {
+		"@class": "Quantity",
+		"@subdocument": []
+	  },
+	  "name": "xsd:string"
+	},
+	"http://lib.terminusdb.com/nuclear#IsotopeName": {
+	  "@type": "Enum",
+	  "@values": [
+		"1H",
+		"2H",
+		"3H",
+		"3He",
+		"He",
+		"6Li",
+		"7Li",
+		"9Be",
+		"10B",
+		"11B",
+		"12C",
+		"13C",
+		"14C",
+		"14N",
+		"15N",
+		"16O",
+		"17O",
+		"18O",
+		"19F",
+		"20Ne",
+		"21Ne",
+		"22Ne",
+		"23Na",
+		"24Mg",
+		"25Mg",
+		"26Mg",
+		"27Al",
+		"28Si",
+		"29Si",
+		"30Si",
+		"31P",
+		"32S",
+		"33S",
+		"34S",
+		"36S",
+		"35Cl",
+		"37Cl",
+		"36Ar",
+		"38Ar",
+		"40Ar",
+		"39K",
+		"40K",
+		"41K",
+		"40Ca",
+		"42Ca",
+		"43Ca",
+		"44Ca",
+		"46Ca",
+		"48Ca",
+		"45Sc",
+		"46Ti",
+		"47Ti",
+		"48Ti",
+		"49Ti",
+		"50Ti",
+		"50V",
+		"51V",
+		"50Cr",
+		"52Cr",
+		"53Cr",
+		"54Cr",
+		"55Mn",
+		"54Fe",
+		"56Fe",
+		"57Fe",
+		"58Fe",
+		"59Co",
+		"58Ni",
+		"60Ni",
+		"61Ni",
+		"62Ni",
+		"64Ni",
+		"63Cu",
+		"65Cu",
+		"64Zn",
+		"66Zn",
+		"67Zn",
+		"68Zn",
+		"70Zn",
+		"69Ga",
+		"71Ga",
+		"70Ge",
+		"72Ge",
+		"73Ge",
+		"74Ge",
+		"76Ge",
+		"75As",
+		"74Se",
+		"76Se",
+		"77Se",
+		"78Se",
+		"80Se",
+		"82Se",
+		"79Br",
+		"81Br",
+		"78Kr",
+		"80Kr",
+		"82Kr",
+		"83Kr",
+		"84Kr",
+		"86Kr",
+		"85Rb",
+		"87Rb",
+		"84Sr",
+		"86Sr",
+		"87Sr",
+		"88Sr",
+		"89Y",
+		"90Zr",
+		"91Zr",
+		"92Zr",
+		"94Zr",
+		"96Zr",
+		"93Nb",
+		"92Mo",
+		"94Mo",
+		"95Mo",
+		"96Mo",
+		"97Mo",
+		"98Mo",
+		"100Mo",
+		"98Tc",
+		"96Ru",
+		"98Ru",
+		"99Ru",
+		"100Ru",
+		"101Ru",
+		"102Ru",
+		"104Ru",
+		"103Rh",
+		"102Pd",
+		"104Pd",
+		"105Pd",
+		"106Pd",
+		"108Pd",
+		"110Pd",
+		"107Ag",
+		"109Ag",
+		"106Cd",
+		"108Cd",
+		"110Cd",
+		"111Cd",
+		"112Cd",
+		"113Cd",
+		"114Cd",
+		"116Cd",
+		"113In",
+		"115In",
+		"112Sn",
+		"114Sn",
+		"115Sn",
+		"116Sn",
+		"117Sn",
+		"118Sn",
+		"119Sn",
+		"120Sn",
+		"122Sn",
+		"124Sn",
+		"121Sb",
+		"123Sb",
+		"120Te",
+		"122Te",
+		"123Te",
+		"124Te",
+		"125Te",
+		"126Te",
+		"128Te",
+		"130Te",
+		"127I",
+		"124Xe",
+		"126Xe",
+		"128Xe",
+		"129Xe",
+		"130Xe",
+		"131Xe",
+		"132Xe",
+		"134Xe",
+		"136Xe",
+		"133Cs",
+		"130Ba",
+		"132Ba",
+		"134Ba",
+		"135Ba",
+		"136Ba",
+		"137Ba",
+		"138Ba",
+		"138La",
+		"139La",
+		"136Ce",
+		"138Ce",
+		"140Ce",
+		"142Ce",
+		"141Pr",
+		"142Nd",
+		"143Nd",
+		"144Nd",
+		"145Nd",
+		"146Nd",
+		"148Nd",
+		"150Nd",
+		"145Pm",
+		"144Sm",
+		"147Sm",
+		"148Sm",
+		"149Sm",
+		"150Sm",
+		"152Sm",
+		"154Sm",
+		"151Eu",
+		"153Eu",
+		"152Gd",
+		"154Gd",
+		"155Gd",
+		"156Gd",
+		"157Gd",
+		"158Gd",
+		"160Gd",
+		"159Tb",
+		"156Dy",
+		"158Dy",
+		"160Dy",
+		"161Dy",
+		"162Dy",
+		"163Dy",
+		"164Dy",
+		"165Ho",
+		"162Er",
+		"164Er",
+		"166Er",
+		"167Er",
+		"168Er",
+		"170Er",
+		"169Tm",
+		"168Yb",
+		"170Yb",
+		"171Yb",
+		"172Yb",
+		"173Yb",
+		"174Yb",
+		"176Yb",
+		"175Lu",
+		"176Lu",
+		"174Hf",
+		"176Hf",
+		"177Hf",
+		"178Hf",
+		"179Hf",
+		"180Hf",
+		"180Ta",
+		"181Ta",
+		"180W",
+		"182W",
+		"183W",
+		"184W",
+		"186W",
+		"185Re",
+		"187Re",
+		"184Os",
+		"186Os",
+		"187Os",
+		"188Os",
+		"189Os",
+		"190Os",
+		"192Os",
+		"191Ir",
+		"193Ir",
+		"190Pt",
+		"192Pt",
+		"194Pt",
+		"195Pt",
+		"196Pt",
+		"198Pt",
+		"197Au",
+		"196Hg",
+		"198Hg",
+		"199Hg",
+		"200Hg",
+		"201Hg",
+		"202Hg",
+		"204Hg",
+		"203Tl",
+		"205Tl",
+		"204Pb",
+		"206Pb",
+		"207Pb",
+		"208Pb",
+		"209Bi",
+		"209Po",
+		"210At",
+		"222Rn",
+		"223Fr",
+		"226Ra",
+		"227Ac",
+		"232Th",
+		"231Pa",
+		"234U",
+		"235U",
+		"238U",
+		"237Np",
+		"244Pu",
+		"243Am",
+		"247Cm",
+		"247Bk",
+		"251Cf",
+		"252Es",
+		"257Fm",
+		"258Md",
+		"259No",
+		"262Lr",
+		"263Rf",
+		"262Db",
+		"266Sg",
+		"264Bh",
+		"269Hs",
+		"268Mt",
+		"272Uun",
+		"272Uuu",
+		"277Uub",
+		"289Uuq",
+		"289Uuh",
+		"293Uuo"
+	  ]
+	},
+	"http://lib.terminusdb.com/nuclear#NuclearPowerPlant": {
+	  "@documentation": {
+		"@comment": "A Nuclear Power Plant",
+		"@properties": {
+		  "capacity": "Maximum power capacity",
+		  "capacity_factor": "Fraction of total capacity in a given year",
+		  "commissioning_year": "Year of commissioning of the plant",
+		  "country": "A link to the country in which the plant exists.",
+		  "gppd_idnr": "Global Power Plant Database ID Number",
+		  "location": "A geo-location of the plant location.",
+		  "name": "The name of the plant.",
+		  "owner": "Owner of the power plant",
+		  "reactors": "Reactors that are present at the power plant",
+		  "url": "URL of power plant"
+		}
+	  },
+	  "@key": {
+		"@fields": [
+		  "name"
+		],
+		"@type": "Lexical"
+	  },
+	  "@type": "Class",
+	  "capacity": {
+		"@class": "Quantity",
+		"@subdocument": []
+	  },
+	  "capacity_factor": {
+		"@class": {
+		  "@class": "AnnualCapacityFactor",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  },
+	  "commissioning_year": {
+		"@class": "xsd:gYear",
+		"@type": "Optional"
+	  },
+	  "country": "Country",
+	  "gppd_idnr": "xsd:string",
+	  "location": {
+		"@class": "GeoCoordinate",
+		"@subdocument": []
+	  },
+	  "name": "xsd:string",
+	  "output": {
+		"@class": {
+		  "@class": "AnnualOutput",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  },
+	  "owner": {
 		"@class": "xsd:string",
 		"@type": "Optional"
 	  },
 	  "reactors": {
 		"@class": [
+		  "ExperimentalReactor",
 		  "PowerReactor",
-		  "AtomicReactor"
+		  "ResearchReactor"
 		],
 		"@type": "Set"
-	  }
-	},
-	"terminusdb:///schema#PowerReactor": {
-	  "@key": {
-		"@type": "Random"
 	  },
-	  "@type": "Class",
-	  "r_name": {
-		"@class": "xsd:string",
-		"@type": "Optional"
-	  }
+	  "url": "xsd:string"
 	},
-	"terminusdb:///schema#AtomicReactor": {
-	  "@key": {
-		"@type": "Random"
-	  },
-	  "@type": "Class",
-	  "a_name": {
-		"@class": "xsd:string",
-		"@type": "Optional"
-	  }
-	},
-	"terminusdb:///schema#Reactor": {
-	  "@abstract": [],
+	"http://lib.terminusdb.com/nuclear#PowerReactor": {
 	  "@key": {
 		"@fields": [
-		  "r_name"
+		  "name"
 		],
 		"@type": "Lexical"
 	  },
 	  "@type": "Class",
-	  "r_name": {
-		"@class": "xsd:string",
+	  "capacity": {
+		"@class": {
+		  "@class": "Quantity",
+		  "@subdocument": []
+		},
+		"@type": "Optional"
+	  },
+	  "coolant": {
+		"@class": "Substance",
+		"@type": "Optional"
+	  },
+	  "moderator": {
+		"@class": "Substance",
+		"@type": "Optional"
+	  },
+	  "name": "xsd:string",
+	  "type": {
+		"@class": {
+		  "@id": "ReactorType",
+		  "@type": "Enum",
+		  "@values": [
+			"BWR",
+			"PWR",
+			"HTGR",
+			"AGR",
+			"CANDU",
+			"MSR",
+			"SFR",
+			"LFR"
+		  ]
+		},
 		"@type": "Optional"
 	  }
+	},
+	"http://lib.terminusdb.com/nuclear#Quantity": {
+	  "@key": {
+		"@fields": [
+		  "unit",
+		  "quantity"
+		],
+		"@type": "Lexical"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "quantity": "xsd:decimal",
+	  "unit": "Unit"
+	},
+	"http://lib.terminusdb.com/nuclear#Reactor": {
+	  "@abstract": [],
+	  "@documentation": {
+		"@comment": "A Nuclear Power Plant",
+		"@properties": {
+		  "coolant": "What substance is used as a coolant",
+		  "moderator": "What substance is used as a moderator.",
+		  "name": "The name of the reactor.",
+		  "type": "The type of the reactor."
+		}
+	  },
+	  "@type": "Class",
+	  "capacity": {
+		"@class": {
+		  "@class": "Quantity",
+		  "@subdocument": []
+		},
+		"@type": "Optional"
+	  },
+	  "coolant": {
+		"@class": "Substance",
+		"@type": "Optional"
+	  },
+	  "moderator": {
+		"@class": "Substance",
+		"@type": "Optional"
+	  },
+	  "name": "xsd:string",
+	  "type": {
+		"@class": {
+		  "@id": "ReactorType",
+		  "@type": "Enum",
+		  "@values": [
+			"BWR",
+			"PWR",
+			"HTGR",
+			"AGR",
+			"CANDU",
+			"MSR",
+			"SFR",
+			"LFR"
+		  ]
+		},
+		"@type": "Optional"
+	  }
+	},
+	"http://lib.terminusdb.com/nuclear#ReactorType": {
+	  "@type": "Enum",
+	  "@values": [
+		"BWR",
+		"PWR",
+		"HTGR",
+		"AGR",
+		"CANDU",
+		"MSR",
+		"SFR",
+		"LFR"
+	  ]
+	},
+	"http://lib.terminusdb.com/nuclear#ResearchReactor": {
+	  "@key": {
+		"@fields": [
+		  "name"
+		],
+		"@type": "Lexical"
+	  },
+	  "@type": "Class",
+	  "capacity": {
+		"@class": {
+		  "@class": "Quantity",
+		  "@subdocument": []
+		},
+		"@type": "Optional"
+	  },
+	  "coolant": {
+		"@class": "Substance",
+		"@type": "Optional"
+	  },
+	  "moderator": {
+		"@class": "Substance",
+		"@type": "Optional"
+	  },
+	  "name": "xsd:string",
+	  "type": {
+		"@class": {
+		  "@id": "ReactorType",
+		  "@type": "Enum",
+		  "@values": [
+			"BWR",
+			"PWR",
+			"HTGR",
+			"AGR",
+			"CANDU",
+			"MSR",
+			"SFR",
+			"LFR"
+		  ]
+		},
+		"@type": "Optional"
+	  }
+	},
+	"http://lib.terminusdb.com/nuclear#Substance": {
+	  "@type": "Class",
+	  "name": "xsd:string"
+	},
+	"http://lib.terminusdb.com/nuclear#Unit": {
+	  "@key": {
+		"@fields": [
+		  "symbol"
+		],
+		"@type": "Lexical"
+	  },
+	  "@type": "Class",
+	  "alternative_name": {
+		"@class": "xsd:string",
+		"@type": "Set"
+	  },
+	  "derived_from": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "dimension": {
+		"@id": "Dimension",
+		"@type": "Enum",
+		"@values": [
+		  "currency",
+		  "time",
+		  "length",
+		  "mass",
+		  "area",
+		  "space",
+		  "temperature",
+		  "energy",
+		  "power",
+		  "force",
+		  "torque",
+		  "speed",
+		  "rotational_speed",
+		  "acceleration",
+		  "charge",
+		  "electric_potential",
+		  "electric_current",
+		  "electric_resistance",
+		  "momentum",
+		  "angular_momentum",
+		  "dimensionless"
+		]
+	  },
+	  "name": "xsd:string",
+	  "plural": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "symbol": "xsd:string"
 	}
   }
 
@@ -701,6 +2240,11 @@ export const SMALL_SCHEMA_FORM_DATA = {
 
 
   export const NUCLEAR_SCHEMA ={
+	"@context": {
+		"@base": "http://lib.terminusdb.com/nuclear/",
+		"@schema": "http://lib.terminusdb.com/nuclear#",
+		"@type": "Context"
+	},
 	"http://lib.terminusdb.com/nuclear#NuclearPowerPlant": {
 	  "@key": {
 		"@fields": [
@@ -709,8 +2253,15 @@ export const SMALL_SCHEMA_FORM_DATA = {
 		"@type": "Lexical"
 	  },
 	  "@type": "Class",
-	   "url": "xsd:string",
+	   /*"url": "xsd:string",
 	   "location": "GeoCoordinate",
+	   "output": {
+		"@class": {
+		  "@class": "AnnualOutput",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  },*/
 	  "reactors": {
 		"@class": [
 		  "ExperimentalReactor",
@@ -718,8 +2269,78 @@ export const SMALL_SCHEMA_FORM_DATA = {
 		  "ResearchReactor"
 		],
 		"@type": "Set"
-	  }
+	  },
+	  /*"country": "Country",*/
+	  /*"Singlereactors": [
+		  "ExperimentalReactor",
+		  "PowerReactor",
+		  "ResearchReactor"
+		],*/
+		/*"Optionalreactors": {
+			"@class": [
+			  "ExperimentalReactor",
+			  "PowerReactor",
+			  "ResearchReactor"
+			],
+			"@type": "Optional"
+		  },*/
+		/*"Setreactors": {
+			"@class": [
+			  "ExperimentalReactor",
+			  "PowerReactor",
+			  "ResearchReactor"
+			],
+			"@type": "Set"
+		  },*/
+	  /*"asset_history": {
+		"@class": [
+		  {
+			"@class": "HazardEvent",
+			"@subdocument": []
+		  },
+		  {
+			"@class": "UpdateEvent",
+			"@subdocument": []
+		  }
+		],
+		"@type": "Set"
+	  },*/
 	},
+	"http://lib.terminusdb.com/nuclear#Country": {
+	  "@key": {
+		"@fields": [
+		  "name"
+		],
+		"@type": "Lexical"
+	  },
+	  "@type": "Class",
+	  "name": "xsd:string"
+	},
+	"http://lib.terminusdb.com/nuclear#HazardEvent": {
+		"@key": {
+		"@fields": [
+			"hazard",
+			"date"
+		],
+		"@type": "Lexical"
+		},
+		"@subdocument": [],
+		"@type": "Class",
+		"hazard_comment": "xsd:string",
+		"hazrad_date": "xsd:dateTime",
+  	},
+	  "http://lib.terminusdb.com/nuclear#UpdateEvent": {
+		"@key": {
+		"@fields": [
+			"hazard",
+			"date"
+		],
+		"@type": "Lexical"
+		},
+		"@subdocument": [],
+		"@type": "Class",
+		"update_comment": "xsd:string"
+  	},
 	"http://lib.terminusdb.com/nuclear#GeoCoordinate": {
 	  "@key": {
 		"@fields": [
@@ -842,44 +2463,136 @@ export const SMALL_SCHEMA_FORM_DATA = {
 		"@type": "Optional"
 	  }
 	},
+	"http://lib.terminusdb.com/nuclear#AnnualOutput": {
+	  "@documentation": {
+		"@comment": "Annual Total Output of a Nuclear Power Plant",
+		"@properties": {
+		  "output": "Total energy output.",
+		  "year": "Year of annual recorded data."
+		}
+	  },
+	  "@key": {
+		"@fields": [
+		  "year"
+		],
+		"@type": "Lexical"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "output": {
+		"@class": "Quantity",
+		"@subdocument": []
+	  },
+	  "year": "xsd:gYear"
+	},
+	"http://lib.terminusdb.com/nuclear#Quantity": {
+	  "@key": {
+		"@fields": [
+		  "unit",
+		  "quantity"
+		],
+		"@type": "Lexical"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "quantity": "xsd:decimal",
+	  "unit": "Unit"
+	},
+	"http://lib.terminusdb.com/nuclear#Unit": {
+	  "@key": {
+		"@fields": [
+		  "symbol"
+		],
+		"@type": "Lexical"
+	  },
+	  "@type": "Class",
+	  "alternative_name": {
+		"@class": "xsd:string",
+		"@type": "Set"
+	  },
+	  "derived_from": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "dimension": {
+		"@id": "Dimension",
+		"@type": "Enum",
+		"@values": [
+		  "currency",
+		  "time",
+		  "length",
+		  "mass",
+		  "area",
+		  "space",
+		  "temperature",
+		  "energy",
+		  "power",
+		  "force",
+		  "torque",
+		  "speed",
+		  "rotational_speed",
+		  "acceleration",
+		  "charge",
+		  "electric_potential",
+		  "electric_current",
+		  "electric_resistance",
+		  "momentum",
+		  "angular_momentum",
+		  "dimensionless"
+		]
+	  },
+	  "name": "xsd:string",
+	  "plural": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "symbol": "xsd:string"
+	}
   }
 
 
 export const NUCLEAR_FORM_DATA = {
-	"@id":"NuclearPowerPlant/NEW",
+	"@id":"NuclearPowerPlant/AAAAK",
 	"@type":"NuclearPowerPlant",
-	"capacity":{
-	   "@id":"NuclearPowerPlant/NEW/capacity/Quantity/http%3A%2F%2Flib.terminusdb.com%2Fnuclear%2FUnit%2FBLAH+21",
+	"Setreactors": ["Art", "Tony"],
+	"reactors":[
+		"ExperimentalReactor/AAAAK",
+		"ResearchReactor/RRR"
+	 ],
+	/*"capacity":{
+	   "@id":"NuclearPowerPlant/AAAAK/capacity/Quantity/http%3A%2F%2Flib.terminusdb.com%2Fnuclear%2FUnit%2F%2525+3",
 	   "@type":"Quantity",
-	   "quantity":21,
-	   "unit":"Unit/BLAH"
+	   "quantity":3,
+	   "unit":"Unit/%25"
 	},
-	"country":"Country/IRELAND",
-	"gppd_idnr":"asdasd",
+	"commissioning_year":"2016",
+	"country":"Country/Brazil",
+	"gppd_idnr":"123123 AK",
 	"location":{
-	   "@id":"NuclearPowerPlant/NEW/location/GeoCoordinate/4+5",
+	   "@id":"NuclearPowerPlant/AAAAK/location/GeoCoordinate/53.35014+-6.266155",
 	   "@type":"GeoCoordinate",
-	   "latitude":4,
-	   "longitude":5
+	   "latitude":53.35014,
+	   "longitude":-6.266155
 	},
-	"name":"NEW",
+	"name":"AAAAK",
 	"output":[
 	   {
-		  "@id":"NuclearPowerPlant/NEW/output/AnnualOutput/2018",
+		  "@id":"NuclearPowerPlant/AAAAK/output/AnnualOutput/2019",
 		  "@type":"AnnualOutput",
 		  "output":{
-			 "@id":"NuclearPowerPlant/NEW/output/NuclearPowerPlant/NEW/output/AnnualOutput/2018/output/Quantity/http%3A%2F%2Flib.terminusdb.com%2Fnuclear%2FUnit%2FBLAH+2",
+			 "@id":"NuclearPowerPlant/AAAAK/output/NuclearPowerPlant/AAAAK/output/AnnualOutput/2019/output/Quantity/http%3A%2F%2Flib.terminusdb.com%2Fnuclear%2FUnit%2F%25E2%2582%25AC+4",
 			 "@type":"Quantity",
-			 "quantity":2,
-			 "unit":"Unit/BLAH"
+			 "quantity":4,
+			 "unit":"Unit/%E2%82%AC"
 		  },
-		  "year":"2018"
+		  "year":"2019"
 	   }
 	],
-	"reactors":
-	   ["ResearchReactor/NEW", "ExperimentalReactor/NEW"]
-	,
-	"url":"https://react-select.com/home"
+	"owner":"ME",
+	"reactors":[
+	   "ExperimentalReactor/AAAAK"
+	],
+	"url":"https://react-select.com/home"*/
  }
 
 
@@ -9564,6 +11277,16 @@ export const SESHAT_FORM_DATA = {
 	   "@id":"Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88",
 	   "@type":"GeneralVariables",
 	   "alternative_names":[
+			{
+				"@id":"Polity/cd8cd55fd3cf23d9f4bbf1b4b823a26a08a31fcf89d22b01105276c4b6953282/general_variables/Polity/cd8cd55fd3cf23d9f4bbf1b4b823a26a08a31fcf89d22b01105276c4b6953282/general_variables/GeneralVariables/c367e0339ee677f9771fbc5f777b4124133addd2b57f27072ae14efdf64130f1/alternative_names/AlternativeNames/00c7028b3fa71857eb717d0aee2506f4b139ec8db6ddcc723561299a0324a7d8",
+				"@type":"AlternativeNames",
+				"unknown":[]
+			},
+			{
+				"@id":"Polity/cd8cd55fd3cf23d9f4bbf1b4b823a26a08a31fcf89d22b01105276c4b6953282/general_variables/Polity/cd8cd55fd3cf23d9f4bbf1b4b823a26a08a31fcf89d22b01105276c4b6953282/general_variables/GeneralVariables/c367e0339ee677f9771fbc5f777b4124133addd2b57f27072ae14efdf64130f1/alternative_names/AlternativeNames/00c7028b3fa71857eb717d0aee2506f4b139ec8db6ddcc723561299a0324a7d8",
+				"@type":"AlternativeNames",
+				"suspected_unknown":[]
+			},
 		  {
 			 "@id":"Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/alternative_names/AlternativeNames/ddf370e067096a0992d24b80e02078a7a9983ba06d3fe1a7c1f6f6b8fb1f958e",
 			 "@type":"AlternativeNames",
@@ -9577,7 +11300,7 @@ export const SESHAT_FORM_DATA = {
 				}
 			 }
 		  },
-		  {
+		  /*{
 			 "@id":"Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/alternative_names/AlternativeNames/f180e2ed44e144ff594d9fbfef6e85945a94abba30e3a8c8233aee34d4d8fec6",
 			 "@type":"AlternativeNames",
 			 "known":{
@@ -9615,9 +11338,9 @@ export const SESHAT_FORM_DATA = {
 					 "to": "1650/18/05"
 			   }
 			}
-		 }
+		 }*/
 	   ],
-	   "capital":[
+	   /*"capital":[
 		  {
 			 "@id":"Polity/AfDurrn/general_variables/Polity/AfDurrn/general_variables/GeneralVariables/5761dff6bea0d725bc26f50c35bf6532c434bf90c7dd4eb7c7cb9f829287fc88/capital/Capital/5f2ef02ee819d1a80b3447b214572ebd61e937330a8d97ad1f2e3747a3ded1dc",
 			 "@type":"Capital",
@@ -9761,9 +11484,9 @@ export const SESHAT_FORM_DATA = {
 				"value":"none"
 			 }
 		  }
-	   ]
+	   ]*/
 	},
-	"institutional_variables":{
+	/*"institutional_variables":{
 	   "@id":"Polity/AfDurrn/institutional_variables/InstitutionalVariables/ba17f811ca05f38ce5416ced69456b1971e1d8327b7e326e172883d6fd645c21",
 	   "@type":"InstitutionalVariables",
 	   "ra":[
@@ -11139,7 +12862,7 @@ export const SESHAT_FORM_DATA = {
 			 }
 		  }
 	   ]
-	}
+	}*/
  }
 
 export const SESHAT_SCHEMA_CAPITAL = {
@@ -11254,6 +12977,11 @@ export const DEMO_SCHEMA_UI = {
 
 
 export const PROFILE_SCHEMA = {
+	"@context": {
+		"@base": "terminusdb:///data/",
+		"@schema": "terminusdb:///schema#",
+		"@type": "Context"
+	  },
 	"terminusdb:///schema#APIKey": {
 	  "@documentation": {
 		"@comment": "the user api  key to connect with the Cloud Server"
@@ -11314,7 +13042,11 @@ export const PROFILE_SCHEMA = {
 	  "@type": "Class",
 	  "creation_date": "xsd:dateTime",
 	  "email_to": "xsd:string",
-	  "invited_by": "User",
+	  //"invited_by": "User",
+	  "invited_by": {
+		"@class": "User",
+		"@type": "Set"
+	  },
 	  "note": {
 		"@class": "xsd:string",
 		"@type": "Optional"
@@ -11345,7 +13077,7 @@ export const PROFILE_SCHEMA = {
 		"@type": "Lexical"
 	  },
 	  "@type": "Class",
-	  "child": {
+	  /*"child": {
 		"@class": "Organization",
 		"@type": "Set"
 	  },
@@ -11357,7 +13089,7 @@ export const PROFILE_SCHEMA = {
 	  "expiration_data": {
 		"@class": "xsd:dateTime",
 		"@type": "Optional"
-	  },
+	  },*/
 	  "invitations": {
 		"@class": {
 		  "@class": "Invitation",
@@ -11367,7 +13099,7 @@ export const PROFILE_SCHEMA = {
 	  },
 	  "organization_name": "xsd:string",
 	  /*"owned_by": "User",*/
-	  "status": {
+	  /*"status": {
 		"@id": "Status",
 		"@type": "Enum",
 		"@values": [
@@ -11386,7 +13118,7 @@ export const PROFILE_SCHEMA = {
 		  "@subdocument": []
 		},
 		"@type": "Optional"
-	  }
+	  }*/
 	},
 	"terminusdb:///schema#Personal": {
 	  "@documentation": {
@@ -11597,25 +13329,14 @@ export const PROFILE_FORM_DATA_SIMPle = {
  }
 
  export const PROFILE_FORM_DATA= {
-	"@id": "User/PETERPETER",
-	"@type": "User",
-	"api_key": [{
-		"@id": "User/PETERPETER/api_key/APIKey/5e50f405ace6cbdf17379f4b9f2b0c9f4144c5e380ea0b9298cb02ebd8ffe511",
-		"@type": "APIKey",
-		"api_description": "mykey",
-		"api_token": "mykey",
-		"key_valid_from": "2011-01-01T01:00:37Z",
-		"key_valid_to": "2011-01-01T01:00:37Z",
-		"status": "active"
-	}],
-	"company": "PETER",
-	"email": "kitty@terminusdb.com",
-	"first_name": "Kitty",
-	"last_name": "Jose",
-	"picture": "PETER",
-	"status": "pending",
-	"user_id": "PETERPETER"
-}
+	"@id":"Organization/TEST%20KJ%201104",
+	"@type":"Organization",
+	"creation_date":"2022-04-11T08:23:34Z",
+	"expiration_data":"2022-04-11T08:23:34Z",
+	"organization_name":"TEST KJ 1104",
+	"owned_by":"User/WHO",
+	"status":"inactive"
+ }
 export const PROFILE_DEMO_DOCUMENTS = {
 	"collaborators":[
 	   "User/PRETO",

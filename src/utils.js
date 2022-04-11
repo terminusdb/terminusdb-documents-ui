@@ -1,15 +1,12 @@
 
 import React from "react"
 import {Button, Form} from "react-bootstrap"
-import {XSD_DATA_TYPE_PREFIX, CREATE, XDD_DATA_TYPE_PREFIX, POINT_TYPE, UI_FRAME_SELECT_STYLE, UI_FRAME_SUBDOCUMENT_STYLE, DIMENSION, ONEOFVALUES, OPTIONAL, SET, ONEOFCLASSES, DOCUMENT, ENUM, VALUE_HASH_KEY, LIST, SYS_UNIT_DATA_TYPE, TDB_SCHEMA, SUBDOCUMENT, ARRAY, COORDINATES} from "./constants"
+import {XSD_DATA_TYPE_PREFIX, CREATE, XDD_DATA_TYPE_PREFIX, POINT_TYPE, UI_FRAME_SELECT_STYLE, UI_FRAME_SUBDOCUMENT_STYLE, DIMENSION, ONEOFVALUES, OPTIONAL, SET, ONEOFCLASSES, DOCUMENT, ENUM, VALUE_HASH_KEY, LIST, SYS_UNIT_DATA_TYPE, TDB_SCHEMA, SUBDOCUMENT, ARRAY, COORDINATES, SUBDOCUMENT_TYPE} from "./constants"
 import {BiKey, BiPlus} from "react-icons/bi"
 import {RiDeleteBin5Fill} from "react-icons/ri"
 import {FcKey} from "react-icons/fc"
 import {BiErrorCircle} from "react-icons/bi"
-import {FaArrowDown, FaArrowUp} from "react-icons/fa"
-import { getFilledChoiceTypeFrames } from "./FilledChoiceTypeFrames"
-
-
+import {FaArrowDown, FaArrowUp, FaHourglassEnd} from "react-icons/fa"
 
 // returns true for properties which are of data types xsd and xdd
 export const isDataType = (property) => {
@@ -24,12 +21,29 @@ export const isSubDocumentType = (property) => {
 	return false
 }
 
+
+// to identify if choice sub documenst
+export const isChoiceSubDocumentType = (property) => {
+	if(typeof property !== "object") return false
+	if(Array.isArray(property)) {
+		let props=property[0]
+		if(props.hasOwnProperty("@class") && props.hasOwnProperty(SUBDOCUMENT))
+			return true
+		return false
+	}
+	return false
+}
+
 // to identify if choice documenst
 export const isChoiceDocumentType = (property) => {
 	if(typeof property !== "object") return false
 	if(Array.isArray(property)) {
-		return true
+		let props=property[0]
+		if(typeof props === "string")
+			return true
+		return false
 	}
+	return false
 }
 
 // returns true for optional
@@ -163,11 +177,20 @@ export function getRequiredForListSubDocs(properties){
 	return required
 }
 
+export function HideArrayFieldTemplate(props) {
+	return <div/>
+}
 
 export function ArrayFieldTemplate(props) {
 	//console.log("props", props)
 	var variant="dark"
 	if(props.schema.info==="SUBDOCUMENT") variant="secondary"
+
+	/*if(props.hasOwnProperty("uiSchema")
+		&& props["uiSchema"].hasOwnProperty("ui:options")
+		&& props["uiSchema"]["ui:options"].hasOwnProperty("addable")
+		&& !props["uiSchema"]["ui:options"]["addable"])
+			return <div/>*/
 
 	/*
 		{props.TitleField && (props.schema.info==="SUBDOCUMENT") && getTitle(props.schema.title, "SUBDOCUMENT")}
@@ -392,11 +415,11 @@ export function removeDefaultsFromDataFrame (json) {
 
 
 // extract document class name from link documents
-export function extractClassName(document, fullFrame, prefix) {
+export function extractClassName(document, fullFrame) {
     let str = document
     let splits = str.split('/')
     let documentClass = splits[0]
-    if(fullFrame.hasOwnProperty( `${prefix}${documentClass}`)) {
+    if(fullFrame.hasOwnProperty( `${extractPrefix(fullFrame)}${documentClass}`)) {
         return splits[0] // if definition available in full frame
     }
     return false
@@ -422,9 +445,10 @@ export function extractPrefix (fullFrame) {
 	if(!fullFrame) return null
 	if(fullFrame.hasOwnProperty("@context") && fullFrame["@context"].hasOwnProperty("@schema"))
 		return fullFrame["@context"]["@schema"]
-	return TDB_SCHEMA
+	//return TDB_SCHEMA
 	//return "http://lib.seshatdatabank.info/schema#"
-	//return "iri://CAMS#"
+	return "iri://CAMS#"
+	//return "http://lib.terminusdb.com/nuclear#"
 }
 
 
@@ -464,4 +488,39 @@ export function extractUIFrameSubDocumentTemplate (uiFrame) {
 		return uiFrame[UI_FRAME_SUBDOCUMENT_STYLE]
 	}
 	return null
+}
+
+// function to extract empty frames from choice any of properties already filled with defaults
+export function getSetChoiceEmptyFrames (frame, item) {
+	let anyOfFrames = frame.properties[item].anyOf, emptyAnyOfFrames=[]
+    if(anyOfFrames && Array.isArray(anyOfFrames)) {
+        anyOfFrames.map(choice => {
+            let choiceStructure = {}
+            for(var chItems in choice) {
+                if(chItems === "properties") {
+                    let propertyStructure={}
+                    for(var props in choice["properties"]) {
+                        // remove default values
+                        propertyStructure[props]={}
+                        // do not remove default of info, since required in extract.js
+                        if(props === "info") {
+                            propertyStructure[props]=choice["properties"][props]
+                        }
+                        else {
+                            for(var pItem in choice["properties"][props]) {
+                                if(pItem !== "default") {
+                                    propertyStructure[props][pItem] = choice["properties"][props][pItem]
+                                }
+                            }
+                        }
+
+                    }
+                    choiceStructure["properties"]=propertyStructure
+                }
+                else choiceStructure[chItems] = choice[chItems]
+            }
+            emptyAnyOfFrames.push(choiceStructure)
+        })
+    }
+	return emptyAnyOfFrames
 }

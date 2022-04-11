@@ -9,10 +9,26 @@ import {
     NUMBER_TYPE,
     BOOLEAN_TYPE,
     DATE_TYPE,
-    DATA_TYPE
+    DATA_TYPE,
+    XSD_G_YEAR,
+    XSD_DATE
 } from "../constants"
 
-// function to provide a ui widget to dates
+// function to provide a ui widget to date
+function getDateUIWidget() {
+    let uiLayout = {}
+    uiLayout["ui:widget"] = "date",
+    uiLayout["ui:options"] = {
+        "yearsRange": [
+            1980,
+            2030
+        ]
+    }
+    uiLayout["classNames"] = "tdb__input mb-3 mt-3 date-list-style"
+    return uiLayout
+}
+
+// function to provide a ui widget to dateTime
 function getDateTimeUIWidget () {
     let uiLayout = {}
     uiLayout["ui:widget"] = "alt-datetime",
@@ -33,6 +49,8 @@ function getDataType(type) {
     else if(type === XSD_INTEGER) return NUMBER_TYPE
     else if(type === XSD_BOOLEAN) return BOOLEAN_TYPE
     else if(type === XSD_DATE_TIME) return DATE_TYPE
+    else if(type === XSD_G_YEAR) return DATE_TYPE
+    else if(type === XSD_DATE) return STRING_TYPE
 }
 
 // Create Layout
@@ -57,6 +75,9 @@ export function getCreateUILayout(frame, item) {
     // if xsd:dateTime, use a separate widget to display
     if(frame[item] === XSD_DATE_TIME) {
         uiLayout=getDateTimeUIWidget()
+    }
+    else if(frame[item] === XSD_DATE) {
+        uiLayout=getDateUIWidget()
     }
     return uiLayout
 }
@@ -113,7 +134,9 @@ export function getViewLayout(frame, item, formData) {
 export function getViewUILayout(frame, item, formData) {
     // hide widget if formData of item is empty
     if(!isFilled(formData, item)) {
-        uiLayout={ "ui:widget" : "hidden" }
+        uiLayout={
+            "ui:widget" : "hidden"
+        }
         return uiLayout
     }
 

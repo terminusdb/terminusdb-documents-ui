@@ -74,6 +74,7 @@ export function getEditUILayout (frame, item, uiFrame) {
 
 // View Layout
 export function getViewLayout(frame, item, formData) {
+
     let layout = {
         type: "object",
         title: item,
@@ -84,6 +85,15 @@ export function getViewLayout(frame, item, formData) {
     // get default value
     let defaultValue=getDefaultValue(item, formData)
     if(defaultValue) layout["default"]=defaultValue
+
+    if(!isFilled(formData, item)) {
+        layout = {
+            type: "object",
+            title: item,
+            info: SUBDOCUMENT_TYPE,
+            //properties: frame.properties
+        }
+    }
 
     return layout
 }

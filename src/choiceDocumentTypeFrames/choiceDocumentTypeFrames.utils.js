@@ -1,10 +1,16 @@
-import {getTitle, getDefaultValue, checkIfKey, isFilled, extractPrefix} from "../utils"
+import React, {useState, useEffect} from "react"
+import {getTitle, getDefaultValue, extractUIFrameSelectTemplate, checkIfKey, isFilled, extractPrefix, extractUIFrameSubDocumentTemplate} from "../utils"
 import {getProperties} from "../FrameHelpers"
+import {EmptyDocumentSelect,  FilledDocumentSelect, FilledDocumentViewSelect} from "../documentTypeFrames/DocumentSelects"
+import AsyncSelect from 'react-select/async'
+import {Form} from "react-bootstrap"
 import {
     XSD_STRING,
     XSD_DECIMAL,
     XSD_DATE_TIME,
     CHOICECLASSES,
+    SELECT_STYLES,
+    DOCUMENT,
     XSD_BOOLEAN,
     STRING_TYPE,
     NUMBER_TYPE,
@@ -14,39 +20,27 @@ import {
 } from "../constants"
 
 // get layout of document class
-function getDocumentLayout(documentClass, fullFrame, current, item, uiFrame, mode, formData, onTraverse, onSelect) {
-    var layout = {}
-    let documentClassIRI = `${extractPrefix(fullFrame)}${documentClass}`
-    let frame = fullFrame[documentClassIRI]
-    let filledData = (formData && formData.hasOwnProperty(item))? formData[item] : {}
-    let exractedProperties = getProperties (fullFrame, current, frame, uiFrame, mode, filledData, onTraverse, onSelect)
-    console.log("exractedProperties", exractedProperties)
-    // add subdocument type as @type field
-    exractedProperties.properties["@type"]={
-        type: "string",
-        title: documentClass,
-        default: documentClass
-    }
-
-    // hide @type field
-    exractedProperties.uiSchema["@type"]={"ui:widget": "hidden"}
-
-    /*layout = {
-        title: documentClass,
-        properties: {
-            //[documentClass]: {
-                title: documentClass,
-                type: "object",
-                properties: exractedProperties.properties,
-                uiProperties:  exractedProperties.uiSchema
-            //}
+function getCreateDocumentLayout(documentClass){
+    let layout = {
+        "title": documentClass,
+        "type": "object",
+        "properties": {
+            [documentClass]: {"type": "string"},
+            "info": {"type": "string", default: CHOICECLASSES, title: "info"}
         }
-    } */
-    layout = {
-        title: documentClass,
-        type: "object",
-        properties: exractedProperties.properties,
-        uiProperties:  exractedProperties.uiSchema
+    }
+    return layout
+}
+// get edit layout of document class
+function getEditDocumentLayout(documentClass, formData){
+
+    let layout = {
+        "title": documentClass,
+        "type": "object",
+        "properties": {
+            [documentClass]: {"type": "string", default: formData? formData: false},
+            "info": {"type": "string", default: CHOICECLASSES, title: "info"}
+        }
     }
     return layout
 }
@@ -58,13 +52,8 @@ export function getCreateLayout(fullFrame, current, frame, item, uiFrame, mode, 
     // get choice documents
     let anyOfArray = []
     frame[item].map(fr => {
-        var documentName
-        if(typeof fr === "object" && fr.hasOwnProperty("@class")) {
-            // optional, set or list
-            documentName=fr["@class"]
-        }
-        else documentName=fr
-        anyOfArray.push(getDocumentLayout(documentName, fullFrame, current, item, uiFrame, mode, formData, onTraverse, onSelect))
+        var documentClass=fr
+        anyOfArray.push(getCreateDocumentLayout(documentClass))
     })
 
     let layout = {
@@ -72,63 +61,76 @@ export function getCreateLayout(fullFrame, current, frame, item, uiFrame, mode, 
         info: CHOICECLASSES,
         title: item,
         description: `Choose ${item} from the list ...`,
-        anyOf: anyOfArray
+        anyOf:anyOfArray
     }
+
     return layout
 }
 
-// Create UI Layout
-export function getCreateUILayout(frame, item, layout) {
+export function getCreateUILayout(frame, item, layout, uiFrame, onSelect) {
+    let subDocuemntBg = extractUIFrameSubDocumentTemplate(uiFrame) ? extractUIFrameSubDocumentTemplate(uiFrame) : 'bg-secondary'
+    // extracting custom ui styles
+    let selectStyle = extractUIFrameSelectTemplate(uiFrame) ? extractUIFrameSelectTemplate(uiFrame) : SELECT_STYLES
+
+
     let uiLayout = {
         "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
-        classNames: "tdb__input mb-3 mt-3"
+        //classNames: "tdb__input mb-3 mt-3",
+        classNames:`card ${subDocuemntBg} p-4 mt-4 mb-4`
     }
 
     if(layout.hasOwnProperty("anyOf") && Array.isArray(layout.anyOf)) {
-
         layout.anyOf.map(aOf => {
-            if(aOf.hasOwnProperty("properties")) {
-                //let DocumentClassName = aOf.title
-                //uiLayout[DocumentClassName] = aOf.properties[DocumentClassName].uiProperties
-                for(var ui in aOf.uiProperties) {
-                    uiLayout[ui]=aOf.uiProperties[ui]
+            let choice = aOf.title
+            function getChoiceSelect(props){
+                const loadOptions = async (inputValue, callback) => {
+                    let opts = await onSelect(inputValue, choice)
+                    callback(opts)
+                    return opts
                 }
+
+                const handleInputChange = (newValue) => {
+                    const inputValue = newValue.replace(/\W/g, '');
+                    return inputValue
+                }
+
+                function onChange(e) {
+                    props.onChange(e.value)
+                }
+
+                return <React.Fragment>
+                    <span>{choice}</span>
+                    <AsyncSelect
+                        cacheOptions
+                        classNames="tdb__input"
+                        styles={selectStyle}
+                        placeholder={ `Select ${choice} ...`}
+                        onChange={onChange}
+                        loadOptions={loadOptions}
+                        onInputChange={handleInputChange}
+                    />
+                </React.Fragment>
             }
+            uiLayout[choice]={
+                "ui:field": getChoiceSelect
+            }
+            uiLayout["info"]={"ui:widget": "hidden"}
         })
     }
+    //console.log("!!! create layout", layout, uiLayout)
 
     return uiLayout
 }
 
 // Edit Layout
 export function getEditLayout(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
+
     // get choice documents
     let anyOfArray = []
+    let defaultValue = (formData && formData.hasOwnProperty(item)) ? formData[item] : null
     frame[item].map(fr => {
-        var documentName
-        if(typeof fr === "object" && fr.hasOwnProperty("@class")) {
-            // optional, set or list
-            documentName=fr["@class"]
-        }
-        else documentName=fr
-        let documentLayout= getDocumentLayout(documentName, fullFrame, current, item, uiFrame, mode, formData, onTraverse, onSelect)
-
-        if(formData.hasOwnProperty(item))  {
-            if(documentLayout.hasOwnProperty("title")
-                && documentLayout.title === formData[item]["@type"]) {
-                    anyOfArray.push(documentLayout)
-            }
-            else if (documentLayout.hasOwnProperty("title")
-                && Array.isArray(formData[item])) {
-                    //set
-                    anyOfArray.push(documentLayout)
-            }
-        }
-        else {
-            anyOfArray.push(documentLayout)
-        }
-
-
+        var documentClass=fr
+        anyOfArray.push(getEditDocumentLayout(documentClass, defaultValue))
     })
 
     let layout = {
@@ -136,100 +138,135 @@ export function getEditLayout(fullFrame, current, frame, item, uiFrame, mode, fo
         info: CHOICECLASSES,
         title: item,
         description: `Choose ${item} from the list ...`,
-        anyOf: anyOfArray
+        anyOf:anyOfArray
     }
+
     return layout
 }
 
-// Edit UI Layout
-export function getEditUILayout(frame, item, layout) {
+export function getEditUILayout(frame, item, layout, uiFrame, onSelect) {
+    let subDocuemntBg = extractUIFrameSubDocumentTemplate(uiFrame) ? extractUIFrameSubDocumentTemplate(uiFrame) : 'bg-secondary'
+    // extracting custom ui styles
+    let selectStyle = extractUIFrameSelectTemplate(uiFrame) ? extractUIFrameSelectTemplate(uiFrame) : SELECT_STYLES
+
+
     let uiLayout = {
         "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
-        classNames: "tdb__input mb-3 mt-3"
+        //classNames: "tdb__input mb-3 mt-3",
+        classNames:`card ${subDocuemntBg} p-4 mt-4 mb-4`
+
     }
 
     if(layout.hasOwnProperty("anyOf") && Array.isArray(layout.anyOf)) {
-
         layout.anyOf.map(aOf => {
-            if(aOf.hasOwnProperty("properties")) {
-                //let DocumentClassName = aOf.title
-                //uiLayout[DocumentClassName] = aOf.properties[DocumentClassName].uiProperties
-                for(var ui in aOf.uiProperties) {
-                    uiLayout[ui]=aOf.uiProperties[ui]
+            let choice = aOf.title
+            function getChoiceSelect(props){
+
+                const [value, setValue]= useState(props.formData ? {value: props.formData, label: props.formData} : null)// select value
+
+                const loadOptions = async (inputValue, callback) => {
+                    let opts = await onSelect(inputValue, choice)
+                    callback(opts)
+                    return opts
                 }
+
+                const handleInputChange = (newValue) => {
+                    const inputValue = newValue.replace(/\W/g, '');
+                    return inputValue
+                }
+
+                function onChange(e) {
+                    props.onChange(e.value)
+                }
+                return <React.Fragment>
+                    {value &&  <React.Fragment>
+                        <span>{choice}</span>
+                        <AsyncSelect
+                            cacheOptions
+                            classNames="tdb__input"
+                            styles={selectStyle}
+                            placeholder={ `Select ${choice} ...`}
+                            onChange={onChange}
+                            loadOptions={loadOptions}
+                            defaultValue={value}
+                            onInputChange={handleInputChange}
+                        />
+                    </React.Fragment>}
+                    {!value &&  <React.Fragment>
+                        <span>{choice}</span>
+                        <AsyncSelect
+                            cacheOptions
+                            classNames="tdb__input"
+                            styles={selectStyle}
+                            placeholder={ `Select ${choice} ...`}
+                            onChange={onChange}
+                            loadOptions={loadOptions}
+                            onInputChange={handleInputChange}
+                        />
+                    </React.Fragment>}
+                </React.Fragment>
+
+
             }
+            uiLayout[choice]={
+                "ui:field": getChoiceSelect
+            }
+            uiLayout["info"]={"ui:widget": "hidden"}
         })
     }
+    console.log("!!! edit layout", layout, uiLayout)
 
     return uiLayout
 }
 
 // View Layout
 export function getViewLayout(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
+
     // get choice documents
     let anyOfArray = []
-    frame[item].map(fr => {
-        var documentName
-        if(typeof fr === "object" && fr.hasOwnProperty("@class")) {
-            // optional, set or list
-            documentName=fr["@class"]
-        }
-        else documentName=fr
-        let documentLayout= getDocumentLayout(documentName, fullFrame, current, item, uiFrame, mode, formData, onTraverse, onSelect)
-
-        if(formData.hasOwnProperty(item))  {
-            if(documentLayout.hasOwnProperty("title")
-                && documentLayout.title === formData[item]["@type"]) {
-                    anyOfArray.push(documentLayout)
-            }
-            else if (documentLayout.hasOwnProperty("title")
-                && Array.isArray(formData[item])) {
-                    //set
-                    anyOfArray.push(documentLayout)
-            }
-        }
-        else {
-            anyOfArray.push(documentLayout)
-        }
-
-    })
-
+    let defaultValue = (formData && formData.hasOwnProperty(item)) ? formData[item] : null
     let layout = {
         type: 'object',
         info: CHOICECLASSES,
-        title: item
-    }
-
-    if(isFilled(formData, item)) {
-        layout["anyOf"]=anyOfArray
-        layout["description"]=`Choose ${item} from the list ...`
+        title: item,
+        default: defaultValue
     }
 
     return layout
 }
 
-// View UI Layout
-export function getViewUILayout(frame, item, layout) {
-    // hide widget if formData of item is empty
-    if(!layout.hasOwnProperty("anyOf")) {
-        uiLayout={ "ui:widget" : "hidden" }
-        return uiLayout
-    }
+export function getViewUILayout(frame, item, layout, uiFrame, onTraverse, onSelect) {
+    function getViewChoice (props) {
+        const [clicked, setClicked]=useState(false)
 
+        useEffect(() => {
+            if(!clicked) return
+            if(onTraverse) onTraverse(clicked)
+        }, [clicked])
+
+        const handleClick = (e, val) => { // view if on traverse function defined
+            setClicked(val)
+        }
+
+        if(!frame.hasOwnProperty(item)) return <div/>
+
+        return <React.Fragment>
+            <Form.Label className="control-label">{item}</Form.Label>
+            <span onClick={(e) => handleClick(e, props.formData)}
+                className="tdb__span__select text-light">
+                    {props.formData}
+            </span>
+        </React.Fragment>
+    }
     let uiLayout = {
         "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
-        classNames: "tdb__input mb-3 mt-3"
+        //classNames: "tdb__input mb-3 mt-3",
+        "ui:field": getViewChoice
     }
 
-    if(layout.hasOwnProperty("anyOf") && Array.isArray(layout.anyOf)) {
-        layout.anyOf.map(aOf => {
-            if(aOf.hasOwnProperty("properties")) {
-                for(var ui in aOf.uiProperties) {
-                    uiLayout[ui]=aOf.uiProperties[ui]
-                }
-            }
-        })
-    }
 
     return uiLayout
 }
+
+
+

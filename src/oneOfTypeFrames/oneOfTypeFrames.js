@@ -6,15 +6,11 @@ import {
 
 import {SYS_UNIT_DATA_TYPE, ONEOFVALUES} from "../constants"
 import {getTitle, getDefaultValue, checkIfKey, isFilled, extractPrefix} from "../utils"
-import {getProperties} from "../FrameHelpers"
 import {
-    getCreateLayout,
-    getCreateUILayout,
-    getEditLayout,
-    getEditUILayout,
-    getViewLayout,
-    getViewUILayout,
-    getCreateDocumentLayout
+    getCreateDocumentLayout,
+    getViewDocumentLayout,
+    getCreateSysUnitDocumentLayout,
+    getViewSysUnitDocumentLayout
 } from "./oneOfTypeFrames.utils"
 
 import {addCustomUI} from "../utils"
@@ -33,7 +29,15 @@ function oneOfTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formDa
             let documentName=fr[oneOf]
             let currentChoice=oneOf
             if(documentName !== SYS_UNIT_DATA_TYPE) {
-                anyOfArray.push(getCreateDocumentLayout(documentName, fullFrame, currentChoice, item, uiFrame, mode, formData, onTraverse, onSelect))
+                if(mode!==VIEW)
+                    anyOfArray.push(getCreateDocumentLayout(documentName, fullFrame, currentChoice, item, uiFrame, mode, formData, onTraverse, onSelect))
+                else anyOfArray.push(getViewDocumentLayout(documentName, fullFrame, currentChoice, item, uiFrame, mode, formData, onTraverse, onSelect))
+            }
+            else if(documentName === SYS_UNIT_DATA_TYPE) {
+                if(mode!==VIEW){
+                    anyOfArray.push(getCreateSysUnitDocumentLayout(documentName, fullFrame, currentChoice, item, uiFrame, mode, formData, onTraverse, onSelect))
+                }
+                else anyOfArray.push(getViewSysUnitDocumentLayout(documentName, fullFrame, currentChoice, item, uiFrame, mode, formData, onTraverse, onSelect))
             }
         }
     })
@@ -52,14 +56,12 @@ function oneOfTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formDa
         classNames: "tdb__input mb-3 mt-3"
     }
 
-    console.log("qqq layout", layout)
+    //console.log("qqq layout", layout)
 
     if(layout.hasOwnProperty("anyOf") && Array.isArray(layout.anyOf)) {
 
         layout.anyOf.map(aOf => {
             if(aOf.hasOwnProperty("properties")) {
-                //let DocumentClassName = aOf.title
-                //uiLayout[DocumentClassName] = aOf.properties[DocumentClassName].uiProperties
                 for(var ui in aOf.uiProperties) {
                     uiLayout[ui]=aOf.uiProperties[ui]
                 }

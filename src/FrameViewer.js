@@ -63,7 +63,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
                 dependencies: properties.dependencies,
             }
             console.log("schema", JSON.stringify(schema, null, 2))
-            //console.log("uiSchema", JSON.stringify(properties.uiSchema, null, 2))
+            console.log("uiSchema", JSON.stringify(properties.uiSchema, null, 2))
 
             console.log("schema", schema)
             console.log("properties.uiSchema", properties.uiSchema)
@@ -103,8 +103,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
         console.log("Data before extract: ",  formData)
         if(onSubmit) {
 
-            var extracted = transformData(mode, schema, formData, frame, current, type)
-
+            var extracted = transformData(mode, schema.properties, formData, frame, current, type)
             onSubmit(extracted)
             console.log("Data submitted: ",  extracted)
             //console.log("Data submitted: ",  JSON.stringify(extracted, null, 2))

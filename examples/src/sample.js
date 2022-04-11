@@ -3,14 +3,16 @@ export const CREATE="Create"
 export const EDIT="Edit"
 export const VIEW="View"
 
-export const DEMO_ACTION=VIEW
-export const DEMO_DOCUMENT_TYPE="SetSubDocumentType"
+export const DEMO_ACTION=EDIT
+export const DEMO_DOCUMENT_TYPE="SetDataTypes"
 
 
 export const DEMO_SCHEMA={
-	"@base": "terminusdb:///data/",
-    "@schema": "terminusdb:///schema#",
-    "@type": "@context",
+	"@context": {
+		"@base": "terminusdb:///data/",
+		"@schema": "terminusdb:///schema#",
+		"@type": "@context"
+	},
 	"terminusdb:///schema#Address": {
 		"@key": {
 			"@type": "Random"
@@ -464,7 +466,7 @@ const DEMO_FORM_DATA_MANDATORY_CHOICE_DOCUMENT_TYPES= {
 
 
 
-export const DEMO_FORM_DATA=DEMO_FORM_DATA_SET_SUBDOCUMENT_TYPES
+export const DEMO_FORM_DATA=DEMO_FORM_DATA_SET_DATA_TYPES
 
 export const DEMO_SCHEMA_UI = {
   "placeholder": "xsd:dateTime"

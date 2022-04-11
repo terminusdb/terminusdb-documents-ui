@@ -180,3 +180,15 @@ legend {
     text-decoration: underline;
     cursor: pointer;
 }
+
+.btn-now,
+.btn-clear {
+    color: #444 !important;
+    background-color: #adb5bd !important;
+    border-color: #adb5bd !important;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    border-radius: 0.2rem;
+    margin: 5px;
+}
+

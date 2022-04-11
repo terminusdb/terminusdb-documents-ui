@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react"
 import {ArrayFieldTemplate, getSubDocumentDescription, addCustomUI} from "../utils"
-import {CREATE, DOCUMENT, EDIT, VIEW, CHOICECLASSES, SELECT_STYLES,ENUM, DATA_TYPE, SUBDOCUMENT_TYPE, ONEOFVALUES} from "../constants"
+import {CREATE, DOCUMENT, EDIT, VIEW, CHOICESUBCLASSES, CHOICECLASSES, SELECT_STYLES,ENUM, DATA_TYPE, SUBDOCUMENT_TYPE, ONEOFVALUES} from "../constants"
 import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'
 import {AsyncTypeahead} from 'react-bootstrap-typeahead'
@@ -28,13 +28,20 @@ import {
     getEditSetEnumTypeLayout,
     getEditSetEnumTypeUILayout,
     getViewSetEnumTypeLayout,
-    geViewSetEnumTypeUILayout,
+    getViewSetEnumTypeUILayout,
     getCreateSetChoiceDocumentTypeLayout,
     getCreateSetChoiceDocumentTypeUILayout,
     getEditSetChoiceDocumentTypeLayout,
     getEditSetChoiceDocumentTypeUILayout,
     getViewSetChoiceDocumentTypeLayout,
     getViewSetChoiceDocumentTypeUILayout,
+    getCreateSetSubChoiceDocumentTypeLayout,
+    getCreateSetSubChoiceDocumentTypeUILayout,
+    getEditSetChoiceSubDocumentTypeLayout,
+    getEditSetChoiceSubDocumentTypeUILayout,
+    getViewSetChoiceSubDocumentTypeLayout,
+    getViewSetChoiceSubDocumentTypeUILayout,
+
     getEditSetOneOfTypeLayout,
     getEditSetOneOfTypeUILayout,
     getViewSetOneOfTypeLayout,
@@ -43,8 +50,35 @@ import {
 } from "./setType.utils"
 import { DEMO_DOCUMENT_TYPE } from "../../examples/src/sample"
 
-// set choice document types
-export function makeSetChoiceTypeFrames (frame, item, uiFrame, mode, formData) {
+// set sub choice document types
+export function makeSetSubChoiceTypeFrames (frame, item, uiFrame, mode, formData) {
+    let properties={}, propertiesUI={}, layout ={}, uiLayout={}
+
+    if (mode === CREATE) {
+        layout=getCreateSetSubChoiceDocumentTypeLayout(frame, item)
+        uiLayout=getCreateSetSubChoiceDocumentTypeUILayout(frame, item)
+    }
+
+    if (mode === EDIT) {
+        layout=getEditSetChoiceSubDocumentTypeLayout(frame, item, formData)
+        uiLayout=getEditSetChoiceSubDocumentTypeUILayout(frame, item)
+    }
+
+    if (mode === VIEW) {
+        layout=getViewSetChoiceSubDocumentTypeLayout(frame, item, formData)
+        uiLayout=getViewSetChoiceSubDocumentTypeUILayout(frame, item, formData)
+    }
+
+    // schema
+    properties[item]=layout
+    // ui schema
+    propertiesUI[item]=uiLayout
+
+    return {properties, propertiesUI}
+}
+
+// set Choice document types
+export function makeSetChoiceTypeFrames (frame, item, uiFrame, mode, formData, onTraverse) {
     let properties={}, propertiesUI={}, layout ={}, uiLayout={}
 
     if (mode === CREATE) {
@@ -59,7 +93,7 @@ export function makeSetChoiceTypeFrames (frame, item, uiFrame, mode, formData) {
 
     if (mode === VIEW) {
         layout=getViewSetChoiceDocumentTypeLayout(frame, item, formData)
-        uiLayout=getViewSetChoiceDocumentTypeUILayout(frame, item)
+        uiLayout=getViewSetChoiceDocumentTypeUILayout(frame, item, onTraverse)
     }
 
     // schema
@@ -87,7 +121,7 @@ export function  makeSetEnumTypeFrames(frame, item, uiFrame, mode, formData) {
 
     if (mode === VIEW) {
         layout=getViewSetEnumTypeLayout(frame, item, formData)
-        uiLayout=geViewSetEnumTypeUILayout(frame, item)
+        uiLayout=getViewSetEnumTypeUILayout(frame, item, formData)
     }
 
     // schema
@@ -115,7 +149,7 @@ export function makeSetDocumentTypeFrames (frame, item, uiFrame, mode, formData,
 
     if (mode === VIEW) {
         layout=getViewSetDocumentTypeLayout(frame, item, formData)
-        uiLayout=getViewSetDocumentTypeUILayout(frame, item, onSelect)
+        uiLayout=getViewSetDocumentTypeUILayout(frame, item, onSelect, uiFrame, formData)
     }
 
     // schema
@@ -205,7 +239,7 @@ function makeSubOneOfTypeFrames(frame, item, uiFrame, mode, formData, onTraverse
 
     if (mode === VIEW) {
         layout=getViewSetOneOfTypeLayout(frame, item, formData, uiFrame)
-        uiLayout=getViewSetOneOfTypeUILayout(frame, item, layout, uiFrame)
+        uiLayout=getViewSetOneOfTypeUILayout(frame, item, layout, uiFrame, formData)
     }
 
     // schema
@@ -217,7 +251,7 @@ function makeSubOneOfTypeFrames(frame, item, uiFrame, mode, formData, onTraverse
 }
 
 
-export const makeSetTypeFrames = (frame, item, uiFrame, mode, formData, onTraverse, onSelect) => {
+export const makeSetTypeFrames = (frame, item, uiFrame, mode, formData, onTraverse, onSelect,fullFrame) => {
     console.log("!!! SET frame", frame)
     let madeFrames = {}
 
@@ -261,8 +295,15 @@ export const makeSetTypeFrames = (frame, item, uiFrame, mode, formData, onTraver
     // set Choice Document classes
     if(frame.hasOwnProperty("properties") && frame["properties"].hasOwnProperty(item)) {
         if(frame["properties"][item].hasOwnProperty("info")
+            && frame["properties"][item]["info"] === CHOICESUBCLASSES)
+            madeFrames=makeSetSubChoiceTypeFrames(frame, item, uiFrame, mode, formData)
+    }
+
+    // set Choice Document classes
+    if(frame.hasOwnProperty("properties") && frame["properties"].hasOwnProperty(item)) {
+        if(frame["properties"][item].hasOwnProperty("info")
             && frame["properties"][item]["info"] === CHOICECLASSES)
-            madeFrames=makeSetChoiceTypeFrames(frame, item, uiFrame, mode, formData)
+            madeFrames=makeSetChoiceTypeFrames(frame, item, uiFrame, mode, formData,onTraverse)
     }
 
     let properties = madeFrames.properties

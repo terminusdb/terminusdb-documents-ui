@@ -7,18 +7,12 @@ import {makeDocumentTypeFrames} from "./documentTypeFrames/documentTypeFrames"
 import {makeSetTypeFrames} from "./setTypeFrames/setTypeFrames"
 import {makeListTypeFrames} from "./listTypeFrames/listTypeFrames"
 import {makeEnumTypeFrames} from "./enumTypeFrames/enumTypeFrames"
+import {makeChoiceSubDocumentTypeFrames} from "./choiceSubDocumentTypeFrames/choiceSubDocumentTypeFrames"
 import {makeChoiceDocumentTypeFrames} from "./choiceDocumentTypeFrames/choiceDocumentTypeFrames"
 import {makeOneOfTypeFrames} from "./oneOfTypeFrames/oneOfTypeFrames"
-//import {makeSetSubDocuments, makeSetData, makeSetDocuments} from "./SetTypeFrame Ref "
-import {makeSetOneOfClassFrames} from "./SetTypeClassFrames"
-//import {makeDocumentTypeFrames} from "./DocumentTypeFrames"
-//import {makeEnumTypeFrames} from "./EnumTypeFrames"
-import {extractPrefix, isChoiceDocumentType, isDataType,isPointType, isSubDocumentType, isOptionalType, isSetType, isDocumentType, isEnumType, isListType, isSubDocumentAndClassType, isDocumentClassArrayType} from "./utils"
+import {extractPrefix, isChoiceSubDocumentType, isChoiceDocumentType, isDataType,isPointType, isSubDocumentType, isOptionalType, isSetType, isDocumentType, isEnumType, isListType, isSubDocumentAndClassType, isDocumentClassArrayType} from "./utils"
 import {DOCUMENT, ENUM, DATA, LONGITUDE, LATITUDE, VIEW, GEO_CORDINATES, COORDINATES, SUBDOCUMENT, ONEOFCLASSES} from "./constants"
-import {OptionalDocumentTypeFrames} from "./OptionalTypeFrames"
-import {makeChoiceTypeFrames} from "./ChoiceTypeFrames"
 import {makeGeoCordinateFrames, makeMultipleGeoCordinateFrames} from "./GeoCordinatesTypeFrames"
-import {makeOneOfClassFrames} from "./OneOfClassFrames copy"
 import {makeGeoFrames} from "./GeoFrames"
 
 function constructOptionalFrame (frame, item) {
@@ -72,6 +66,14 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
         if(item === "@key") continue
         else if(item === "@type") continue
         else if(item === "@subdocument") continue
+        else if(item.toUpperCase() === LATITUDE.toUpperCase() && mode === VIEW) {
+            let frames = makeGeoCordinateFrames(frame, item, uiFrame, mode, formData)
+            properties[item] = frames.properties[item]
+            propertiesUI[item] = frames.propertiesUI[item]
+        }
+        else if(item.toUpperCase() === LONGITUDE.toUpperCase() && mode === VIEW) {
+            //ignore longitude - since logic is done in latitude
+        }
         else if(item === "@oneOf") { // datatype properties like xsd:/ xdd:
             let frames = makeOneOfTypeFrames(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect)
             // current is the proeprty name - instead of @oneOf
@@ -84,9 +86,15 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
             propertiesUI[item] = frames.propertiesUI[item]
             required.push(item)
         }
-        else if (frame[item] && isChoiceDocumentType(frame[item])) { // choice Document
+        else if (frame[item] && isChoiceSubDocumentType(frame[item])) { // choice Sub Document
             //let constructedChoiceFrame = constructOptionalFrame(frame[item], item)
             //console.log("constructedChoiceFrame", constructedChoiceFrame)
+            let frames = makeChoiceSubDocumentTypeFrames(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect)
+            properties[item] = frames.properties[item]
+            propertiesUI[item] = frames.propertiesUI[item]
+            required.push(item)
+        }
+        else if (frame[item] && isChoiceDocumentType(frame[item])) { // choice Document
             let frames = makeChoiceDocumentTypeFrames(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect)
             properties[item] = frames.properties[item]
             propertiesUI[item] = frames.propertiesUI[item]
@@ -130,7 +138,7 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
             let newFrame=isSubDocumentAndClassType(frame[item], fullFrame, extractPrefix(fullFrame))
             let classType=frame[item]
             let subDocumentFrames = constructSubDocumentFrame(fullFrame, item, newFrame, classType, uiFrame, mode, formData, onTraverse, onSelect)
-            console.log("newFrame", subDocumentFrames)
+            //console.log("newFrame", subDocumentFrames)
             let frames = makeSubDocumentFrames(subDocumentFrames, item, uiFrame, mode, formData, onTraverse, onSelect)
 
             //set properties and ui
@@ -150,7 +158,7 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
 
             let setProperties = getProperties(fullFrame, item, constructedSetFrame, uiFrame, mode, formData, onTraverse, onSelect)
 
-            let setFrames = makeSetTypeFrames(setProperties, item, uiFrame, mode, formData, onTraverse, onSelect)
+            let setFrames = makeSetTypeFrames(setProperties, item, uiFrame, mode, formData, onTraverse, onSelect, fullFrame)
 
             //set properties and ui
             properties[item] = setFrames.properties[item]

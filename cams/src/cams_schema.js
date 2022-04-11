@@ -618,6 +618,11 @@ export const CAMS_SCHEMA = {
 }
 
 export const CAMS_SCHEMA_FULL_ASSET = {
+  "@context": {
+    "@base": "iri://CAMS/",
+    "@schema": "iri://CAMS#",
+    "@type": "Context"
+  },
   "iri://CAMS#Area": {
     "@type": "Class",
     "extent": {
@@ -687,7 +692,7 @@ export const CAMS_SCHEMA_FULL_ASSET = {
       "@type": "Lexical"
     },
     "@type": "Class",
-    /*"applicable_hazards": {
+    "applicable_hazards": {
       "@class": {
         "@id": "Hazard",
         "@type": "Enum",
@@ -714,7 +719,7 @@ export const CAMS_SCHEMA_FULL_ASSET = {
         ]
       },
       "@type": "Set"
-    },*/
+    },
     "asset_history": {
       "@class": [
         {
@@ -728,7 +733,7 @@ export const CAMS_SCHEMA_FULL_ASSET = {
       ],
       "@type": "Set"
     },
-    /*"asset_identifier": "xsd:string",
+    "asset_identifier": "xsd:string",
     "asset_update_history": {
       "@class": {
         "@class": "UpdateEvent",
@@ -737,6 +742,10 @@ export const CAMS_SCHEMA_FULL_ASSET = {
       "@type": "Set"
     },
     "commisioning_date": "xsd:dateTime",
+    "description": {
+      "@class": "xsd:string",
+      "@type": "Set"
+    },
     "design_standards": "xsd:string",
     "last_maintained": "xsd:dateTime",
     "last_modified": "xsd:dateTime",
@@ -752,7 +761,7 @@ export const CAMS_SCHEMA_FULL_ASSET = {
     "spatial_web_identifier": {
       "@class": "SpatialWebIdentifier",
       "@type": "Optional"
-    }*/
+    }
   },
   "iri://CAMS#AssetType": {
     "@abstract": [],
@@ -919,6 +928,17 @@ export const CAMS_SCHEMA_FULL_ASSET = {
     "@values": [
       "GeometryCollection"
     ]
+  },
+  "iri://CAMS#GradedHazard": {
+    "@key": {
+      "@type": "Random"
+    },
+    "@subdocument": [],
+    "@type": "Class",
+    "Grade": {
+      "@class": "xsd:decimal",
+      "@type": "Optional"
+    }
   },
   "iri://CAMS#Hazard": {
     "@type": "Enum",
@@ -2019,7 +2039,48 @@ export const CAMS_SCHEMA_LATEST_LOCATION = {
   }
 }
 
-export const LOCATION_FORM_DATA = {
+export const LOCATION_FORM_DATA={
+  "@id":"Asset/TEST%20KJ%20KJ%20",
+  "@type":"Asset",
+  "asset_history":[
+     {
+        "@id":"Asset/TEST%20KJ%20KJ%20/asset_history/HazardEvent/iri%3A%2F%2FCAMS%23Hazard%2F%2522Sunny%2520Day%2522%2520Tidal%2520Flooding+2022-04-11T07%3A43%3A38Z",
+        "@type":"HazardEvent",
+        "comment":"HazzardHELLO",
+        "date":"2022-04-11T07:43:38Z",
+        "hazard":"\"Sunny Day\" Tidal Flooding"
+     }
+  ],
+  "asset_identifier":"TEST KJ KJ ",
+  "commisioning_date":"2022-04-11T07:43:46Z",
+  "design_standards":"TEST KJ KJ ",
+  "last_maintained":"2022-04-11T07:43:50Z",
+  "last_modified":"2022-04-11T07:43:50Z",
+  "location":{
+     "@id":"Asset/TEST%20KJ%20KJ%20/location/Location/ff26caf00486b8b4db4517cbca17cfa54c03db7bba2ec9092024b6396f892bb7",
+     "@type":"Location",
+     "city":"dublin",
+     "geometry_location":{
+        "@id":"Asset/TEST%20KJ%20KJ%20/location/Asset/TEST%20KJ%20KJ%20/location/Location/ff26caf00486b8b4db4517cbca17cfa54c03db7bba2ec9092024b6396f892bb7/geometry_location/Point/011b60ba0e42dc2d4147ba6de5a904bcd8849dbc7004cf31feece0c0e7b07d46",
+        "@type":"Point",
+        "coordinates":[
+           124,
+           21
+        ],
+        "type":"Point"
+     },
+     "postal_code":"6",
+     "state":"Dublin",
+     "street":"5 beverly leinster square rathmines dublin 6"
+  },
+  "name":"Kitty Jose",
+  "owner":[
+     "Owner/fcb04083919f697774557f0eca18aa0115b36d95127655dc85ec8cadfc0cbe3f"
+  ],
+  "spatial_web_identifier":"SpatialWebIdentifier/927c5a4328352aa3f43648932a23749b180ad8826375ed3ff26e00e0fcc1e2c6"
+}
+
+export const LOCATION_FORM_DATA_01 = {
   location: {
     "@id": "Asset/Portsmouth/location/Location/084aa8f65af81a000625d235b5399c3fe6142ed55570207a94a6acc3478b1e54",
     "@type": "Location",
@@ -2033,7 +2094,7 @@ export const LOCATION_FORM_DATA = {
     "postal_code": "Portsmouth City",
     "state": "Portsmouth City",
     "street": "Portsmouth City"
-},"asset_history": [
+}/*,"asset_history": [
   {
     "@id": "Asset/e8be3b68397b2bdbeab147c7f2b993e3abc69dadf893defcebde5761cfe52539/asset_history/UpdateEvent/UE+2011-01-01T01%3A00%3A37Z",
     "@type": "UpdateEvent",
@@ -2054,7 +2115,7 @@ export const LOCATION_FORM_DATA = {
     "date": "2011-01-01T01:00:37Z"
   }
 
-]
+]*/
 }
 
 

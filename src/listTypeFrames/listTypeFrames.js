@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react"
 import {ArrayFieldTemplate, getSubDocumentDescription, addCustomUI} from "../utils"
-import {CREATE, DOCUMENT, EDIT, VIEW, CHOICECLASSES, SELECT_STYLES,ENUM, DATA_TYPE, SUBDOCUMENT_TYPE} from "../constants"
+import {CREATE, DOCUMENT, EDIT, VIEW, CHOICESUBCLASSES, SELECT_STYLES,ENUM, DATA_TYPE, SUBDOCUMENT_TYPE} from "../constants"
 import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'
 import {AsyncTypeahead} from 'react-bootstrap-typeahead'
@@ -212,7 +212,7 @@ export const makeListTypeFrames = (frame, item, uiFrame, mode, formData, onTrave
     // set Choice Document classes
     if(frame.hasOwnProperty("properties") && frame["properties"].hasOwnProperty(item)) {
         if(frame["properties"][item].hasOwnProperty("info")
-            && frame["properties"][item]["info"] === CHOICECLASSES)
+            && frame["properties"][item]["info"] === CHOICESUBCLASSES)
             madeFrames=makeSetChoiceTypeFrames(frame, item, uiFrame, mode, formData)
     }
 

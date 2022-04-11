@@ -11,28 +11,28 @@ import {
     getEditUILayout,
     getViewLayout,
     getViewUILayout
-} from "./choiceDocumentTypeFrames.utils"
+} from "./choiceSubDocumentTypeFrames.utils"
 
 import {addCustomUI} from "../utils"
 
 
 // get choice  type frames
-function choiceDocumentTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
+function choiceSubDocumentTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
     let properties={}, propertiesUI={}, layout ={}, uiLayout={}
 
     if (mode === CREATE) {
         layout=getCreateLayout(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect)
         // pass layout here, since it has the ui layout as well from getProperties()
-        uiLayout=getCreateUILayout(frame, item, layout, uiFrame, onSelect)
+        uiLayout=getCreateUILayout(frame, item, layout, uiFrame)
     }
     else if (mode === EDIT) {
         layout=getEditLayout(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect)
         //// pass layout here, since it has the ui layout as well from getProperties()
-        uiLayout=getEditUILayout(frame, item, layout, uiFrame, onSelect)
+        uiLayout=getEditUILayout(frame, item, layout, uiFrame)
     }
     else if (mode === VIEW) {
         layout=getViewLayout(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect)
-        uiLayout=getViewUILayout(frame, item, layout, uiFrame, onTraverse, onSelect)
+        uiLayout=getViewUILayout(frame, item, layout, uiFrame)
     }
 
     // custom ui:schema - add to default ui schema
@@ -47,8 +47,8 @@ function choiceDocumentTypeFrames (fullFrame, current, frame, item, uiFrame, mod
 }
 
 // mandatory
-export function makeChoiceDocumentTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
-    let madeFrames = choiceDocumentTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect)
+export function makeChoiceSubDocumentTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
+    let madeFrames = choiceSubDocumentTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect)
 
     let properties = madeFrames.properties
     let propertiesUI = madeFrames.propertiesUI

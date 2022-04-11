@@ -9,12 +9,22 @@ import {FormData} from "./FormData"
 import {DEMO_SCHEMA, CURRENT, CURRENT_DATA, MRP_SCHEMA, MRP_SCHEMA_FORM_DATA, SESHAT_TEST_FORM_DATA, SESHAT_SCHEMA_FULL, SESHAT_SCHEMA_SMALL, SMALL_SCHEMA, SMALL_SCHEMA_FORM_DATA, SESHAT_FORM_DATA, SESHAT_SCHEMA, NUCLEAR_SCHEMA, NUCLEAR_FORM_DATA, PROFILE_FORM_DATA, PROFILE_SCHEMA, PROFILE_FORM_DATA_USER, DEMO_FORM_DATA, DEMO_SCHEMA_UI, DEMO_DOCUMENT_TYPE, CREATE} from "./sample"
 
 const App= (props) =>{
+    // nuclear
 
-    const [schema, setSchema]=useState(SESHAT_SCHEMA_SMALL) //schema
+    const [schema, setSchema]=useState(PROFILE_SCHEMA) //schema
+    const [uiSchema, setUISchema]=useState(DEMO_SCHEMA_UI) //ui schema
+    const [type, setType]=useState("Organization")  // document type
+    const [mode, setMode]=useState("Edit")  // mode
+    const [formData, setFormData]=useState(PROFILE_FORM_DATA) // formdata => required only on edit/ view
+
+
+    // seshat
+    /*const [schema, setSchema]=useState(SESHAT_SCHEMA_SMALL) //schema
     const [uiSchema, setUISchema]=useState(DEMO_SCHEMA_UI) //ui schema
     const [type, setType]=useState("Polity")  // document type
     const [mode, setMode]=useState("View")  // mode
-    const [formData, setFormData]=useState(SESHAT_TEST_FORM_DATA) // formdata => required only on edit/ view
+    const [formData, setFormData]=useState(SESHAT_FORM_DATA) // formdata => required only on edit/ view
+    */
 
     return <Container fluid className="p-0 h-100 d-flex">
         <div className="side-black ml-2 mt-4 w-100 d-flex">

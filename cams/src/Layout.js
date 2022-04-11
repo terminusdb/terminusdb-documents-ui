@@ -6,7 +6,7 @@ const TerminusDBClient = require("@terminusdb/terminusdb-client")
 import {token} from './ref'
 
 const App= (props) =>{
-    const [schema, setSchema]=useState(CAMS_SCHEMA_FULL)
+    const [schema, setSchema]=useState(CAMS_SCHEMA_FULL_ASSET)
     const [message, setMessage]=useState(false)
     const [mode, setMode]=useState("View")
 
