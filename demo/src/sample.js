@@ -13333,10 +13333,25 @@ export const PROFILE_FORM_DATA_SIMPle = {
 	"@type":"Organization",
 	"creation_date":"2022-04-11T08:23:34Z",
 	"expiration_data":"2022-04-11T08:23:34Z",
+	"invitations":[
+	   {
+		  "@id":"Organization/TEST%20KJ%201104/invitations/Invitation/63aa362c6e3896843add2d33fd1cb9f89de272b96b46e636942fde449baea93b",
+		  "@type":"Invitation",
+		  "creation_date":"2022-04-11T10:20:38Z",
+		  "email_to":"kitzkan@gmail.com",
+		  "invited_by":[
+			 "User/BLUEME"
+		  ],
+		  "note":"MAGIC",
+		  "role":"MAGIC",
+		  "status":"inactive"
+	   }
+	],
 	"organization_name":"TEST KJ 1104",
 	"owned_by":"User/WHO",
 	"status":"inactive"
  }
+
 export const PROFILE_DEMO_DOCUMENTS = {
 	"collaborators":[
 	   "User/PRETO",

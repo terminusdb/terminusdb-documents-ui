@@ -413,7 +413,8 @@ export function getEditSetDocumentTypeUILayout (frame, item, onSelect) {
 
                 // loadOptions on AsyncSelect
                 const loadOptions = async (inputValue, callback) => {
-                    let opts = await onSelect(inputValue, frame[item])
+                    let type = frame.properties[item]["linked_to"]
+                    let opts = await onSelect(inputValue, type)
                     callback(opts)
                     return opts
                 }
@@ -541,7 +542,6 @@ export function getViewSetDocumentTypeUILayout (frame, item, onSelect, uiFrame, 
     }
     // extracting custom ui styles
     let selectStyle = extractUIFrameSelectTemplate(uiFrame) ? extractUIFrameSelectTemplate(uiFrame) : SELECT_STYLES
-
 
     // getting the layout to put correct st values
     for( var ui in frame.uiSchema[item] ) {
