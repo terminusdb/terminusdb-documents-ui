@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import {ArrayFieldTemplate, checkIfKey, getSetChoiceEmptyFrames, HideArrayFieldTemplate, extractUIFrameSelectTemplate, extractUIFrameSubDocumentTemplate, getSubDocumentTitle, getTitle, getDefaultValue, isFilled, getSetTitle} from "../utils"
+import {ArrayFieldTemplate, addCustomUI, checkIfKey, getSetChoiceEmptyFrames, HideArrayFieldTemplate, extractUIFrameSelectTemplate, extractUIFrameSubDocumentTemplate, getSubDocumentTitle, getTitle, getDefaultValue, isFilled, getSetTitle} from "../utils"
 import {CREATE, DOCUMENT, EDIT, VIEW, SELECT_STYLES, SUBDOCUMENT_TYPE, ONEOFVALUES} from "../constants"
 import {FilledDocumentSelect, EmptyDocumentSelect} from "../documentTypeFrames/DocumentSelects"
 import {Form} from "react-bootstrap"
@@ -19,7 +19,7 @@ export function getCreateSetSubDocumentTypeLayout (frame, item) {
 }
 
 // create set subDocument type ui layout
-export function getCreateSetSubDocumentTypeUILayout (frame, item) {
+export function getCreateSetSubDocumentTypeUILayout (frame, item, uiFrame) {
     let uiLayout= {}
     if(frame.hasOwnProperty("uiSchema")) {
         uiLayout= {
@@ -34,7 +34,9 @@ export function getCreateSetSubDocumentTypeUILayout (frame, item) {
         }
     }
 
-    return uiLayout
+    // custom ui:schema - add to default ui schema
+    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
+    return addedCustomUI
 }
 
 // edit set subDocument type layout
@@ -789,7 +791,7 @@ export function getCreateSetSubChoiceDocumentTypeLayout(frame, item) {
 }
 
 // create set Sub Choice Document type ui layout
-export function getCreateSetSubChoiceDocumentTypeUILayout (frame, item) {
+export function getCreateSetSubChoiceDocumentTypeUILayout (frame, item, uiFrame) {
     let uiLayout= {}
     if(frame.hasOwnProperty("uiSchema")) {
         uiLayout= {
@@ -803,8 +805,10 @@ export function getCreateSetSubChoiceDocumentTypeUILayout (frame, item) {
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
         }
     }
+    // custom ui:schema - add to default ui schema
+    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
+    return addedCustomUI
 
-    return uiLayout
 }
 
 // edit set Sub Choice Document type layout
@@ -970,8 +974,9 @@ export function getCreateSetChoiceDocumentTypeLayout(frame, item) {
 }
 
 // create set Choice Document type ui layout
-export function getCreateSetChoiceDocumentTypeUILayout (frame, item) {
+export function getCreateSetChoiceDocumentTypeUILayout (frame, item, uiFrame) {
     let uiLayout= {}
+
     if(frame.hasOwnProperty("uiSchema")) {
         uiLayout= {
             items: frame.uiSchema[item],
@@ -985,6 +990,8 @@ export function getCreateSetChoiceDocumentTypeUILayout (frame, item) {
         }
     }
 
+    // custom ui:schema - add to default ui schema
+    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
     return uiLayout
 }
 

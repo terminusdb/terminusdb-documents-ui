@@ -1,4 +1,4 @@
-import {getTitle, getDefaultValue, checkIfKey, isFilled} from "../utils"
+import {getTitle, getDefaultValue, addCustomUI, checkIfKey, isFilled} from "../utils"
 import {
     XSD_STRING,
     XSD_DECIMAL,
@@ -65,8 +65,10 @@ export function getCreateLayout(frame, item) {
     return layout
 }
 
+
 // Create UI Layout
-export function getCreateUILayout(frame, item) {
+export function getCreateUILayout(frame, item, uiFrame) {
+
     let uiLayout = {
         "ui:placeholder": frame[item],
         "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
@@ -79,7 +81,9 @@ export function getCreateUILayout(frame, item) {
     else if(frame[item] === XSD_DATE) {
         uiLayout=getDateUIWidget()
     }
-    return uiLayout
+    // custom ui:schema - add to default ui schema
+    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
+    return addedCustomUI
 }
 
 // Edit Layout
@@ -97,7 +101,8 @@ export function getEditLayout(frame, item, formData) {
 }
 
 // Edit UI Layout
-export function getEditUILayout(frame, item, formData) {
+export function getEditUILayout(frame, item, formData, uiFrame) {
+
     let uiLayout = {
         "ui:placeholder": frame[item],
         "ui:disabled": checkIfKey(item, frame["@key"]) && isFilled(formData, item) ? true : false,
@@ -116,7 +121,9 @@ export function getEditUILayout(frame, item, formData) {
         }
         uiLayout["classNames"] = "tdb__input mb-3 mt-3 date-list-style"
     }
-    return uiLayout
+    // custom ui:schema - add to default ui schema
+    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
+    return addedCustomUI
 }
 
 // View Layout
@@ -131,7 +138,7 @@ export function getViewLayout(frame, item, formData) {
 }
 
 // View UI Layout
-export function getViewUILayout(frame, item, formData) {
+export function getViewUILayout(frame, item, formData, uiFrame) {
     // hide widget if formData of item is empty
     if(!isFilled(formData, item)) {
         uiLayout={
@@ -145,5 +152,7 @@ export function getViewUILayout(frame, item, formData) {
         "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
         classNames: "tdb__input mb-3 mt-3",
     }
-    return uiLayout
+    // custom ui:schema - add to default ui schema
+    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
+    return addedCustomUI
 }

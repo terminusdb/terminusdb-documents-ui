@@ -1,4 +1,4 @@
-import {getTitle, getDefaultValue, checkIfKey, isFilled, extractPrefix, extractUIFrameSubDocumentTemplate} from "../utils"
+import {getTitle, getDefaultValue, addCustomUI, checkIfKey, isFilled, extractPrefix, extractUIFrameSubDocumentTemplate} from "../utils"
 import {getProperties} from "../FrameHelpers"
 import {
     XSD_STRING,
@@ -102,7 +102,10 @@ export function getCreateUILayout(frame, item, layout, uiFrame) {
         })
     }
 
-    return uiLayout
+    // custom ui:schema - add to default ui schema
+    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
+
+    return addedCustomUI
 }
 
 // Edit Layout

@@ -63,6 +63,10 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
 
     for(var item in frame) {
 
+        if(item === "asset_history") {
+            console.log("break her")
+        }
+
         if(item === "@key") continue
         else if(item === "@type") continue
         else if(item === "@subdocument") continue

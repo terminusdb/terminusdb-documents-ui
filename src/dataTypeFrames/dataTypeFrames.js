@@ -22,15 +22,15 @@ function dataTypeFrames (frame, item, uiFrame, mode, formData) {
 
     if (mode === CREATE) {
         layout=getCreateLayout(frame, item)
-        uiLayout=getCreateUILayout(frame, item)
+        uiLayout=getCreateUILayout(frame, item, uiFrame)
     }
     else if (mode === EDIT) {
         layout=getEditLayout(frame, item, formData)
-        uiLayout=getEditUILayout(frame, item, formData)
+        uiLayout=getEditUILayout(frame, item, formData, uiFrame)
     }
     else if (mode === VIEW) {
         layout=getViewLayout(frame, item, formData)
-        uiLayout=getViewUILayout(frame, item, formData)
+        uiLayout=getViewUILayout(frame, item, formData, uiFrame)
     }
 
     // custom ui:schema - add to default ui schema

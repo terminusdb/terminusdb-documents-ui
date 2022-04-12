@@ -3,8 +3,8 @@ export const CREATE="Create"
 export const EDIT="Edit"
 export const VIEW="View"
 
-export const DEMO_ACTION=EDIT
-export const DEMO_DOCUMENT_TYPE="SetDataTypes"
+export const DEMO_ACTION=CREATE
+export const DEMO_DOCUMENT_TYPE="MandatoryDataTypes"
 
 
 export const DEMO_SCHEMA={
@@ -37,11 +37,11 @@ export const DEMO_SCHEMA={
 			],
 			"@type": "Lexical"
 		},
-		"@type": "Class",
+		/*"@type": "Class",
 		"DOB": "xsd:dateTime",
 		"active": "xsd:boolean",
 		"age": "xsd:decimal",
-		"identifier": "xsd:string",
+		"identifier": "xsd:string",*/
 		"name": "xsd:string"
 	},
 	"terminusdb:///schema#MandatorySubDocument": {

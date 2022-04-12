@@ -56,7 +56,7 @@ export function makeSetSubChoiceTypeFrames (frame, item, uiFrame, mode, formData
 
     if (mode === CREATE) {
         layout=getCreateSetSubChoiceDocumentTypeLayout(frame, item)
-        uiLayout=getCreateSetSubChoiceDocumentTypeUILayout(frame, item)
+        uiLayout=getCreateSetSubChoiceDocumentTypeUILayout(frame, item, uiFrame)
     }
 
     if (mode === EDIT) {
@@ -83,7 +83,7 @@ export function makeSetChoiceTypeFrames (frame, item, uiFrame, mode, formData, o
 
     if (mode === CREATE) {
         layout=getCreateSetChoiceDocumentTypeLayout(frame, item)
-        uiLayout=getCreateSetChoiceDocumentTypeUILayout(frame, item)
+        uiLayout=getCreateSetChoiceDocumentTypeUILayout(frame, item, uiFrame)
     }
 
     if (mode === EDIT) {
@@ -166,7 +166,7 @@ export function makeSubDocumentTypeFrames (frame, item, uiFrame, mode, formData,
 
     if (mode === CREATE) {
         layout=getCreateSetSubDocumentTypeLayout(frame, item)
-        uiLayout=getCreateSetSubDocumentTypeUILayout(frame, item)
+        uiLayout=getCreateSetSubDocumentTypeUILayout(frame, item, uiFrame)
     }
 
     if (mode === EDIT) {

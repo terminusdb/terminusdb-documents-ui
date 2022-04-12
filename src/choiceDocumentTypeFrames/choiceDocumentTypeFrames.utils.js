@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import {getTitle, getDefaultValue, extractUIFrameSelectTemplate, checkIfKey, isFilled, extractPrefix, extractUIFrameSubDocumentTemplate} from "../utils"
+import {getTitle, getDefaultValue,addCustomUI, extractUIFrameSelectTemplate, checkIfKey, isFilled, extractPrefix, extractUIFrameSubDocumentTemplate} from "../utils"
 import {getProperties} from "../FrameHelpers"
 import {EmptyDocumentSelect,  FilledDocumentSelect, FilledDocumentViewSelect} from "../documentTypeFrames/DocumentSelects"
 import AsyncSelect from 'react-select/async'
@@ -119,7 +119,10 @@ export function getCreateUILayout(frame, item, layout, uiFrame, onSelect) {
     }
     //console.log("!!! create layout", layout, uiLayout)
 
-    return uiLayout
+    // custom ui:schema - add to default ui schema
+    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
+
+    return addedCustomUI
 }
 
 // Edit Layout

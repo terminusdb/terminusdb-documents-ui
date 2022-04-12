@@ -62,6 +62,7 @@ export function getCreateUILayout (frame, item, onSelect, uiFrame) {
         classNames: "tdb__input mb-3 mt-3",
         "ui:field": displayEmptySelect
     }
+
     return uiLayout
 }
 

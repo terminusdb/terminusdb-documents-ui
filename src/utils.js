@@ -457,17 +457,33 @@ export function extractPrefix (fullFrame) {
 export function addCustomUI (item, uiFrame, uiLayout) {
 	if(!uiFrame) return uiLayout
 	if(!Object.keys(uiFrame).length) return uiLayout
-	let customUILayout = uiLayout
+	if(item === "asset_history") {
+		console.log("break her")
+	}
+	let defaultUILayout = uiLayout
 	if(uiFrame && uiFrame.hasOwnProperty(item)) {
         for (var uiItems in uiFrame[item]) {
-            if(customUILayout.hasOwnProperty(uiItems)) {
-                let uiDefault = customUILayout[uiItems]
-                customUILayout[uiItems] = `${uiDefault} ${uiFrame[item][uiItems]}`
+            if(defaultUILayout.hasOwnProperty(uiItems)
+				&& uiItems !== "ui:widget"
+				&& uiItems !== "ui:placeholder") {
+                let uiDefault = defaultUILayout[uiItems]
+                defaultUILayout[uiItems] = `${uiDefault} ${uiFrame[item][uiItems]}`
             }
-            else customUILayout[uiItems] = customUILayout[uiItems]
+            else defaultUILayout[uiItems] = uiFrame[item][uiItems]
         }
     }
-	return customUILayout
+	//console.log("defaultUILayout", item, defaultUILayout)
+	if(defaultUILayout.hasOwnProperty("ui:widget") && defaultUILayout["ui:widget"] === "hidden") {
+		if(defaultUILayout.hasOwnProperty("ui:ArrayFieldTemplate")){
+			// array type - set or list
+			defaultUILayout={
+				"ui:widget": 'hidden',
+				"ui:ArrayFieldTemplate": HideArrayFieldTemplate
+			}
+		}
+		else defaultUILayout={"ui:widget": 'hidden'}
+	}
+	return defaultUILayout
 }
 
 // function to check if custom uiFrame has select_style defined
