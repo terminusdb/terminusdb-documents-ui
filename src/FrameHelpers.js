@@ -11,7 +11,7 @@ import {makeChoiceSubDocumentTypeFrames} from "./choiceSubDocumentTypeFrames/cho
 import {makeChoiceDocumentTypeFrames} from "./choiceDocumentTypeFrames/choiceDocumentTypeFrames"
 import {makeOneOfTypeFrames} from "./oneOfTypeFrames/oneOfTypeFrames"
 import {extractPrefix, isChoiceSubDocumentType, isChoiceDocumentType, isDataType,isPointType, isSubDocumentType, isOptionalType, isSetType, isDocumentType, isEnumType, isListType, isSubDocumentAndClassType, isDocumentClassArrayType} from "./utils"
-import {DOCUMENT, ENUM, DATA, LONGITUDE, LATITUDE, VIEW, GEO_CORDINATES, COORDINATES, SUBDOCUMENT, ONEOFCLASSES} from "./constants"
+import {DOCUMENT, ENUM, DATA, LONGITUDE, LATITUDE, VIEW, GEO_CORDINATES, SUBDOCUMENT_CONSTRUCTED_FRAME, COORDINATES, SUBDOCUMENT, ONEOFCLASSES} from "./constants"
 import {makeGeoCordinateFrames, makeMultipleGeoCordinateFrames} from "./GeoCordinatesTypeFrames"
 import {makeGeoFrames} from "./GeoFrames"
 
@@ -32,10 +32,15 @@ function constructSubDocumentFrame (fullFrame, current, frame, item, uiFrame, mo
     let subDocumentName=item
     let subDocument = `${extractPrefix(fullFrame)}${subDocumentName}`
     let subDocumentFormData=(formData && formData.hasOwnProperty(current)) ? formData[current] : {}
+    let constructedFrame=fullFrame[subDocument]
+    if(Object.keys(subDocumentFormData).length === 0
+        && Array.isArray(formData)) {
+            constructedFrame["info"]=SUBDOCUMENT_CONSTRUCTED_FRAME
+    }
     let subDocumentFrames = getProperties(
             fullFrame,
             current,
-            fullFrame[subDocument],
+            constructedFrame,
             uiFrame,
             mode,
             subDocumentFormData,
@@ -63,9 +68,6 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
 
     for(var item in frame) {
 
-        if(item === "asset_history") {
-            console.log("break her")
-        }
 
         if(item === "@key") continue
         else if(item === "@type") continue

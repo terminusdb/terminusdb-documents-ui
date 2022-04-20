@@ -2253,16 +2253,16 @@ export const SMALL_SCHEMA_FORM_DATA = {
 		"@type": "Lexical"
 	  },
 	  "@type": "Class",
-	   /*"url": "xsd:string",
-	   "location": "GeoCoordinate",
+	   "url": "xsd:string",
+	   /*"location": "GeoCoordinate",*/
 	   "output": {
 		"@class": {
 		  "@class": "AnnualOutput",
 		  "@subdocument": []
 		},
 		"@type": "Set"
-	  },*/
-	  "reactors": {
+	  },
+	  /*"reactors": {
 		"@class": [
 		  "ExperimentalReactor",
 		  "PowerReactor",
@@ -2479,7 +2479,7 @@ export const SMALL_SCHEMA_FORM_DATA = {
 	  },
 	  "@subdocument": [],
 	  "@type": "Class",
-	  "output": {
+	  "Aoutput": {
 		"@class": "Quantity",
 		"@subdocument": []
 	  },
@@ -2550,8 +2550,65 @@ export const SMALL_SCHEMA_FORM_DATA = {
 	}
   }
 
-
 export const NUCLEAR_FORM_DATA = {
+	"@id":"NuclearPowerPlant/ASCO%20GR",
+	"@type":"NuclearPowerPlant",
+	"capacity":{
+	   "@id":"NuclearPowerPlant/ASCO%20GR/capacity/Quantity/http%3A%2F%2Flib.terminusdb.com%2Fnuclear%2FUnit%2FMWe+1990.5",
+	   "@type":"Quantity",
+	   "quantity":1990.5,
+	   "unit":"Unit/MWe"
+	},
+	"commissioning_year":"1983",
+	"country":"Country/Spain",
+	"gppd_idnr":"WRI1006213",
+	"location":{
+	   "@id":"NuclearPowerPlant/ASCO%20GR/location/GeoCoordinate/41.2008+0.5679",
+	   "@type":"GeoCoordinate",
+	   "latitude":41.2008,
+	   "longitude":0.5679
+	},
+	"name":"ASCO GR",
+	"output":[
+	   {
+		  "@id":"NuclearPowerPlant/ASCO%20GR/output/AnnualOutput/2015",
+		  "@type":"AnnualOutput",
+		  "Aoutput":{
+			 "@id":"NuclearPowerPlant/ASCO%20GR/output/NuclearPowerPlant/ASCO%20GR/output/AnnualOutput/2015/output/Quantity/http%3A%2F%2Flib.terminusdb.com%2Fnuclear%2FUnit%2FGWh+15802.182",
+			 "@type":"Quantity",
+			 "quantity":15802.182,
+			 "unit":"Unit/GWh"
+		  },
+		  "year":"2015"
+	   },
+	   {
+		  "@id":"NuclearPowerPlant/ASCO%20GR/output/AnnualOutput/2016",
+		  "@type":"AnnualOutput",
+		  "Aoutput":{
+			 "@id":"NuclearPowerPlant/ASCO%20GR/output/NuclearPowerPlant/ASCO%20GR/output/AnnualOutput/2016/output/Quantity/http%3A%2F%2Flib.terminusdb.com%2Fnuclear%2FUnit%2FGWh+16029.262",
+			 "@type":"Quantity",
+			 "quantity":16029.262,
+			 "unit":"Unit/GWh"
+		  },
+		  "year":"2016"
+	   },
+	   {
+		  "@id":"NuclearPowerPlant/ASCO%20GR/output/AnnualOutput/2017",
+		  "@type":"AnnualOutput",
+		  "Aoutput":{
+			 "@id":"NuclearPowerPlant/ASCO%20GR/output/NuclearPowerPlant/ASCO%20GR/output/AnnualOutput/2017/output/Quantity/http%3A%2F%2Flib.terminusdb.com%2Fnuclear%2FUnit%2FGWh+15241.801",
+			 "@type":"Quantity",
+			 "quantity":15241.801,
+			 "unit":"Unit/GWh"
+		  },
+		  "year":"2017"
+	   }
+	],
+	"owner":"ENDESA GENERACION S.A.",
+	"url":"http://www.ree.es/en/statistical-data-of-spanish-electrical-system/annual-report/preliminary-report-spanish-electricity-system-2015"
+ }
+
+export const NUCLEAR_FORM_DATA_1 = {
 	"@id":"NuclearPowerPlant/AAAAK",
 	"@type":"NuclearPowerPlant",
 	"Setreactors": ["Art", "Tony"],

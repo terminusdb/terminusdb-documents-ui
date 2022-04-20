@@ -11,11 +11,11 @@ import {DEMO_SCHEMA, CURRENT, CURRENT_DATA, MRP_SCHEMA, MRP_SCHEMA_FORM_DATA, SE
 const App= (props) =>{
     // nuclear
 
-    const [schema, setSchema]=useState(PROFILE_SCHEMA) //schema
+    const [schema, setSchema]=useState(NUCLEAR_SCHEMA) //schema
     const [uiSchema, setUISchema]=useState(DEMO_SCHEMA_UI) //ui schema
-    const [type, setType]=useState("Organization")  // document type
+    const [type, setType]=useState("NuclearPowerPlant")  // document type
     const [mode, setMode]=useState("View")  // mode
-    const [formData, setFormData]=useState(PROFILE_FORM_DATA) // formdata => required only on edit/ view
+    const [formData, setFormData]=useState(NUCLEAR_FORM_DATA) // formdata => required only on edit/ view
 
 
     // seshat
