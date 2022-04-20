@@ -131,16 +131,20 @@ export function getViewLayout(frame, item, formData) {
     let type=getDataType(frame[item])
     let layout = {
         type: type,
-        info: DATA_TYPE,
-        default: getDefaultValue(item, formData)
+        info: DATA_TYPE
     }
+    let defaultValue = getDefaultValue(item, formData)
+    if(defaultValue) layout["default"]= defaultValue
     return layout
 }
 
 // View UI Layout
 export function getViewUILayout(frame, item, formData, uiFrame) {
     // hide widget if formData of item is empty
-    if(!isFilled(formData, item)) {
+    // check for info - coz at this point there mayb be data
+    // fields which belongs to subdocument sets and we do not want to hide the widget
+    if(!isFilled(formData, item)
+        && !frame.hasOwnProperty("info")) {
         uiLayout={
             "ui:widget" : "hidden"
         }
