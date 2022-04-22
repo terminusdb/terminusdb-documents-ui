@@ -14,7 +14,7 @@
 }
 
 .tdb__input > input, .tdb__input > select, .tdb__view__enum__input > select{
-    color: #adb5bd !important;
+    color: #adb5bd;
     background-color: transparent !important;
     border-color: rgb(102, 102, 102) !important;
     line-height: 1.5;
