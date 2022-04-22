@@ -10,3 +10,7 @@ div.editor {
 }
 
 
+.tdb__input > input, .form-control{
+    color: #000 !important;
+}
+

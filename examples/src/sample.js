@@ -4,10 +4,75 @@ export const EDIT="Edit"
 export const VIEW="View"
 
 export const DEMO_ACTION=CREATE
-export const DEMO_DOCUMENT_TYPE="MandatoryDataTypes"
+export const DEMO_DOCUMENT_TYPE="Person"
 
+const TEST_FD = {
+	"@id":"Person/8981ab1482e7b04d04ca48ce81c596b8aa5227fdfeba22757e2e663831a0c9b4",
+	"@type":"Person",
+	"has_task":[
+	   {
+		  "@id":"Person/8981ab1482e7b04d04ca48ce81c596b8aa5227fdfeba22757e2e663831a0c9b4/has_task/0/Tasks/d5e7b3c18e842b020a9dff4178d658e1db998e6a51fa413a15b5f195428f09eb",
+		  "@type":"Tasks",
+		  "name":"clean the house",
+		  "priority":1
+	   },
+	   {
+		  "@id":"Person/8981ab1482e7b04d04ca48ce81c596b8aa5227fdfeba22757e2e663831a0c9b4/has_task/1/Tasks/7dc734a02eacbb7f72331372086898695522a98733ecb1a5bce9d8b139360fc7",
+		  "@type":"Tasks",
+		  "name":"cook",
+		  "priority":2
+	   }
+	],
+	"ordered_property":[
+	   "A",
+	   "B",
+	   "C"
+	]
+ }
 
-export const DEMO_SCHEMA={
+export const DEMO_SCHEMA = {
+	"@context":{
+	   "@base":"terminusdb:///data/",
+	   "@schema":"terminusdb:///schema#",
+	   "@type":"@context"
+	},
+	"terminusdb:///schema#Person":{
+      "@key":{
+         "@type":"Random"
+      },
+      "@type":"Class",
+      "name":"xsd:string",
+      "age": "xsd:decimal"
+   },
+   	"terminusdb:///schema#Tasks": {
+		 "@key": {
+			 "@type": "Random"
+		 },
+		 "@subdocument": [],
+		 "@type": "Class",
+		 "name": "xsd:string",
+		 "priority": "xsd:decimal"
+	},
+	"terminusdb:///schema#Job":{
+	   "@key":{
+		  "@type":"Random"
+	   },
+	   "@type":"Class",
+	   "title": "xsd:string"
+	},
+	"terminusdb:///schema#Address": {
+		 "@key": {
+			 "@type": "Random"
+		 },
+		 "@subdocument": [],
+		 "@type": "Class",
+		 "Address Line 1": "xsd:string",
+		 "Code": "xsd:decimal",
+		 "Country": "xsd:string"
+	 }
+ }
+
+export const DEMO_SCHEMA_TEST={
 	"@context": {
 		"@base": "terminusdb:///data/",
 		"@schema": "terminusdb:///schema#",
@@ -30,20 +95,25 @@ export const DEMO_SCHEMA={
 			"@type": "Set"
 		}
 	},
-	"terminusdb:///schema#MandatoryDataTypes": {
+	"terminusdb:///schema#Person_old": { //MandatoryDataTypes
 		"@key": {
-			"@fields": [
-				"identifier"
-			],
-			"@type": "Lexical"
+			"@type": "Random"
 		},
-		/*"@type": "Class",
-		"DOB": "xsd:dateTime",
-		"active": "xsd:boolean",
-		"age": "xsd:decimal",
-		"identifier": "xsd:string",*/
-		"name": "xsd:string"
+		"@type": "Class",
+		/*"DOB": "xsd:dateTime",
+		"active": "xsd:boolean",*/
+		"age": "xsd:integer",
+		/*"identifier": "xsd:string",
+		"name": "xsd:string"*/
 	},
+    "terminusdb:///schema#Person": {
+		"@key": {
+			"@type": "Random"
+		},
+		"@type": "Class",
+		"DOB": "xsd:dateTime"
+    },
+
 	"terminusdb:///schema#MandatorySubDocument": {
 		"@key": {
 			"@type": "Random"
@@ -340,9 +410,9 @@ export const DEMO_SCHEMA={
 
 
 const DEMO_FORM_DATA_MANDATORY_DATA_TYPES = {
-	"@id":"MandatoryDataTypes/Kitty%20Jose",
+	"@id":"MandatoryDataTypes/John%20Doe",
 	"@type":"MandatoryDataTypes",
-	name:"Kitty Jose",
+	name:"John Doe",
 	age:"17",
 	active: true,
 	DOB: "2022-03-31T10:01:11.000Z",
@@ -466,7 +536,7 @@ const DEMO_FORM_DATA_MANDATORY_CHOICE_DOCUMENT_TYPES= {
 
 
 
-export const DEMO_FORM_DATA=DEMO_FORM_DATA_SET_DATA_TYPES
+export const DEMO_FORM_DATA=TEST_FD
 
 export const DEMO_SCHEMA_UI = {
   "placeholder": "xsd:dateTime"

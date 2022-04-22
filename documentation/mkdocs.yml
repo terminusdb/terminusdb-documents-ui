@@ -1,0 +1,14 @@
+site_name: terminusdb-documents-ui
+docs_dir: docs
+theme: cinder
+
+
+nav:
+  - Introduction: index.md
+  - Frames: frames.md
+  - UI Frames: uiFrames.md
+
+
+markdown_extensions:
+  - toc:
+      permalink: true

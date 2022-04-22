@@ -14,10 +14,11 @@ import {transformData} from "./extract"
 **  mode      - create/ edit/ view
 **  documents - document list
 **  formData  - filled value of the document
-**  onSubmit  - a function which can have custom logic to process data submitted
+**  onSubmit  - a function with have custom logic to process data submitted
 **  hideSubmit - hides Submit button - this is helpfull when you want to display nested FrameViewers
-**  onChange   - a function which have custom logic to process data when form data is changed
+**  onChange   - a function with custom logic to process data when form data is changed
 **  onSelect   - a js function which gets back the selected value from selects
+**  onTraverse - a js function which gets back the ID of a document on click
 **  FieldTemplate - a js function which you can pass at root level of FrameViewer to alter look and feel of fields
 */
 export function FrameViewer({frame, uiFrame, type, mode, documents, formData, onSubmit, onTraverse, onSelect, hideSubmit, onChange, FieldTemplate}){
@@ -62,8 +63,8 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
                 required: properties.required,
                 dependencies: properties.dependencies,
             }
-            console.log("schema", JSON.stringify(schema, null, 2))
-            console.log("uiSchema", JSON.stringify(properties.uiSchema, null, 2))
+            //console.log("schema", JSON.stringify(schema, null, 2))
+            //console.log("uiSchema", JSON.stringify(properties.uiSchema, null, 2))
 
             console.log("schema", schema)
             console.log("properties.uiSchema", properties.uiSchema)
@@ -160,9 +161,9 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             children={hideSubmit} // hide submit button on view mode
             FieldTemplate={FieldTemplate}
         >
-            <div>
+            {/*<div>
                 <Button type="submit" className={submitButtonCss}>Submit</Button>
-            </div>
+        </div>*/}
         </Form>
     }
     </React.Fragment>
