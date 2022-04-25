@@ -88,9 +88,13 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             }
             setSchema(schema)
             const uiSchema = properties.uiSchema
-            if(uiFrame && uiFrame.classNames) uiSchema["classNames"]= uiFrame.classNames
-            if(uiFrame && uiFrame["ui:title"]) uiSchema["ui:title"]= uiFrame["ui:title"]
-            if(uiFrame && uiFrame["ui:description"]) uiSchema["ui:description"]= uiFrame["ui:description"]
+
+            // get form level ui schema
+            if(uiFrame && uiFrame.hasOwnProperty("classNames")) uiSchema["classNames"]= uiFrame.classNames
+            if(uiFrame && uiFrame.hasOwnProperty("ui:order")) uiSchema["ui:order"]=uiFrame["ui:order"]
+            if(uiFrame && uiFrame.hasOwnProperty("ui:title")) uiSchema["ui:title"]= uiFrame["ui:title"]
+            if(uiFrame && uiFrame.hasOwnProperty("ui:description")) uiSchema["ui:description"]= uiFrame["ui:description"]
+            
             setUISchema(uiSchema)
         //}
         //catch(e) {

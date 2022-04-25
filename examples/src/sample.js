@@ -41,8 +41,8 @@ export const DEMO_SCHEMA = {
          "@type":"Random"
       },
       "@type":"Class",
-      "name":"xsd:string",
-      "age": "xsd:decimal"
+	  "age": "xsd:integer",
+      "range":"xsd:integer"
    },
    	"terminusdb:///schema#Tasks": {
 		 "@key": {

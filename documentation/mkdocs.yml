@@ -1,6 +1,6 @@
 site_name: terminusdb-documents-ui
 docs_dir: docs
-theme: cinder
+theme: mkdocs
 
 
 nav:

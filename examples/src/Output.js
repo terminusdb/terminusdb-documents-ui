@@ -104,10 +104,13 @@ export const Output = ({schema, uiSchema, type, mode, formData}) => {
     }
 
     const uiFrame = {
-        name: {
-           "ui:widget": 'hidden'
+        age: {
+           "ui:widget": 'updown'
+        },
+        range: {
+           "ui:widget": 'range'
         }
-     }
+    }
 
     return <React.Fragment>
         <h3 className="mt-5 mb-4 text-warning">{`Output - ${type}`}</h3>
