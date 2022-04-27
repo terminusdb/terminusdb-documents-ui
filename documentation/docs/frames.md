@@ -1,3 +1,8 @@
+# Import 
+
+Import the dependency as follows:
+
+``` import {FrameViewer} from '@terminusdb/terminusdb-documents-ui' ```
 
 
 # Mandatory fields
@@ -24,6 +29,18 @@ let frames =  {
       "name":"xsd:string"
    }
 }
+
+// define document type
+let type="Person"
+
+// define mode
+let mode="Create"
+
+// call FrameViewer
+return <FrameViewer
+    frame={frames}
+    type={type}
+    mode={mode}/>
 
 ```
 

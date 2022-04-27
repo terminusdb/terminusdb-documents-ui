@@ -3,32 +3,83 @@ export const CREATE="Create"
 export const EDIT="Edit"
 export const VIEW="View"
 
-export const DEMO_ACTION=CREATE
-export const DEMO_DOCUMENT_TYPE="Person"
+export const DEMO_ACTION=VIEW
+export const DEMO_DOCUMENT_TYPE="coordinates"
 
 const TEST_FD = {
-	"@id":"Person/8981ab1482e7b04d04ca48ce81c596b8aa5227fdfeba22757e2e663831a0c9b4",
-	"@type":"Person",
-	"has_task":[
-	   {
-		  "@id":"Person/8981ab1482e7b04d04ca48ce81c596b8aa5227fdfeba22757e2e663831a0c9b4/has_task/0/Tasks/d5e7b3c18e842b020a9dff4178d658e1db998e6a51fa413a15b5f195428f09eb",
-		  "@type":"Tasks",
-		  "name":"clean the house",
-		  "priority":1
-	   },
-	   {
-		  "@id":"Person/8981ab1482e7b04d04ca48ce81c596b8aa5227fdfeba22757e2e663831a0c9b4/has_task/1/Tasks/7dc734a02eacbb7f72331372086898695522a98733ecb1a5bce9d8b139360fc7",
-		  "@type":"Tasks",
-		  "name":"cook",
-		  "priority":2
-	   }
-	],
-	"ordered_property":[
-	   "A",
-	   "B",
-	   "C"
-	]
- }
+	"@id": "coordinates/908cdf8db2fa9f843f063669171280eb448e3403d837cb440726ab394043e918",
+  	"@type": "coordinates",
+	"location":{
+		"@id":"coordinates/908cdf8db2fa9f843f063669171280eb448e3403d837cb440726ab394043e918/coordinates/Location/cbf3d8956432778d2c3db84533eac02bff76326aa3407436e483361fdf55fd0c",
+		"@type":"Location",
+		"city":"Marigot",
+		"geometry_location":{
+			"@id":"coordinates/location/Location/cbf3d8956432778d2c3db84533eac02bff76326aa3407436e483361fdf55fd0c/geometry_location/Point/3ec3de24dab9a66311ff5010df341b05d67bbcd764537f6f3484a8d03d235843",
+			"@type":"Point",
+			"coordinates":[
+				15.53743,
+				-61.282
+			],
+			"type":"Point"
+		}
+	}
+}
+
+export const MAP_SCHEMA = {
+	"@context":{
+		"@base":"terminusdb:///data/",
+		"@schema":"terminusdb:///schema#",
+		"@type":"@context"
+	},
+	"terminusdb:///schema#coordinates": {
+		"location": {
+			"@class": "Location",
+			"@subdocument": []
+		}
+	},
+	"terminusdb:///schema#Location": {
+		"@key": {
+			"@type": "Random"
+		},
+		"@subdocument": [],
+		"@type": "Class",
+		"city": "xsd:string",
+		"geometry_location": {
+			"@class": [
+				{
+					"@class": "Point",
+					"@subdocument": []
+				}
+			],
+			"@type": "Optional"
+		}
+	},
+	"terminusdb:///schema#Point": {
+		"@key": {
+			"@type": "Random"
+		},
+		"@subdocument": [],
+		"@type": "Class",
+		"coordinates": {
+			"@class": "xsd:decimal",
+			"@dimensions": 1,
+			"@type": "Array"
+		},
+		"type": {
+			"@id": "Point_Type",
+			"@type": "Enum",
+			"@values": [
+				"Point"
+			]
+		}
+  	},
+  	"terminusdb:///schema#Point_Type": {
+		"@type": "Enum",
+		"@values": [
+			"Point"
+    	]
+	}
+}
 
 export const DEMO_SCHEMA = {
 	"@context":{
@@ -41,8 +92,11 @@ export const DEMO_SCHEMA = {
          "@type":"Random"
       },
       "@type":"Class",
-	  "age": "xsd:integer",
-      "range":"xsd:integer"
+	  "name": "xsd:string",
+	  "nickName": {
+		"@class": "xsd:string",
+		"@type": "Set"
+	   }
    },
    	"terminusdb:///schema#Tasks": {
 		 "@key": {

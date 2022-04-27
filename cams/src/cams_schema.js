@@ -62,7 +62,7 @@ export const CAMS_SCHEMA_EVENTS = {
         "date": "The date at which the incident occurred."
       }
     },
-    "@key": {
+    "@key": { 
       "@fields": [
         "hazard",
         "date"

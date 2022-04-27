@@ -31,7 +31,6 @@ Then import the dependency as follows:
 
 ## How to get Frames?
 
-
 Frames can be retreived by using TerminusDB client. Below is an example written in javascript on how to retrieve
 frames from schema.
 

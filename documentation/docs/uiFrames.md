@@ -515,6 +515,110 @@ let uiFrames = {
 
 ---
 
+#### Custom widget field 
+
+We can also add a custom react function to widget field which will render the output field accordingly.
+
+
+```
+let frames = {
+   "@context":{
+      "@base":"terminusdb:///data/",
+      "@schema":"terminusdb:///schema#",
+      "@type":"@context"
+   },
+   "terminusdb:///schema#Person":{
+      "@key":{
+         "@type":"Random"
+      },
+      "@type":"Class",
+      "name": "xsd:string"
+   }
+}
+
+// custom react field to render a field 
+function renderNameField(props) {
+   return <Card bg="success">
+      <Alert>{"`${props.id}` is a custom field ..."}</Alert>
+   </Card>
+}
+
+let uiFrames = {
+   name: {
+      "ui:widget": renderNameField
+   }
+}
+
+// define document type
+let type="Person"
+
+// define mode
+let mode="Create"
+
+// call FrameViewer
+return <FrameViewer
+    frame={frames}
+    uiFrame={uiFrames} // pass uiFrames here to alter look and feel
+    type={type}
+    mode={mode}/>
+```
+
+Generated form
+
+![uiWidget custom function Example](/img/uiFrames/uiWidgetCustomFunction.PNG)
+
+---
+
+#### Set or List fields
+
+To alter the look and feel of a set or list. The below code will hide ```nickName``` field from the form.
+
+```
+let frames = {
+   "@context":{
+      "@base":"terminusdb:///data/",
+      "@schema":"terminusdb:///schema#",
+      "@type":"@context"
+   },
+   "terminusdb:///schema#Person": {
+      "@key":{
+         "@type":"Random"
+      },
+      "@type":"Class",
+      "name": "xsd:string",
+      "nickName": {
+			"@class": "xsd:string",
+			"@type": "Set"
+		}
+   }
+}
+
+let uiFrames = {
+   nickName: {
+      "ui:widget": 'hidden'
+   }
+}
+
+// define document type
+let type="Person"
+
+// define mode
+let mode="Create"
+
+// call FrameViewer
+return <FrameViewer
+    frame={frames}
+    uiFrame={uiFrames} // pass uiFrames here to alter look and feel
+    type={type}
+    mode={mode}/>
+```
+
+
+
+
+
+
+
 
 
 

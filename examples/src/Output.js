@@ -1,6 +1,7 @@
 import React from 'react'
 import {FrameViewer} from '@terminusdb/terminusdb-documents-ui'
 //import {DEMO_DOCUMENTS, PROFILE_DEMO_DOCUMENTS, VIEW, EDIT} from "./sample"
+import {Card, Alert} from "react-bootstrap"
 
 export const Output = ({schema, uiSchema, type, mode, formData}) => {
 
@@ -103,14 +104,19 @@ export const Output = ({schema, uiSchema, type, mode, formData}) => {
         select_styles: selectStyle
     }
 
-    const uiFrame = {
-        age: {
-           "ui:widget": 'updown'
-        },
-        range: {
-           "ui:widget": 'range'
+    // custom react field to render a field 
+    function renderNameField(props) {
+        return <Card bg="success">
+            <Alert>{`${props.id} is a custom field ...`}</Alert>
+        </Card>
+    }
+    
+    let uiFrame = {
+        nickName: {
+            "ui:widget": 'hidden'
         }
     }
+ 
 
     return <React.Fragment>
         <h3 className="mt-5 mb-4 text-warning">{`Output - ${type}`}</h3>
@@ -127,3 +133,4 @@ export const Output = ({schema, uiSchema, type, mode, formData}) => {
             onSubmit={handleSubmit}/>
     </React.Fragment>
 }
+

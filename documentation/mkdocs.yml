@@ -5,8 +5,9 @@ theme: mkdocs
 
 nav:
   - Introduction: index.md
-  - Frames: frames.md
+  - FrameViewer: frames.md
   - UI Frames: uiFrames.md
+  - MapViewer: maps.md
 
 
 markdown_extensions:

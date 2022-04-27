@@ -182,7 +182,7 @@ export function getCreateSetDataTypeLayout (frame, item) {
 }
 
 // create set data type ui layout
-export function getCreateSetDataTypeUILayout (frame, item) {
+export function getCreateSetDataTypeUILayout (frame, item, uiFrame) {
     let uiLayout= {}
     if(frame.hasOwnProperty("uiSchema")) {
         uiLayout= {
@@ -196,8 +196,10 @@ export function getCreateSetDataTypeUILayout (frame, item) {
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
         }
     }
-
-    return uiLayout
+    
+    // custom ui:schema - add to default ui schema
+    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
+    return addedCustomUI
 }
 
 // edit set data type layout
@@ -242,7 +244,7 @@ export function getEditSetDataTypeLayout (frame, item, formData) {
 }
 
 // edit set data type ui layout
-export function getEditSetDataTypeUILayout (frame, item) {
+export function getEditSetDataTypeUILayout (frame, item, uiFrame) {
     let uiLayout= {}
     if(frame.hasOwnProperty("uiSchema")) {
         uiLayout= {
@@ -256,7 +258,9 @@ export function getEditSetDataTypeUILayout (frame, item) {
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
         }
     }
-    return uiLayout
+    // custom ui:schema - add to default ui schema
+    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
+    return addedCustomUI
 }
 
 // View set data type Layout
@@ -296,7 +300,7 @@ export function getViewSetDataTypeLayout(frame, item, formData) {
 }
 
 // View set data type UI Layout
-export function getViewSetDataTypeUILayout(frame, item, formData) {
+export function getViewSetDataTypeUILayout(frame, item, formData, uiFrame) {
     let uiLayout= {}
     // hide widget if formData of item is empty
     if(!isFilled(formData, item)) {
@@ -323,7 +327,10 @@ export function getViewSetDataTypeUILayout(frame, item, formData) {
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
         }
     }
-    return uiLayout
+
+    // custom ui:schema - add to default ui schema
+    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
+    return addedCustomUI
 }
 
 /**************   Set Document Types       *****************/

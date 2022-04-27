@@ -193,17 +193,17 @@ export function makeSetDataTypeFrames (frame, item, uiFrame, mode, formData, onT
 
     if (mode === CREATE) {
         layout=getCreateSetDataTypeLayout(frame, item)
-        uiLayout=getCreateSetDataTypeUILayout(frame, item)
+        uiLayout=getCreateSetDataTypeUILayout(frame, item, uiFrame)
     }
 
     if (mode === EDIT) {
         layout=getEditSetDataTypeLayout(frame, item, formData)
-        uiLayout=getEditSetDataTypeUILayout(frame, item)
+        uiLayout=getEditSetDataTypeUILayout(frame, item, uiFrame)
     }
 
     if (mode === VIEW) {
         layout=getViewSetDataTypeLayout(frame, item, formData)
-        uiLayout=getViewSetDataTypeUILayout(frame, item, formData)
+        uiLayout=getViewSetDataTypeUILayout(frame, item, formData, uiFrame)
     }
 
     // schema

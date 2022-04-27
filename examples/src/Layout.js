@@ -6,11 +6,11 @@ import {ModeInput} from "./ModeInput"
 import {UIEditors} from "./UIEditors"
 import {Output} from "./Output"
 import {FormData} from "./FormData"
-import {DEMO_ACTION, DEMO_SCHEMA, DEMO_SCHEMA_UI, DEMO_DOCUMENT_TYPE, DEMO_FORM_DATA, CREATE} from "./sample"
+import {DEMO_ACTION, DEMO_SCHEMA, MAP_SCHEMA, DEMO_SCHEMA_UI, DEMO_DOCUMENT_TYPE, DEMO_FORM_DATA, CREATE} from "./sample"
 
 const App= (props) =>{
 
-    const [schema, setSchema]=useState(DEMO_SCHEMA) //schema
+    const [schema, setSchema]=useState(MAP_SCHEMA) //schema
     const [uiSchema, setUISchema]=useState(DEMO_SCHEMA_UI) //ui schema
     const [type, setType]=useState(DEMO_DOCUMENT_TYPE)  // document type
     const [mode, setMode]=useState(DEMO_ACTION)  // mode
