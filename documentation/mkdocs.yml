@@ -1,0 +1,15 @@
+site_name: terminusdb-documents-ui
+docs_dir: docs
+theme: mkdocs
+
+
+nav:
+  - Introduction: index.md
+  - FrameViewer: frames.md
+  - UI Frames: uiFrames.md
+  - MapViewer: maps.md
+
+
+markdown_extensions:
+  - toc:
+      permalink: true

@@ -178,7 +178,7 @@ export function makeSetDataTypeFrames (frame, item, uiFrame, mode, formData, onT
 
 
 export const makeListTypeFrames = (frame, item, uiFrame, mode, formData, onTraverse, onSelect) => {
-    console.log("!!! SET frame", frame)
+    //console.log("!!! SET frame", frame)
     let madeFrames = {}
 
     // set Data Types

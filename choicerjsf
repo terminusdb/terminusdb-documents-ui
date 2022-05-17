@@ -1,0 +1,44 @@
+const Form = JSONSchemaForm.default;
+const schema = {
+  "type": "object",
+  "properties": {
+    "Singlereactors": {
+      "type": "object",
+      "info": "ChoiceClasses",
+      "title": "Singlereactors",
+      "description": "Choose Singlereactors from the list ...",
+      "anyOf": [
+        {
+          "title": "ExperimentalReactor",
+          "type": "object",
+          "properties": {
+            "ExperimentalReactor": {"type": "string"}
+          }
+        },
+        {
+          "title": "PowerReactor",
+          "type": "object",
+          "properties": {
+            "PowerReactor": {"type": "string"}
+          }
+        }
+      ]
+    }
+  },
+  "required": [
+    "Singlereactors"
+  ]
+}
+
+let uiSchema = {
+    "classNames": "card bg-secondary p-4 mt-4 mb-4",
+    "Singlereactors": {
+      "ExperimentalReactor": {"ui:placeholder": "bumby"},
+      "PowerReactor": {"ui:placeholder": "kumbli"}
+    }
+  }
+
+
+ReactDOM.render((
+  <Form schema={schema} uiSchema={uiSchema}/>
+), document.getElementById("app"));

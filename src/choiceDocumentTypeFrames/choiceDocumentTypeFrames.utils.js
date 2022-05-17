@@ -217,7 +217,7 @@ export function getEditUILayout(frame, item, layout, uiFrame, onSelect) {
             uiLayout["info"]={"ui:widget": "hidden"}
         })
     }
-    console.log("!!! edit layout", layout, uiLayout)
+    //console.log("!!! edit layout", layout, uiLayout)
 
     return uiLayout
 }

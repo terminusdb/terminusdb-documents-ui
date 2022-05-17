@@ -62,3 +62,24 @@ export const UI_FRAMES = {
     subDocument_styles: "subDocumentCard",
     submitButton_styles: "btn-success"
 }
+
+let exampleUI = {
+    "classNames": "bg-dark p-5 border border-success rounded ",
+    "applicable_hazards": {
+        "ui:widget" : "hidden"
+    },
+    "asset_history": {
+        "ui:widget" : "hidden"
+    },
+    "asset_identifier": {"ui:widget" : "hidden"},
+    "design_standards": {"ui:widget" : "hidden"},
+    "name": {
+        "ui:description": "I am entering a name field here",
+        "classNames": "text-danger fw-bold h4 m-3",
+        "ui:placeholder": "Enter name ..."
+    },
+    "last_maintained" : {"ui:widget": "AltDateWidget"}
+}
+
+
+

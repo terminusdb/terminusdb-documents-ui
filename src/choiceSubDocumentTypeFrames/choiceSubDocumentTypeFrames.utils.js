@@ -20,7 +20,7 @@ function getDocumentLayout(documentClass, fullFrame, current, item, uiFrame, mod
     let frame = fullFrame[documentClassIRI]
     let filledData = (formData && formData.hasOwnProperty(item))? formData[item] : {}
     let exractedProperties = getProperties (fullFrame, current, frame, uiFrame, mode, filledData, onTraverse, onSelect)
-    console.log("exractedProperties", exractedProperties)
+    //console.log("exractedProperties", exractedProperties)
     // add subdocument type as @type field
     exractedProperties.properties["@type"]={
         type: "string",

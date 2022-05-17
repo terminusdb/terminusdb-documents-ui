@@ -82,7 +82,7 @@ export function getEditSetSubDocumentTypeLayout (frame, item, formData) {
 }
 
 // edit set subDocument type ui layout
-export function getEditSetSubDocumentTypeUILayout (frame, item) {
+export function getEditSetSubDocumentTypeUILayout (frame, item, uiFrame) {
     let uiLayout= {}
     if(frame.hasOwnProperty("uiSchema")) {
         uiLayout= {
@@ -96,7 +96,9 @@ export function getEditSetSubDocumentTypeUILayout (frame, item) {
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
         }
     }
-    return uiLayout
+    // custom ui:schema - add to default ui schema
+    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
+    return addedCustomUI
 }
 
 // View set subDocument type Layout
@@ -136,7 +138,7 @@ export function getViewSetSubDocumentTypeLayout(frame, item, formData) {
 }
 
 // View set subDocument type UI Layout
-export function getViewSetSubDocumentTypeUILayout(frame, item, formData) {
+export function getViewSetSubDocumentTypeUILayout(frame, item, uiFrame, formData) {
     let uiLayout= {}
 
     // hide widget if formData of item is empty
@@ -165,7 +167,9 @@ export function getViewSetSubDocumentTypeUILayout(frame, item, formData) {
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
         }
     }
-    return uiLayout
+    // custom ui:schema - add to default ui schema
+    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
+    return addedCustomUI
 }
 
 
@@ -182,7 +186,7 @@ export function getCreateSetDataTypeLayout (frame, item) {
 }
 
 // create set data type ui layout
-export function getCreateSetDataTypeUILayout (frame, item) {
+export function getCreateSetDataTypeUILayout (frame, item, uiFrame) {
     let uiLayout= {}
     if(frame.hasOwnProperty("uiSchema")) {
         uiLayout= {
@@ -196,8 +200,10 @@ export function getCreateSetDataTypeUILayout (frame, item) {
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
         }
     }
-
-    return uiLayout
+    
+    // custom ui:schema - add to default ui schema
+    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
+    return addedCustomUI
 }
 
 // edit set data type layout
@@ -242,7 +248,7 @@ export function getEditSetDataTypeLayout (frame, item, formData) {
 }
 
 // edit set data type ui layout
-export function getEditSetDataTypeUILayout (frame, item) {
+export function getEditSetDataTypeUILayout (frame, item, uiFrame) {
     let uiLayout= {}
     if(frame.hasOwnProperty("uiSchema")) {
         uiLayout= {
@@ -256,7 +262,9 @@ export function getEditSetDataTypeUILayout (frame, item) {
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
         }
     }
-    return uiLayout
+    // custom ui:schema - add to default ui schema
+    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
+    return addedCustomUI
 }
 
 // View set data type Layout
@@ -296,7 +304,7 @@ export function getViewSetDataTypeLayout(frame, item, formData) {
 }
 
 // View set data type UI Layout
-export function getViewSetDataTypeUILayout(frame, item, formData) {
+export function getViewSetDataTypeUILayout(frame, item, formData, uiFrame) {
     let uiLayout= {}
     // hide widget if formData of item is empty
     if(!isFilled(formData, item)) {
@@ -319,11 +327,14 @@ export function getViewSetDataTypeUILayout(frame, item, formData) {
                 addable: false,
                 orderable: false,
                 removable: false
-            },
+            }, 
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
         }
     }
-    return uiLayout
+
+    // custom ui:schema - add to default ui schema
+    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
+    return addedCustomUI
 }
 
 /**************   Set Document Types       *****************/
@@ -398,8 +409,8 @@ export function getEditSetDocumentTypeLayout (frame, item, formData) {
 }
 
 // edit set Document type ui layout
-export function getEditSetDocumentTypeUILayout (frame, item, onSelect) {
-
+export function getEditSetDocumentTypeUILayout (frame, item, uiFrame, onSelect) {
+    //console.log("***** frame.uiSchema[item]," , frame.uiSchema[item])
     // getting ui layout for additional items
     let additionalItemsUiStruct={}, uiLayout= {}, modifiedUiLayout = {}
     for(var ui in frame.uiSchema[item]) {
@@ -431,12 +442,16 @@ export function getEditSetDocumentTypeUILayout (frame, item, onSelect) {
                     props.onChange(e.value)
                 }
 
+                // extracting custom ui styles
+                let selectStyle = extractUIFrameSelectTemplate(uiFrame) ? extractUIFrameSelectTemplate(uiFrame) : SELECT_STYLES
+
+
                 let returnElement = []
                 if(props.formData){
                     returnElement.push(
                         <FilledDocumentSelect
                             label={props.name}
-                            styles={SELECT_STYLES}
+                            styles={selectStyle}
                             placeholder={props.uiSchema["ui:placeholder"]}
                             onChange={onChange}
                             loadOptions={loadOptions}
@@ -448,7 +463,7 @@ export function getEditSetDocumentTypeUILayout (frame, item, onSelect) {
                 else returnElement.push(
                     <EmptyDocumentSelect
                         label={props.name}
-                        styles={SELECT_STYLES}
+                        styles={selectStyle}
                         placeholder={props.uiSchema["ui:placeholder"]}
                         onChange={onChange}
                         loadOptions={loadOptions}
@@ -470,7 +485,7 @@ export function getEditSetDocumentTypeUILayout (frame, item, onSelect) {
     if(frame.hasOwnProperty("uiSchema")) {
         uiLayout= {
             items: modifiedUiLayout,
-            additionalItems: additionalItemsUiStruct,
+            additionalItems: modifiedUiLayout,
             "ui:options": {
                 addable: true,
                 orderable: false,
@@ -813,7 +828,7 @@ export function getCreateSetSubChoiceDocumentTypeUILayout (frame, item, uiFrame)
 
 // edit set Sub Choice Document type layout
 export function getEditSetChoiceSubDocumentTypeLayout(frame, item, formData) {
-    console.log("!!!! CHOICE SET frame", frame)
+    //console.log("!!!! CHOICE SET frame", frame)
     let layout={
         type: "array",
         title: getSetTitle(item),
