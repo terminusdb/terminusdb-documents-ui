@@ -161,7 +161,7 @@ function multiDimensions (frame, item, uiFrame, mode, formData) {
                 <MapViewer documents={docs} polyLine={polyLine} scrollWheelZoom={true}/>
             </React.Fragment>
         }
-        propertiesUI[item] = {"ui:field": getMapComponent}
+        propertiesUI["geometry_location"] = {"ui:field": getMapComponent}
     }
 
 

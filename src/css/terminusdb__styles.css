@@ -134,6 +134,10 @@ i.glyphicon-chevron-down::after {
     font-size: 15px;
 }
 
+.date-list-style > ul {
+    display: flex !important;
+}
+
 select > option {
     background-color: #444 !important;
 }
@@ -165,3 +169,26 @@ legend {
     text-decoration: underline;
     cursor: pointer;
  }
+
+/** optimiz **/
+ .tdb__span__select {
+    border: 0;
+    background-color: transparent !important;
+    background-image: none !important; /** hiding select carrot **/
+    margin: 0px 0px 0px 50px !important;
+    color: #fff !important;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.btn-now,
+.btn-clear {
+    color: #444 !important;
+    background-color: #adb5bd !important;
+    border-color: #adb5bd !important;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    border-radius: 0.2rem;
+    margin: 5px;
+}
+

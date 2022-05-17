@@ -1,21 +1,12 @@
 
 import React from "react"
 import {Button, Form} from "react-bootstrap"
-import {XSD_DATA_TYPE_PREFIX, CREATE, XDD_DATA_TYPE_PREFIX, POINT_TYPE, DIMENSION, ONEOFVALUES, OPTIONAL, SET, ONEOFCLASSES, DOCUMENT, ENUM, VALUE_HASH_KEY, LIST, SYS_UNIT_DATA_TYPE, TDB_SCHEMA, SUBDOCUMENT, ARRAY, COORDINATES} from "./constants"
+import {XSD_DATA_TYPE_PREFIX, CREATE, XDD_DATA_TYPE_PREFIX, POINT_TYPE, UI_FRAME_SELECT_STYLE, UI_FRAME_SUBDOCUMENT_STYLE, DIMENSION, ONEOFVALUES, OPTIONAL, SET, ONEOFCLASSES, DOCUMENT, ENUM, VALUE_HASH_KEY, LIST, SYS_UNIT_DATA_TYPE, TDB_SCHEMA, SUBDOCUMENT, ARRAY, COORDINATES, SUBDOCUMENT_TYPE} from "./constants"
 import {BiKey, BiPlus} from "react-icons/bi"
 import {RiDeleteBin5Fill} from "react-icons/ri"
 import {FcKey} from "react-icons/fc"
 import {BiErrorCircle} from "react-icons/bi"
-import {FaArrowDown, FaArrowUp} from "react-icons/fa"
-import { getFilledChoiceTypeFrames } from "./FilledChoiceTypeFrames"
-
-//returns extracted prefix
-export function getPrefix(frame) {
-	if(!frame) return TDB_SCHEMA
-	var key = Object.keys(frame)[0]
-	var arr = key.split("#")
-	return arr[0]+"#"
-}
+import {FaArrowDown, FaArrowUp, FaHourglassEnd} from "react-icons/fa"
 
 // returns true for properties which are of data types xsd and xdd
 export const isDataType = (property) => {
@@ -26,7 +17,32 @@ export const isDataType = (property) => {
 
 // returns true for properties which are subdocuments
 export const isSubDocumentType = (property) => {
-	if(property["@subdocument"]) return true
+	if(property.hasOwnProperty(SUBDOCUMENT)) return true
+	return false
+}
+
+
+// to identify if choice sub documenst
+export const isChoiceSubDocumentType = (property) => {
+	if(typeof property !== "object") return false
+	if(Array.isArray(property)) {
+		let props=property[0]
+		if(props.hasOwnProperty("@class") && props.hasOwnProperty(SUBDOCUMENT))
+			return true
+		return false
+	}
+	return false
+}
+
+// to identify if choice documenst
+export const isChoiceDocumentType = (property) => {
+	if(typeof property !== "object") return false
+	if(Array.isArray(property)) {
+		let props=property[0]
+		if(typeof props === "string")
+			return true
+		return false
+	}
 	return false
 }
 
@@ -63,13 +79,29 @@ export const isDocumentType = (property, frame, prefix) => {
 	return false
 }
 
+//returns true if @class is POINT type
+export const isPointType = (property, frame, prefix) => {
+	if(typeof property !== "object") return false
+
+
+	if(property.hasOwnProperty("@class")
+		&& property["@class"] === POINT_TYPE) {
+			let pointProperty=`${prefix}${property["@class"]}`
+			if(frame.hasOwnProperty(pointProperty)) {
+				return frame[pointProperty]
+			}
+		return false
+	}
+	return false
+}
+
 // returns true if @subdocuments and type class
 export const isSubDocumentAndClassType = (property, frame, prefix) => {
 	if(typeof property === "object") return false
 	if(!frame) return false
 	let document = `${prefix}${property}`
 	if(frame[document]) {
-		if(frame[document]["@type"] === DOCUMENT && frame[document]["@subdocument"]) return true
+		if(frame[document]["@type"] === DOCUMENT && frame[document]["@subdocument"]) return frame[document]
 	}
 	return false
 }
@@ -122,14 +154,18 @@ export function getFieldTitle(item, uiDisable) {
 
 // get default values to document/ enum types
 export function getDefaultValue(item, formData) {
-	var match
+	if(!formData) return false
+	if(Object.keys(formData).length === 0) return false
+	if(formData.hasOwnProperty(item)) return formData[item]
+	return false
+	/*var match
 	for(var key in formData){
 		if(key === item) {
 			match=formData[key]
 			return match
 		}
 	}
-	return match
+	return match */
 }
 
 // List required min 1 item in it so forthe first subdocument we make all its fields mandatory
@@ -141,11 +177,20 @@ export function getRequiredForListSubDocs(properties){
 	return required
 }
 
+export function HideArrayFieldTemplate(props) {
+	return <div/>
+}
 
 export function ArrayFieldTemplate(props) {
 	//console.log("props", props)
 	var variant="dark"
 	if(props.schema.info==="SUBDOCUMENT") variant="secondary"
+
+	/*if(props.hasOwnProperty("uiSchema")
+		&& props["uiSchema"].hasOwnProperty("ui:options")
+		&& props["uiSchema"]["ui:options"].hasOwnProperty("addable")
+		&& !props["uiSchema"]["ui:options"]["addable"])
+			return <div/>*/
 
 	/*
 		{props.TitleField && (props.schema.info==="SUBDOCUMENT") && getTitle(props.schema.title, "SUBDOCUMENT")}
@@ -199,216 +244,16 @@ export function ArrayFieldTemplate(props) {
 }
 
 
-function removeEmptyFields(data) {
-	for(var key in data){
-		//if(checkIfOnlyType(data)) return false // remove only when @type is available
-		if(data[key] === undefined) continue
-		if(Array.isArray(data[key]) &&
-			data.hasOwnProperty("@type") &&
-			data["@type"] === POINT_TYPE) continue // coordinates
-		if (Object.keys(data[key]).length && typeof data[key] === 'object') {
-			var cleaned = removeEmptyFields(data[key])
-			if(!cleaned) { // delete this coz no filled value {@type: "sometype"}
-				delete data[key]
-			}
-			if(Object.keys(cleaned).length === 1 && cleaned["@type"]){
-				cleaned = {}
-			}
-			if(Array.isArray(cleaned) && cleaned.length === 0) {
-				delete data[key]
-			}
-			else if(Object.keys(cleaned).length === 0) {
-				delete data[key]
-			}
-			else data[key] = cleaned
-		}
-		else if (Object.keys(data[key]).length && typeof data[key] === 'string') { // review this check
-			if(data[key] === SYS_UNIT_DATA_TYPE) data[key]={}
-			else data[key] = data[key]
-		}
-		else if (typeof data[key] === 'number') {
-			data[key] = data[key]
-		}
-		else {
-			delete data[key]
-		}
-
-	}
-	return data;
-
-}
-
-
-function modifyCoordinates(data) {
-	// convert strings to array - ['[125.6, 15.1]', '[125.6, 10.1]']
-	let newArray = []
-	data.map(dat => {
-		let splits = dat.split(",")
-		let lat = Number(splits[0])
-		let lng = Number(splits[1])
-		newArray.push([lat, lng])
-	})
-	return newArray
-}
-
-function containsGeoTypes(json) { // altering data
-	if(json.hasOwnProperty("Point")) return json["Point"]
-	if(json.hasOwnProperty("LineString")) return json["LineString"]
-	return false
-}
-
-function checkIfOnlyType(jsonFrame){
-	if(Object.keys(jsonFrame).length === 1 && jsonFrame.hasOwnProperty("@type")) return true
-	return false
-}
-
-
-
-
-//alter formData of one of data
-function modifyOneOfData(mode, schema, data) {
-	let modifiedData = {}
-	for(var item in data) {
-		if(item === ONEOFVALUES) { // dont use "@oneOf"
-			//if(data[item] === undefined) return {} // for sys:Unit
-			return data[item]
-		}
-		if(item === "coordinates" && Array.isArray(data[item])) { // coordinates geo
-			/*let newArr = modifyCoordinates(data[item])
-			console.log("^^^newArr ^^^", newArr)
-			modifiedData[item] = newArr*/
-			//if(schema.properties.hasOwnProperty(item) && schema.properties[item].hasOwnProperty(DIMENSION)) {
-			if(data.hasOwnProperty("@type") && data["@type"] === POINT_TYPE){
-				modifiedData[item]=data[item]
-			}
-			else if (data.hasOwnProperty("@type") && data["@type"] === "LineString") {
-				modifiedData[item]=data[item]
-			}
-		}
-		else if(Array.isArray(data[item])){
-			let arr =[]
-			data[item].map(amd => {
-				if(typeof amd === "string") modifiedData[item] =data[item]
-				else if (amd.hasOwnProperty(ONEOFVALUES)){
-					var thing = modifyOneOfData(mode, schema, amd) //set @oneOfs - example seshat
-					//console.log("thng", thing)
-					//let choice = getFilledChoiceKey(thing)
-					let choice = Object.keys(thing)[0]
-					arr.push({
-						"@type": amd["@type"],
-						[choice]: thing[choice]
-					})
-				}
-				else {
-					//modifiedData[item] = [modifyOneOfData(mode, schema, amd)] - review this logic
-					var thing = modifyOneOfData(mode, schema, amd) //set subdocuments - example invitation
-					arr.push(thing)
-				}
-			})
-			if(arr.length) modifiedData[item]=arr
-		}
-		else if(typeof data[item] === "object"){
-			let modified = modifyOneOfData(mode, schema, data[item])
-			if(containsGeoTypes(modified)){
-				modifiedData[item] = containsGeoTypes(modified)
-			}
-			else modifiedData[item] = modified
-		}
-		else modifiedData[item] = data[item]
-	}
-	//console.log("****** modifiedData ****", modifiedData)
-	return modifiedData
-}
-
-
-//alter formData of choice classes
-function modifyChoiceTypeData(mode, schema, data, frame) {
-	let modifiedData = data
-	for(var item in schema.properties) {
-		if(schema.properties[item].hasOwnProperty("info") && schema.properties[item]["info"] === ONEOFCLASSES) {
-			if(modifiedData.hasOwnProperty(item) && modifiedData[item]) {
-				if(Array.isArray(modifiedData[item])){ //set
-					if(mode === CREATE) {
-						let newArray = []
-						modifiedData[item].map(things => {
-							for(var keys in things){
-								//if(things[keys].hasOwnProperty("@type")) {
-									newArray.push(things[keys])
-								//}
-							}
-						})
-						//console.log("newArray///", newArray)
-						// for OneOfClasses layout is different from Create
-						modifiedData[item] = newArray
-					}
-				}
-				else { //optional or mandatory
-					for(var thing in data[item]){
-						if(Object.keys(data[item][thing]).length) { // one ofs for document classes
-							modifiedData[item] = data[item][thing]
-						}
-					}
-				}
-			}
-		}
-	}
-	return modifiedData
-}
-
-
-
-
-// removes properties with no filled values on submit form
-export function formatData(mode, schema, data, frame, current, type) {
-	var extracted={}
-	let currentFrame=frame[current]
-	//let formData=data
-	let modifiedData = modifyChoiceTypeData(mode, schema, data, frame)
-	let formData = modifyOneOfData(mode, schema, modifiedData, frame)
-
-	for(var key in formData){
-		var newArray=[]
-		if(formData[key] === undefined) continue
-		if(Array.isArray(formData[key])){ //array
-			formData[key].map(arr => {
-				if(Object.keys(arr).length === 1 && arr["@type"]){
-					//console.log("removing sub docs with only @type defined")
-				}
-				else {
-					if(currentFrame[key]["@type"] === "Set"
-						&& Array.isArray(currentFrame[key].hasOwnProperty("@class"))
-						&& !currentFrame[key].hasOwnProperty(SUBDOCUMENT)){
-							// for choice sets: example - "reactors": {"@class": ["PowerReactor","AtomicReactor"],"@type": "Set"}
-							for(var thing in arr){
-								newArray.push(arr[thing])
-							}
-					}
-					else newArray.push(arr)
-				}
-			})
-			if(newArray.length !== 0) extracted[key]=newArray
-		}
-		else if(Object.keys(formData[key]).length !== 1){  //json
-			extracted[key]=formData[key]
-		}
-		else if(Object.keys(formData[key]).length === 1 &&  Object.keys(formData[key])[0] !== "@type"){  //json
-			extracted[key]=formData[key]
-		}
-		else if(formData[key] === "" || formData[key] === undefined){ // string
-			extracted[key]=formData[key]
-		}
-	}
-	//console.log("extracted", extracted)
-	let extr = removeEmptyFields(extracted)
-	if(!extr.hasOwnProperty("@type")) extr["@type"]=type
-	return extr
-}
-
-
+// hide a field
+export const hidden = () => <div/>
 
 // function checks if formData has a filled value for item
 export function isFilled (formData, item){
-	if(formData[item]) return true
+	if(!formData) return false
+	if(Array.isArray(formData)) return true
+	if(formData.hasOwnProperty(item) && Array.isArray(formData[item]) && formData[item].length) return true
+	if(formData.hasOwnProperty(item) && formData[item]) return true
+	return false
 }
 
 // function checks in property is key of a document
@@ -428,6 +273,7 @@ export function checkIfKey(property, key) {
 
  // check if document has ValueHash type key
 export function isValueHashDocument(frame) {
+	if(!frame) return null
 	if(frame["@key"] && frame["@key"]["@type"] &&
 		frame["@key"]["@type"] === VALUE_HASH_KEY) {
 			return true
@@ -569,11 +415,11 @@ export function removeDefaultsFromDataFrame (json) {
 
 
 // extract document class name from link documents
-export function extractClassName(document, fullFrame, prefix) {
+export function extractClassName(document, fullFrame) {
     let str = document
     let splits = str.split('/')
     let documentClass = splits[0]
-    if(fullFrame.hasOwnProperty( `${prefix}${documentClass}`)) {
+    if(fullFrame.hasOwnProperty( `${extractPrefix(fullFrame)}${documentClass}`)) {
         return splits[0] // if definition available in full frame
     }
     return false
@@ -592,4 +438,105 @@ export function removeIds(dataArray){
 		newDataArray.push(newJson)
 	})
 	return newDataArray
+}
+
+// extract prefix from frame
+export function extractPrefix (fullFrame) {
+	if(!fullFrame) return null
+	if(fullFrame.hasOwnProperty("@context") && fullFrame["@context"].hasOwnProperty("@schema"))
+		return fullFrame["@context"]["@schema"]
+	//return TDB_SCHEMA
+	//return "http://lib.seshatdatabank.info/schema#"
+	return "iri://CAMS#"
+	//return "http://lib.terminusdb.com/nuclear#"
+}
+
+
+
+// add custom ui layout to existing default ui layout
+export function addCustomUI (item, uiFrame, uiLayout) {
+	if(!uiFrame) return uiLayout
+	if(!Object.keys(uiFrame).length) return uiLayout
+	if(item === "asset_history") {
+		console.log("break her")
+	}
+	let defaultUILayout = uiLayout
+	if(uiFrame && uiFrame.hasOwnProperty(item)) {
+        for (var uiItems in uiFrame[item]) {
+            if(defaultUILayout.hasOwnProperty(uiItems)
+				&& uiItems !== "ui:widget"
+				&& uiItems !== "ui:placeholder") {
+                let uiDefault = defaultUILayout[uiItems]
+                defaultUILayout[uiItems] = `${uiDefault} ${uiFrame[item][uiItems]}`
+            }
+            else defaultUILayout[uiItems] = uiFrame[item][uiItems]
+        }
+    }
+	//console.log("defaultUILayout", item, defaultUILayout)
+	if(defaultUILayout.hasOwnProperty("ui:widget") && defaultUILayout["ui:widget"] === "hidden") {
+		if(defaultUILayout.hasOwnProperty("ui:ArrayFieldTemplate")){
+			// array type - set or list
+			defaultUILayout={
+				"ui:widget": 'hidden',
+				"ui:ArrayFieldTemplate": HideArrayFieldTemplate
+			}
+		}
+		else defaultUILayout={"ui:widget": 'hidden'}
+	}
+	return defaultUILayout
+}
+
+// function to check if custom uiFrame has select_style defined
+export function extractUIFrameSelectTemplate (uiFrame) {
+	if(!uiFrame) return null
+	if(Object.keys(uiFrame).length===0) return null
+	if(uiFrame.hasOwnProperty(UI_FRAME_SELECT_STYLE)){
+		return uiFrame[UI_FRAME_SELECT_STYLE]
+	}
+	return null
+}
+
+// function to check if custom uiFrame has subDocument_styles style defined
+export function extractUIFrameSubDocumentTemplate (uiFrame) {
+	if(!uiFrame) return null
+	if(Object.keys(uiFrame).length===0) return null
+	if(uiFrame.hasOwnProperty(UI_FRAME_SUBDOCUMENT_STYLE)){
+		return uiFrame[UI_FRAME_SUBDOCUMENT_STYLE]
+	}
+	return null
+}
+
+// function to extract empty frames from choice any of properties already filled with defaults
+export function getSetChoiceEmptyFrames (frame, item) {
+	let anyOfFrames = frame.properties[item].anyOf, emptyAnyOfFrames=[]
+    if(anyOfFrames && Array.isArray(anyOfFrames)) {
+        anyOfFrames.map(choice => {
+            let choiceStructure = {}
+            for(var chItems in choice) {
+                if(chItems === "properties") {
+                    let propertyStructure={}
+                    for(var props in choice["properties"]) {
+                        // remove default values
+                        propertyStructure[props]={}
+                        // do not remove default of info, since required in extract.js
+                        if(props === "info") {
+                            propertyStructure[props]=choice["properties"][props]
+                        }
+                        else {
+                            for(var pItem in choice["properties"][props]) {
+                                if(pItem !== "default") {
+                                    propertyStructure[props][pItem] = choice["properties"][props][pItem]
+                                }
+                            }
+                        }
+
+                    }
+                    choiceStructure["properties"]=propertyStructure
+                }
+                else choiceStructure[chItems] = choice[chItems]
+            }
+            emptyAnyOfFrames.push(choiceStructure)
+        })
+    }
+	return emptyAnyOfFrames
 }

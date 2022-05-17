@@ -2,10 +2,9 @@ import React, {useEffect, useState} from "react"
 import Form from "@terminusdb/rjsf-core"
 import {getProperties} from "./FrameHelpers"
 import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField"
-import {TDB_SCHEMA} from "./constants"
-import {Alert} from "react-bootstrap"
-import {VIEW, EDIT} from "./constants"
-import {formatData, getPrefix, isValueHashDocument, getValueHashMessage} from "./utils"
+import {TDB_SCHEMA, SUBMIT_BUTTON_STYLE_KEY, VIEW, EDIT} from "./constants"
+import {Alert, Button} from "react-bootstrap"
+import {extractPrefix, isValueHashDocument, getValueHashMessage} from "./utils"
 import {transformData} from "./extract"
 
 /*
@@ -39,16 +38,18 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
     if(mode === VIEW && !formData) return <div>Mode is set to View, please provide filled form data</div>
     if(!type) return  <div>Please include the type of document</div>
 
-    let extractedPrefix = getPrefix(frame)
-    let current = `${extractedPrefix}${type}`
+    //let extractedPrefix = getPrefix(frame)
+    //let current = `${extractedPrefix}${type}`
+    let current = `${extractPrefix(frame)}${type}`
 
 
     useEffect(() => {
-        setPrefix(extractedPrefix)
+        //setPrefix(extractedPrefix)
         //try{
             //console.log("extractedPrefix", extractedPrefix)
             //console.log("frame", frame)
-            let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect)
+            //let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect)
+            let properties=getProperties(frame, type, frame[current], uiFrame, mode, formData, onTraverse, onSelect)
             let definitions = {
                 testdef: {
                     title: "test",
@@ -61,8 +62,8 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
                 required: properties.required,
                 dependencies: properties.dependencies,
             }
-            //console.log("schema", JSON.stringify(schema, null, 2))
-            //console.log("uiSchema", JSON.stringify(properties.uiSchema, null, 2))
+            console.log("schema", JSON.stringify(schema, null, 2))
+            console.log("uiSchema", JSON.stringify(properties.uiSchema, null, 2))
 
             console.log("schema", schema)
             console.log("properties.uiSchema", properties.uiSchema)
@@ -92,19 +93,17 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             setUISchema(uiSchema)
         //}
         //catch(e) {
-          //  setError("An error has occured in generating frames. Err - ", e)
+           // setError("An error has occured in generating frames. Err - ", e)
         //}
 
     }, [frame, uiFrame, type, mode, formData])
 
 
     const handleSubmit = ({formData}) => {
-        //console.log("Data before extract: ",  formData)
+        console.log("Data before extract: ",  formData)
         if(onSubmit) {
 
-            var extracted = transformData(mode, schema, formData, frame, current, type)
-
-            //var extracted=formatData(mode, schema, formData, frame, current, type)
+            var extracted = transformData(mode, schema.properties, formData, frame, current, type)
             onSubmit(extracted)
             console.log("Data submitted: ",  extracted)
             //console.log("Data submitted: ",  JSON.stringify(extracted, null, 2))
@@ -141,25 +140,31 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
         );
       }*/
 
+    let submitButtonCss="btn-info"
+    if(uiFrame && Object.keys(uiFrame).length && uiFrame.hasOwnProperty(SUBMIT_BUTTON_STYLE_KEY)) {
+        submitButtonCss=uiFrame[SUBMIT_BUTTON_STYLE_KEY]
+    }
+
     return <React.Fragment>
         {schema && message && message}
         {schema && <Form schema={schema}
             uiSchema={uiSchema}
             mode={mode}
             onSubmit={handleSubmit}
-            //onBlur={e => handleBlur(e.formData)}
             readonly={readOnly}
             formData={input}
             onChange={({formData}) => handleChange(formData)}
             fields={{
                 collapsible: CollapsibleField
             }}
-            //liveValidate={false}
-            //omitExtraData={true}
-            //showErrorList={false}
             children={hideSubmit} // hide submit button on view mode
             FieldTemplate={FieldTemplate}
-        />}
+        >
+            <div>
+                <Button type="submit" className={submitButtonCss}>Submit</Button>
+            </div>
+        </Form>
+    }
     </React.Fragment>
  }
 

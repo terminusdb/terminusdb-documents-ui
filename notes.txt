@@ -1,0 +1,7 @@
+1) merge with main - main-es6 branch is automtically generated
+2) terminusdb-live-pattern-library - ``` npm update @terminusdb-documents-ui ```- will point terminusdb-documents-ui to lates commit in main-es6 branch
+3) and then push terminusdb-live-pattern-library
+4) wait for build to finish and then mereg PR
+5) in 2 to 5 mins ul c the changes in dashboard
+
+
