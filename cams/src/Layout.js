@@ -33,8 +33,8 @@ const App= (props) =>{
     //if(!message) return ("Waiting to connect to TerminusDB ... ")
 
     function handleSelect(inp){
-        console.log("*****Select****", inp)
-         let matched=[] //-- TEST DATA
+        //"*****Select****", inp)
+        let matched=[] //-- TEST DATA
         let options=[
             { value: 'Art', label: 'Blakey' },
             { value: 'John', label: 'Coltrane' },

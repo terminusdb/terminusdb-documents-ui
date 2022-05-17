@@ -1,9 +1,9 @@
 # Introduction
 
-A simple React component capable of building HTML forms out of a TerminusDB schema.
+A simple React component capable of building React forms out of a TerminusDB schema.
 
 terminusdb-documents-ui is meant to automatically generate a React form based on a TerminusDB schema. This is a
-stand alone componenet which only takes frames as input and generates HTML form as the output.
+stand alone componenet which only takes TerminusDB frames as input and generates React form as the output.
 This kit also comes with tools such as uiSchema and other form props to customize the look and feel of the form beyond the default themes.
 
 ---
@@ -52,10 +52,10 @@ try {
 ## Parameters
 
 ``` frame ```
-the full json frame structure extracted from a TerminusDB schema
+the full JSON frame structure extracted from a TerminusDB schema
 
 ``` uiFrame ```
-ui json to modify look & feel of the output HTML form
+JSON to modify look & feel of the output React form
 
 ``` type ```
 document type of interest, which tells ```<FrameViewer/>``` the type of document which needs to be displayed
@@ -64,26 +64,26 @@ document type of interest, which tells ```<FrameViewer/>``` the type of document
 there are 3 modes available - Create, Edit & View
 
 ``` formData ```
-are filled frames (instances of a document). It is important to specify formData in Edit & View modes otherwise the filled values will not be displayed
+are filled frames (instances of a Document). It is important to specify formData in Edit & View modes otherwise the filled values will not be displayed
 
 ``` onSubmit ```
-a callback js function with custom logic to process data submitted via the HTML form
+a callback JS function with custom logic to process data submitted via the React form
 
 ``` hideSubmit ```
-hides Submit button - this is helpfull when you want to display nested FrameViewers
+hides Submit button from the React form
 
 ``` onChange ```
-a callback js function with custom logic to process data when form data is changed
+a callback JS function with custom logic to bind an onChange event to the form
 
 ``` onSelect ```
-a callback js function with which gets back the selected values from a Select component. This is helpfull to define an async function to display options on a Select component
+a callback JS function which gets back the selected values or searched values from a Select component. This is helpfull to define an async function to display options on a Select component
 
 ``` onTraverse ```
-a js function which gets back the ID of a document on click. This is useful to bind an onClick js event with
-a document
+a JS function which gets back the ID of a document on click. This is useful to bind an onClick JS event with
+a document field
 
 ``` FieldTemplate ```
-a js function which helps to change look and feel of fields on the output HTML form
+a JS function which helps to change look and feel of fields on the output React form
 
 ---
 
@@ -124,11 +124,11 @@ let frames =  {
 // set type as Person. If you want to display Group, then set type to "Group"
 let type="Person"
 
-// We could add certain ui Elements to modify look and feel in the form of json
+// We could add certain ui JSON Elements to modify look and feel
 // for example - here for name field of a Person - we set a placeholder
 let uiFrames={
     "name" : {
-        "placeholder": "Please enter a name ..."
+        "ui:placeholder": "Please enter a name ..."
     }
 }
 
@@ -166,7 +166,7 @@ FrameViewer Component supports 3 modes
 
 ## Create
 
-FrameViewer Component in Create mode would display empty frames. You can define a callback function and pass into the FrameViewer component which would extract all the user filled fields from the form.
+FrameViewer Component in Create mode would display empty frames. You can define a callback function and pass into the FrameViewer component which would extract all the filled fields from the form.
 
 ```
 
@@ -225,9 +225,9 @@ Below is a screenshot of the rendered output form in Create Mode
 
 ## Edit
 
-FrameViewer Component in Edit mode would display filled frames and empty frames. You can again define a callback function and pass into the FrameViewer component which would extract all the user filled fields from the form.
+FrameViewer Component in Edit mode would display filled frames and empty frames. You can again define a callback function and pass into the FrameViewer component which would extract all the filled fields from the form.
 Note that while calling FrameViewer in Edit mode, it is required to pass ```formData``` parameter as well.
-As mentioned before, formData would display the filled frames with user inputted values.
+As mentioned before, formData would display the filled frames with inputted values.
 
 
 ```

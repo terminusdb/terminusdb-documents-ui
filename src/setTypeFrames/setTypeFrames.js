@@ -144,7 +144,7 @@ export function makeSetDocumentTypeFrames (frame, item, uiFrame, mode, formData,
 
     if (mode === EDIT) {
         layout=getEditSetDocumentTypeLayout(frame, item, formData)
-        uiLayout=getEditSetDocumentTypeUILayout(frame, item, onSelect)
+        uiLayout=getEditSetDocumentTypeUILayout(frame, item, uiFrame, onSelect)
     }
 
     if (mode === VIEW) {
@@ -171,12 +171,12 @@ export function makeSubDocumentTypeFrames (frame, item, uiFrame, mode, formData,
 
     if (mode === EDIT) {
         layout=getEditSetSubDocumentTypeLayout(frame, item, formData)
-        uiLayout=getEditSetSubDocumentTypeUILayout(frame, item)
+        uiLayout=getEditSetSubDocumentTypeUILayout(frame, item, uiFrame)
     }
 
     if (mode === VIEW) {
         layout=getViewSetSubDocumentTypeLayout(frame, item, formData)
-        uiLayout=getViewSetSubDocumentTypeUILayout(frame, item, formData)
+        uiLayout=getViewSetSubDocumentTypeUILayout(frame, item, uiFrame, formData)
     }
 
     // schema
@@ -252,7 +252,7 @@ function makeSubOneOfTypeFrames(frame, item, uiFrame, mode, formData, onTraverse
 
 
 export const makeSetTypeFrames = (frame, item, uiFrame, mode, formData, onTraverse, onSelect,fullFrame) => {
-    console.log("!!! SET frame", frame)
+    //console.log("!!! SET frame", frame)
     let madeFrames = {}
 
     // set Data Types

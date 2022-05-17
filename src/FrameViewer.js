@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react"
 import Form from "@terminusdb/rjsf-core"
 import {getProperties} from "./FrameHelpers"
 import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField"
-import {TDB_SCHEMA, SUBMIT_BUTTON_STYLE_KEY, VIEW, EDIT} from "./constants"
+import {TDB_SCHEMA, SUBMIT_BUTTON_STYLE_KEY, VIEW, EDIT, CREATE} from "./constants"
 import {Alert, Button} from "react-bootstrap"
 import {extractPrefix, isValueHashDocument, getValueHashMessage} from "./utils"
 import {transformData} from "./extract"
@@ -46,7 +46,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
 
     useEffect(() => {
         //setPrefix(extractedPrefix)
-        //try{
+        try{
             //console.log("extractedPrefix", extractedPrefix)
             //console.log("frame", frame)
             //let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect)
@@ -68,12 +68,13 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
 
             console.log("schema", schema)
             console.log("properties.uiSchema", properties.uiSchema)
-            console.log("uiSchema", uiSchema)
+            //console.log("uiSchema", uiSchema)
 
             if(mode === VIEW) {
                 setReadOnly(true)
                 setInput(formData)
             }
+            else if(mode === CREATE) setInput(formData)
             else if(mode === EDIT && isValueHashDocument(frame[current])) {
                 setInput(formData)
                 setMessage(getValueHashMessage())
@@ -96,19 +97,20 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             if(uiFrame && uiFrame.hasOwnProperty("ui:description")) uiSchema["ui:description"]= uiFrame["ui:description"]
             
             setUISchema(uiSchema)
-        //}
-        //catch(e) {
-           // setError("An error has occured in generating frames. Err - ", e)
-        //}
+        }
+        catch(e) {
+            setError("An error has occured in generating frames. Err - ", e)
+        }
 
     }, [frame, uiFrame, type, mode, formData])
 
 
     const handleSubmit = ({formData}) => {
-        console.log("Data before extract: ",  formData)
+        //console.log("Data before extract: ",  formData)
         if(onSubmit) {
 
             var extracted = transformData(mode, schema.properties, formData, frame, current, type)
+            if(!extracted.hasOwnProperty("@type")) extracted["@type"] = type
             onSubmit(extracted)
             console.log("Data submitted: ",  extracted)
             //console.log("Data submitted: ",  JSON.stringify(extracted, null, 2))
@@ -116,12 +118,13 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
     }
 
     const handleChange = (data) => {
-        console.log("Data changed: ",  data)
+        //console.log("Data changed: ",  data)
         setInput(data)
         if(onChange) {
             onChange(data)
         }
     }
+
 
     if(error) {
         return <Alert variant="danger">{error}</Alert>
@@ -154,7 +157,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
         {schema && message && message}
         {schema && <Form schema={schema}
             uiSchema={uiSchema}
-            mode={mode}
+            mode={mode} 
             onSubmit={handleSubmit}
             readonly={readOnly}
             formData={input}

@@ -457,15 +457,18 @@ export function extractPrefix (fullFrame) {
 export function addCustomUI (item, uiFrame, uiLayout) {
 	if(!uiFrame) return uiLayout
 	if(!Object.keys(uiFrame).length) return uiLayout
-	if(item === "asset_history") {
-		console.log("break her")
+	if(item === "eyeglass-type"){
+		console.log("eyeglass-type")
 	}
 	let defaultUILayout = uiLayout
 	if(uiFrame && uiFrame.hasOwnProperty(item)) {
         for (var uiItems in uiFrame[item]) {
-            if(defaultUILayout.hasOwnProperty(uiItems)
+            if(defaultUILayout.hasOwnProperty(uiItems) 
 				&& uiItems !== "ui:widget"
-				&& uiItems !== "ui:placeholder") {
+				&& uiItems !== "ui:placeholder"
+				&& uiItems !== "ui:description"
+				&& uiItems !== "ui:title"
+				&& uiItems !== "classNames") {
                 let uiDefault = defaultUILayout[uiItems]
                 defaultUILayout[uiItems] = `${uiDefault} ${uiFrame[item][uiItems]}`
             }

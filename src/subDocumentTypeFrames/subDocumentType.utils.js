@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import {getSubDocumentTitle, getSubDocumentDescription, getDefaultValue, isFilled, extractUIFrameSubDocumentTemplate} from "../utils"
+import {getSubDocumentTitle, getSubDocumentDescription, getDefaultValue, isFilled, addCustomUI, extractUIFrameSubDocumentTemplate} from "../utils"
 import {CREATE, DOCUMENT, EDIT, VIEW, SELECT_STYLES, SUBDOCUMENT_TYPE} from "../constants"
 
 
@@ -31,7 +31,9 @@ export function getCreateUILayout (frame, item, uiFrame) {
     uiLayout["classNames"]=`card ${subDocuemntBg} p-4 mt-4 mb-4`
     uiLayout["ui:description"]=getSubDocumentDescription(item)
     uiLayout["ui:title"]=getSubDocumentTitle(item)
-    return uiLayout
+    // custom ui:schema - add to default ui schema
+    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
+    return addedCustomUI
 }
 
 // edit layout
@@ -54,7 +56,7 @@ export function getEditLayout (frame, item, formData) {
 }
 
 // edit ui layout
-export function getEditUILayout (frame, item, uiFrame) {
+export function getEditUILayout (frame, item, formData, uiFrame) {
     let uiLayout= {}
     let subDocuemntBg = extractUIFrameSubDocumentTemplate(uiFrame) ? extractUIFrameSubDocumentTemplate(uiFrame) : 'bg-secondary'
 
@@ -68,8 +70,11 @@ export function getEditUILayout (frame, item, uiFrame) {
     }
     uiLayout["classNames"]=`card ${subDocuemntBg} p-4 mt-4 mb-4`
     uiLayout["ui:description"]=getSubDocumentDescription(item)
-    uiLayout["ui:title"]=getSubDocumentTitle(item)
-    return uiLayout
+    uiLayout["ui:title"]=getSubDocumentTitle(item) 
+
+    // custom ui:schema - add to default ui schema
+    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
+    return addedCustomUI
 }
 
 // View Layout
@@ -120,6 +125,8 @@ export function getViewUILayout(frame, item, formData, uiFrame) {
     uiLayout["classNames"]=`card ${subDocuemntBg} p-4 mt-4 mb-4`
     uiLayout["ui:description"]=getSubDocumentDescription(item)
     uiLayout["ui:title"]=getSubDocumentTitle(item)
-    return uiLayout
+    // custom ui:schema - add to default ui schema
+    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
+    return addedCustomUI
 }
 //  classNames: `card ${subDocumentStyles} p-4 mt-4 mb-4`,

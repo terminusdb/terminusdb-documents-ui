@@ -6,15 +6,15 @@ import {ModeInput} from "./ModeInput"
 import {UIEditors} from "./UIEditors"
 import {Output} from "./Output"
 import {FormData} from "./FormData"
-import {DEMO_SCHEMA, CURRENT, CURRENT_DATA, MRP_SCHEMA, MRP_SCHEMA_FORM_DATA, SESHAT_TEST_FORM_DATA, SESHAT_SCHEMA_FULL, SESHAT_SCHEMA_SMALL, SMALL_SCHEMA, SMALL_SCHEMA_FORM_DATA, SESHAT_FORM_DATA, SESHAT_SCHEMA, NUCLEAR_SCHEMA, NUCLEAR_FORM_DATA, PROFILE_FORM_DATA, PROFILE_SCHEMA, PROFILE_FORM_DATA_USER, DEMO_FORM_DATA, DEMO_SCHEMA_UI, DEMO_DOCUMENT_TYPE, CREATE} from "./sample"
+import {DEMO_SCHEMA, CAMS_SCHEMA_FULL_ASSET,CURRENT, CURRENT_DATA, MRP_SCHEMA, MRP_SCHEMA_FORM_DATA, SESHAT_TEST_FORM_DATA, SESHAT_SCHEMA_FULL, SESHAT_SCHEMA_SMALL, SMALL_SCHEMA, SMALL_SCHEMA_FORM_DATA, SESHAT_FORM_DATA, SESHAT_SCHEMA, NUCLEAR_SCHEMA, NUCLEAR_FORM_DATA, PROFILE_FORM_DATA, PROFILE_SCHEMA, PROFILE_FORM_DATA_USER, DEMO_FORM_DATA, DEMO_SCHEMA_UI, DEMO_DOCUMENT_TYPE, CREATE} from "./sample"
 
 const App= (props) =>{
     // nuclear
 
-    const [schema, setSchema]=useState(NUCLEAR_SCHEMA) //schema
+    const [schema, setSchema]=useState(CAMS_SCHEMA_FULL_ASSET) //schema
     const [uiSchema, setUISchema]=useState(DEMO_SCHEMA_UI) //ui schema
-    const [type, setType]=useState("NuclearPowerPlant")  // document type
-    const [mode, setMode]=useState("View")  // mode
+    const [type, setType]=useState("Asset")  // document type
+    const [mode, setMode]=useState("Create")  // mode
     const [formData, setFormData]=useState(NUCLEAR_FORM_DATA) // formdata => required only on edit/ view
 
 

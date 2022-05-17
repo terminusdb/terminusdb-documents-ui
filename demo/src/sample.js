@@ -3,425 +3,8 @@ export const CREATE="Create"
 export const EDIT="Edit"
 export const VIEW="View"
 
-
-export const CURRENT = {
-	"terminusdb:///schema#Address": {
-	  "@key": {
-		"@type": "Random"
-	  },
-	  "@subdocument": [],
-	  "@type": "Class",
-	  "city": {
-		"@class": "xsd:string",
-		"@type": "Optional"
-	  },
-	  "coordinate": {
-		"@class": {
-		  "@class": "Coordinate",
-		  "@subdocument": []
-		},
-		"@type": "Optional"
-	  },
-	  "country": {
-		"@class": "xsd:string",
-		"@type": "Optional"
-	  },
-	  "coutry": {
-		"@class": "xsd:string",
-		"@type": "Optional"
-	  },
-	  "date_from": "xsd:dateTime",
-	  "date_to": {
-		"@class": "xsd:dateTime",
-		"@type": "Optional"
-	  },
-	  "geocode_accuracy": {
-		"@class": "xsd:string",
-		"@type": "Optional"
-	  },
-	  "metro_area": {
-		"@class": "xsd:string",
-		"@type": "Optional"
-	  },
-	  "post_code": {
-		"@class": "xsd:string",
-		"@type": "Optional"
-	  },
-	  "source": {
-		"@class": "Source",
-		"@subdocument": []
-	  },
-	  "state": {
-		"@class": "xsd:string",
-		"@type": "Optional"
-	  },
-	  "stress_address": "xsd:string"
-	},
-	"terminusdb:///schema#ContactCounts": {
-	  "@key": {
-		"@type": "Random"
-	  },
-	  "@subdocument": [],
-	  "@type": "Class",
-	  "date_from": "xsd:dateTime",
-	  "date_to": {
-		"@class": "xsd:dateTime",
-		"@type": "Optional"
-	  },
-	  "num_of_it_contacts": "xsd:integer",
-	  "num_of_sales_contacts": "xsd:integer",
-	  "source": {
-		"@class": "Source",
-		"@subdocument": []
-	  }
-	},
-	"terminusdb:///schema#Coordinate": {
-	  "@key": {
-		"@type": "Random"
-	  },
-	  "@subdocument": [],
-	  "@type": "Class",
-	  "latitude": "xsd:decimal",
-	  "longtitude": "xsd:decimal"
-	},
-	"terminusdb:///schema#Currency": {
-	  "@key": {
-		"@type": "Random"
-	  },
-	  "@subdocument": [],
-	  "@type": "Class",
-	  "type": {
-		"@id": "CurrencyType",
-		"@type": "Enum",
-		"@values": [
-		  "hkd",
-		  "usd",
-		  "eur",
-		  "gbp"
-		]
-	  },
-	  "value": "xsd:decimal"
-	},
-	"terminusdb:///schema#CurrencyType": {
-	  "@type": "Enum",
-	  "@values": [
-		"hkd",
-		"usd",
-		"eur",
-		"gbp"
-	  ]
-	},
-	"terminusdb:///schema#Domain": {
-	  "@key": {
-		"@type": "Random"
-	  },
-	  "@subdocument": [],
-	  "@type": "Class",
-	  "date_from": "xsd:dateTime",
-	  "date_to": {
-		"@class": "xsd:dateTime",
-		"@type": "Optional"
-	  },
-	  "source": {
-		"@class": "Source",
-		"@subdocument": []
-	  },
-	  "url": "xsd:string"
-	},
-	"terminusdb:///schema#EmployeeCount": {
-	  "@key": {
-		"@type": "Random"
-	  },
-	  "@subdocument": [],
-	  "@type": "Class",
-	  "date_from": "xsd:dateTime",
-	  "date_to": {
-		"@class": "xsd:dateTime",
-		"@type": "Optional"
-	  },
-	  "employee_count_band": {
-		"@class": "xsd:string",
-		"@type": "Optional"
-	  },
-	  "max": {
-		"@class": "xsd:integer",
-		"@type": "Optional"
-	  },
-	  "min": {
-		"@class": "xsd:integer",
-		"@type": "Optional"
-	  },
-	  "source": {
-		"@class": "Source",
-		"@subdocument": []
-	  },
-	  "value": "xsd:integer"
-	},
-	"terminusdb:///schema#Industry": {
-	  "@key": {
-		"@type": "Random"
-	  },
-	  "@subdocument": [],
-	  "@type": "Class",
-	  "date_from": "xsd:dateTime",
-	  "date_to": {
-		"@class": "xsd:dateTime",
-		"@type": "Optional"
-	  },
-	  "industry_code": "xsd:string",
-	  "industry_code_desc": "xsd:string",
-	  "industry_code_type": "xsd:string",
-	  "source": {
-		"@class": "Source",
-		"@subdocument": []
-	  }
-	},
-	"terminusdb:///schema#IsPublic": {
-	  "@key": {
-		"@type": "Random"
-	  },
-	  "@subdocument": [],
-	  "@type": "Class",
-	  "date_from": "xsd:dateTime",
-	  "date_to": {
-		"@class": "xsd:dateTime",
-		"@type": "Optional"
-	  },
-	  "is_public": "xsd:boolean",
-	  "source": {
-		"@class": "Source",
-		"@subdocument": []
-	  }
-	},
-	"terminusdb:///schema#Location": {
-	  "@key": {
-		"@type": "Random"
-	  },
-	  "@type": "Class",
-	  "address": {
-		"@class": {
-		  "@class": "Address",
-		  "@subdocument": []
-		},
-		"@type": "Set"
-	  },
-	  "contact_counts": {
-		"@class": {
-		  "@class": "ContactCounts",
-		  "@subdocument": []
-		},
-		"@type": "Set"
-	  },
-	  "location_type": {
-		"@class": {
-		  "@class": "LocationType",
-		  "@subdocument": []
-		},
-		"@type": "Set"
-	  },
-	  "phone_num": {
-		"@class": {
-		  "@class": "PhoneNumber",
-		  "@subdocument": []
-		},
-		"@type": "Set"
-	  }
-	},
-	"terminusdb:///schema#LocationType": {
-	  "@key": {
-		"@type": "Random"
-	  },
-	  "@subdocument": [],
-	  "@type": "Class",
-	  "date_from": "xsd:dateTime",
-	  "date_to": {
-		"@class": "xsd:dateTime",
-		"@type": "Optional"
-	  },
-	  "source": {
-		"@class": "Source",
-		"@subdocument": []
-	  },
-	  "value": {
-		"@id": "LocationTypeValue",
-		"@type": "Enum",
-		"@values": [
-		  "hq",
-		  "decision_making_location",
-		  "branch"
-		]
-	  }
-	},
-	"terminusdb:///schema#LocationTypeValue": {
-	  "@type": "Enum",
-	  "@values": [
-		"hq",
-		"decision_making_location",
-		"branch"
-	  ]
-	},
-	"terminusdb:///schema#Name": {
-	  "@key": {
-		"@type": "Random"
-	  },
-	  "@subdocument": [],
-	  "@type": "Class",
-	  "date_from": "xsd:dateTime",
-	  "date_to": {
-		"@class": "xsd:dateTime",
-		"@type": "Optional"
-	  },
-	  "name": "xsd:string",
-	  "source": {
-		"@class": "Source",
-		"@subdocument": []
-	  }
-	},
-	"terminusdb:///schema#Organization": {
-	  "@key": {
-		"@type": "Random"
-	  },
-	  "@type": "Class",
-	  "domain": {
-		"@class": {
-		  "@class": "Domain",
-		  "@subdocument": []
-		},
-		"@type": "Set"
-	  },
-	  "employee_count": {
-		"@class": {
-		  "@class": "EmployeeCount",
-		  "@subdocument": []
-		},
-		"@type": "Set"
-	  },
-	  "industry": {
-		"@class": {
-		  "@class": "Industry",
-		  "@subdocument": []
-		},
-		"@type": "Set"
-	  },
-	  "location": {
-		"@class": "Location",
-		"@type": "Set"
-	  },
-	  "name": {
-		"@class": {
-		  "@class": "Name",
-		  "@subdocument": []
-		},
-		"@type": "Set"
-	  },
-	  "parent": {
-		"@class": "Organization",
-		"@type": "Set"
-	  },
-	  "public": {
-		"@class": {
-		  "@class": "IsPublic",
-		  "@subdocument": []
-		},
-		"@type": "Set"
-	  },
-	  "revenue": {
-		"@class": {
-		  "@class": "Revenue",
-		  "@subdocument": []
-		},
-		"@type": "Set"
-	  }
-	},
-	"terminusdb:///schema#PhoneNumber": {
-	  "@key": {
-		"@type": "Random"
-	  },
-	  "@subdocument": [],
-	  "@type": "Class",
-	  "date_from": "xsd:dateTime",
-	  "date_to": {
-		"@class": "xsd:dateTime",
-		"@type": "Optional"
-	  },
-	  "phone_num": "xsd:string",
-	  "source": {
-		"@class": "Source",
-		"@subdocument": []
-	  }
-	},
-	"terminusdb:///schema#Revenue": {
-	  "@key": {
-		"@type": "Random"
-	  },
-	  "@subdocument": [],
-	  "@type": "Class",
-	  "date_from": "xsd:dateTime",
-	  "date_to": {
-		"@class": "xsd:dateTime",
-		"@type": "Optional"
-	  },
-	  "max": {
-		"@class": {
-		  "@class": "Currency",
-		  "@subdocument": []
-		},
-		"@type": "Optional"
-	  },
-	  "min": {
-		"@class": {
-		  "@class": "Currency",
-		  "@subdocument": []
-		},
-		"@type": "Optional"
-	  },
-	  "revenue_band": {
-		"@class": "xsd:string",
-		"@type": "Optional"
-	  },
-	  "source": {
-		"@class": "Source",
-		"@subdocument": []
-	  },
-	  "value": {
-		"@class": "Currency",
-		"@subdocument": []
-	  }
-	},
-	"terminusdb:///schema#Source": {
-	  "@key": {
-		"@type": "Random"
-	  },
-	  "@subdocument": [],
-	  "@type": "Class",
-	  "file": {
-		"@class": "xsd:string",
-		"@type": "Optional"
-	  },
-	  "name": "xsd:string"
-	},
-	"terminusdb:///schema#Sourced": {
-	  "@key": {
-		"@type": "Random"
-	  },
-	  "@type": "Class",
-	  "source": {
-		"@class": "Source",
-		"@subdocument": []
-	  }
-	},
-	"terminusdb:///schema#TemporalScoping": {
-	  "@key": {
-		"@type": "Random"
-	  },
-	  "@type": "Class",
-	  "date_from": "xsd:dateTime",
-	  "date_to": {
-		"@class": "xsd:dateTime",
-		"@type": "Optional"
-	  }
-	}
-  }
+ 
+export const CURRENT = CAMS_SCHEMA_FULL_ASSET
 
 export const CURRENT_DATA = {
 	"@id":"Location/0254518b6cd853e561e63aa1e43ced36fd2193b2f986240668e41cb1314567fc",
@@ -555,6 +138,571 @@ export const DEMO_SCHEMA_PERSON ={
 	  "name": {
 		"@class": "xsd:string",
 		"@type": "Optional"
+	  }
+	}
+  }
+  export const CAMS_SCHEMA_FULL_ASSET = {
+	"@context": {
+	  "@base": "iri://CAMS/",
+	  "@schema": "iri://CAMS#",
+	  "@type": "Context"
+	},
+	"iri://CAMS#Area": {
+	  "@type": "Class",
+	  "extent": {
+		"@class": {
+		  "@class": "AreaExtent",
+		  "@subdocument": []
+		},
+		"@type": "Optional"
+	  },
+	  "hazard_history": {
+		"@class": {
+		  "@class": "HazardEvent",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  },
+	  "hazards": {
+		"@class": {
+		  "@id": "Hazard",
+		  "@type": "Enum",
+		  "@values": [
+			"Volcanos (incl. lahars, pyroclastic flows, volcanic activity)",
+			"Landslides (incl. post wildfire landslides) and Avalanches",
+			"Hurricanes, Typhoons, or Cyclones",
+			"Tropical/Extra Tropical of other extreme storms",
+			"Coast Storm Surge",
+			"Pluvial and Fluvial Flooding",
+			"\"Sunny Day\" Tidal Flooding",
+			"Tornadoes, Derechos, Micro-Bursts",
+			"Lightning Strikes",
+			"Wildfires",
+			"Drought",
+			"Geologic Sink Holes",
+			"Pest Infestations",
+			"Famine",
+			"High Temperature Event",
+			"Low Temperature Event",
+			"Cyber Attack or Failure",
+			"Other Terrorism",
+			"Industrial Accident (Emissions, Releases, Spills, Ect.)"
+		  ]
+		},
+		"@type": "Set"
+	  },
+	  "name": "xsd:string",
+	  "population": {
+		"@class": "xsd:integer",
+		"@type": "Optional"
+	  }
+	},
+	"iri://CAMS#AreaExtent": {
+	  "@key": {
+		"@type": "ValueHash"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "perimeter": {
+		"@class": "xsd:integer",
+		"@type": "Optional"
+	  }
+	},
+	"iri://CAMS#Asset": {
+	  "@key": {
+		"@fields": [
+		  "asset_identifier"
+		],
+		"@type": "Lexical"
+	  },
+	  "@type": "Class",
+	  "applicable_hazards": {
+		"@class": {
+		  "@id": "Hazard",
+		  "@type": "Enum",
+		  "@values": [
+			"Volcanos (incl. lahars, pyroclastic flows, volcanic activity)",
+			"Landslides (incl. post wildfire landslides) and Avalanches",
+			"Hurricanes, Typhoons, or Cyclones",
+			"Tropical/Extra Tropical of other extreme storms",
+			"Coast Storm Surge",
+			"Pluvial and Fluvial Flooding",
+			"\"Sunny Day\" Tidal Flooding",
+			"Tornadoes, Derechos, Micro-Bursts",
+			"Lightning Strikes",
+			"Wildfires",
+			"Drought",
+			"Geologic Sink Holes",
+			"Pest Infestations",
+			"Famine",
+			"High Temperature Event",
+			"Low Temperature Event",
+			"Cyber Attack or Failure",
+			"Other Terrorism",
+			"Industrial Accident (Emissions, Releases, Spills, Ect.)"
+		  ]
+		},
+		"@type": "Set"
+	  },
+	  "asset_history": {
+		"@class": [
+		  {
+			"@class": "HazardEvent",
+			"@subdocument": []
+		  },
+		  {
+			"@class": "UpdateEvent",
+			"@subdocument": []
+		  }
+		],
+		"@type": "Set"
+	  },
+	  "asset_identifier": "xsd:string",
+	  "asset_update_history": {
+		"@class": {
+		  "@class": "UpdateEvent",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  },
+	  "commisioning_date": "xsd:dateTime",
+	  "description": {
+		"@class": "xsd:string",
+		"@type": "Set"
+	  },
+	  "design_standards": "xsd:string",
+	  "last_maintained": "xsd:dateTime",
+	  "last_modified": "xsd:dateTime",
+	  "location": {
+		"@class": "Location",
+		"@subdocument": []
+	  },
+	  "name": "xsd:string",
+	  "owner": {
+		"@class": "Owner",
+		"@type": "Set"
+	  },
+	  "spatial_web_identifier": {
+		"@class": "SpatialWebIdentifier",
+		"@type": "Optional"
+	  }
+	},
+	"iri://CAMS#AssetType": {
+	  "@abstract": [],
+	  "@type": "Class",
+	  "name": "xsd:string"
+	},
+	"iri://CAMS#CRS84": {
+	  "@type": "Class",
+	  "name": {
+		"@id": "CRS84_Type",
+		"@type": "Enum",
+		"@values": [
+		  "urn:ogc:def:crs:OGC:1.3:CRS84"
+		]
+	  }
+	},
+	"iri://CAMS#CRS84_Type": {
+	  "@type": "Enum",
+	  "@values": [
+		"urn:ogc:def:crs:OGC:1.3:CRS84"
+	  ]
+	},
+	"iri://CAMS#DependencyRelation": {
+	  "@type": "Class",
+	  "comment": "xsd:string",
+	  "critical": "xsd:boolean",
+	  "dependent": "Asset",
+	  "depends_on": "Asset"
+	},
+	"iri://CAMS#Event": {
+	  "@abstract": [],
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "date": "xsd:dateTime"
+	},
+	"iri://CAMS#Feature": {
+	  "@type": "Class",
+	  "bbox": {
+		"@class": "xsd:string",
+		"@dimensions": 1,
+		"@type": "Array"
+	  },
+	  "centerline": {
+		"@class": [
+		  {
+			"@class": "LineString",
+			"@subdocument": []
+		  },
+		  {
+			"@class": "Point",
+			"@subdocument": []
+		  }
+		],
+		"@type": "Optional"
+	  },
+	  "geometry": [
+		{
+		  "@class": "LineString",
+		  "@subdocument": []
+		},
+		{
+		  "@class": "Point",
+		  "@subdocument": []
+		}
+	  ],
+	  "id": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "properties": [
+		"CRS84",
+		"OSiProperties"
+	  ],
+	  "title": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "type": {
+		"@id": "Feature_Type",
+		"@type": "Enum",
+		"@values": [
+		  "Feature"
+		]
+	  }
+	},
+	"iri://CAMS#FeatureCollection": {
+	  "@type": "Class",
+	  "crs": {
+		"@class": "name",
+		"@type": "Optional"
+	  },
+	  "features": {
+		"@class": "Feature",
+		"@type": "Set"
+	  },
+	  "name": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "type": {
+		"@id": "FeatureCollection_Type",
+		"@type": "Enum",
+		"@values": [
+		  "FeatureCollection"
+		]
+	  }
+	},
+	"iri://CAMS#FeatureCollection_Type": {
+	  "@type": "Enum",
+	  "@values": [
+		"FeatureCollection"
+	  ]
+	},
+	"iri://CAMS#Feature_Type": {
+	  "@type": "Enum",
+	  "@values": [
+		"Feature"
+	  ]
+	},
+	"iri://CAMS#FundingSource": {
+	  "@abstract": [],
+	  "@type": "Class"
+	},
+	"iri://CAMS#GeoCoordinate": {
+	  "@key": {
+		"@fields": [
+		  "latitude",
+		  "longitude"
+		],
+		"@type": "Lexical"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "latitude": "xsd:decimal",
+	  "longitude": "xsd:decimal"
+	},
+	"iri://CAMS#GeoPerimeter": {
+	  "@key": {
+		"@fields": [
+		  "perimeter"
+		],
+		"@type": "Lexical"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "perimeter": {
+		"@class": {
+		  "@class": "GeoCoordinate",
+		  "@subdocument": []
+		},
+		"@type": "List"
+	  }
+	},
+	"iri://CAMS#Geometry": {
+	  "@abstract": [],
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class"
+	},
+	"iri://CAMS#GeometryCollection_Type": {
+	  "@type": "Enum",
+	  "@values": [
+		"GeometryCollection"
+	  ]
+	},
+	"iri://CAMS#GradedHazard": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "Grade": {
+		"@class": "xsd:decimal",
+		"@type": "Optional"
+	  }
+	},
+	"iri://CAMS#Hazard": {
+	  "@type": "Enum",
+	  "@values": [
+		"Volcanos (incl. lahars, pyroclastic flows, volcanic activity)",
+		"Landslides (incl. post wildfire landslides) and Avalanches",
+		"Hurricanes, Typhoons, or Cyclones",
+		"Tropical/Extra Tropical of other extreme storms",
+		"Coast Storm Surge",
+		"Pluvial and Fluvial Flooding",
+		"\"Sunny Day\" Tidal Flooding",
+		"Tornadoes, Derechos, Micro-Bursts",
+		"Lightning Strikes",
+		"Wildfires",
+		"Drought",
+		"Geologic Sink Holes",
+		"Pest Infestations",
+		"Famine",
+		"High Temperature Event",
+		"Low Temperature Event",
+		"Cyber Attack or Failure",
+		"Other Terrorism",
+		"Industrial Accident (Emissions, Releases, Spills, Ect.)"
+	  ]
+	},
+	"iri://CAMS#HazardEvent": {
+	  "@documentation": {
+		"@comment": "Historical hazard",
+		"@properties": {
+		  "comment": "A comment relating to an historic hazard incident.",
+		  "date": "The date at which the incident occurred."
+		}
+	  },
+	  "@key": {
+		"@fields": [
+		  "hazard",
+		  "date"
+		],
+		"@type": "Lexical"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "comment": "xsd:string",
+	  "date": "xsd:dateTime",
+	  "hazard": {
+		"@id": "Hazard",
+		"@type": "Enum",
+		"@values": [
+		  "Volcanos (incl. lahars, pyroclastic flows, volcanic activity)",
+		  "Landslides (incl. post wildfire landslides) and Avalanches",
+		  "Hurricanes, Typhoons, or Cyclones",
+		  "Tropical/Extra Tropical of other extreme storms",
+		  "Coast Storm Surge",
+		  "Pluvial and Fluvial Flooding",
+		  "\"Sunny Day\" Tidal Flooding",
+		  "Tornadoes, Derechos, Micro-Bursts",
+		  "Lightning Strikes",
+		  "Wildfires",
+		  "Drought",
+		  "Geologic Sink Holes",
+		  "Pest Infestations",
+		  "Famine",
+		  "High Temperature Event",
+		  "Low Temperature Event",
+		  "Cyber Attack or Failure",
+		  "Other Terrorism",
+		  "Industrial Accident (Emissions, Releases, Spills, Ect.)"
+		]
+	  }
+	},
+	"iri://CAMS#LineString": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "coordinates": {
+		"@class": "xsd:decimal",
+		"@dimensions": 2,
+		"@type": "Array"
+	  },
+	  "type": {
+		"@id": "LineString_Type",
+		"@type": "Enum",
+		"@values": [
+		  "LineString"
+		]
+	  }
+	},
+	"iri://CAMS#LineString_Type": {
+	  "@type": "Enum",
+	  "@values": [
+		"LineString"
+	  ]
+	},
+	"iri://CAMS#Location": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "city": "xsd:string",
+	  "geometry_location": {
+		"@class": [
+		  {
+			"@class": "LineString",
+			"@subdocument": []
+		  },
+		  {
+			"@class": "Point",
+			"@subdocument": []
+		  }
+		],
+		"@type": "Optional"
+	  },
+	  "postal_code": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "state": "xsd:string",
+	  "street": "xsd:string"
+	},
+	"iri://CAMS#MultiPolygon_Type": {
+	  "@type": "Enum",
+	  "@values": [
+		"MultiPolygon"
+	  ]
+	},
+	"iri://CAMS#Name_Type": {
+	  "@type": "Enum",
+	  "@values": [
+		"name"
+	  ]
+	},
+	"iri://CAMS#OSiProperties": {
+	  "@type": "Class",
+	  "NAMN1": "xsd:string",
+	  "OBJECTID": "xsd:integer"
+	},
+	"iri://CAMS#Owner": {
+	  "@type": "Class",
+	  "contact_person": "Person",
+	  "name": "xsd:string"
+	},
+	"iri://CAMS#Person": {
+	  "@type": "Class",
+	  "email_address": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "first_name": "xsd:string",
+	  "job_title": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "last_name": "xsd:string",
+	  "organization": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "phone_number": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  }
+	},
+	"iri://CAMS#Point": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "coordinates": {
+		"@class": "xsd:decimal",
+		"@dimensions": 1,
+		"@type": "Array"
+	  },
+	  "type": {
+		"@id": "Point_Type",
+		"@type": "Enum",
+		"@values": [
+		  "Point"
+		]
+	  }
+	},
+	"iri://CAMS#Point_Type": {
+	  "@type": "Enum",
+	  "@values": [
+		"Point"
+	  ]
+	},
+	"iri://CAMS#Polygon_Type": {
+	  "@type": "Enum",
+	  "@values": [
+		"Polygon"
+	  ]
+	},
+	"iri://CAMS#Properties": {
+	  "@abstract": [],
+	  "@type": "Class"
+	},
+	"iri://CAMS#Source": {
+	  "@abstract": [],
+	  "@type": "Class"
+	},
+	"iri://CAMS#SpatialWebIdentifier": {
+	  "@type": "Class",
+	  "id": "xsd:string"
+	},
+	"iri://CAMS#UpdateEvent": {
+	  "@documentation": {
+		"@comment": "Update history",
+		"@properties": {
+		  "comment": "A comment relating to an historic hazard incident.",
+		  "date": "The date at which the update occurred."
+		}
+	  },
+	  "@key": {
+		"@fields": [
+		  "comment",
+		  "date"
+		],
+		"@type": "Lexical"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "comment": "xsd:string",
+	  "date": "xsd:dateTime"
+	},
+	"iri://CAMS#name": {
+	  "@type": "Class",
+	  "properties": [
+		"CRS84",
+		"OSiProperties"
+	  ],
+	  "type": {
+		"@id": "Name_Type",
+		"@type": "Enum",
+		"@values": [
+		  "name"
+		]
 	  }
 	}
   }
