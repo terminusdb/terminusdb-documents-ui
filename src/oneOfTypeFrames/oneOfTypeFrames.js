@@ -5,7 +5,7 @@ import {
 } from "../constants"
 
 import {SYS_UNIT_DATA_TYPE, ONEOFVALUES} from "../constants"
-import {getTitle, getDefaultValue, checkIfKey, isFilled, extractPrefix} from "../utils"
+import {getTitle, getDefaultValue, checkIfKey, isFilled} from "../utils"
 import {
     getCreateDocumentLayout,
     getViewDocumentLayout,

@@ -1,4 +1,4 @@
-import {getTitle, getDefaultValue, checkIfKey, isFilled, extractPrefix} from "../utils"
+import {getTitle, getDefaultValue, checkIfKey, isFilled} from "../utils"
 import {getProperties} from "../FrameHelpers"
 import React from "react"
 import {
@@ -19,7 +19,7 @@ import {
 // get view layout of document class
 export function getViewDocumentLayout(documentClass, fullFrame, current, item, uiFrame, mode, formData, onTraverse, onSelect) {
     var layout = {}, currentData, exractedUiProperties={}
-    let documentClassIRI = `${extractPrefix(fullFrame)}${documentClass}`
+    let documentClassIRI = `${documentClass}`
     let frame = fullFrame[documentClassIRI]
 
     // We set mode to create just to get the frames
@@ -64,7 +64,7 @@ export function getViewDocumentLayout(documentClass, fullFrame, current, item, u
 // get layout of document class
 export function getCreateDocumentLayout(documentClass, fullFrame, current, item, uiFrame, mode, formData, onTraverse, onSelect) {
     var layout = {}, currentData, exractedUiProperties={}
-    let documentClassIRI = `${extractPrefix(fullFrame)}${documentClass}`
+    let documentClassIRI = `${documentClass}`
     let frame = fullFrame[documentClassIRI]
 
     let exractedProperties = getProperties (fullFrame, current, frame, uiFrame, mode, {}, onTraverse, onSelect)
@@ -98,7 +98,7 @@ export function getCreateDocumentLayout(documentClass, fullFrame, current, item,
 // get layout of sys units
 export function getCreateSysUnitDocumentLayout(documentClass, fullFrame, current, item, uiFrame, mode, formData, onTraverse, onSelect) {
     var layout = {}, currentData, exractedUiProperties={}
-    let documentClassIRI = `${extractPrefix(fullFrame)}${documentClass}`
+    let documentClassIRI = `${documentClass}`
     let frame = fullFrame[documentClassIRI]
 
     function displaySysUnit (props) {
@@ -162,7 +162,7 @@ uiSchema: {date_range: {…}, value: {…}, @type: {…}, @choice: {…}}
 // view layout of sys units
 export function getViewSysUnitDocumentLayout(documentClass, fullFrame, current, item, uiFrame, mode, formData, onTraverse, onSelect) {
     var layout = {}, currentData, exractedUiProperties={}
-    let documentClassIRI = `${extractPrefix(fullFrame)}${documentClass}`
+    let documentClassIRI = `${documentClass}`
     let frame = fullFrame[documentClassIRI]
 
 

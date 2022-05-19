@@ -10,7 +10,7 @@ import {makeEnumTypeFrames} from "./enumTypeFrames/enumTypeFrames"
 import {makeChoiceSubDocumentTypeFrames} from "./choiceSubDocumentTypeFrames/choiceSubDocumentTypeFrames"
 import {makeChoiceDocumentTypeFrames} from "./choiceDocumentTypeFrames/choiceDocumentTypeFrames"
 import {makeOneOfTypeFrames} from "./oneOfTypeFrames/oneOfTypeFrames"
-import {extractPrefix, isChoiceSubDocumentType, isChoiceDocumentType, isDataType,isPointType, isSubDocumentType, isOptionalType, isSetType, isDocumentType, isEnumType, isListType, isSubDocumentAndClassType, isDocumentClassArrayType} from "./utils"
+import {isChoiceSubDocumentType, isChoiceDocumentType, isDataType,isPointType, isSubDocumentType, isOptionalType, isSetType, isDocumentType, isEnumType, isListType, isSubDocumentAndClassType, isDocumentClassArrayType} from "./utils"
 import {DOCUMENT, ENUM, DATA, LONGITUDE, LATITUDE, VIEW, GEO_CORDINATES, SUBDOCUMENT_CONSTRUCTED_FRAME, COORDINATES, SUBDOCUMENT, ONEOFCLASSES} from "./constants"
 import {makeGeoCordinateFrames, makeMultipleGeoCordinateFrames} from "./GeoCordinatesTypeFrames"
 import {makeGeoFrames} from "./GeoFrames"
@@ -30,7 +30,7 @@ function constructSetFrame (frame, item) {
 subDoc: (2) [{…}, {…}]*/
 function constructSubDocumentFrame (fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
     let subDocumentName=item
-    let subDocument = `${extractPrefix(fullFrame)}${subDocumentName}`
+    let subDocument = `${subDocumentName}`
     let subDocumentFormData=(formData && formData.hasOwnProperty(current)) ? formData[current] : {}
     let constructedFrame=fullFrame[subDocument]
     if(Object.keys(subDocumentFormData).length === 0
@@ -115,7 +115,7 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
             properties[item] = optionalFrames.properties[item]
             propertiesUI[item] = optionalFrames.propertiesUI[item]
         }
-        else if(frame[item] && isPointType(frame[item], fullFrame, extractPrefix(fullFrame))) {
+        else if(frame[item] && isPointType(frame[item], fullFrame)) {
             let subDocumentName=frame[item].hasOwnProperty("@class") ? frame[item]["@class"] : null
             let subDocumentFrame = constructSubDocumentFrame(fullFrame, item, frame[item], subDocumentName, uiFrame, mode, formData, onTraverse, onSelect)
             let pointFrames = makeSubDocumentFrames(subDocumentFrame, item, uiFrame, mode, formData, onTraverse, onSelect)
@@ -140,8 +140,8 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
             //if(frames.hasOwnProperty("required"))
             //required = item
         }
-        else if (frame[item] && isSubDocumentAndClassType(frame[item], fullFrame, extractPrefix(fullFrame))) { //subdocument and type class
-            let newFrame=isSubDocumentAndClassType(frame[item], fullFrame, extractPrefix(fullFrame))
+        else if (frame[item] && isSubDocumentAndClassType(frame[item], fullFrame)) { //subdocument and type class
+            let newFrame=isSubDocumentAndClassType(frame[item], fullFrame)
             let classType=frame[item]
             let subDocumentFrames = constructSubDocumentFrame(fullFrame, item, newFrame, classType, uiFrame, mode, formData, onTraverse, onSelect)
             //console.log("newFrame", subDocumentFrames)
@@ -151,7 +151,7 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
             properties[item] = frames.properties[item]
             propertiesUI[item] = frames.propertiesUI[item]
         }
-        else if(frame[item] && isDocumentType(frame[item], fullFrame, extractPrefix(fullFrame))) { //link documents
+        else if(frame[item] && isDocumentType(frame[item], fullFrame)) { //link documents
             let frames = makeDocumentTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect)
 
             //set properties and ui
