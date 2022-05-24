@@ -107,7 +107,7 @@ export function getViewLayout(frame, item, formData) {
 export function getViewUILayout(frame, item, formData, uiFrame) {
     let uiLayout= {}
     let subDocuemntBg = extractUIFrameSubDocumentTemplate(uiFrame) ? extractUIFrameSubDocumentTemplate(uiFrame) : 'bg-secondary'
-
+    
     // hide widget if formData of item is empty
     if(!isFilled(formData, item)) {
         uiLayout={ "ui:widget" : "hidden" }
@@ -124,7 +124,7 @@ export function getViewUILayout(frame, item, formData, uiFrame) {
     }
     uiLayout["classNames"]=`card ${subDocuemntBg} p-4 mt-4 mb-4`
     uiLayout["ui:description"]=getSubDocumentDescription(item)
-    uiLayout["ui:title"]=getSubDocumentTitle(item)
+    uiLayout["ui:title"]=getSubDocumentTitle(item) 
     // custom ui:schema - add to default ui schema
     let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
     return addedCustomUI

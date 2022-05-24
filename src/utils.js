@@ -69,10 +69,10 @@ export const isListType = (property) => {
 }
 
 // returns true for properties pointing to other documents or enums
-export const isDocumentType = (property, frame, prefix) => {
+export const isDocumentType = (property, frame) => {
 	if(typeof property === "object") return false
 	if(!frame) return false
-	let document = `${prefix}${property}`
+	let document = `${property}`
 	if(frame[document]) {
 		if(frame[document]["@type"] === DOCUMENT && !frame[document]["@subdocument"]) return true
 	}
@@ -80,13 +80,13 @@ export const isDocumentType = (property, frame, prefix) => {
 }
 
 //returns true if @class is POINT type
-export const isPointType = (property, frame, prefix) => {
+export const isPointType = (property, frame) => {
 	if(typeof property !== "object") return false
 
 
 	if(property.hasOwnProperty("@class")
 		&& property["@class"] === POINT_TYPE) {
-			let pointProperty=`${prefix}${property["@class"]}`
+			let pointProperty=`${property["@class"]}`
 			if(frame.hasOwnProperty(pointProperty)) {
 				return frame[pointProperty]
 			}
@@ -96,10 +96,10 @@ export const isPointType = (property, frame, prefix) => {
 }
 
 // returns true if @subdocuments and type class
-export const isSubDocumentAndClassType = (property, frame, prefix) => {
+export const isSubDocumentAndClassType = (property, frame) => {
 	if(typeof property === "object") return false
 	if(!frame) return false
-	let document = `${prefix}${property}`
+	let document = `${property}`
 	if(frame[document]) {
 		if(frame[document]["@type"] === DOCUMENT && frame[document]["@subdocument"]) return frame[document]
 	}
@@ -419,7 +419,7 @@ export function extractClassName(document, fullFrame) {
     let str = document
     let splits = str.split('/')
     let documentClass = splits[0]
-    if(fullFrame.hasOwnProperty( `${extractPrefix(fullFrame)}${documentClass}`)) {
+    if(fullFrame.hasOwnProperty( `${documentClass}`)) {
         return splits[0] // if definition available in full frame
     }
     return false
@@ -439,19 +439,6 @@ export function removeIds(dataArray){
 	})
 	return newDataArray
 }
-
-// extract prefix from frame
-export function extractPrefix (fullFrame) {
-	if(!fullFrame) return null
-	if(fullFrame.hasOwnProperty("@context") && fullFrame["@context"].hasOwnProperty("@schema"))
-		return fullFrame["@context"]["@schema"]
-	//return TDB_SCHEMA
-	//return "http://lib.seshatdatabank.info/schema#"
-	return "iri://CAMS#"
-	//return "http://lib.terminusdb.com/nuclear#"
-}
-
-
 
 // add custom ui layout to existing default ui layout
 export function addCustomUI (item, uiFrame, uiLayout) {

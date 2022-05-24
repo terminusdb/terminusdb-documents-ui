@@ -4,7 +4,7 @@ import {getProperties} from "./FrameHelpers"
 import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField"
 import {TDB_SCHEMA, SUBMIT_BUTTON_STYLE_KEY, VIEW, EDIT, CREATE} from "./constants"
 import {Alert, Button} from "react-bootstrap"
-import {extractPrefix, isValueHashDocument, getValueHashMessage} from "./utils"
+import {isValueHashDocument, getValueHashMessage} from "./utils"
 import {transformData} from "./extract"
 
 /*
@@ -41,7 +41,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
 
     //let extractedPrefix = getPrefix(frame)
     //let current = `${extractedPrefix}${type}`
-    let current = `${extractPrefix(frame)}${type}`
+    let current = `${type}`
 
 
     useEffect(() => {

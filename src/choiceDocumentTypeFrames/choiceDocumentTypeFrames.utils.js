@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import {getTitle, getDefaultValue,addCustomUI, extractUIFrameSelectTemplate, checkIfKey, isFilled, extractPrefix, extractUIFrameSubDocumentTemplate} from "../utils"
+import {getTitle, getDefaultValue,addCustomUI, extractUIFrameSelectTemplate, checkIfKey, isFilled, extractUIFrameSubDocumentTemplate} from "../utils"
 import {getProperties} from "../FrameHelpers"
 import {EmptyDocumentSelect,  FilledDocumentSelect, FilledDocumentViewSelect} from "../documentTypeFrames/DocumentSelects"
 import AsyncSelect from 'react-select/async'

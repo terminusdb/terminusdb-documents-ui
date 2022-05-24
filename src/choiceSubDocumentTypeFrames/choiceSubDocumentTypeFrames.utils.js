@@ -1,4 +1,4 @@
-import {getTitle, getDefaultValue, addCustomUI, checkIfKey, isFilled, extractPrefix, extractUIFrameSubDocumentTemplate} from "../utils"
+import {getTitle, getDefaultValue, addCustomUI, checkIfKey, isFilled, extractUIFrameSubDocumentTemplate} from "../utils"
 import {getProperties} from "../FrameHelpers"
 import {
     XSD_STRING,
@@ -16,7 +16,7 @@ import {
 // get layout of document class
 function getDocumentLayout(documentClass, fullFrame, current, item, uiFrame, mode, formData, onTraverse, onSelect) {
     var layout = {}
-    let documentClassIRI = `${extractPrefix(fullFrame)}${documentClass}`
+    let documentClassIRI = `${documentClass}`
     let frame = fullFrame[documentClassIRI]
     let filledData = (formData && formData.hasOwnProperty(item))? formData[item] : {}
     let exractedProperties = getProperties (fullFrame, current, frame, uiFrame, mode, filledData, onTraverse, onSelect)
