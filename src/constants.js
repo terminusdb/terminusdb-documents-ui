@@ -32,18 +32,27 @@ export const CHOICESUBCLASSES="ChoiceSubClasses"
 export const CHOICECLASSES="ChoiceClasses"
 export const ONEOFVALUES="@oneOf"
 export const COORDINATES="coordinates"
+
+// geo frame constants
 export const ARRAY="Array"
 export const DIMENSION= "@dimensions"
 export const POINT_TYPE="Point"
+
+export const POINT_TYPE_DIMENSION=1
+export const LINE_STRING_TYPE_DIMENSION=2
+export const POLYGON_STRING_TYPE_DIMENSION=3
 
 // react leaflet constants
 export const LNG="lng"
 export const LAT="lat"
 export const REFRESH="refresh"
 
+// geo JSON constants 
 export const POINTS="Points"
 export const POLYGON="Polygon"
+export const MULTIPOLYGON="MultiPolygon"
 export const POLYLINE="Polyline"
+export const GEOMETRY_COLLECTION="GeometryCollection"
 
 export const SYS_UNIT_DATA_TYPE="sys:Unit"
 
@@ -160,4 +169,4 @@ export default L.icon({
     popupAnchor: [2, -40],
     iconUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-icon.png",
     shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
-});
+})

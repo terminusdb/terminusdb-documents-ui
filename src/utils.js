@@ -105,12 +105,26 @@ export const isSubDocumentAndClassType = (property, frame) => {
 	}
 	return false
 }
-
+ 
 // returns true if @type is Array and item is coordinates
 export const isDocumentClassArrayType = (frame) => {
 	if(typeof frame !== "object") return false
 	if(frame.hasOwnProperty("@type") && frame["@type"] === ARRAY) return true
 	return false
+}
+
+
+// returns modified frames for coordinates with type as well to differntiate between polygon/ multipolygon
+export const getModifiedGeoFrame = (frame) => {
+	let newFrame={}
+	newFrame=frame[COORDINATES]
+	if(frame.hasOwnProperty("type") && 
+		frame["type"].hasOwnProperty("@type") && 
+		frame["type"]["@type"] === ENUM && 
+		frame["type"].hasOwnProperty("@values")) {
+			newFrame["info"]=frame["type"]["@values"][0]
+	}
+	return newFrame
 }
 
 // returns true for properties ponting to an enum class
@@ -180,6 +194,7 @@ export function getRequiredForListSubDocs(properties){
 export function HideArrayFieldTemplate(props) {
 	return <div/>
 }
+
 
 export function ArrayFieldTemplate(props) {
 	//console.log("props", props)

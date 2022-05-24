@@ -1,8 +1,38 @@
 
 import React, {useState, useRef, useEffect} from "react"
-import {Marker, Popup, Tooltip,Polyline} from 'react-leaflet'
-import {LATITUDE, LONGITUDE, REFRESH} from "./constants"
-import icon from "./constants"
+import {Marker, Popup, Tooltip, Polyline} from 'react-leaflet'
+import {LATITUDE, LONGITUDE, REFRESH} from "../constants"
+import icon from "../constants"
+import {MAP_OPTION, MARKER_OPTION} from "./map.constants"
+
+// custom changes to map options
+export function customMapOptions (zoom, center) {
+    let mapOptions=MAP_OPTION
+
+    if(zoom) {
+        mapOptions.zoom=zoom
+    }
+    if(center){
+        mapOptions.center=center
+    }
+    return mapOptions
+}
+
+// custom changes to marker options
+export function customMarkerOptions (icon) {
+    let markerOptions=MARKER_OPTION
+    
+    if(icon) {
+        let custom = L.divIcon({
+            className: 'custom-div-icon',
+            html: "<div style='background-color:#c30b82;' class='marker-pin'></div><i class='material-icons'></i>",
+            iconSize: [30, 42],
+            iconAnchor: [15, 42]
+        })
+       return {icon: custom }
+    }
+    return markerOptions
+}
 
 
 const MarkerInfo = ({clicked}) => {
@@ -19,10 +49,6 @@ const MarkerInfo = ({clicked}) => {
 	}
 	return info
 }
-
-
-
-
 
 
 export function  renderPositions(positions, onMarkerClick, polyLine, mapRef) {

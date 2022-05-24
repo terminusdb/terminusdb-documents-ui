@@ -154,9 +154,7 @@ function modifyChoiceDocuments (mode, schema, data, frame, current, type) {
             }*/
             else if(key === COORDINATES && Array.isArray(formData[key])) {
                 // coordinates for geo jsons - we only support POINT TYPE
-                if(formData.hasOwnProperty("@type") && formData["@type"] === POINT_TYPE){
-                    return formData
-                }
+                return formData
             }
             else if(Array.isArray(formData[key])) {
                 // array

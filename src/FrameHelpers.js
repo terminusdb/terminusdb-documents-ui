@@ -10,10 +10,11 @@ import {makeEnumTypeFrames} from "./enumTypeFrames/enumTypeFrames"
 import {makeChoiceSubDocumentTypeFrames} from "./choiceSubDocumentTypeFrames/choiceSubDocumentTypeFrames"
 import {makeChoiceDocumentTypeFrames} from "./choiceDocumentTypeFrames/choiceDocumentTypeFrames"
 import {makeOneOfTypeFrames} from "./oneOfTypeFrames/oneOfTypeFrames"
-import {isChoiceSubDocumentType, isChoiceDocumentType, isDataType,isPointType, isSubDocumentType, isOptionalType, isSetType, isDocumentType, isEnumType, isListType, isSubDocumentAndClassType, isDocumentClassArrayType} from "./utils"
+import {getModifiedGeoFrame, isChoiceSubDocumentType, isChoiceDocumentType, isDataType,isPointType, isSubDocumentType, isOptionalType, isSetType, isDocumentType, isEnumType, isListType, isSubDocumentAndClassType, isDocumentClassArrayType} from "./utils"
 import {DOCUMENT, ENUM, DATA, LONGITUDE, LATITUDE, VIEW, GEO_CORDINATES, SUBDOCUMENT_CONSTRUCTED_FRAME, COORDINATES, SUBDOCUMENT, ONEOFCLASSES} from "./constants"
 import {makeGeoCordinateFrames, makeMultipleGeoCordinateFrames} from "./GeoCordinatesTypeFrames"
-import {makeGeoFrames} from "./GeoFrames"
+//import {makeGeoFrames} from "./GeoFrames"
+import {makeGeoFrames} from "./geoJSONTypeFrames/geoFrames"
 
 function constructOptionalFrame (frame, item) {
     let optionalFrame = {[item]: frame["@class"]}
@@ -21,8 +22,8 @@ function constructOptionalFrame (frame, item) {
 }
 
 function constructSetFrame (frame, item) {
-    let optionalFrame = {[item]: frame["@class"]}
-    return optionalFrame
+    let setFrame = {[item]: frame["@class"]}
+    return setFrame
 }
 /*
 @id: "SetSubDocumentType/51f602b5529f8c94e56a38d456e584cd0ab63cee6cc9069bf9ee81e7970cfd56"
@@ -125,7 +126,8 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
 
         }
         else if (frame[item] && (item === COORDINATES) && isDocumentClassArrayType(frame[item])) { // coordinates for geo json
-            let geoFrame = makeGeoFrames(frame[item], item, uiFrame, mode, formData)
+            let newGeoFrame=getModifiedGeoFrame(frame)
+            let geoFrame = makeGeoFrames(newGeoFrame, item, uiFrame, mode, formData)
             //set properties and ui
             properties[item] = geoFrame.properties[item]
             propertiesUI[item] = geoFrame.propertiesUI[item]

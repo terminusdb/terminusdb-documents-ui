@@ -46,7 +46,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
 
     useEffect(() => {
         //setPrefix(extractedPrefix)
-        try{
+        //try{
             //console.log("extractedPrefix", extractedPrefix)
             //console.log("frame", frame)
             //let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect)
@@ -97,12 +97,12 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             if(uiFrame && uiFrame.hasOwnProperty("ui:description")) uiSchema["ui:description"]= uiFrame["ui:description"]
             
             setUISchema(uiSchema)
-        }
-        catch(e) {
-            setError("An error has occured in generating frames. Err - ", e)
-        }
+        //}
+        //catch(e) {
+            //setError("An error has occured in generating frames. Err - ", e)
+        //}
 
-    }, [frame, uiFrame, type, mode, formData])
+    }, [frame, uiFrame, type, mode, formData]) 
 
 
     const handleSubmit = ({formData}) => {
