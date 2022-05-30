@@ -122,7 +122,7 @@ export const Output = ({schema, uiSchema, type, mode, formData}) => {
         <h3 className="mt-5 mb-4 text-warning">{`Output - ${type}`}</h3>
         <FrameViewer
             frame={schema}
-            uiFrame={uiFrame}
+            uiFrame={uiSchema}
             type={type}
             //documents={PROFILE_DEMO_DOCUMENTS}
             formData={formData}

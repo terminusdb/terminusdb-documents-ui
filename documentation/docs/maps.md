@@ -16,13 +16,13 @@ let frames =  {
 		"@schema":"terminusdb:///schema#",
 		"@type":"@context"
 	},
-	"terminusdb:///schema#coordinates": {
+	"coordinates": {
 		"location": {
 			"@class": "Location",
 			"@subdocument": []
 		}
 	},
-	"terminusdb:///schema#Location": {
+	"Location": {
 		"@key": {
 			"@type": "Random"
 		},
@@ -39,7 +39,7 @@ let frames =  {
 			"@type": "Optional"
 		}
 	},
-	"terminusdb:///schema#Point": {
+	"Point": {
 		"@key": {
 			"@type": "Random"
 		},
@@ -58,7 +58,7 @@ let frames =  {
 			]
 		}
   	},
-  	"terminusdb:///schema#Point_Type": {
+  	"Point_Type": {
 		"@type": "Enum",
 		"@values": [
 			"Point"
@@ -97,13 +97,13 @@ let frames =  {
 		"@schema":"terminusdb:///schema#",
 		"@type":"@context"
 	},
-	"terminusdb:///schema#coordinates": {
+	"coordinates": {
 		"location": {
 			"@class": "Location",
 			"@subdocument": []
 		}
 	},
-	"terminusdb:///schema#Location": {
+	"Location": {
 		"@key": {
 			"@type": "Random"
 		},
@@ -120,7 +120,7 @@ let frames =  {
 			"@type": "Optional"
 		}
 	},
-	"terminusdb:///schema#Point": {
+	"Point": {
 		"@key": {
 			"@type": "Random"
 		},
@@ -139,7 +139,7 @@ let frames =  {
 			]
 		}
   	},
-  	"terminusdb:///schema#Point_Type": {
+  	"Point_Type": {
 		"@type": "Enum",
 		"@values": [
 			"Point"

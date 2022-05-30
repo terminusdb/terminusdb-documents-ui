@@ -6,7 +6,7 @@ import icon from "../constants"
 import {MAP_OPTION, MARKER_OPTION} from "./map.constants"
 
 // custom changes to map options
-export function customMapOptions (zoom, center) {
+export function customMapOptions (zoom, center, documents) {
     let mapOptions=MAP_OPTION
 
     if(zoom) {
@@ -14,6 +14,10 @@ export function customMapOptions (zoom, center) {
     }
     if(center){
         mapOptions.center=center
+    }
+    if(center===undefined && Array.isArray(documents)) {
+        let extractedCenter=documents[0]
+        mapOptions.center=extractedCenter
     }
     return mapOptions
 }

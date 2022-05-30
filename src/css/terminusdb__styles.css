@@ -192,3 +192,7 @@ legend {
     margin: 5px;
 }
 
+div.leaflet-popup-content-wrapper > div.leaflet-popup-content {
+    color: #000;
+}
+

@@ -18,7 +18,7 @@ let frames =  {
       "@schema":"terminusdb:///schema#",
       "@type":"@context"
    },
-   "terminusdb:///schema#Person":{
+   "Person":{
       "@key":{
          "@type":"Random"
       },
@@ -72,7 +72,7 @@ let frames ={
       "@schema":"terminusdb:///schema#",
       "@type":"@context"
    },
-   "terminusdb:///schema#Person":{
+   "Person":{
       "@key":{
          "@type":"Random"
       },
@@ -112,7 +112,7 @@ let frames = {
       "@schema":"terminusdb:///schema#",
       "@type":"@context"
    },
-   "terminusdb:///schema#Person":{
+   "Person":{
       "@key":{
          "@type":"Random"
       },
@@ -153,7 +153,7 @@ let frames = {
       "@schema":"terminusdb:///schema#",
       "@type":"@context"
    },
-   "terminusdb:///schema#Person":{
+   "Person":{
       "@key":{
          "@type":"Random"
       },
@@ -203,7 +203,7 @@ let frames = {
 		"@type": "@context"
 	},
     {
-        "terminusdb:///schema#Person": {
+        "Person": {
 		"@key": {
 			"@type": "Random"
 		},
@@ -247,7 +247,7 @@ let frames = {
       "@schema":"terminusdb:///schema#",
       "@type":"@context"
    },
-   "terminusdb:///schema#Person":{
+   "Person":{
       "@key":{
          "@type":"Random"
       },
@@ -255,14 +255,14 @@ let frames = {
       "works_as": "Job",
 	  "lives_in": "Address"
    },
-   "terminusdb:///schema#Job":{
+   "Job":{
       "@key":{
          "@type":"Random"
       },
       "@type":"Class",
       "title": "xsd:string"
    },
-   "terminusdb:///schema#Address": {
+   "Address": {
 		"@key": {
 			"@type": "Random"
 		},
@@ -310,7 +310,7 @@ let frames = {
       "@schema":"terminusdb:///schema#",
       "@type":"@context"
    },
-   "terminusdb:///schema#Person":{
+   "Person":{
       "@key":{
          "@type":"Random"
       },
@@ -359,7 +359,7 @@ let frames = {
       "@schema":"terminusdb:///schema#",
       "@type":"@context"
    },
-   "terminusdb:///schema#Person":{
+   "Person":{
       "@key":{
          "@type":"Random"
       },
@@ -370,7 +370,7 @@ let frames = {
 			"@type": "Set"
 		}
    },
-   "terminusdb:///schema#Job":{
+   "Job":{
 	   "@key":{
 		  "@type":"Random"
 	   },
@@ -415,7 +415,7 @@ let frames = {
       "@schema":"terminusdb:///schema#",
       "@type":"@context"
    },
-   "terminusdb:///schema#Person":{
+   "Person":{
       "@key":{
          "@type":"Random"
       },
@@ -429,7 +429,7 @@ let frames = {
 			"@type": "Set"
 		}
    },
-   "terminusdb:///schema#Address": {
+   "Address": {
 		 "@key": {
 			 "@type": "Random"
 		 },
@@ -492,7 +492,7 @@ let frames = {
       "@schema":"terminusdb:///schema#",
       "@type":"@context"
    },
-   "terminusdb:///schema#Person":{
+   "Person":{
       "@key":{
          "@type":"Random"
       },
@@ -506,7 +506,7 @@ let frames = {
 			"@type": "List"
 		}
    },
-   "terminusdb:///schema#Tasks": {
+   "Tasks": {
 		 "@key": {
 			 "@type": "Random"
 		 },
@@ -560,7 +560,7 @@ let frames = {
       "@schema":"terminusdb:///schema#",
       "@type":"@context"
    },
-   "terminusdb:///schema#Person":{
+   "Person":{
       "@key":{
          "@type":"Random"
       },
@@ -574,7 +574,7 @@ let frames = {
 			"@type": "Optional"
 		}
    },
-   "terminusdb:///schema#Tasks": {
+   "Tasks": {
 		 "@key": {
 			 "@type": "Random"
 		 },

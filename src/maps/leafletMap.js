@@ -7,14 +7,14 @@ import "leaflet-arrowheads"
 import L from "leaflet"
 
 
-export const LeafletMap = ({documents, onMarkerClick, zoom, center}) => {
+export const LeafletMap = ({documents, onMarkerClick, zoom, center, icon}) => {
 
 	useEffect(() => {
 		map()
 	}, [])
 
 	const map = () => {
-		let mapOptions = customMapOptions(zoom, center)
+		let mapOptions = customMapOptions(zoom, center, documents)
         let markerOptions= customMarkerOptions(icon)
 		
 		const map = L.map("map-leaflet-id", mapOptions)
@@ -28,7 +28,8 @@ export const LeafletMap = ({documents, onMarkerClick, zoom, center}) => {
 		// Draw Markers
 		documents.map(docs => {
 			let coord = { id:docs.id, name: docs.name, lat: docs.lat, lng: docs.lng } // set lat and long
-			let marker = L.marker(coord , markerOptions).bindPopup(`### name: ${coord.name} lat: ${coord.lat} lng: ${coord.lng}`).on('click', function(e) {
+			//let marker = L.marker(coord , markerOptions).bindPopup(`hellotest`).openPopup()
+			let marker = L.marker(coord , markerOptions).bindPopup(`lat: ${coord.lat} lng: ${coord.lng}`).on('click', function(e) {
 				//let cData = coord.id
 				let cData = coord
 				cData[REFRESH] = Date.now()

@@ -62,7 +62,7 @@ export const PolygonLeafletMap = ({polygon, onMarkerClick}) => {
 		)
 
 		tileLayer.addTo(map)
-        var polygonMap = L.polygon(polygon.data, { color: 'purple' }).addTo(map)
+        var polygonMap = L.polygon(polygon.data, { color: 'purple', smoothFactor: 5 }).addTo(map)
 
         // zoom the map to the polygon
         map.fitBounds(polygonMap.getBounds())

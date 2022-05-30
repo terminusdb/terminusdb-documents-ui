@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react"
 import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'
 
+
 // filled Select - view mode
 export const FilledDocumentViewSelect = ({item, defaultValue, onTraverse, styles}) => {
     const [clicked, setClicked]=useState(false)
@@ -25,13 +26,13 @@ export const FilledDocumentViewSelect = ({item, defaultValue, onTraverse, styles
                 {defaultValue}
             </span>
         </React.Fragment>
-}
+} 
 
 // empty Select - edit mode
 export const EmptyDocumentSelect = ({label, styles, placeholder, value, onChange, loadOptions, handleInputChange}) => {
 
     return <React.Fragment>
-        <Form.Label>{label} {/*<span class="required">*</span>*/} </Form.Label>
+        <Form.Label>{label} {/*<span class="required">*</span>*/} </Form.Label> 
         {value && <AsyncSelect
                 classNames="tdb__input"
                 styles={styles}

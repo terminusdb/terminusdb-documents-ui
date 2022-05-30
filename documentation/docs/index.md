@@ -101,7 +101,7 @@ let frames =  {
       "@schema":"terminusdb:///schema#",
       "@type":"@context"
    },
-   "terminusdb:///schema#Person":{
+   "Person":{
       "@key":{
          "@type":"Random"
       },
@@ -111,7 +111,7 @@ let frames =  {
       "age":"xsd:decimal",
       "name":"xsd:string"
    },
-   "terminusdb:///schema#Group":{
+   "Group":{
       "@key":{
          "@type":"Random"
       },
@@ -176,7 +176,7 @@ let frames =  {
       "@schema":"terminusdb:///schema#",
       "@type":"@context"
    },
-   "terminusdb:///schema#Person":{
+   "Person":{
       "@key":{
          "@type":"Random"
       },
@@ -186,7 +186,7 @@ let frames =  {
       "age":"xsd:decimal",
       "name":"xsd:string"
    },
-   "terminusdb:///schema#Group":{
+   "Group":{
       "@key":{
          "@type":"Random"
       },
@@ -238,7 +238,7 @@ let frames =  {
       "@schema":"terminusdb:///schema#",
       "@type":"@context"
    },
-   "terminusdb:///schema#Person":{
+   "Person":{
       "@key":{
          "@type":"Random"
       },
@@ -250,7 +250,7 @@ let frames =  {
       "family_name":"xsd:string",
       "last_name":"xsd:string"
    },
-   "terminusdb:///schema#Group":{
+   "Group":{
       "@key":{
          "@type":"Random"
       },
@@ -314,7 +314,7 @@ let frames =  {
       "@schema":"terminusdb:///schema#",
       "@type":"@context"
    },
-   "terminusdb:///schema#Person":{
+   "Person":{
       "@key":{
          "@type":"Random"
       },
@@ -324,7 +324,7 @@ let frames =  {
       "age":"xsd:decimal",
       "name":"xsd:string"
    },
-   "terminusdb:///schema#Group":{
+   "Group":{
       "@key":{
          "@type":"Random"
       },

@@ -10,11 +10,26 @@ import {makeEnumTypeFrames} from "./enumTypeFrames/enumTypeFrames"
 import {makeChoiceSubDocumentTypeFrames} from "./choiceSubDocumentTypeFrames/choiceSubDocumentTypeFrames"
 import {makeChoiceDocumentTypeFrames} from "./choiceDocumentTypeFrames/choiceDocumentTypeFrames"
 import {makeOneOfTypeFrames} from "./oneOfTypeFrames/oneOfTypeFrames"
-import {getModifiedGeoFrame, isChoiceSubDocumentType, isChoiceDocumentType, isDataType,isPointType, isSubDocumentType, isOptionalType, isSetType, isDocumentType, isEnumType, isListType, isSubDocumentAndClassType, isDocumentClassArrayType} from "./utils"
+import {
+    getModifiedGeoFrame, 
+    isChoiceSubDocumentType, 
+    isChoiceDocumentType, 
+    isDataType,isPointType, 
+    isSubDocumentType, 
+    isOptionalType, 
+    isSetType, 
+    isDocumentType, 
+    isEnumType, 
+    isListType, 
+    isSubDocumentAndClassType, 
+    isDocumentClassArrayType,
+    isGeoJSONTypeSet
+} from "./utils"
 import {DOCUMENT, ENUM, DATA, LONGITUDE, LATITUDE, VIEW, GEO_CORDINATES, SUBDOCUMENT_CONSTRUCTED_FRAME, COORDINATES, SUBDOCUMENT, ONEOFCLASSES} from "./constants"
 import {makeGeoCordinateFrames, makeMultipleGeoCordinateFrames} from "./GeoCordinatesTypeFrames"
 //import {makeGeoFrames} from "./GeoFrames"
 import {makeGeoFrames} from "./geoJSONTypeFrames/geoFrames"
+import {makeGeoCollectionFrames} from "./geoJSONTypeFrames/geoCollectionFrames"
 
 function constructOptionalFrame (frame, item) {
     let optionalFrame = {[item]: frame["@class"]}
@@ -25,6 +40,14 @@ function constructSetFrame (frame, item) {
     let setFrame = {[item]: frame["@class"]}
     return setFrame
 }
+
+function constructCollectionFrame(fullFrame, item) {
+    if(fullFrame.hasOwnProperty(item)) {
+        return {[item]: fullFrame[item]}
+    }
+    return {}
+}
+
 /*
 @id: "SetSubDocumentType/51f602b5529f8c94e56a38d456e584cd0ab63cee6cc9069bf9ee81e7970cfd56"
 @type: "SetSubDocumentType"
@@ -69,18 +92,9 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
 
     for(var item in frame) {
 
-
         if(item === "@key") continue
         else if(item === "@type") continue
         else if(item === "@subdocument") continue
-        else if(item.toUpperCase() === LATITUDE.toUpperCase() && mode === VIEW) {
-            let frames = makeGeoCordinateFrames(frame, item, uiFrame, mode, formData)
-            properties[item] = frames.properties[item]
-            propertiesUI[item] = frames.propertiesUI[item]
-        }
-        else if(item.toUpperCase() === LONGITUDE.toUpperCase() && mode === VIEW) {
-            //ignore longitude - since logic is done in latitude
-        }
         else if(item === "@oneOf") { // datatype properties like xsd:/ xdd:
             let frames = makeOneOfTypeFrames(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect)
             // current is the proeprty name - instead of @oneOf
@@ -132,6 +146,13 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
             properties[item] = geoFrame.properties[item]
             propertiesUI[item] = geoFrame.propertiesUI[item]
         }
+        /*else if (frame[item] && isSetType(frame[item]) && isGeoJSONTypeSet(frame, mode)) { //geo json set
+            let newGeoCollectionFrame=constructCollectionFrame(fullFrame, frame[item]["@class"])
+            let geoCollectionFrame=makeGeoCollectionFrames(newGeoCollectionFrame, item, uiFrame, mode, formData)
+            //set properties and ui
+            properties[item] = geoCollectionFrame.properties[item]
+            propertiesUI[item] = geoCollectionFrame.propertiesUI[item]
+        }*/
         else if(frame[item] && isSubDocumentType(frame[item])) { //subdocument
             let subDocumentName=frame[item].hasOwnProperty("@class") ? frame[item]["@class"] : null
             let subDocumentFrame = constructSubDocumentFrame(fullFrame, item, frame[item], subDocumentName, uiFrame, mode, formData, onTraverse, onSelect)

@@ -14,7 +14,7 @@ let frames = {
       "@schema":"terminusdb:///schema#",
       "@type":"@context"
    },
-   "terminusdb:///schema#Person":{
+   "Person":{
       "@key":{
          "@type":"Random"
       },
@@ -67,7 +67,7 @@ let frames = {
       "@schema":"terminusdb:///schema#",
       "@type":"@context"
    },
-   "terminusdb:///schema#Person":{
+   "Person":{
       "@key":{
          "@type":"Random"
       },
@@ -116,7 +116,7 @@ let frames = {
       "@schema":"terminusdb:///schema#",
       "@type":"@context"
    },
-   "terminusdb:///schema#Person":{
+   "Person":{
       "@key":{
          "@type":"Random"
       },
@@ -168,7 +168,7 @@ let frames = {
       "@schema":"terminusdb:///schema#",
       "@type":"@context"
    },
-   "terminusdb:///schema#Person":{
+   "Person":{
       "@key":{
          "@type":"Random"
       },
@@ -223,7 +223,7 @@ let frames = {
       "@schema":"terminusdb:///schema#",
       "@type":"@context"
    },
-   "terminusdb:///schema#Person":{
+   "Person":{
       "@key":{
          "@type":"Random"
       },
@@ -282,7 +282,7 @@ let frames = {
       "@schema":"terminusdb:///schema#",
       "@type":"@context"
    },
-   "terminusdb:///schema#Person":{
+   "Person":{
       "@key":{
          "@type":"Random"
       },
@@ -327,7 +327,7 @@ let frames = {
       "@schema":"terminusdb:///schema#",
       "@type":"@context"
    },
-   "terminusdb:///schema#Person":{
+   "Person":{
       "@key":{
          "@type":"Random"
       },
@@ -377,7 +377,7 @@ let frames = {
       "@schema":"terminusdb:///schema#",
       "@type":"@context"
    },
-   "terminusdb:///schema#Person":{
+   "Person":{
       "@key":{
          "@type":"Random"
       },
@@ -422,7 +422,7 @@ let frames = {
       "@schema":"terminusdb:///schema#",
       "@type":"@context"
    },
-   "terminusdb:///schema#Person":{
+   "Person":{
       "@key":{
          "@type":"Random"
       },
@@ -472,7 +472,7 @@ let frames = {
       "@schema":"terminusdb:///schema#",
       "@type":"@context"
    },
-   "terminusdb:///schema#Person":{
+   "Person":{
       "@key":{
          "@type":"Random"
       },
@@ -527,7 +527,7 @@ let frames = {
       "@schema":"terminusdb:///schema#",
       "@type":"@context"
    },
-   "terminusdb:///schema#Person":{
+   "Person":{
       "@key":{
          "@type":"Random"
       },
@@ -580,7 +580,7 @@ let frames = {
       "@schema":"terminusdb:///schema#",
       "@type":"@context"
    },
-   "terminusdb:///schema#Person": {
+   "Person": {
       "@key":{
          "@type":"Random"
       },

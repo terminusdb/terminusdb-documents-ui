@@ -1,7 +1,29 @@
 
 import React from "react"
 import {Button, Form} from "react-bootstrap"
-import {XSD_DATA_TYPE_PREFIX, CREATE, XDD_DATA_TYPE_PREFIX, POINT_TYPE, UI_FRAME_SELECT_STYLE, UI_FRAME_SUBDOCUMENT_STYLE, DIMENSION, ONEOFVALUES, OPTIONAL, SET, ONEOFCLASSES, DOCUMENT, ENUM, VALUE_HASH_KEY, LIST, SYS_UNIT_DATA_TYPE, TDB_SCHEMA, SUBDOCUMENT, ARRAY, COORDINATES, SUBDOCUMENT_TYPE} from "./constants"
+import {
+	XSD_DATA_TYPE_PREFIX, 
+	XDD_DATA_TYPE_PREFIX, 
+	POINT_TYPE, 
+	UI_FRAME_SELECT_STYLE, 
+	UI_FRAME_SUBDOCUMENT_STYLE, 
+	VIEW,
+	DIMENSION, 
+	ONEOFVALUES, 
+	OPTIONAL, 
+	SET, 
+	ONEOFCLASSES, 
+	DOCUMENT, 
+	ENUM, 
+	VALUE_HASH_KEY, 
+	LIST, 
+	SYS_UNIT_DATA_TYPE, 
+	SUBDOCUMENT, 
+	ARRAY, 
+	COORDINATES, 
+	SUBDOCUMENT_TYPE,
+	FEATURE_COLLECTION
+} from "./constants"
 import {BiKey, BiPlus} from "react-icons/bi"
 import {RiDeleteBin5Fill} from "react-icons/ri"
 import {FcKey} from "react-icons/fc"
@@ -59,6 +81,18 @@ export const isSetType = (property) => {
 	if(typeof property !== "object") return false
 	if(property["@type"] === SET) return true
 	return false
+}
+
+// display geo json in view mode in a different way 
+export const isGeoJSONTypeSet = (frame, mode) => {
+	if(mode !== VIEW) return false 
+	if(frame.hasOwnProperty("type") && 
+		frame["type"].hasOwnProperty("@type") && 
+		frame["type"]["@type"] === ENUM){ 
+			if(frame["type"]["@values"][0] === FEATURE_COLLECTION) return true
+			else return false
+		}
+	return false 
 }
 
 // returns true for List
@@ -459,7 +493,8 @@ export function removeIds(dataArray){
 export function addCustomUI (item, uiFrame, uiLayout) {
 	if(!uiFrame) return uiLayout
 	if(!Object.keys(uiFrame).length) return uiLayout
-	if(item === "eyeglass-type"){
+
+	if(item === "created"){
 		console.log("eyeglass-type")
 	}
 	let defaultUILayout = uiLayout

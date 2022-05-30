@@ -53,6 +53,7 @@ export const POLYGON="Polygon"
 export const MULTIPOLYGON="MultiPolygon"
 export const POLYLINE="Polyline"
 export const GEOMETRY_COLLECTION="GeometryCollection"
+export const FEATURE_COLLECTION="FeatureCollection"
 
 export const SYS_UNIT_DATA_TYPE="sys:Unit"
 

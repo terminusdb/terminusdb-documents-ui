@@ -68,7 +68,7 @@ export function getCreateLayout(frame, item) {
 
 // Create UI Layout
 export function getCreateUILayout(frame, item, uiFrame) {
-
+ 
     let uiLayout = {
         "ui:placeholder": frame[item],
         "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
