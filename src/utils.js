@@ -22,7 +22,8 @@ import {
 	ARRAY, 
 	COORDINATES, 
 	SUBDOCUMENT_TYPE,
-	FEATURE_COLLECTION
+	FEATURE_COLLECTION,
+	SYS_UNIT_TYPE_PREFIX
 } from "./constants"
 import {BiKey, BiPlus} from "react-icons/bi"
 import {RiDeleteBin5Fill} from "react-icons/ri"
@@ -33,8 +34,13 @@ import {FaArrowDown, FaArrowUp, FaHourglassEnd} from "react-icons/fa"
 // returns true for properties which are of data types xsd and xdd
 export const isDataType = (property) => {
 	if(typeof property === "object") return false
-	if(property.substring(0, 4) ==  XSD_DATA_TYPE_PREFIX) return true
-	if(property.substring(0, 4) ==  XDD_DATA_TYPE_PREFIX) return true
+	if(property.substring(0, 4) === XSD_DATA_TYPE_PREFIX) return true
+	if(property.substring(0, 4) === XDD_DATA_TYPE_PREFIX) return true
+}
+
+export const isSysDataType = (property) => {
+	if(typeof property === "object") return false
+	if(property.substring(0, 4) === SYS_UNIT_TYPE_PREFIX) return true 
 }
 
 // returns true for properties which are subdocuments
@@ -206,14 +212,6 @@ export function getDefaultValue(item, formData) {
 	if(Object.keys(formData).length === 0) return false
 	if(formData.hasOwnProperty(item)) return formData[item]
 	return false
-	/*var match
-	for(var key in formData){
-		if(key === item) {
-			match=formData[key]
-			return match
-		}
-	}
-	return match */
 }
 
 // List required min 1 item in it so forthe first subdocument we make all its fields mandatory
@@ -494,9 +492,6 @@ export function addCustomUI (item, uiFrame, uiLayout) {
 	if(!uiFrame) return uiLayout
 	if(!Object.keys(uiFrame).length) return uiLayout
 
-	if(item === "created"){
-		console.log("eyeglass-type")
-	}
 	let defaultUILayout = uiLayout
 	if(uiFrame && uiFrame.hasOwnProperty(item)) {
         for (var uiItems in uiFrame[item]) {
@@ -513,7 +508,7 @@ export function addCustomUI (item, uiFrame, uiLayout) {
         }
     }
 	//console.log("defaultUILayout", item, defaultUILayout)
-	if(defaultUILayout.hasOwnProperty("ui:widget") && defaultUILayout["ui:widget"] === "hidden") {
+	if(defaultUILayout && defaultUILayout.hasOwnProperty("ui:widget") && defaultUILayout["ui:widget"] === "hidden") {
 		if(defaultUILayout.hasOwnProperty("ui:ArrayFieldTemplate")){
 			// array type - set or list
 			defaultUILayout={

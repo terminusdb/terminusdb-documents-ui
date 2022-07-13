@@ -1,10 +1,12 @@
 // DATA PROPERTY TYPE
 export const STRING_TYPE="string"
+export const JSON_TYPE="object"
 export const NUMBER_TYPE="number"
 export const BOOLEAN_TYPE="boolean"
 export const DATE_TYPE="string"
 export const XSD_DATA_TYPE_PREFIX = "xsd:"
 export const XDD_DATA_TYPE_PREFIX = "xdd:"
+export const SYS_UNIT_TYPE_PREFIX = "sys:"
 export const XSD_STRING="xsd:string"
 export const XSD_DECIMAL="xsd:decimal"
 export const XSD_INTEGER="xsd:integer"
@@ -12,6 +14,8 @@ export const XSD_DATE_TIME="xsd:dateTime"
 export const XSD_G_YEAR= "xsd:gYear"
 export const XSD_DATE= "xsd:date"
 export const XSD_BOOLEAN="xsd:boolean"
+
+export const SYS_JSON_TYPE="sys:JSON"
 
 export const SUBDOCUMENT="@subdocument"
 export const ONEOFSUBDOCUMENTS="OneOfSubDocuments"
@@ -65,6 +69,9 @@ export const VIEW="View"
 export const VALUE_HASH_KEY="ValueHash"
 
 export const TDB_SCHEMA= "terminusdb:///schema#"
+
+
+
 
 // default select styles
 export const SELECT_STYLES = {
@@ -171,3 +178,4 @@ export default L.icon({
     iconUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-icon.png",
     shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
 })
+

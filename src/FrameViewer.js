@@ -51,12 +51,7 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             //console.log("frame", frame)
             //let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect)
             let properties=getProperties(frame, type, frame[current], uiFrame, mode, formData, onTraverse, onSelect)
-            let definitions = {
-                testdef: {
-                    title: "test",
-                    type: "string"
-                }
-            }
+            
             let schema = {
                 type: "object",
                 properties: properties.properties,
@@ -90,12 +85,15 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             setSchema(schema)
             const uiSchema = properties.uiSchema
 
-            // get form level ui schema
+            // get form level ui schema 
             if(uiFrame && uiFrame.hasOwnProperty("classNames")) uiSchema["classNames"]= uiFrame.classNames
             if(uiFrame && uiFrame.hasOwnProperty("ui:order")) uiSchema["ui:order"]=uiFrame["ui:order"]
             if(uiFrame && uiFrame.hasOwnProperty("ui:title")) uiSchema["ui:title"]= uiFrame["ui:title"]
             if(uiFrame && uiFrame.hasOwnProperty("ui:description")) uiSchema["ui:description"]= uiFrame["ui:description"]
             
+            // order is set to place @documentation field at the start of the document
+            uiSchema["ui:order"] = ["@documentation", "*"]
+
             setUISchema(uiSchema)
         //}
         //catch(e) {

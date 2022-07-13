@@ -20,8 +20,7 @@ function getFeatureCollectionTypeViewUI(formData, item) {
             icon="<div style='background-color:#c30b82;' class='marker-pin'></div><i class='material-icons'>weekend</i>"
             zoom={4}/>
     }
-    //ui[item] = {"ui:field": getFeatureCollectionMapComponent}
-    ui[item] ={}
+    ui[item] = {"ui:field": getFeatureCollectionMapComponent}
     return ui
 }
 

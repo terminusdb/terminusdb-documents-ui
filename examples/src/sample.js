@@ -3,27 +3,25 @@ export const CREATE="Create"
 export const EDIT="Edit"
 export const VIEW="View"
 
-export const DEMO_ACTION=CREATE
-export const DEMO_DOCUMENT_TYPE="Person"
+export const DEMO_ACTION=EDIT
+export const DEMO_DOCUMENT_TYPE="Problem"
 
 const TEST_FD = {
-	"@id": "coordinates/908cdf8db2fa9f843f063669171280eb448e3403d837cb440726ab394043e918",
-  	"@type": "coordinates",
-	"location":{
-		"@id":"coordinates/908cdf8db2fa9f843f063669171280eb448e3403d837cb440726ab394043e918/coordinates/Location/cbf3d8956432778d2c3db84533eac02bff76326aa3407436e483361fdf55fd0c",
-		"@type":"Location",
-		"city":"Marigot",
-		"geometry_location":{
-			"@id":"coordinates/location/Location/cbf3d8956432778d2c3db84533eac02bff76326aa3407436e483361fdf55fd0c/geometry_location/Point/3ec3de24dab9a66311ff5010df341b05d67bbcd764537f6f3484a8d03d235843",
-			"@type":"Point",
-			"coordinates":[
-				15.53743,
-				-61.282
-			],
-			"type":"Point"
+	"@id":"Person/ea5ce566dada37db6a6ca4f8791f888a81838312c30986b242c01358ec81c2a7", 
+	"@type":"Person", 
+	"json":  {
+		"@context": {
+			"@base":"terminusdb:///data/", 
+			"@schema":"terminusdb:///schema#", 
+			"@type":"@context"
+		}, 
+		"Person": {
+			"@type":"Class", 
+			"json":"sys:JSON"
 		}
-	}
+	},
 }
+
 
 export const MAP_SCHEMA = {
 	"@context":{
@@ -81,27 +79,110 @@ export const MAP_SCHEMA = {
 	}
 }
 
-export const DEMO_SCHEMA = {
+const JSON_TEST = {
+	"@id": "Problem/5f7fa87239986ef621c386b05d8aed3f54d766d82f8b8bfe756a14312125acc0",
+	"@type": "Problem",
+	"link": [
+	  {
+		"@id": "Problem/5f7fa87239986ef621c386b05d8aed3f54d766d82f8b8bfe756a14312125acc0/link/subDoc/05c8ec04d5449038ebf0fc9cc6350efbaab236365775aa82638ce904fe76df60",
+		"@type": "subDoc",
+		"document": "Mandatory/98fecf4c286f35660a4f1d66fe2ed4dfbb970378a038b180d5b2dd26591e5ba4",
+		"subDocJson": {
+		  "second": "second"
+		}
+	  },
+	  {
+		"@id": "Problem/5f7fa87239986ef621c386b05d8aed3f54d766d82f8b8bfe756a14312125acc0/link/subDoc/88c23cfa05f62ae4a21e0fa71986ad52aecdb466127008c83c9f5bda0c688e48",
+		"@type": "subDoc",
+		"document": "Mandatory/22d4bdecc50ca6683ffd6416361e921e49409750b433a2f5d533d24aaa1ba7b9",
+		"subDocJson": {
+		  "first": "first"
+		}
+	  }
+	]
+  }
+
+
+export const DEMO_SCHEMA =  {
 	"@context": {
-		 "@base": "terminusdb:///data/",
-		 "@schema": "terminusdb:///schema#",
-		 "@type": "@context"
-	 },
-	 "Person": {
-		 "@key": {
-			 "@type": "Random"
-		 },
-		 "@type": "Class",
-		 "name": "xsd:string",
-		 "email": "xsd:string",
-		 "password": "xsd:string",
-		 "color": "xsd:string",
-		 "notes": "xsd:string",
-		 "subscribe": "xsd:boolean",
-		 "created": "xsd:dateTime",
-		 "modified": "xsd:dateTime",
+	  "@base": "terminusdb:///data/",
+	  "@schema": "terminusdb:///schema#",
+	  "@type": "Context"
+	},
+	"comm": {
+		"@documentation": {
+		  "@comment": "a comm thing",
+		  "@properties": {
+			"name": "this is a name field",
+			"something": "something"
+		  }
+		},
+		"@key": {
+		  "@type": "Random"
+		},
+		"@type": "Class",
+		"name": {
+		  "@class": "xsd:string",
+		  "@type": "Optional"
+		},
+		"something": {
+		  "@class": "xsd:string",
+		  "@type": "Optional"
+		}
+	  },
+	"Mandatory": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "MandatoryJson": "sys:JSON"
+	},
+	"Optional": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "OptionalJson": {
+		"@class": "sys:JSON",
+		"@type": "Optional"
+	  }
+	},
+	"Problem": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "link": {
+		"@class": {
+		  "@class": "subDoc",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  }
+	},
+	"Thing": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "link": {
+		"@class": "subDoc",
+		"@subdocument": []
+	  }
+	},
+	"subDoc": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "document": {
+		"@class": "Mandatory",
+		"@type": "Optional"
+	  },
+	  "subDocJson": "sys:JSON"
 	}
- }
+  }
 
  export const DEMO_SCHEMA_UI = {
     created: {
@@ -137,7 +218,7 @@ export const DEMO_SCHEMA = {
         "ui:widget": 'radio',
         "ui:description": "Would you like to subscribe to our newsletter?"
     },
-    "ui:order": ["name", "email", "password", "*"]
+    "ui:order": ["subscribe","password","name", "email", "*"]
 }
 
 export const DEMO_SCHEMA_TEST={
@@ -290,5 +371,5 @@ const DEMO_FORM_DATA_MANDATORY_CHOICE_DOCUMENT_TYPES= {
 
 
 
-export const DEMO_FORM_DATA=TEST_FD
+export const DEMO_FORM_DATA=JSON_TEST
 

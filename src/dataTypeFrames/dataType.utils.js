@@ -1,57 +1,17 @@
 import {getTitle, getDefaultValue, addCustomUI, checkIfKey, isFilled} from "../utils"
 import {
-    XSD_STRING,
-    XSD_DECIMAL,
+    getCreateJSONWidget, 
+    getEditJSONWidget, 
+    getViewJSONWidget,
+    getDateUIWidget,
+    getDateTimeUIWidget,
+    getDataType
+} from "./widget"
+import {
     XSD_DATE_TIME,
-    XSD_BOOLEAN,
-    XSD_INTEGER,
-    STRING_TYPE,
-    NUMBER_TYPE,
-    BOOLEAN_TYPE,
-    DATE_TYPE,
     DATA_TYPE,
-    XSD_G_YEAR,
     XSD_DATE
 } from "../constants"
-
-// function to provide a ui widget to date
-function getDateUIWidget() {
-    let uiLayout = {}
-    uiLayout["ui:widget"] = "date",
-    uiLayout["ui:options"] = {
-        "yearsRange": [
-            1980,
-            2030
-        ]
-    }
-    uiLayout["classNames"] = "tdb__input mb-3 mt-3 date-list-style"
-    return uiLayout
-}
-
-// function to provide a ui widget to dateTime
-function getDateTimeUIWidget () {
-    let uiLayout = {}
-    uiLayout["ui:widget"] = "alt-datetime",
-    uiLayout["ui:options"] = {
-        "yearsRange": [
-            1980,
-            2030
-        ]
-    }
-    uiLayout["classNames"] = "tdb__input mb-3 mt-3 date-list-style"
-    return uiLayout
-}
-
-//get data type xsd: or xdd:
-function getDataType(type) {
-    if(type === XSD_STRING) return STRING_TYPE
-    else if(type === XSD_DECIMAL) return NUMBER_TYPE
-    else if(type === XSD_INTEGER) return NUMBER_TYPE
-    else if(type === XSD_BOOLEAN) return BOOLEAN_TYPE
-    else if(type === XSD_DATE_TIME) return DATE_TYPE
-    else if(type === XSD_G_YEAR) return DATE_TYPE
-    else if(type === XSD_DATE) return STRING_TYPE
-}
 
 // Create Layout
 export function getCreateLayout(frame, item) {
@@ -62,7 +22,7 @@ export function getCreateLayout(frame, item) {
         title: item
     }
     if(frame[item] === XSD_DATE_TIME) layout["format"]="date-time"
-    return layout
+    return layout 
 }
 
 
@@ -73,10 +33,10 @@ export function getCreateUILayout(frame, item, uiFrame) {
         "ui:placeholder": frame[item],
         "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
         classNames: "tdb__input mb-3 mt-3"
-    }
-    // if xsd:dateTime, use a separate widget to display
+    }   
+    
     if(frame[item] === XSD_DATE_TIME) {
-        uiLayout=getDateTimeUIWidget()
+        uiLayout=getDateTimeUIWidget() // if xsd:dateTime, use a separate widget to display
     }
     else if(frame[item] === XSD_DATE) {
         uiLayout=getDateUIWidget()
@@ -121,6 +81,10 @@ export function getEditUILayout(frame, item, formData, uiFrame) {
         }
         uiLayout["classNames"] = "tdb__input mb-3 mt-3 date-list-style"
     }
+    else if(frame[item] === XSD_DATE) {
+        uiLayout=getDateUIWidget()
+    }
+
     // custom ui:schema - add to default ui schema
     let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
     return addedCustomUI
@@ -131,7 +95,8 @@ export function getViewLayout(frame, item, formData) {
     let type=getDataType(frame[item])
     let layout = {
         type: type,
-        info: DATA_TYPE
+        info: DATA_TYPE,
+        title: item
     }
     let defaultValue = getDefaultValue(item, formData)
     if(defaultValue) layout["default"]= defaultValue
@@ -143,6 +108,7 @@ export function getViewUILayout(frame, item, formData, uiFrame) {
     // hide widget if formData of item is empty
     // check for info - coz at this point there mayb be data
     // fields which belongs to subdocument sets and we do not want to hide the widget
+    
     if(!isFilled(formData, item)
         && !frame.hasOwnProperty("info")) {
         uiLayout={
@@ -154,8 +120,15 @@ export function getViewUILayout(frame, item, formData, uiFrame) {
     let uiLayout = {
         "ui:placeholder": frame[item],
         "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
-        classNames: "tdb__input mb-3 mt-3",
+        classNames: "tdb__input mb-3 mt-3"
+    } 
+    if(frame[item] === XSD_DATE_TIME) {
+        uiLayout=getDateTimeUIWidget() // if xsd:dateTime, use a separate widget to display
     }
+    else if(frame[item] === XSD_DATE) {
+        uiLayout=getDateUIWidget()
+    }
+
     // custom ui:schema - add to default ui schema
     let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
     return addedCustomUI
