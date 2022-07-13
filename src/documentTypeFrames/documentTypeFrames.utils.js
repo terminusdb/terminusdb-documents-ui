@@ -77,9 +77,10 @@ export function getEditLayout (frame, item, formData) {
 
     // get default value
     let defaultValue=getDefaultValue(item, formData)
+  
     if(defaultValue) layout["default"]=defaultValue
 
-    return layout
+    return layout 
 }
 
 // edit ui layout
@@ -109,7 +110,6 @@ export function getEditUILayout (frame, item, onSelect, defaultValue, uiFrame) {
 
         // extracting custom ui styles
         let selectStyle = extractUIFrameSelectTemplate(uiFrame) ? extractUIFrameSelectTemplate(uiFrame) : SELECT_STYLES
-
 
         if (defaultValue) {
             return <FilledDocumentSelect

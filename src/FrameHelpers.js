@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react"
 import {Form} from "react-bootstrap"
 import {makeDataTypeFrames} from "./dataTypeFrames/dataTypeFrames"
+import {makeSysDataTypeFrames} from "./sysDataTypeFrames/sysDataTypeFrames"
 import {makeSubDocumentFrames} from "./subDocumentTypeFrames/subDocumentTypeFrames"
 import {makeOptionalTypeFrames} from "./optionalTypeFrames/optionalTypeFrames"
 import {makeDocumentTypeFrames} from "./documentTypeFrames/documentTypeFrames"
@@ -10,10 +11,29 @@ import {makeEnumTypeFrames} from "./enumTypeFrames/enumTypeFrames"
 import {makeChoiceSubDocumentTypeFrames} from "./choiceSubDocumentTypeFrames/choiceSubDocumentTypeFrames"
 import {makeChoiceDocumentTypeFrames} from "./choiceDocumentTypeFrames/choiceDocumentTypeFrames"
 import {makeOneOfTypeFrames} from "./oneOfTypeFrames/oneOfTypeFrames"
-import {isChoiceSubDocumentType, isChoiceDocumentType, isDataType,isPointType, isSubDocumentType, isOptionalType, isSetType, isDocumentType, isEnumType, isListType, isSubDocumentAndClassType, isDocumentClassArrayType} from "./utils"
+import {makeDocumentationFrames} from "./makeDocumentationFrames"
+import {
+    getModifiedGeoFrame, 
+    isChoiceSubDocumentType, 
+    isChoiceDocumentType, 
+    isDataType,
+    isSysDataType,
+    isPointType, 
+    isSubDocumentType, 
+    isOptionalType, 
+    isSetType, 
+    isDocumentType, 
+    isEnumType, 
+    isListType, 
+    isSubDocumentAndClassType, 
+    isDocumentClassArrayType,
+    isGeoJSONTypeSet
+} from "./utils"
 import {DOCUMENT, ENUM, DATA, LONGITUDE, LATITUDE, VIEW, GEO_CORDINATES, SUBDOCUMENT_CONSTRUCTED_FRAME, COORDINATES, SUBDOCUMENT, ONEOFCLASSES} from "./constants"
 import {makeGeoCordinateFrames, makeMultipleGeoCordinateFrames} from "./GeoCordinatesTypeFrames"
-import {makeGeoFrames} from "./GeoFrames"
+//import {makeGeoFrames} from "./GeoFrames"
+import {makeGeoFrames} from "./geoJSONTypeFrames/geoFrames"
+import {makeGeoCollectionFrames} from "./geoJSONTypeFrames/geoCollectionFrames"
 
 function constructOptionalFrame (frame, item) {
     let optionalFrame = {[item]: frame["@class"]}
@@ -21,9 +41,17 @@ function constructOptionalFrame (frame, item) {
 }
 
 function constructSetFrame (frame, item) {
-    let optionalFrame = {[item]: frame["@class"]}
-    return optionalFrame
+    let setFrame = {[item]: frame["@class"]}
+    return setFrame
 }
+
+function constructCollectionFrame(fullFrame, item) {
+    if(fullFrame.hasOwnProperty(item)) {
+        return {[item]: fullFrame[item]}
+    }
+    return {}
+}
+
 /*
 @id: "SetSubDocumentType/51f602b5529f8c94e56a38d456e584cd0ab63cee6cc9069bf9ee81e7970cfd56"
 @type: "SetSubDocumentType"
@@ -68,23 +96,29 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
 
     for(var item in frame) {
 
+        if (item === "response"){
+            console.log("response")
+        }
 
         if(item === "@key") continue
         else if(item === "@type") continue
         else if(item === "@subdocument") continue
-        else if(item.toUpperCase() === LATITUDE.toUpperCase() && mode === VIEW) {
-            let frames = makeGeoCordinateFrames(frame, item, uiFrame, mode, formData)
+        else if(item === "@documentation") {
+            let frames = makeDocumentationFrames(frame[item], item, uiFrame)
             properties[item] = frames.properties[item]
             propertiesUI[item] = frames.propertiesUI[item]
-        }
-        else if(item.toUpperCase() === LONGITUDE.toUpperCase() && mode === VIEW) {
-            //ignore longitude - since logic is done in latitude
         }
         else if(item === "@oneOf") { // datatype properties like xsd:/ xdd:
             let frames = makeOneOfTypeFrames(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect)
             // current is the proeprty name - instead of @oneOf
             properties["@oneOf"] = frames.properties[current]
             propertiesUI["@oneOf"] = frames.propertiesUI[current]
+        }
+        else if(frame[item] && isSysDataType(frame[item])) { // datatype properties like sys:JSON
+            let frames = makeSysDataTypeFrames(frame, item, uiFrame, mode, formData)
+            properties[item] = frames.properties[item]
+            propertiesUI[item] = frames.propertiesUI[item]
+            required.push(item)
         }
         else if(frame[item] && isDataType(frame[item])) { // datatype properties like xsd:/ xdd:
             let frames = makeDataTypeFrames(frame, item, uiFrame, mode, formData)
@@ -125,10 +159,18 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
 
         }
         else if (frame[item] && (item === COORDINATES) && isDocumentClassArrayType(frame[item])) { // coordinates for geo json
-            let geoFrame = makeGeoFrames(frame[item], item, uiFrame, mode, formData)
+            let newGeoFrame=getModifiedGeoFrame(frame)
+            let geoFrame = makeGeoFrames(newGeoFrame, item, uiFrame, mode, formData)
             //set properties and ui
             properties[item] = geoFrame.properties[item]
             propertiesUI[item] = geoFrame.propertiesUI[item]
+        }
+        else if (frame[item] && isSetType(frame[item]) && isGeoJSONTypeSet(frame, mode)) { //geo json set
+            let newGeoCollectionFrame=constructCollectionFrame(fullFrame, frame[item]["@class"])
+            let geoCollectionFrame=makeGeoCollectionFrames(newGeoCollectionFrame, item, uiFrame, mode, formData)
+            //set properties and ui
+            properties[item] = geoCollectionFrame.properties[item]
+            propertiesUI[item] = geoCollectionFrame.propertiesUI[item]
         }
         else if(frame[item] && isSubDocumentType(frame[item])) { //subdocument
             let subDocumentName=frame[item].hasOwnProperty("@class") ? frame[item]["@class"] : null
@@ -163,7 +205,7 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
             let constructedSetFrame = constructSetFrame(frame[item], item)
 
             let setProperties = getProperties(fullFrame, item, constructedSetFrame, uiFrame, mode, formData, onTraverse, onSelect)
-
+      
             let setFrames = makeSetTypeFrames(setProperties, item, uiFrame, mode, formData, onTraverse, onSelect, fullFrame)
 
             //set properties and ui

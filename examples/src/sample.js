@@ -3,27 +3,25 @@ export const CREATE="Create"
 export const EDIT="Edit"
 export const VIEW="View"
 
-export const DEMO_ACTION=VIEW
-export const DEMO_DOCUMENT_TYPE="coordinates"
+export const DEMO_ACTION=EDIT
+export const DEMO_DOCUMENT_TYPE="Problem"
 
 const TEST_FD = {
-	"@id": "coordinates/908cdf8db2fa9f843f063669171280eb448e3403d837cb440726ab394043e918",
-  	"@type": "coordinates",
-	"location":{
-		"@id":"coordinates/908cdf8db2fa9f843f063669171280eb448e3403d837cb440726ab394043e918/coordinates/Location/cbf3d8956432778d2c3db84533eac02bff76326aa3407436e483361fdf55fd0c",
-		"@type":"Location",
-		"city":"Marigot",
-		"geometry_location":{
-			"@id":"coordinates/location/Location/cbf3d8956432778d2c3db84533eac02bff76326aa3407436e483361fdf55fd0c/geometry_location/Point/3ec3de24dab9a66311ff5010df341b05d67bbcd764537f6f3484a8d03d235843",
-			"@type":"Point",
-			"coordinates":[
-				15.53743,
-				-61.282
-			],
-			"type":"Point"
+	"@id":"Person/ea5ce566dada37db6a6ca4f8791f888a81838312c30986b242c01358ec81c2a7", 
+	"@type":"Person", 
+	"json":  {
+		"@context": {
+			"@base":"terminusdb:///data/", 
+			"@schema":"terminusdb:///schema#", 
+			"@type":"@context"
+		}, 
+		"Person": {
+			"@type":"Class", 
+			"json":"sys:JSON"
 		}
-	}
+	},
 }
+
 
 export const MAP_SCHEMA = {
 	"@context":{
@@ -81,386 +79,169 @@ export const MAP_SCHEMA = {
 	}
 }
 
-export const DEMO_SCHEMA = {
-	"@context":{
-	   "@base":"terminusdb:///data/",
-	   "@schema":"terminusdb:///schema#",
-	   "@type":"@context"
-	},
-	"terminusdb:///schema#Person":{
-      "@key":{
-         "@type":"Random"
-      },
-      "@type":"Class",
-	  "name": "xsd:string",
-	  "nickName": {
-		"@class": "xsd:string",
-		"@type": "Set"
-	   }
-   },
-   	"terminusdb:///schema#Tasks": {
-		 "@key": {
-			 "@type": "Random"
-		 },
-		 "@subdocument": [],
-		 "@type": "Class",
-		 "name": "xsd:string",
-		 "priority": "xsd:decimal"
-	},
-	"terminusdb:///schema#Job":{
-	   "@key":{
-		  "@type":"Random"
-	   },
-	   "@type":"Class",
-	   "title": "xsd:string"
-	},
-	"terminusdb:///schema#Address": {
-		 "@key": {
-			 "@type": "Random"
-		 },
-		 "@subdocument": [],
-		 "@type": "Class",
-		 "Address Line 1": "xsd:string",
-		 "Code": "xsd:decimal",
-		 "Country": "xsd:string"
-	 }
- }
+const JSON_TEST = {
+	"@id": "Problem/5f7fa87239986ef621c386b05d8aed3f54d766d82f8b8bfe756a14312125acc0",
+	"@type": "Problem",
+	"link": [
+	  {
+		"@id": "Problem/5f7fa87239986ef621c386b05d8aed3f54d766d82f8b8bfe756a14312125acc0/link/subDoc/05c8ec04d5449038ebf0fc9cc6350efbaab236365775aa82638ce904fe76df60",
+		"@type": "subDoc",
+		"document": "Mandatory/98fecf4c286f35660a4f1d66fe2ed4dfbb970378a038b180d5b2dd26591e5ba4",
+		"subDocJson": {
+		  "second": "second"
+		}
+	  },
+	  {
+		"@id": "Problem/5f7fa87239986ef621c386b05d8aed3f54d766d82f8b8bfe756a14312125acc0/link/subDoc/88c23cfa05f62ae4a21e0fa71986ad52aecdb466127008c83c9f5bda0c688e48",
+		"@type": "subDoc",
+		"document": "Mandatory/22d4bdecc50ca6683ffd6416361e921e49409750b433a2f5d533d24aaa1ba7b9",
+		"subDocJson": {
+		  "first": "first"
+		}
+	  }
+	]
+  }
 
-export const DEMO_SCHEMA_TEST={
+
+export const DEMO_SCHEMA =  {
 	"@context": {
-		"@base": "terminusdb:///data/",
-		"@schema": "terminusdb:///schema#",
-		"@type": "@context"
+	  "@base": "terminusdb:///data/",
+	  "@schema": "terminusdb:///schema#",
+	  "@type": "Context"
 	},
-	"terminusdb:///schema#Address": {
-		"@key": {
-			"@type": "Random"
+	"comm": {
+		"@documentation": {
+		  "@comment": "a comm thing",
+		  "@properties": {
+			"name": "this is a name field",
+			"something": "something"
+		  }
 		},
-		"@subdocument": [],
-		"@type": "Class",
-		"Code": "xsd:decimal",
-		"Country": "xsd:string",
-		"addressLine": {
-			"@class": "xsd:string",
-			"@type": "Optional"
-		},
-		"person": {
-			"@class": "MandatoryDocumentLink",
-			"@type": "Set"
-		}
-	},
-	"terminusdb:///schema#Person_old": { //MandatoryDataTypes
-		"@key": {
-			"@type": "Random"
-		},
-		"@type": "Class",
-		/*"DOB": "xsd:dateTime",
-		"active": "xsd:boolean",*/
-		"age": "xsd:integer",
-		/*"identifier": "xsd:string",
-		"name": "xsd:string"*/
-	},
-    "terminusdb:///schema#Person": {
-		"@key": {
-			"@type": "Random"
-		},
-		"@type": "Class",
-		"DOB": "xsd:dateTime"
-    },
-
-	"terminusdb:///schema#MandatorySubDocument": {
-		"@key": {
-			"@type": "Random"
-		},
-		"@type": "Class",
-		"subDoc": {
-			"@class": "Address",
-			"@subdocument": []
-		}
-	},
-	"terminusdb:///schema#OptionalDataTypes": {
-		"@key": {
-			"@type": "Random"
-		},
-		"@type": "Class",
-		"DOB": {
-			"@class": "xsd:dateTime",
-			"@type": "Optional"
-		},
-		"active": {
-			"@class": "xsd:boolean",
-			"@type": "Optional"
-		},
-		"age": {
-			"@class": "xsd:decimal",
-			"@type": "Optional"
-		},
-		"name": {
-			"@class": "xsd:string",
-			"@type": "Optional"
-		}
-	},
-	"terminusdb:///schema#OptionalSubDocument": {
-		"@key": {
-		  	"@type": "Random"
-		},
-		"@type": "Class",
-		"subDoc": {
-		  	"@class": {
-				"@class": "Address",
-				"@subdocument": []
-		  	},
-		  	"@type": "Optional"
-		}
-	},
-	"terminusdb:///schema#MandatoryDocumentLink": {
-		"@key": {
-		  	"@type": "Random"
-		},
-		"@type": "Class",
-		"name": "xsd:string",
-		"person": "MandatoryDataTypes"
-	},
-	"terminusdb:///schema#OptionalDocumentLink": {
-		"@key": {
-		  	"@type": "Random"
-		},
-		"@type": "Class",
-		"person": {
-		  	"@class": "MandatoryDataTypes",
-		  	"@type": "Optional"
-		}
-	},
-	"terminusdb:///schema#SetDataTypes": {
-		"@key": {
-			"@type": "Random"
-		},
-		"@type": "Class",
-		"GymFriends": {
-			"@class": "xsd:string",
-			"@type": "Set"
-		}
-	},
-	"terminusdb:///schema#SetSubDocumentType": {
-		"@key": {
-			"@type": "Random"
-		},
-		"@type": "Class",
-		"subDoc": {
-			"@class": {
-				"@class": "Address",
-				"@subdocument": []
-			},
-			"@type": "Set"
-		}
-	},
-	"terminusdb:///schema#SetDocumentTypes": {
-		"@key": {
-			"@type": "Random"
-		},
-		"@type": "Class",
-		"person": {
-			"@class": "MandatoryDataTypes",
-			"@type": "Set"
-		}
-  	},
-	"terminusdb:///schema#Enums": {
-		"@type": "Enum",
-		"@values": [
-			"one",
-			"two",
-			"three",
-			"four"
-		]
-	},
-	"terminusdb:///schema#MandatoryEnumTypes": {
-		"@key": {
-			"@type": "Random"
-		},
-		"@type": "Class",
-		"enums": {
-			"@id": "Enums",
-			"@type": "Enum",
-			"@values": [
-				"one",
-				"two",
-				"three",
-				"four"
-			]
-		}
-	},
-	"terminusdb:///schema#OptionalEnumTypes": {
-		"@key": {
-			"@type": "Random"
-		},
-		"@type": "Class",
-		"enums": {
-			"@class": {
-				"@id": "Enums",
-				"@type": "Enum",
-				"@values": [
-				"one",
-				"two",
-				"three",
-				"four"
-				]
-			},
-			"@type": "Optional"
-		}
-	},
-	"terminusdb:///schema#SetEnumTypes": {
-		"@key": {
-			"@type": "Random"
-		},
-		"@type": "Class",
-		"enums": {
-			"@class": {
-				"@id": "Enums",
-				"@type": "Enum",
-				"@values": [
-					"one",
-					"two",
-					"three",
-					"four"
-				]
-			},
-			"@type": "Set"
-		}
-  	},
-	"terminusdb:///schema#MandatoryChoiceProperty": {
-		"@key": {
-			"@type": "Random"
-		},
-		"@type": "Class",
-		"choiceProperty": [
-			"Choice1",
-			"Choice2"
-		],
-	},
-	"terminusdb:///schema#OptionalChoiceProperty": {
-		"@key": {
-			"@type": "Random"
-		},
-		"@type": "Class",
-		"choiceProperty":{
-			"@class": [
-				"Choice1",
-				"Choice2"
-			  ],
-			"@type": "Optional"
-		}
-	},
-	"terminusdb:///schema#SetChoiceProperty": {
-		"@key": {
-			"@type": "Random"
-		},
-		"@type": "Class",
-		"choiceProperty":{
-			"@class": [
-				"Choice1",
-				"Choice2"
-			  ],
-			"@type": "Set"
-		}
-	},
-	"terminusdb:///schema#Choice1": {
-		"@key": {
-			"@type": "Random"
-		},
-		"@type": "Class",
-		"Choice1Name": "xsd:string",
-		"Choice1Comment": "xsd:dateTime",
-
-  	},
-  	"terminusdb:///schema#Choice2": {
-		"@key": {
-			"@type": "Random"
-		},
-		"@type": "Class",
-		"Choice2Name": "xsd:string",
-		"Choice2Comment": "xsd:dateTime"
-  	},
-	"terminusdb:///schema#OneOfDocuemntClasses": {
-		"@key": {
-			"@type": "Random"
-		},
-		"@oneOf": [
-			{
-				"choice1": "OneOfChoice",
-				"choice2": "Choice2",
-				"suspected_unknown": "sys:Unit",
-				"unknown": "sys:Unit"
-			}
-		],
-		"@subdocument": [],
-		"@type": "Class"
-	},
-	"terminusdb:///schema#OneOfChoice": {
 		"@key": {
 		  "@type": "Random"
 		},
-		"@subdocument": [],
 		"@type": "Class",
-		"date_range": {
-		  "@class": {
-			"@class": "DateRange",
-			"@subdocument": []
-		  },
+		"name": {
+		  "@class": "xsd:string",
 		  "@type": "Optional"
 		},
-		"value": "xsd:string"
-	},
-	"terminusdb:///schema#DateRange": {
+		"something": {
+		  "@class": "xsd:string",
+		  "@type": "Optional"
+		}
+	  },
+	"Mandatory": {
 	  "@key": {
-		"@fields": [
-		  "from",
-		  "to"
-		],
-		"@type": "Hash"
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "MandatoryJson": "sys:JSON"
+	},
+	"Optional": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "OptionalJson": {
+		"@class": "sys:JSON",
+		"@type": "Optional"
+	  }
+	},
+	"Problem": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "link": {
+		"@class": {
+		  "@class": "subDoc",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  }
+	},
+	"Thing": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "link": {
+		"@class": "subDoc",
+		"@subdocument": []
+	  }
+	},
+	"subDoc": {
+	  "@key": {
+		"@type": "Random"
 	  },
 	  "@subdocument": [],
 	  "@type": "Class",
-	  "from": "xsd:integer",
-	  "to": "xsd:integer"
-	},
-	"terminusdb:///schema#MandatoryLocation": {
-		"@type": "Class",
-		"name": "xsd:string",
-		"location": "Location"
-	},
-	"terminusdb:///schema#Location": {
-		"@key": {
-			"@fields": [
-			  "city"
-			],
-			"@type": "Lexical"
-		  },
-		  "@subdocument": [],
-		  "@type": "Class",
-		  "city": "xsd:string",
-		  "geometry_location": {
-				//"@class": [
-				//	{
-						"@class": "Point",
-						"@subdocument": []
-				//	}
-				//],
-				//"@type": "Optional"
-			}
+	  "document": {
+		"@class": "Mandatory",
+		"@type": "Optional"
+	  },
+	  "subDocJson": "sys:JSON"
+	}
+  }
+
+ export const DEMO_SCHEMA_UI = {
+    created: {
+        "ui:widget": 'hidden'
     },
-	"terminusdb:///schema#Point": {
-		"@key": {
-			"@type": "Random"
-		},
-		"@subdocument": [],
-		"@type": "Class",
-		"coordinates": {
-			"@class": "xsd:decimal",
-			"@dimensions": 1,
-			"@type": "Array"
-		}
-  	}
+    modified: {
+        "ui:widget": 'hidden'
+    },
+    name: {
+        classNames: "text-danger",
+        "ui:placeholder": "Enter your name..."
+    },
+    email: {
+        classNames: "text-success",
+        "ui:description": "Your email is securely stored and will not be not be shared",
+        "ui:placeholder": "Enter your email address..."
+    },
+    password: {
+        "ui:widget": 'password',
+        "ui:description": "Your password must be at least eight characters",
+        "ui:placeholder": "Enter your password..."
+    },
+    color: {
+        "ui:widget": 'color',
+        "ui:description": "Choose a color for your account"
+    },
+    notes: {
+        classNames: "text-success",
+        "ui:widget": 'textarea',
+        "ui:placeholder": "Enter a brief description of your role..."
+    },
+    subscribe: {
+        "ui:widget": 'radio',
+        "ui:description": "Would you like to subscribe to our newsletter?"
+    },
+    "ui:order": ["subscribe","password","name", "email", "*"]
 }
+
+export const DEMO_SCHEMA_TEST={
+	"@context": {
+		 "@base": "terminusdb:///data/",
+		 "@schema": "terminusdb:///schema#",
+		 "@type": "@context"
+	 },
+	 "Person": {
+		 "@key": {
+			 "@type": "Random"
+		 },
+		 "@type": "Class",
+		 "name": "xsd:string",
+		 "email": "xsd:string",
+		 "password": "xsd:string",
+		 "color": "xsd:string",
+		 "notes": "xsd:string",
+		 "subscribe": "xsd:boolean",
+		 "created": "xsd:dateTime",
+		 "modified": "xsd:dateTime",
+	}
+ }
 
 
 const DEMO_FORM_DATA_MANDATORY_DATA_TYPES = {
@@ -590,9 +371,5 @@ const DEMO_FORM_DATA_MANDATORY_CHOICE_DOCUMENT_TYPES= {
 
 
 
-export const DEMO_FORM_DATA=TEST_FD
-
-export const DEMO_SCHEMA_UI = {
-  "placeholder": "xsd:dateTime"
-}
+export const DEMO_FORM_DATA=JSON_TEST
 

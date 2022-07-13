@@ -139,7 +139,7 @@ export function makeSetDocumentTypeFrames (frame, item, uiFrame, mode, formData,
 
     if (mode === CREATE) {
         layout=getCreateSetDocumentTypeLayout(frame, item)
-        uiLayout=getCreateSetDocumentTypeUILayout(frame, item)
+        uiLayout=getCreateSetDocumentTypeUILayout(frame, item, uiFrame)
     }
 
     if (mode === EDIT) {
@@ -149,7 +149,7 @@ export function makeSetDocumentTypeFrames (frame, item, uiFrame, mode, formData,
 
     if (mode === VIEW) {
         layout=getViewSetDocumentTypeLayout(frame, item, formData)
-        uiLayout=getViewSetDocumentTypeUILayout(frame, item, onSelect, uiFrame, formData)
+        uiLayout=getViewSetDocumentTypeUILayout(frame, item, onSelect, uiFrame, formData, onTraverse)
     }
 
     // schema
@@ -261,7 +261,7 @@ export const makeSetTypeFrames = (frame, item, uiFrame, mode, formData, onTraver
             && frame["properties"][item]["info"] === DATA_TYPE)
             madeFrames=makeSetDataTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect)
     }
-
+    
     // check if any subdocument has a @oneOf property?
     if(frame.hasOwnProperty("properties") && frame["properties"].hasOwnProperty(item)) {
         if(frame["properties"][item].hasOwnProperty("info")

@@ -1,7 +1,30 @@
 
 import React from "react"
 import {Button, Form} from "react-bootstrap"
-import {XSD_DATA_TYPE_PREFIX, CREATE, XDD_DATA_TYPE_PREFIX, POINT_TYPE, UI_FRAME_SELECT_STYLE, UI_FRAME_SUBDOCUMENT_STYLE, DIMENSION, ONEOFVALUES, OPTIONAL, SET, ONEOFCLASSES, DOCUMENT, ENUM, VALUE_HASH_KEY, LIST, SYS_UNIT_DATA_TYPE, TDB_SCHEMA, SUBDOCUMENT, ARRAY, COORDINATES, SUBDOCUMENT_TYPE} from "./constants"
+import {
+	XSD_DATA_TYPE_PREFIX, 
+	XDD_DATA_TYPE_PREFIX, 
+	POINT_TYPE, 
+	UI_FRAME_SELECT_STYLE, 
+	UI_FRAME_SUBDOCUMENT_STYLE, 
+	VIEW,
+	DIMENSION, 
+	ONEOFVALUES, 
+	OPTIONAL, 
+	SET, 
+	ONEOFCLASSES, 
+	DOCUMENT, 
+	ENUM, 
+	VALUE_HASH_KEY, 
+	LIST, 
+	SYS_UNIT_DATA_TYPE, 
+	SUBDOCUMENT, 
+	ARRAY, 
+	COORDINATES, 
+	SUBDOCUMENT_TYPE,
+	FEATURE_COLLECTION,
+	SYS_UNIT_TYPE_PREFIX
+} from "./constants"
 import {BiKey, BiPlus} from "react-icons/bi"
 import {RiDeleteBin5Fill} from "react-icons/ri"
 import {FcKey} from "react-icons/fc"
@@ -11,8 +34,13 @@ import {FaArrowDown, FaArrowUp, FaHourglassEnd} from "react-icons/fa"
 // returns true for properties which are of data types xsd and xdd
 export const isDataType = (property) => {
 	if(typeof property === "object") return false
-	if(property.substring(0, 4) ==  XSD_DATA_TYPE_PREFIX) return true
-	if(property.substring(0, 4) ==  XDD_DATA_TYPE_PREFIX) return true
+	if(property.substring(0, 4) === XSD_DATA_TYPE_PREFIX) return true
+	if(property.substring(0, 4) === XDD_DATA_TYPE_PREFIX) return true
+}
+
+export const isSysDataType = (property) => {
+	if(typeof property === "object") return false
+	if(property.substring(0, 4) === SYS_UNIT_TYPE_PREFIX) return true 
 }
 
 // returns true for properties which are subdocuments
@@ -61,6 +89,18 @@ export const isSetType = (property) => {
 	return false
 }
 
+// display geo json in view mode in a different way 
+export const isGeoJSONTypeSet = (frame, mode) => {
+	if(mode !== VIEW) return false 
+	if(frame.hasOwnProperty("type") && 
+		frame["type"].hasOwnProperty("@type") && 
+		frame["type"]["@type"] === ENUM){ 
+			if(frame["type"]["@values"][0] === FEATURE_COLLECTION) return true
+			else return false
+		}
+	return false 
+}
+
 // returns true for List
 export const isListType = (property) => {
 	if(typeof property !== "object") return false
@@ -105,12 +145,26 @@ export const isSubDocumentAndClassType = (property, frame) => {
 	}
 	return false
 }
-
+ 
 // returns true if @type is Array and item is coordinates
 export const isDocumentClassArrayType = (frame) => {
 	if(typeof frame !== "object") return false
 	if(frame.hasOwnProperty("@type") && frame["@type"] === ARRAY) return true
 	return false
+}
+
+
+// returns modified frames for coordinates with type as well to differntiate between polygon/ multipolygon
+export const getModifiedGeoFrame = (frame) => {
+	let newFrame={}
+	newFrame=frame[COORDINATES]
+	if(frame.hasOwnProperty("type") && 
+		frame["type"].hasOwnProperty("@type") && 
+		frame["type"]["@type"] === ENUM && 
+		frame["type"].hasOwnProperty("@values")) {
+			newFrame["info"]=frame["type"]["@values"][0]
+	}
+	return newFrame
 }
 
 // returns true for properties ponting to an enum class
@@ -158,14 +212,6 @@ export function getDefaultValue(item, formData) {
 	if(Object.keys(formData).length === 0) return false
 	if(formData.hasOwnProperty(item)) return formData[item]
 	return false
-	/*var match
-	for(var key in formData){
-		if(key === item) {
-			match=formData[key]
-			return match
-		}
-	}
-	return match */
 }
 
 // List required min 1 item in it so forthe first subdocument we make all its fields mandatory
@@ -180,6 +226,7 @@ export function getRequiredForListSubDocs(properties){
 export function HideArrayFieldTemplate(props) {
 	return <div/>
 }
+
 
 export function ArrayFieldTemplate(props) {
 	//console.log("props", props)
@@ -444,9 +491,7 @@ export function removeIds(dataArray){
 export function addCustomUI (item, uiFrame, uiLayout) {
 	if(!uiFrame) return uiLayout
 	if(!Object.keys(uiFrame).length) return uiLayout
-	if(item === "eyeglass-type"){
-		console.log("eyeglass-type")
-	}
+
 	let defaultUILayout = uiLayout
 	if(uiFrame && uiFrame.hasOwnProperty(item)) {
         for (var uiItems in uiFrame[item]) {
@@ -463,7 +508,7 @@ export function addCustomUI (item, uiFrame, uiLayout) {
         }
     }
 	//console.log("defaultUILayout", item, defaultUILayout)
-	if(defaultUILayout.hasOwnProperty("ui:widget") && defaultUILayout["ui:widget"] === "hidden") {
+	if(defaultUILayout && defaultUILayout.hasOwnProperty("ui:widget") && defaultUILayout["ui:widget"] === "hidden") {
 		if(defaultUILayout.hasOwnProperty("ui:ArrayFieldTemplate")){
 			// array type - set or list
 			defaultUILayout={

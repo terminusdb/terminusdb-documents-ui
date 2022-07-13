@@ -1,0 +1,146 @@
+[
+    { "@type" : "Enum",
+      "@id" : "FeatureCollection_Type",
+      "@value" : [ "FeatureCollection" ]
+    },
+
+    { "@type" : "Class",
+      "@id" : "FeatureCollection",
+      "name" : { "@type" : "Optional",
+                 "@class" : "xsd:string" },
+      "type": "FeatureCollection_Type",
+      "crs" : { "@type" : "Optional",
+                "@class" : "name" },
+      "features" : { "@type" : "Set",
+                     "@class": "Feature"}
+    },
+
+    { "@type" : "Enum",
+      "@id" : "Feature_Type",
+      "@value" : [ "Feature" ]
+    },
+
+    { "@type" : "Class",
+      "@id" : "Feature",
+      "type" : "Feature_Type",
+      "id" : { "@type" : "Optional",
+               "@class" : "xsd:string" },
+      "title" : { "@type" : "Optional",
+                  "@class" : "xsd:string" },
+      "bbox" : { "@type" : "Array",
+                 "@dimensions" : 1,
+                 "@class" : "xsd:string" },
+      "geometry" : "Geometry",
+      "properties" : "Properties",
+      "centerline" : { "@type" : "Optional",
+                       "@class" : "Geometry" }
+    },
+
+    { "@type" : "Class",
+      "@id" : "Geometry",
+      "@abstract" : []
+    },
+
+    { "@type" : "Class",
+      "@id" : "Properties",
+      "@abstract" : []
+    },
+
+    { "@type" : "Enum",
+      "@id" : "Point_Type",
+      "@value" : [ "Point" ]
+    },
+
+    { "@type" : "Class",
+      "@id" : "Point",
+      "@inherits" : "Geometry",
+      "type" : "Point_Type",
+      "coordinates" : { "@type" : "Array",
+                        "@dimensions" : 1,
+                        "@class" : "xsd:decimal" }
+    },
+
+    { "@type" : "Enum",
+      "@id" : "LineString_Type",
+      "@value" : [ "LineString" ]
+    },
+
+    { "@type" : "Class",
+      "@id" : "LineString",
+      "@inherits" : "Geometry",
+      "type" : "LineString_Type",
+      "coordinates" : { "@type" : "Array",
+                        "@dimensions" : 2,
+                        "@class" : "xsd:decimal" }
+    },
+
+    { "@type" : "Enum",
+      "@id" : "Polygon_Type",
+      "@value" : [ "Polygon" ]
+    },
+
+    { "@type" : "Class",
+      "@id" : "Polygon",
+      "@inherits" : "Geometry",
+      "type" : "Polygon_Type",
+      "coordinates" : { "@type" : "Array",
+                        "@dimensions" : 3,
+                        "@class" : "xsd:decimal" }
+    },
+
+    { "@type" : "Enum",
+      "@id" : "MultiPolygon_Type",
+      "@value" : [ "MultiPolygon" ]
+    },
+
+    { "@type" : "Class",
+      "@id" : "MultiPolygon",
+      "@inherits" : "Geometry",
+      "type" : "MultiPolygon_Type",
+      "coordinates" : { "@type" : "Array",
+                        "@dimensions" : 3,
+                        "@class" : "xsd:decimal" }
+    },
+
+    { "@type" : "Enum",
+      "@id" : "GeometryCollection_Type",
+      "@value" : [ "GeometryCollection" ]
+    },
+
+    { "@type" : "Class",
+      "@id" : "GeometryCollection",
+      "@inherits" : "Geometry",
+      "type" : "GeometryCollection_Type",
+      "geometries" : { "@type" : "Set",
+                       "@class" : "Geometry"}
+    },
+
+    { "@type" : "Class",
+      "@id" : "OSiProperties",
+      "@inherits": "Properties",
+      "OBJECTID" : "xsd:integer",
+      "NAMN1" : "xsd:string"
+    },
+
+    { "@type" : "Enum",
+      "@id" : "Name_Type",
+      "@value" : [ "name" ]
+    },
+
+    { "@type" : "Class",
+      "@id" : "name",
+      "type": "Name_Type",
+      "properties": "Properties"
+    },
+
+    { "@type" : "Enum",
+      "@id" : "CRS84_Type",
+      "@value" : [ "urn:ogc:def:crs:OGC:1.3:CRS84" ]
+    },
+
+    { "@type" : "Class",
+      "@id" : "CRS84",
+      "@inherits" : "Properties",
+      "name" : "CRS84_Type"
+    }
+]

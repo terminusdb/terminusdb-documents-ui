@@ -248,7 +248,6 @@ function singleDimensions (frame, item, uiFrame, mode, formData) {
 }
 
 function geoTypeFrames (frame, item, uiFrame, mode, formData) {
-
     if(frame.hasOwnProperty(DIMENSION) && frame[DIMENSION] === 1)
         return singleDimensions(frame, item, uiFrame, mode, formData)
     else if(frame.hasOwnProperty(DIMENSION) && frame[DIMENSION] > 1)

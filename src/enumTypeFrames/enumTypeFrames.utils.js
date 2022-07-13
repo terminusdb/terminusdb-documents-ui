@@ -12,12 +12,12 @@ export function getCreateLayout(frame, item) {
         info: ENUM,
         enum: frame[item]["@values"],
         title: item
-    }
+    } 
 
     return layout
 }
 
-// Create UI Layout
+// Create UI Layout 
 export function getCreateUILayout(frame, item, uiFrame) {
     let uiLayout = {
         "ui:title": getTitle(item, checkIfKey(item, frame[item]["@key"])),

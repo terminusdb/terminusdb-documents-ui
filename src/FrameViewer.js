@@ -46,17 +46,12 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
 
     useEffect(() => {
         //setPrefix(extractedPrefix)
-        try{
+        //try{
             //console.log("extractedPrefix", extractedPrefix)
             //console.log("frame", frame)
             //let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect)
             let properties=getProperties(frame, type, frame[current], uiFrame, mode, formData, onTraverse, onSelect)
-            let definitions = {
-                testdef: {
-                    title: "test",
-                    type: "string"
-                }
-            }
+            
             let schema = {
                 type: "object",
                 properties: properties.properties,
@@ -90,19 +85,22 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             setSchema(schema)
             const uiSchema = properties.uiSchema
 
-            // get form level ui schema
+            // get form level ui schema 
             if(uiFrame && uiFrame.hasOwnProperty("classNames")) uiSchema["classNames"]= uiFrame.classNames
             if(uiFrame && uiFrame.hasOwnProperty("ui:order")) uiSchema["ui:order"]=uiFrame["ui:order"]
             if(uiFrame && uiFrame.hasOwnProperty("ui:title")) uiSchema["ui:title"]= uiFrame["ui:title"]
             if(uiFrame && uiFrame.hasOwnProperty("ui:description")) uiSchema["ui:description"]= uiFrame["ui:description"]
             
-            setUISchema(uiSchema)
-        }
-        catch(e) {
-            setError("An error has occured in generating frames. Err - ", e)
-        }
+            // order is set to place @documentation field at the start of the document
+            uiSchema["ui:order"] = ["@documentation", "*"]
 
-    }, [frame, uiFrame, type, mode, formData])
+            setUISchema(uiSchema)
+        //}
+        //catch(e) {
+            //setError("An error has occured in generating frames. Err - ", e)
+        //}
+
+    }, [frame, uiFrame, type, mode, formData]) 
 
 
     const handleSubmit = ({formData}) => {
