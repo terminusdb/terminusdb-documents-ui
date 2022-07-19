@@ -14,22 +14,22 @@ import {
 } from "./subDocumentType.utils"
 
 
-export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
+export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation) {
     let properties={}, propertiesUI={}, layout ={}, uiLayout={}
 
     if (mode === CREATE) {
         layout=getCreateLayout(frame, item)
-        uiLayout=getCreateUILayout(frame, item, uiFrame)
+        uiLayout=getCreateUILayout(frame, item, uiFrame, documentation)
     }
 
     if (mode === EDIT) {
         layout=getEditLayout(frame, item, formData)
-        uiLayout=getEditUILayout(frame, item, formData, uiFrame)
+        uiLayout=getEditUILayout(frame, item, formData, uiFrame, documentation)
     }
 
     if (mode === VIEW) {
         layout=getViewLayout(frame, item, formData)
-        uiLayout=getViewUILayout(frame, item, formData, uiFrame)
+        uiLayout=getViewUILayout(frame, item, formData, uiFrame, documentation)
     }
 
     // custom ui:schema - add to default ui schema
@@ -44,8 +44,8 @@ export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onT
 }
 
 
-export const makeSubDocumentFrames = (frame, item, uiFrame, mode, formData, onTraverse, onSelect) => {
-    let madeFrames = subDocumentTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect)
+export const makeSubDocumentFrames = (frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation) => {
+    let madeFrames = subDocumentTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation)
     let properties = madeFrames.properties
     let propertiesUI = madeFrames.propertiesUI
     return {properties, propertiesUI}

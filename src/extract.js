@@ -57,8 +57,8 @@ export const transformData = (mode, schema, data, frame, current, type) => {
                     //return extracted
                     return
                 }
-                if(typeof fd === "string") { // set of document classes
-                    transformed=fd
+                if(typeof fd === "string" || typeof fd === "number" || typeof fd === "boolean")  { // set of document classes
+                    transformedArray.push(fd)
                 }
                 else {
                     if(fd.hasOwnProperty("info") && fd.info === CHOICECLASSES){

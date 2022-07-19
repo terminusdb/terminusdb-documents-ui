@@ -3,8 +3,8 @@ export const CREATE="Create"
 export const EDIT="Edit"
 export const VIEW="View"
 
-export const DEMO_ACTION=EDIT
-export const DEMO_DOCUMENT_TYPE="Problem"
+export const DEMO_ACTION=CREATE
+export const DEMO_DOCUMENT_TYPE="MandatoryChoiceProperty"
 
 const TEST_FD = {
 	"@id":"Person/ea5ce566dada37db6a6ca4f8791f888a81838312c30986b242c01358ec81c2a7", 
@@ -79,7 +79,7 @@ export const MAP_SCHEMA = {
 	}
 }
 
-const JSON_TEST = {
+const JSON_TEST ={}/* {
 	"@id": "Problem/5f7fa87239986ef621c386b05d8aed3f54d766d82f8b8bfe756a14312125acc0",
 	"@type": "Problem",
 	"link": [
@@ -100,10 +100,344 @@ const JSON_TEST = {
 		}
 	  }
 	]
-  }
+  }*/
 
 
 export const DEMO_SCHEMA =  {
+	"@context": {
+	  "@base": "terminusdb:///data/",
+	  "@schema": "terminusdb:///schema#",
+	  "@type": "Context"
+	},
+	"CHOICETHING": {
+	  "@abstract": [],
+	  "@documentation": {
+		"@comment": "A CHOICETHING",
+		"@properties": {
+		  "name": "NAMIA",
+		  "notes": "notesIA"
+		}
+	  },
+	  "@type": "Class",
+	  "name": "xsd:string",
+	  "notes": "xsd:string"
+	},
+	"FIRST": {
+	  "@key": {
+		"@fields": [
+		  "name"
+		],
+		"@type": "Lexical"
+	  },
+	  "@type": "Class",
+	  "name": "xsd:string",
+	  "notes": "xsd:string"
+	},
+	"Mandatory": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "MandatoryJson": "sys:JSON"
+	},
+	"MandatoryChoiceProperty": {
+	  "@documentation": {
+		"@comment": "A MandatoryChoiceProperty",
+		"@properties": {
+		  "choiceProperty": "choicePropertyIAAAA"
+		}
+	  },
+	  "@key": {
+		"@fields": [
+		  "name"
+		],
+		"@type": "Lexical"
+	  },
+	  "@type": "Class",
+	  /*"choiceProperty": {
+		"@class": [
+		  "FIRST",
+		  "SECOND",
+		  "THIRD"
+		],
+		"@type": "Set"
+	  },*/
+	  "choiceProperty": [
+		  "FIRST",
+		  "SECOND",
+		  "THIRD"
+		],
+	  "name": "xsd:string"
+	},
+	"Optional": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "OptionalJson": {
+		"@class": "sys:JSON",
+		"@type": "Optional"
+	  }
+	},
+	"Problem": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "link": {
+		"@class": {
+		  "@class": "subDoc",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  }
+	},
+	"SECOND": {
+	  "@key": {
+		"@fields": [
+		  "name"
+		],
+		"@type": "Lexical"
+	  },
+	  "@type": "Class",
+	  "name": "xsd:string",
+	  "notes": "xsd:string"
+	},
+	"Set": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "setJson": {
+		"@class": "sys:JSON",
+		"@type": "Set"
+	  }
+	},
+	"THIRD": {
+	  "@key": {
+		"@fields": [
+		  "name"
+		],
+		"@type": "Lexical"
+	  },
+	  "@type": "Class",
+	  "name": "xsd:string",
+	  "notes": "xsd:string"
+	},
+	"Thing": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "link": {
+		"@class": "subDoc",
+		"@subdocument": []
+	  }
+	},
+	"comm": {
+	  "@documentation": {
+		"@comment": "a comm thing",
+		"@properties": {
+		  "name": "this is a name field",
+		  "something": "something"
+		}
+	  },
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "name": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "something": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  }
+	},
+	"subDoc": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "document": {
+		"@class": "Mandatory",
+		"@type": "Optional"
+	  },
+	  "subDocJson": "sys:JSON"
+	}
+  }
+
+
+const mandatory_choice_property_schema = {
+	"@context": {
+	  "@base": "terminusdb:///data/",
+	  "@schema": "terminusdb:///schema#",
+	  "@type": "Context"
+	},
+	"CHOICETHING": {
+	  "@abstract": [],
+	  "@documentation": {
+		"@comment": "A CHOICETHING",
+		"@properties": {
+		  "name": "NAMIA",
+		  "notes": "notesIA"
+		}
+	  },
+	  "@type": "Class",
+	  "name": "xsd:string",
+	  "notes": "xsd:string"
+	},
+	"FIRST": {
+	  "@key": {
+		"@fields": [
+		  "name"
+		],
+		"@type": "Lexical"
+	  },
+	  "@type": "Class",
+	  "name": "xsd:string",
+	  "notes": "xsd:string"
+	},
+	"Mandatory": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "MandatoryJson": "sys:JSON"
+	},
+	"MandatoryChoiceProperty": {
+	  "@documentation": {
+		"@comment": "A MandatoryChoiceProperty",
+		"@properties": {
+		  "choiceProperty": "choicePropertyIAAAA"
+		}
+	  },
+	  "@key": {
+		"@fields": [
+		  "name"
+		],
+		"@type": "Lexical"
+	  },
+	  "@type": "Class",
+	  /*"choiceProperty": {
+		"@class": [
+		  "FIRST",
+		  "SECOND",
+		  "THIRD"
+		],
+		"@type": "Set"
+	  },*/
+	  "choiceProperty": [
+		  "FIRST",
+		  "SECOND",
+		  "THIRD"
+		],
+	  "name": "xsd:string"
+	},
+	"Optional": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "OptionalJson": {
+		"@class": "sys:JSON",
+		"@type": "Optional"
+	  }
+	},
+	"Problem": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "link": {
+		"@class": {
+		  "@class": "subDoc",
+		  "@subdocument": []
+		},
+		"@type": "Set"
+	  }
+	},
+	"SECOND": {
+	  "@key": {
+		"@fields": [
+		  "name"
+		],
+		"@type": "Lexical"
+	  },
+	  "@type": "Class",
+	  "name": "xsd:string",
+	  "notes": "xsd:string"
+	},
+	"Set": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "setJson": {
+		"@class": "sys:JSON",
+		"@type": "Set"
+	  }
+	},
+	"THIRD": {
+	  "@key": {
+		"@fields": [
+		  "name"
+		],
+		"@type": "Lexical"
+	  },
+	  "@type": "Class",
+	  "name": "xsd:string",
+	  "notes": "xsd:string"
+	},
+	"Thing": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "link": {
+		"@class": "subDoc",
+		"@subdocument": []
+	  }
+	},
+	"comm": {
+	  "@documentation": {
+		"@comment": "a comm thing",
+		"@properties": {
+		  "name": "this is a name field",
+		  "something": "something"
+		}
+	  },
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@type": "Class",
+	  "name": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  },
+	  "something": {
+		"@class": "xsd:string",
+		"@type": "Optional"
+	  }
+	},
+	"subDoc": {
+	  "@key": {
+		"@type": "Random"
+	  },
+	  "@subdocument": [],
+	  "@type": "Class",
+	  "document": {
+		"@class": "Mandatory",
+		"@type": "Optional"
+	  },
+	  "subDocJson": "sys:JSON"
+	}
+  }
+
+
+const SYS_JSON_SCHEMA = {
 	"@context": {
 	  "@base": "terminusdb:///data/",
 	  "@schema": "terminusdb:///schema#",
@@ -131,6 +465,13 @@ export const DEMO_SCHEMA =  {
 		}
 	  },
 	"Mandatory": {
+
+		"@documentation": {
+			"@comment": "Description of document",
+			"@properties": {
+			  MandatoryJson: "sysMandJsonia"
+			}
+		  },
 	  "@key": {
 		"@type": "Random"
 	  },

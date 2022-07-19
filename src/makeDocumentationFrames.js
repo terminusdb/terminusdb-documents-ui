@@ -5,6 +5,7 @@ import {FaRegQuestionCircle} from "react-icons/fa"
 import Overlay from 'react-bootstrap/Overlay'
 import {Button} from "react-bootstrap"
 import Tooltip from 'react-bootstrap/Tooltip'
+import {FaRegComment} from "react-icons/fa"
 
 // get data type frames
 function documentationTypeFrames (frame, item, uiFrame) {
@@ -39,8 +40,10 @@ function documentationTypeFrames (frame, item, uiFrame) {
 
 
         return <Stack direction="horizontal" gap={1}>
-            {frame["@comment"] && <small className="text-muted">{frame["@comment"]}</small>}
-            {frame["@properties"] && <>
+            {frame["@comment"] && <Stack direction="horizontal" gap={2}>
+                <FaRegComment className="text-muted"/><label className="text-muted">{frame["@comment"]}</label>
+            </Stack>}
+            {/*frame["@properties"] && <>
                 <Button ref={target} 
                     className={"bg-transparent border-0"}
                     //onClick={() => setShow(!show)}
@@ -56,7 +59,7 @@ function documentationTypeFrames (frame, item, uiFrame) {
                     </Tooltip>
                     )}
                 </Overlay>
-            </>}
+            </>*/}
         </Stack>
     }
 

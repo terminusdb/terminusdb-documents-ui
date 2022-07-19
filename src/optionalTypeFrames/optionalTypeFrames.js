@@ -7,13 +7,6 @@ export function makeOptionalTypeFrames (frame, item, uiFrame, mode, formData) {
 
     let properties = {}, propertiesUI = {}, layout = {}, uiLayout={}
 
-    // if no filled values
-    /*if(!isFilled(formData, item)) {
-        propertiesUI[item]={"ui:widget" : 'hidden'}
-        properties[item]={}
-        return {properties, propertiesUI}
-    }*/
-
     if(frame.hasOwnProperty("properties")) {
         layout=frame.properties[item]
     }

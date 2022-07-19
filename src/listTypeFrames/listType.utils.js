@@ -1,14 +1,16 @@
 import React, {useState, useEffect} from "react"
-import {ArrayFieldTemplate, getSubDocumentTitle, getSubDocumentDescription, getDefaultValue, isFilled, getSetTitle} from "../utils"
+import {ArrayFieldTemplate, getLabelFromDocumentation, addCustomUI, getSubDocumentTitle, getSubDocumentDescription, getDefaultValue, isFilled, getSetTitle} from "../utils"
 import {CREATE, DOCUMENT, EDIT, VIEW, SELECT_STYLES, SUBDOCUMENT_TYPE} from "../constants"
 import {FilledDocumentSelect, EmptyDocumentSelect} from "../documentTypeFrames/DocumentSelects"
+import JSONInput from 'react-json-editor-ajrm'
+import locale    from 'react-json-editor-ajrm/locale/en'
 
 /**************   Set SubDocuments Types       *****************/
-// create set subDocument type layout
-export function getCreateSetSubDocumentTypeLayout (frame, item) {
+// create set subDocument type layout 
+export function getCreateSetSubDocumentTypeLayout (frame, item, documentation) {
     let layout={
         type: "array",
-        title: getSetTitle(),
+        title: getSetTitle(item, documentation),
         items: frame.properties[item],
         additionalItems: frame.properties[item]
     }
@@ -35,10 +37,10 @@ export function getCreateSetSubDocumentTypeUILayout (frame, item) {
 }
 
 // edit set subDocument type layout
-export function getEditSetSubDocumentTypeLayout (frame, item, formData) {
+export function getEditSetSubDocumentTypeLayout (frame, item, formData, documentation) {
     let layout={
         type: "array",
-        title: getSetTitle()
+        title: getSetTitle(item, documentation)
     }
 
     // get default value and fill items of array
@@ -89,10 +91,10 @@ export function getEditSetSubDocumentTypeUILayout (frame, item) {
 }
 
 // View set subDocument type Layout
-export function getViewSetSubDocumentTypeLayout(frame, item, formData) {
+export function getViewSetSubDocumentTypeLayout(frame, item, formData, documentation) {
     let layout={
         type: "array",
-        title: getSetTitle(item)
+        title: getSetTitle(item, documentation)
     }
 
     // get default value and fill items of array
@@ -151,7 +153,7 @@ export function getViewSetSubDocumentTypeUILayout(frame, item, formData) {
 }
 
 
-/**************   Set Data Types       *****************/
+/**************   List Data Types       *****************/
 // create set data type layout
 export function getCreateSetDataTypeLayout (frame, item) {
     let layout={
@@ -295,7 +297,192 @@ export function getViewSetDataTypeUILayout(frame, item, formData) {
     return uiLayout
 }
 
-/**************   Set Document Types       *****************/
+
+/**************   List Sys Data Types       *****************/
+// create set data type layout
+export function getCreateListSysDataTypeLayout (frame, item) {
+    let layout={
+        type: "array",
+        title: getSetTitle(),
+        items: frame.properties[item],
+        additionalItems: frame.properties[item]
+    }
+    return layout
+}
+
+// create set data type ui layout
+export function getCreateListSysDataTypeUILayout (frame, item) {
+    let uiLayout= {}
+    if(frame.hasOwnProperty("uiSchema")) {
+        uiLayout= {
+            items: frame.uiSchema[item],
+            additionalItems: frame.uiSchema[item],
+            "ui:options": {
+                addable: true,
+                orderable: true,
+                removable: true
+            },
+            "ui:ArrayFieldTemplate" : ArrayFieldTemplate
+        }
+    }
+
+    return uiLayout
+}
+
+// edit set sys data type layout
+export function getEditListSysDataTypeLayout (frame, item, formData, documentation) {
+    let layout={
+        type: "array",
+        title: getSetTitle(item, documentation),
+        items: frame.properties[item],
+        additionalItems: frame.properties[item]
+    }
+
+    // get default value and fill items of array
+    let defaultValues=getDefaultValue(item, formData)
+    let filledItems=[]
+    if(Array.isArray(defaultValues) && defaultValues.length) {
+        defaultValues.map(value => {
+            let structure = {}
+            for(var props in frame.properties[item]) {
+                if(props === "default") structure[props] = value
+                else structure[props] = frame.properties[item][props]
+            }
+            filledItems.push(structure)
+        })
+    }
+
+    // if filled values available to display
+    if(filledItems.length) {
+        // get filled items
+        layout.items = filledItems
+
+        let properties = {}
+        // get additional items
+        for(var props in frame.properties[item]) {
+            if(props !== "default"){
+                properties[props] = frame.properties[item][props]
+            }
+        }
+        // additional items
+        layout.additionalItems = properties
+    }
+    return layout
+}
+
+// edit set sys data type ui layout
+export function getEditListSysDataTypeUILayout (frame, item, uiFrame, documentation) {
+    let uiLayout= {}
+    console.log("set sys frame", frame)
+
+    function getEmptyUiSchema(uiSchema) {
+        let newUiStruct = {}
+        for(var ui in uiSchema) {
+            if(ui === "ui:field") {
+                let label = getLabelFromDocumentation (item, documentation)
+                function displayCreateJSONInput(props) {
+                    function handleInput (data) {
+                        if(data.hasOwnProperty("jsObject") && Object.keys(data.jsObject).length > 0) {
+                            props.onChange(data.jsObject)
+                        }
+                    }
+            
+                    return <React.Fragment>
+                        <span>{label}</span>
+                        <JSONInput
+                            id          = 'json_type_field'
+                            locale      = { locale }
+                            height      = '500px'
+                            onBlur={handleInput}
+                        />
+                    </React.Fragment>
+                }
+                newUiStruct[ui] = displayCreateJSONInput
+            }
+            else newUiStruct[ui] = uiSchema[ui]
+        }
+        return newUiStruct
+    }
+
+    if(frame.hasOwnProperty("uiSchema")) {
+        uiLayout= {
+            items: frame.uiSchema[item],
+            additionalItems: getEmptyUiSchema(frame.uiSchema[item]),
+            "ui:options": {
+                addable: true,
+                orderable: false,
+                removable: true
+            },
+            "ui:ArrayFieldTemplate" : ArrayFieldTemplate
+        }
+    }
+    // custom ui:schema - add to default ui schema
+    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
+    return addedCustomUI
+}
+
+// View list data type Layout
+export function getViewListSysDataTypeLayout(frame, item, formData) {
+    let layout={
+        type: "array",
+        title: getSetTitle()
+    }
+
+    // get default value and fill items of array
+    let defaultValues=getDefaultValue(item, formData)
+    let filledItems=[]
+    if(Array.isArray(defaultValues) && defaultValues.length) {
+        defaultValues.map(value => {
+            let structure = {}
+            for(var props in frame.properties[item]) {
+                if(props === "default") structure[props] = value
+                else structure[props] = frame.properties[item][props]
+            }
+            filledItems.push(structure)
+        })
+    }
+
+    // get filled items
+    layout.items = filledItems
+
+    let properties = {}
+    // get additional items
+    for(var props in frame.properties[item]) {
+        if(props !== "default"){
+            properties[props] = frame.properties[item][props]
+        }
+    }
+    // additional items
+    layout.additionalItems = properties
+    return layout
+}
+
+// View list data type UI Layout
+export function getViewListSysDataTypeUILayout(frame, item, formData) {
+    let uiLayout= {}
+    // hide widget if formData of item is empty
+    if(!isFilled(formData, item)) {
+        uiLayout={ "ui:widget" : "hidden" }
+        return uiLayout
+    }
+    if(frame.hasOwnProperty("uiSchema")) {
+        uiLayout= {
+            items: frame.uiSchema[item],
+            additionalItems: frame.uiSchema[item],
+            "ui:options": {
+                addable: false,
+                orderable: true,
+                removable: false
+            },
+            "ui:ArrayFieldTemplate" : ArrayFieldTemplate
+        }
+    }
+    return uiLayout
+}
+
+
+
+/**************   List Document Types       *****************/
 // create set Document type layout
 export function getCreateSetDocumentTypeLayout (frame, item) {
     let layout={

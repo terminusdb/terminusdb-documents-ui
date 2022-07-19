@@ -4,7 +4,7 @@ import AsyncSelect from 'react-select/async'
 
 
 // filled Select - view mode 
-export const FilledDocumentViewSelect = ({item, defaultValue, onTraverse, styles}) => {
+export const FilledDocumentViewSelect = ({label, defaultValue, onTraverse, styles}) => {
     const [clicked, setClicked]=useState(false)
 
         useEffect(() => {
@@ -21,7 +21,7 @@ export const FilledDocumentViewSelect = ({item, defaultValue, onTraverse, styles
         if (styles.hasOwnProperty("mode") && styles["mode"]==="light") color="text-dark"
 
         return <React.Fragment>
-            <Form.Label className="control-label ">{item}</Form.Label> 
+            <Form.Label className="control-label ">{label}</Form.Label> 
             <span onClick={(e) => handleClick(e, defaultValue)} className={`tdb__span__select ${color}`}>
                 {defaultValue}
             </span>

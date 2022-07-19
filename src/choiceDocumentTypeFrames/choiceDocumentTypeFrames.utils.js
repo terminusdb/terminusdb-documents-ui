@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import {getTitle, getDefaultValue,addCustomUI, extractUIFrameSelectTemplate, checkIfKey, isFilled, extractUIFrameSubDocumentTemplate} from "../utils"
+import {getTitle, getDefaultValue,addCustomUI, extractDocumentation, extractUIFrameSelectTemplate, checkIfKey, isFilled, extractUIFrameSubDocumentTemplate} from "../utils"
 import {getProperties} from "../FrameHelpers"
 import {EmptyDocumentSelect,  FilledDocumentSelect, FilledDocumentViewSelect} from "../documentTypeFrames/DocumentSelects"
 import AsyncSelect from 'react-select/async'
@@ -20,7 +20,10 @@ import {
 } from "../constants"
 
 // get layout of document class
-function getCreateDocumentLayout(documentClass){
+function getCreateDocumentLayout(documentClass, fullFrame){
+    // review documentation in a bit ...
+    let documentation= extractDocumentation(fullFrame, documentClass)
+    //console.log("documentation +++", documentation)
     let layout = {
         "title": documentClass,
         "type": "object",
@@ -53,7 +56,7 @@ export function getCreateLayout(fullFrame, current, frame, item, uiFrame, mode, 
     let anyOfArray = []
     frame[item].map(fr => {
         var documentClass=fr
-        anyOfArray.push(getCreateDocumentLayout(documentClass))
+        anyOfArray.push(getCreateDocumentLayout(documentClass, fullFrame))
     })
 
     let layout = {
@@ -67,14 +70,13 @@ export function getCreateLayout(fullFrame, current, frame, item, uiFrame, mode, 
     return layout
 }
 
-export function getCreateUILayout(frame, item, layout, uiFrame, onSelect) {
+export function getCreateUILayout(frame, item, layout, uiFrame, onSelect, documentation) {
     let subDocuemntBg = extractUIFrameSubDocumentTemplate(uiFrame) ? extractUIFrameSubDocumentTemplate(uiFrame) : 'bg-secondary'
     // extracting custom ui styles
     let selectStyle = extractUIFrameSelectTemplate(uiFrame) ? extractUIFrameSelectTemplate(uiFrame) : SELECT_STYLES
 
-
     let uiLayout = {
-        "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
+        "ui:title": getTitle(item, checkIfKey(item, frame["@key"]), documentation),
         //classNames: "tdb__input mb-3 mt-3",
         classNames:`card ${subDocuemntBg} p-4 mt-4 mb-4`
     }
@@ -117,7 +119,7 @@ export function getCreateUILayout(frame, item, layout, uiFrame, onSelect) {
             uiLayout["info"]={"ui:widget": "hidden"}
         })
     }
-    //console.log("!!! create layout", layout, uiLayout)
+    console.log("!!! create layout", layout, uiLayout)
 
     // custom ui:schema - add to default ui schema
     let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)

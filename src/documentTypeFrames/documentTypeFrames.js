@@ -14,26 +14,26 @@ import {
 } from "./documentTypeFrames.utils"
 
 
-export function documentTypeFrames (frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
+export function documentTypeFrames (frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation) {
     let properties={}, propertiesUI={}, required=null, layout ={}, uiLayout={}
 
     if (mode === CREATE) {
         layout=getCreateLayout(frame, item)
-        uiLayout=getCreateUILayout(frame, item, onSelect, uiFrame)
+        uiLayout=getCreateUILayout(frame, item, onSelect, uiFrame, documentation)
     }
 
     if (mode === EDIT) {
         layout=getEditLayout(frame, item, formData)
         let defaultValue=false
         if(layout.hasOwnProperty("default")) defaultValue=layout.default
-        uiLayout=getEditUILayout(frame, item, onSelect, defaultValue, uiFrame)
+        uiLayout=getEditUILayout(frame, item, onSelect, defaultValue, uiFrame, documentation)
     }
 
     if (mode === VIEW) {
         layout=getViewLayout(frame, item, formData)
         let defaultValue=false
         if(layout.hasOwnProperty("default")) defaultValue=layout.default
-        uiLayout=getViewUILayout(frame, item, formData, onTraverse, uiFrame)
+        uiLayout=getViewUILayout(frame, item, formData, onTraverse, uiFrame, documentation)
     }
 
     // custom ui:schema - add to default ui schema
@@ -48,8 +48,8 @@ export function documentTypeFrames (frame, item, uiFrame, mode, formData, onTrav
 }
 
 
-export const makeDocumentTypeFrames = (frame, item, uiFrame, mode, formData, onTraverse, onSelect) => {
-    let madeFrames = documentTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect)
+export const makeDocumentTypeFrames = (frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation) => {
+    let madeFrames = documentTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation)
     let properties = madeFrames.properties
     let propertiesUI = madeFrames.propertiesUI
     /*if(frame.hasOwnProperty("required")) {

@@ -27,9 +27,14 @@ import {
     isListType, 
     isSubDocumentAndClassType, 
     isDocumentClassArrayType,
-    isGeoJSONTypeSet
+    isGeoJSONTypeSet,
+    extractDocumentation
 } from "./utils"
-import {DOCUMENT, ENUM, DATA, LONGITUDE, LATITUDE, VIEW, GEO_CORDINATES, SUBDOCUMENT_CONSTRUCTED_FRAME, COORDINATES, SUBDOCUMENT, ONEOFCLASSES} from "./constants"
+import {
+    DOCUMENTATION, 
+    SUBDOCUMENT_CONSTRUCTED_FRAME, 
+    COORDINATES
+} from "./constants"
 import {makeGeoCordinateFrames, makeMultipleGeoCordinateFrames} from "./GeoCordinatesTypeFrames"
 //import {makeGeoFrames} from "./GeoFrames"
 import {makeGeoFrames} from "./geoJSONTypeFrames/geoFrames"
@@ -64,7 +69,8 @@ function constructSubDocumentFrame (fullFrame, current, frame, item, uiFrame, mo
     if(Object.keys(subDocumentFormData).length === 0
         && Array.isArray(formData)) {
             constructedFrame["info"]=SUBDOCUMENT_CONSTRUCTED_FRAME
-    }
+    } 
+    let documentation= extractDocumentation(fullFrame, item)
     let subDocumentFrames = getProperties(
             fullFrame,
             current,
@@ -73,7 +79,8 @@ function constructSubDocumentFrame (fullFrame, current, frame, item, uiFrame, mo
             mode,
             subDocumentFormData,
             onTraverse,
-            onSelect
+            onSelect,
+            documentation 
         )
     let newSubDocumentFrames = {}
     // add subdocument type as @type field
@@ -89,21 +96,20 @@ function constructSubDocumentFrame (fullFrame, current, frame, item, uiFrame, mo
 }
 
 
-export function getProperties (fullFrame, current, frame, uiFrame, mode, formData, onTraverse, onSelect) {
+export function getProperties (fullFrame, current, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation) {
 
     let properties = {}, propertiesUI = {}, dependencies= {}, required = [], fields={}
 
-
     for(var item in frame) {
 
-        if (item === "response"){
-            console.log("response")
+        if(item === "nickname") {
+            console.log("nickname")
         }
 
         if(item === "@key") continue
         else if(item === "@type") continue
         else if(item === "@subdocument") continue
-        else if(item === "@documentation") {
+        else if(item === DOCUMENTATION) {
             let frames = makeDocumentationFrames(frame[item], item, uiFrame)
             properties[item] = frames.properties[item]
             propertiesUI[item] = frames.propertiesUI[item]
@@ -115,13 +121,13 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
             propertiesUI["@oneOf"] = frames.propertiesUI[current]
         }
         else if(frame[item] && isSysDataType(frame[item])) { // datatype properties like sys:JSON
-            let frames = makeSysDataTypeFrames(frame, item, uiFrame, mode, formData)
+            let frames = makeSysDataTypeFrames(frame, item, uiFrame, mode, formData, documentation)
             properties[item] = frames.properties[item]
             propertiesUI[item] = frames.propertiesUI[item]
             required.push(item)
         }
         else if(frame[item] && isDataType(frame[item])) { // datatype properties like xsd:/ xdd:
-            let frames = makeDataTypeFrames(frame, item, uiFrame, mode, formData)
+            let frames = makeDataTypeFrames(frame, item, uiFrame, mode, formData, documentation)
             properties[item] = frames.properties[item]
             propertiesUI[item] = frames.propertiesUI[item]
             required.push(item)
@@ -135,14 +141,14 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
             required.push(item)
         }
         else if (frame[item] && isChoiceDocumentType(frame[item])) { // choice Document
-            let frames = makeChoiceDocumentTypeFrames(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect)
+            let frames = makeChoiceDocumentTypeFrames(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation)
             properties[item] = frames.properties[item]
             propertiesUI[item] = frames.propertiesUI[item]
-            required.push(item)
+            required.push(item) 
         }
-        else if (frame[item] && isOptionalType(frame[item])) { // optional
+        else if (frame[item] && isOptionalType(frame[item])) { // optional 
             let constructedOptionalFrame = constructOptionalFrame(frame[item], item)
-            let optionalProperties = getProperties(fullFrame, item, constructedOptionalFrame, uiFrame, mode, formData, onTraverse, onSelect)
+            let optionalProperties = getProperties(fullFrame, item, constructedOptionalFrame, uiFrame, mode, formData, onTraverse, onSelect, documentation)
             let optionalFrames = makeOptionalTypeFrames(optionalProperties, item, uiFrame, mode, formData)
 
             //set properties and ui
@@ -175,7 +181,7 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
         else if(frame[item] && isSubDocumentType(frame[item])) { //subdocument
             let subDocumentName=frame[item].hasOwnProperty("@class") ? frame[item]["@class"] : null
             let subDocumentFrame = constructSubDocumentFrame(fullFrame, item, frame[item], subDocumentName, uiFrame, mode, formData, onTraverse, onSelect)
-            let frames = makeSubDocumentFrames(subDocumentFrame, item, uiFrame, mode, formData, onTraverse, onSelect)
+            let frames = makeSubDocumentFrames(subDocumentFrame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation)
             //set properties and ui
             properties[item] = frames.properties[item]
             propertiesUI[item] = frames.propertiesUI[item]
@@ -194,7 +200,7 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
             propertiesUI[item] = frames.propertiesUI[item]
         }
         else if(frame[item] && isDocumentType(frame[item], fullFrame)) { //link documents
-            let frames = makeDocumentTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect)
+            let frames = makeDocumentTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation)
 
             //set properties and ui
             properties[item] = frames.properties[item]
@@ -204,9 +210,9 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
         else if (frame[item] && isSetType(frame[item])) { //set
             let constructedSetFrame = constructSetFrame(frame[item], item)
 
-            let setProperties = getProperties(fullFrame, item, constructedSetFrame, uiFrame, mode, formData, onTraverse, onSelect)
-      
-            let setFrames = makeSetTypeFrames(setProperties, item, uiFrame, mode, formData, onTraverse, onSelect, fullFrame)
+            let setProperties = getProperties(fullFrame, item, constructedSetFrame, uiFrame, mode, formData, onTraverse, onSelect, documentation)
+       
+            let setFrames = makeSetTypeFrames(setProperties, item, uiFrame, mode, formData, onTraverse, onSelect, fullFrame, documentation)
 
             //set properties and ui
             properties[item] = setFrames.properties[item]
@@ -216,9 +222,9 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
         else if (frame[item] && isListType(frame[item])) { //list
             let constructedListFrame = constructSetFrame(frame[item], item)
 
-            let setProperties = getProperties(fullFrame, item, constructedListFrame, uiFrame, mode, formData, onTraverse, onSelect)
+            let setProperties = getProperties(fullFrame, item, constructedListFrame, uiFrame, mode, formData, onTraverse, onSelect, documentation)
 
-            let setFrames = makeListTypeFrames(setProperties, item, uiFrame, mode, formData, onTraverse, onSelect)
+            let setFrames = makeListTypeFrames(setProperties, item, uiFrame, mode, formData, onTraverse, onSelect, fullFrame, documentation)
 
             //set properties and ui
             properties[item] = setFrames.properties[item]
@@ -226,8 +232,7 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
 
         }
         else if (frame[item] && isEnumType(frame[item])) { // enums
-
-            let frames = makeEnumTypeFrames(frame, item, uiFrame, mode, formData)
+            let frames = makeEnumTypeFrames(frame, item, uiFrame, mode, formData, documentation)
 
             //set properties and ui
             properties[item] = frames.properties[item]
@@ -245,4 +250,3 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
     }
 
 }
-

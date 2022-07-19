@@ -18,9 +18,9 @@ export function getCreateLayout(frame, item) {
 }
 
 // Create UI Layout 
-export function getCreateUILayout(frame, item, uiFrame) {
+export function getCreateUILayout(frame, item, uiFrame, documentation) {
     let uiLayout = {
-        "ui:title": getTitle(item, checkIfKey(item, frame[item]["@key"])),
+        "ui:title": getTitle(item, checkIfKey(item, frame[item]["@key"]), documentation),
         "ui:placeholder": `Select ${frame[item]["@id"]} ...`,
         classNames: "tdb__input mb-3 mt-3"
     }
@@ -46,9 +46,9 @@ export function getEditLayout(frame, item, formData) {
 }
 
 // Edit UI Layout
-export function getEditUILayout(frame, item, formData, uiFrame) {
+export function getEditUILayout(frame, item, formData, uiFrame, documentation) {
     let uiLayout = {
-        "ui:title": getTitle(item, checkIfKey(item, frame[item]["@key"])),
+        "ui:title": getTitle(item, checkIfKey(item, frame[item]["@key"]), documentation),
         "ui:placeholder": `Select ${frame[item]["@id"]} ...`,
         classNames: "tdb__input mb-3 mt-3",
         "ui:disabled": checkIfKey(item, frame[item]["@key"]) && isFilled(formData, item) ? true : false
@@ -75,7 +75,7 @@ export function getViewLayout(frame, item, formData) {
 }
 
 // View UI Layout
-export function getViewUILayout(frame, item, formData, uiFrame) {
+export function getViewUILayout(frame, item, formData, uiFrame, documentation) {
     let uiLayout={}
     // hide widget if formData of item is empty
     // check for info - coz at this point there mayb be data
@@ -87,7 +87,7 @@ export function getViewUILayout(frame, item, formData, uiFrame) {
     }
 
     uiLayout= {
-        "ui:title": getTitle(item, checkIfKey(item, frame[item]["@key"])),
+        "ui:title": getTitle(item, checkIfKey(item, frame[item]["@key"]), documentation),
         "ui:placeholder": `Select ${frame[item]["@id"]} ...`,
         classNames: "tdb__input mb-3 mt-3 tdb__view__enum__input"
     }

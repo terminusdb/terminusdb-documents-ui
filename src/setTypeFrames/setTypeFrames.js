@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react"
 import {ArrayFieldTemplate, getSubDocumentDescription, addCustomUI} from "../utils"
-import {CREATE, DOCUMENT, EDIT, VIEW, CHOICESUBCLASSES, CHOICECLASSES, SELECT_STYLES,ENUM, DATA_TYPE, SUBDOCUMENT_TYPE, ONEOFVALUES} from "../constants"
+import {CREATE, DOCUMENT, EDIT, VIEW, CHOICESUBCLASSES, CHOICECLASSES, SYS_JSON_TYPE,ENUM, DATA_TYPE, SUBDOCUMENT_TYPE, ONEOFVALUES} from "../constants"
 import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'
 import {AsyncTypeahead} from 'react-bootstrap-typeahead'
@@ -11,6 +11,12 @@ import {
     getEditSetDataTypeUILayout,
     getViewSetDataTypeLayout,
     getViewSetDataTypeUILayout,
+    getCreateSetSysDataTypeLayout,
+    getCreateSetSysDataTypeUILayout,
+    getEditSetSysDataTypeLayout,
+    getEditSetSysDataTypeUILayout,
+    getViewSetSysDataTypeLayout,
+    getViewSetSysDataTypeUILayout,
     getCreateSetSubDocumentTypeLayout,
     getCreateSetSubDocumentTypeUILayout,
     getEditSetSubDocumentTypeLayout,
@@ -105,22 +111,22 @@ export function makeSetChoiceTypeFrames (frame, item, uiFrame, mode, formData, o
 }
 
 // set Enum Types
-export function  makeSetEnumTypeFrames(frame, item, uiFrame, mode, formData) {
+export function  makeSetEnumTypeFrames(frame, item, uiFrame, mode, formData, documentation) {
 
     let properties={}, propertiesUI={}, layout ={}, uiLayout={}
 
     if (mode === CREATE) {
-        layout=getCreateSetEnumTypeLayout(frame, item)
+        layout=getCreateSetEnumTypeLayout(frame, item, documentation)
         uiLayout=getCreateSetEnumTypeUILayout(frame, item)
     }
 
     if (mode === EDIT) {
-        layout=getEditSetEnumTypeLayout(frame, item, formData)
+        layout=getEditSetEnumTypeLayout(frame, item, formData, documentation)
         uiLayout=getEditSetEnumTypeUILayout(frame, item)
     }
 
     if (mode === VIEW) {
-        layout=getViewSetEnumTypeLayout(frame, item, formData)
+        layout=getViewSetEnumTypeLayout(frame, item, formData, documentation)
         uiLayout=getViewSetEnumTypeUILayout(frame, item, formData)
     }
 
@@ -133,23 +139,23 @@ export function  makeSetEnumTypeFrames(frame, item, uiFrame, mode, formData) {
 }
 
 // set document types
-export function makeSetDocumentTypeFrames (frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
+export function makeSetDocumentTypeFrames (frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation) {
 
     let properties={}, propertiesUI={}, layout ={}, uiLayout={}
 
     if (mode === CREATE) {
-        layout=getCreateSetDocumentTypeLayout(frame, item)
+        layout=getCreateSetDocumentTypeLayout(frame, item, documentation)
         uiLayout=getCreateSetDocumentTypeUILayout(frame, item, uiFrame)
     }
 
     if (mode === EDIT) {
-        layout=getEditSetDocumentTypeLayout(frame, item, formData)
-        uiLayout=getEditSetDocumentTypeUILayout(frame, item, uiFrame, onSelect)
+        layout=getEditSetDocumentTypeLayout(frame, item, formData, documentation)
+        uiLayout=getEditSetDocumentTypeUILayout(frame, item, uiFrame, onSelect, documentation)
     }
 
     if (mode === VIEW) {
-        layout=getViewSetDocumentTypeLayout(frame, item, formData)
-        uiLayout=getViewSetDocumentTypeUILayout(frame, item, onSelect, uiFrame, formData, onTraverse)
+        layout=getViewSetDocumentTypeLayout(frame, item, formData, documentation)
+        uiLayout=getViewSetDocumentTypeUILayout(frame, item, onSelect, uiFrame, formData, onTraverse, documentation)
     }
 
     // schema
@@ -161,21 +167,21 @@ export function makeSetDocumentTypeFrames (frame, item, uiFrame, mode, formData,
 }
 
 // set subDocument types
-export function makeSubDocumentTypeFrames (frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
+export function makeSubDocumentTypeFrames (frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation) {
     let properties={}, propertiesUI={}, layout ={}, uiLayout={}
 
     if (mode === CREATE) {
-        layout=getCreateSetSubDocumentTypeLayout(frame, item)
+        layout=getCreateSetSubDocumentTypeLayout(frame, item, documentation)
         uiLayout=getCreateSetSubDocumentTypeUILayout(frame, item, uiFrame)
     }
 
     if (mode === EDIT) {
-        layout=getEditSetSubDocumentTypeLayout(frame, item, formData)
+        layout=getEditSetSubDocumentTypeLayout(frame, item, formData, documentation)
         uiLayout=getEditSetSubDocumentTypeUILayout(frame, item, uiFrame)
     }
 
     if (mode === VIEW) {
-        layout=getViewSetSubDocumentTypeLayout(frame, item, formData)
+        layout=getViewSetSubDocumentTypeLayout(frame, item, formData, documentation)
         uiLayout=getViewSetSubDocumentTypeUILayout(frame, item, uiFrame, formData)
     }
 
@@ -188,22 +194,48 @@ export function makeSubDocumentTypeFrames (frame, item, uiFrame, mode, formData,
 }
 
 // set data types
-export function makeSetDataTypeFrames (frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
+export function makeSetDataTypeFrames (frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation) {
     let properties={}, propertiesUI={}, layout ={}, uiLayout={}
 
     if (mode === CREATE) {
-        layout=getCreateSetDataTypeLayout(frame, item)
+        layout=getCreateSetDataTypeLayout(frame, item, documentation)
         uiLayout=getCreateSetDataTypeUILayout(frame, item, uiFrame)
     }
 
     if (mode === EDIT) {
-        layout=getEditSetDataTypeLayout(frame, item, formData)
+        layout=getEditSetDataTypeLayout(frame, item, formData, documentation)
         uiLayout=getEditSetDataTypeUILayout(frame, item, uiFrame)
     }
 
     if (mode === VIEW) {
-        layout=getViewSetDataTypeLayout(frame, item, formData)
+        layout=getViewSetDataTypeLayout(frame, item, formData, documentation)
         uiLayout=getViewSetDataTypeUILayout(frame, item, formData, uiFrame)
+    }
+
+    // schema
+    properties[item]=layout
+    // ui schema
+    propertiesUI[item]=uiLayout
+
+    return {properties, propertiesUI}
+}
+
+export function makeSetSysDataTypeFrames (frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation) {
+    let properties={}, propertiesUI={}, layout ={}, uiLayout={}
+
+    if (mode === CREATE) {
+        layout=getCreateSetSysDataTypeLayout(frame, item, documentation)
+        uiLayout=getCreateSetSysDataTypeUILayout(frame, item, uiFrame)
+    }
+
+    if (mode === EDIT) {
+        layout=getEditSetSysDataTypeLayout(frame, item, formData, documentation)
+        uiLayout=getEditSetSysDataTypeUILayout(frame, item, uiFrame, documentation)
+    }
+
+    if (mode === VIEW) {
+        layout=getViewSetSysDataTypeLayout(frame, item, formData, documentation)
+        uiLayout=getViewSetSysDataTypeUILayout(frame, item, formData, uiFrame)
     }
 
     // schema
@@ -251,7 +283,7 @@ function makeSubOneOfTypeFrames(frame, item, uiFrame, mode, formData, onTraverse
 }
 
 
-export const makeSetTypeFrames = (frame, item, uiFrame, mode, formData, onTraverse, onSelect,fullFrame) => {
+export const makeSetTypeFrames = (frame, item, uiFrame, mode, formData, onTraverse, onSelect,fullFrame, documentation) => {
     //console.log("!!! SET frame", frame)
     let madeFrames = {}
 
@@ -259,7 +291,14 @@ export const makeSetTypeFrames = (frame, item, uiFrame, mode, formData, onTraver
     if(frame.hasOwnProperty("properties") && frame["properties"].hasOwnProperty(item)) {
         if(frame["properties"][item].hasOwnProperty("info")
             && frame["properties"][item]["info"] === DATA_TYPE)
-            madeFrames=makeSetDataTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect)
+            madeFrames=makeSetDataTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation)
+    }
+
+    // set Sys Data Types
+    if(frame.hasOwnProperty("properties") && frame["properties"].hasOwnProperty(item)) {
+        if(frame["properties"][item].hasOwnProperty("info")
+            && frame["properties"][item]["info"] === SYS_JSON_TYPE)
+            madeFrames=makeSetSysDataTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation)
     }
     
     // check if any subdocument has a @oneOf property?
@@ -275,21 +314,21 @@ export const makeSetTypeFrames = (frame, item, uiFrame, mode, formData, onTraver
         if(frame["properties"][item].hasOwnProperty("info")
             && frame["properties"][item]["info"] === SUBDOCUMENT_TYPE
             && !checkIfSubPropertiesHasOneOf(frame, item))
-            madeFrames=makeSubDocumentTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect)
+            madeFrames=makeSubDocumentTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation)
     }
 
     // set Document Types
     if(frame.hasOwnProperty("properties") && frame["properties"].hasOwnProperty(item)) {
         if(frame["properties"][item].hasOwnProperty("info")
             && frame["properties"][item]["info"] === DOCUMENT)
-            madeFrames=makeSetDocumentTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect)
+            madeFrames=makeSetDocumentTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation)
     }
 
     // set Enum Types
     if(frame.hasOwnProperty("properties") && frame["properties"].hasOwnProperty(item)) {
         if(frame["properties"][item].hasOwnProperty("info")
             && frame["properties"][item]["info"] === ENUM)
-            madeFrames=makeSetEnumTypeFrames(frame, item, uiFrame, mode, formData)
+            madeFrames=makeSetEnumTypeFrames(frame, item, uiFrame, mode, formData, documentation)
     }
 
     // set Choice Document classes
