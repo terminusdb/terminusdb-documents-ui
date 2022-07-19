@@ -12,9 +12,10 @@ import {
     DATA_TYPE,
     XSD_DATE
 } from "../constants"
+import { BiLabel } from "react-icons/bi"
 
 // Create Layout
-export function getCreateLayout(frame, item) {
+export function getCreateLayout(frame, item) { 
     let type=getDataType(frame[item])
     let layout = {
         type: type,
@@ -27,11 +28,11 @@ export function getCreateLayout(frame, item) {
 
 
 // Create UI Layout
-export function getCreateUILayout(frame, item, uiFrame) {
+export function getCreateUILayout(frame, item, uiFrame, documentation) {
  
     let uiLayout = {
         "ui:placeholder": frame[item],
-        "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
+        "ui:title": getTitle(item, checkIfKey(item, frame["@key"]), documentation),
         classNames: "tdb__input mb-3 mt-3"
     }   
     
@@ -61,12 +62,12 @@ export function getEditLayout(frame, item, formData) {
 }
 
 // Edit UI Layout
-export function getEditUILayout(frame, item, formData, uiFrame) {
+export function getEditUILayout(frame, item, formData, uiFrame, documentation) {
 
     let uiLayout = {
         "ui:placeholder": frame[item],
         "ui:disabled": checkIfKey(item, frame["@key"]) && isFilled(formData, item) ? true : false,
-        "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
+        "ui:title": getTitle(item, checkIfKey(item, frame["@key"]), documentation),
         classNames: "tdb__input mb-3 mt-3"
     }
 
@@ -104,7 +105,7 @@ export function getViewLayout(frame, item, formData) {
 }
 
 // View UI Layout
-export function getViewUILayout(frame, item, formData, uiFrame) {
+export function getViewUILayout(frame, item, formData, uiFrame, documentation) {
     // hide widget if formData of item is empty
     // check for info - coz at this point there mayb be data
     // fields which belongs to subdocument sets and we do not want to hide the widget
@@ -119,7 +120,7 @@ export function getViewUILayout(frame, item, formData, uiFrame) {
 
     let uiLayout = {
         "ui:placeholder": frame[item],
-        "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
+        "ui:title": getTitle(item, checkIfKey(item, frame["@key"]), documentation),
         classNames: "tdb__input mb-3 mt-3"
     } 
     if(frame[item] === XSD_DATE_TIME) {

@@ -18,6 +18,7 @@ export const XSD_BOOLEAN="xsd:boolean"
 export const SYS_JSON_TYPE="sys:JSON"
 
 export const SUBDOCUMENT="@subdocument"
+export const DOCUMENTATION="@documentation"
 export const ONEOFSUBDOCUMENTS="OneOfSubDocuments"
 export const OPTIONAL="Optional"
 export const SET="Set"

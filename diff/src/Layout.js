@@ -36,7 +36,7 @@ const App= (props) =>{
             const result_patch = await client.getDiff(oldJSON, newJSON)
             console.log("result_patch",result_patch)
             const after_patch = await client.patch(oldJSON, result_patch)
-            console.log(after_patch)
+            console.log("after_patch", after_patch)
             //console.log(JSON.stringify(after_patch) === JSON.stringify(jane))
         } catch (err) {
             console.log("Error in getting diff", err)
@@ -53,15 +53,15 @@ const App= (props) =>{
         <br/><br/><br/><br/>
         <Row className="justify-content-center">
             <Col md={8}>
-                <DiffViewer 
+                <DiffViewer  
                     oldValue={oldJSON} 
                     newValue={newJSON} 
                     splitView={true} 
                     //useDarkTheme={true}
                     disableWordDiff={true} 
                     patch={true}
-                    leftTitle={"Left"} 
-                    rightTitle={"Right"}
+                    leftTitle={"Old"} 
+                    rightTitle={"New"}
                     linesOffset={0}/>
             </Col>
         </Row>

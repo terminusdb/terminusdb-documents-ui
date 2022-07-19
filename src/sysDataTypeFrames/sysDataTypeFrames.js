@@ -17,25 +17,25 @@ import {addCustomUI} from "../utils"
 
 
 // get data type frames
-function sysDataTypeFrames (frame, item, uiFrame, mode, formData) {
+function sysDataTypeFrames (frame, item, uiFrame, mode, formData, documentation) {
     let properties={}, propertiesUI={}, layout ={}, uiLayout={}
 
     if (mode === CREATE) {
         layout=getCreateLayout(frame, item)
-        uiLayout=getCreateUILayout(frame, item, uiFrame)
+        uiLayout=getCreateUILayout(frame, item, uiFrame, documentation)
     }
     else if (mode === EDIT) { 
         layout=getEditLayout(frame, item, formData) 
 
         let defaultValue=false
         if(layout.hasOwnProperty("default")) defaultValue=layout.default
-        uiLayout=getEditUILayout(frame, item, defaultValue, uiFrame)
+        uiLayout=getEditUILayout(frame, item, defaultValue, uiFrame, documentation)
 
         //uiLayout=getEditUILayout(frame, item, formData, uiFrame)
     }
     else if (mode === VIEW) {
         layout=getViewLayout(frame, item, formData)
-        uiLayout=getViewUILayout(frame, item, formData, uiFrame)
+        uiLayout=getViewUILayout(frame, item, formData, uiFrame, documentation)
     }
 
     // custom ui:schema - add to default ui schema
@@ -50,8 +50,8 @@ function sysDataTypeFrames (frame, item, uiFrame, mode, formData) {
 }
 
 // mandatory
-export function makeSysDataTypeFrames (frame, item, uiFrame, mode, formData) {
-    let madeFrames = sysDataTypeFrames (frame, item, uiFrame, mode, formData)
+export function makeSysDataTypeFrames (frame, item, uiFrame, mode, formData, documentation) {
+    let madeFrames = sysDataTypeFrames (frame, item, uiFrame, mode, formData, documentation)
 
     let properties = madeFrames.properties
     let propertiesUI = madeFrames.propertiesUI

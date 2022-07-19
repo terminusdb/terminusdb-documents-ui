@@ -2,9 +2,9 @@ import React, {useEffect, useState} from "react"
 import Form from "@terminusdb/rjsf-core"
 import {getProperties} from "./FrameHelpers"
 import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField"
-import {TDB_SCHEMA, SUBMIT_BUTTON_STYLE_KEY, VIEW, EDIT, CREATE} from "./constants"
+import {TDB_SCHEMA, SUBMIT_BUTTON_STYLE_KEY, VIEW, EDIT, CREATE, DOCUMENTATION} from "./constants"
 import {Alert, Button} from "react-bootstrap"
-import {isValueHashDocument, getValueHashMessage} from "./utils"
+import {isValueHashDocument, getValueHashMessage, extractDocumentation} from "./utils"
 import {transformData} from "./extract"
 
 /*
@@ -50,7 +50,9 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             //console.log("extractedPrefix", extractedPrefix)
             //console.log("frame", frame)
             //let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect)
-            let properties=getProperties(frame, type, frame[current], uiFrame, mode, formData, onTraverse, onSelect)
+
+            let documentation= extractDocumentation(frame, current)
+            let properties=getProperties(frame, type, frame[current], uiFrame, mode, formData, onTraverse, onSelect, documentation)
             
             let schema = {
                 type: "object",

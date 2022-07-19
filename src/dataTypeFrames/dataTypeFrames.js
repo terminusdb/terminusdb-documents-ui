@@ -17,20 +17,20 @@ import {addCustomUI} from "../utils"
 
 
 // get data type frames
-function dataTypeFrames (frame, item, uiFrame, mode, formData) {
+function dataTypeFrames (frame, item, uiFrame, mode, formData, documentation) {
     let properties={}, propertiesUI={}, layout ={}, uiLayout={}
 
     if (mode === CREATE) {
         layout=getCreateLayout(frame, item)
-        uiLayout=getCreateUILayout(frame, item, uiFrame)
+        uiLayout=getCreateUILayout(frame, item, uiFrame, documentation)
     }
     else if (mode === EDIT) {
         layout=getEditLayout(frame, item, formData)
-        uiLayout=getEditUILayout(frame, item, formData, uiFrame)
+        uiLayout=getEditUILayout(frame, item, formData, uiFrame, documentation)
     }
     else if (mode === VIEW) {
         layout=getViewLayout(frame, item, formData)
-        uiLayout=getViewUILayout(frame, item, formData, uiFrame)
+        uiLayout=getViewUILayout(frame, item, formData, uiFrame, documentation)
     }
 
     // custom ui:schema - add to default ui schema
@@ -45,8 +45,8 @@ function dataTypeFrames (frame, item, uiFrame, mode, formData) {
 }
 
 // mandatory
-export function makeDataTypeFrames (frame, item, uiFrame, mode, formData) {
-    let madeFrames = dataTypeFrames (frame, item, uiFrame, mode, formData)
+export function makeDataTypeFrames (frame, item, uiFrame, mode, formData, documentation) {
+    let madeFrames = dataTypeFrames (frame, item, uiFrame, mode, formData, documentation)
 
     let properties = madeFrames.properties
     let propertiesUI = madeFrames.propertiesUI

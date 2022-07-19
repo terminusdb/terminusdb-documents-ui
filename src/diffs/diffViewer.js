@@ -3,7 +3,7 @@ import React, {useState, useEffect} from "react"
 import ReactDiffViewer from 'react-diff-viewer'
 import {ButtonGroup, Button, Card, Modal} from "react-bootstrap"
 import {AiOutlineSwap, AiOutlineSwapRight, AiOutlineSwapLeft} from "react-icons/ai"
-import {BsCheck2Circle} from "react-icons/bs"
+import {BsCheck2Circle, BsPatchPlus} from "react-icons/bs"
 import Stack from 'react-bootstrap/Stack'
 
 const DisplayDiff = ({left, right, useDarkTheme, disableWordDiff, leftTitle, rightTitle, showDiffOnly}) => {
@@ -30,6 +30,10 @@ const PatchToolBar = ({left, right, setDisplayRight, setDisplayLeft, variant, te
         setDisplayLeft(right)
         setShowDiffOnly(false)
     }
+
+    return <Button variant={variant} className={textVariant}>
+        Patch 
+    </Button>
 
     return <span>
         <ButtonGroup aria-label="patch tool bar">

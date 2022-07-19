@@ -17,20 +17,20 @@ import {addCustomUI} from "../utils"
 
 
 // get enum type frames
-function enumTypeFrames (frame, item, uiFrame, mode, formData) {
+function enumTypeFrames (frame, item, uiFrame, mode, formData, documentation) {
     let properties={}, propertiesUI={}, layout ={}, uiLayout={}
 
     if (mode === CREATE) {
         layout=getCreateLayout(frame, item)
-        uiLayout=getCreateUILayout(frame, item, uiFrame)
+        uiLayout=getCreateUILayout(frame, item, uiFrame, documentation)
     }
     else if (mode === EDIT) {
         layout=getEditLayout(frame, item, formData)
-        uiLayout=getEditUILayout(frame, item, formData, uiFrame)
+        uiLayout=getEditUILayout(frame, item, formData, uiFrame, documentation)
     }
     else if (mode === VIEW) {
         layout=getViewLayout(frame, item, formData)
-        uiLayout=getViewUILayout(frame, item, formData, uiFrame)
+        uiLayout=getViewUILayout(frame, item, formData, uiFrame, documentation)
     }
 
     // custom ui:schema - add to default ui schema
@@ -45,8 +45,8 @@ function enumTypeFrames (frame, item, uiFrame, mode, formData) {
 }
 
 // mandatory
-export function makeEnumTypeFrames (frame, item, uiFrame, mode, formData) {
-    let madeFrames = enumTypeFrames (frame, item, uiFrame, mode, formData)
+export function makeEnumTypeFrames (frame, item, uiFrame, mode, formData, documentation) {
+    let madeFrames = enumTypeFrames (frame, item, uiFrame, mode, formData, documentation)
 
     let properties = madeFrames.properties
     let propertiesUI = madeFrames.propertiesUI

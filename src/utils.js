@@ -23,7 +23,8 @@ import {
 	COORDINATES, 
 	SUBDOCUMENT_TYPE,
 	FEATURE_COLLECTION,
-	SYS_UNIT_TYPE_PREFIX
+	SYS_UNIT_TYPE_PREFIX,
+	DOCUMENTATION
 } from "./constants"
 import {BiKey, BiPlus} from "react-icons/bi"
 import {RiDeleteBin5Fill} from "react-icons/ri"
@@ -176,9 +177,10 @@ export const isEnumType = (property) => {
 
 
 // field array to display field titles
-export function getSubDocumentTitle(item) {
+export function getSubDocumentTitle(item, documentation) {
 	let title=[]
-	title.push(<h6 style={{display: "contents"}}>{item}</h6>)
+	let label=getLabelFromDocumentation(item, documentation)
+	title.push(<h6 style={{display: "contents"}}>{label}</h6>)
 	//<GoFileSubmodule className="mr-2"/>
 	return title
 }
@@ -190,13 +192,15 @@ export function getSubDocumentDescription(item) {
 	return descr
 }
 
-export function getTitle(item, uiDisable) {
-	if(uiDisable) return <span key={item}  title={`${item} is a key field. Once created, you will not be able to update this field.`}><FcKey className="mr-2"/>{item}</span>
-    else return <span key={item} >{item}</span>
+export function getTitle(item, uiDisable, documentation) {
+	let label=getLabelFromDocumentation(item, documentation)
+	if(uiDisable) return <span key={label}  title={`${label} is a key field. Once created, you will not be able to update this field.`}><FcKey className="mr-2"/>{label}</span>
+    else return <span key={label} >{label}</span>
 }
 
-export function getSetTitle(item) {
-	return item
+export function getSetTitle(item, documentation) {
+	let label=getLabelFromDocumentation(item, documentation)
+	return label
 }
 
 
@@ -574,4 +578,36 @@ export function getSetChoiceEmptyFrames (frame, item) {
         })
     }
 	return emptyAnyOfFrames
+}
+
+/**
+ * 
+ * @param {*} documentation - documentation object which contains labels and comments
+ * @param {*} item - item 
+ * @returns - returns label in which item is to be displayed in UI 
+ */
+export function getLabelFromDocumentation (item, documentation) {
+	if(!documentation) return item
+	if(documentation.hasOwnProperty("@properties")) {
+		for(var props in documentation["@properties"]) {
+			if(props === item) {
+				return documentation["@properties"][props]
+			}
+		}
+	}
+	return item
+}
+
+/**
+ * 
+ * @param {*} frame - full frame from a data product
+ * @param {*} item - item 
+ * @returns - returns documentation of item of interest
+ */
+export function extractDocumentation(frame, item) {
+	let documentation={}
+	if(frame[item].hasOwnProperty(DOCUMENTATION)) {
+		documentation = frame[item][DOCUMENTATION]
+	}
+	return documentation
 }

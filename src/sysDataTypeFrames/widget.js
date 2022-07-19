@@ -25,7 +25,7 @@ export function getDataType(type) {
 }
 
 /* function to display sys:JSON types in code mirror in create mode*/
-export function getCreateJSONWidget(item) {
+export function getCreateJSONWidget(item, label) {
     let uiLayout = {}
 
     function displayCreateJSONInput(props) {
@@ -37,7 +37,7 @@ export function getCreateJSONWidget(item) {
         }
 
         return <React.Fragment>
-            <span>{item}</span>
+            <span>{label}</span>
             <JSONInput
                 id          = 'json_type_field'
                 locale      = { locale }
@@ -52,12 +52,12 @@ export function getCreateJSONWidget(item) {
 }
 
 /* function to display sys:JSON types in view mirror */
-export function getViewJSONWidget(item) {
+export function getViewJSONWidget(item, formData, label) {
     let uiLayout = {}
 
     function displayJSONViewInput(props) { 
         return <React.Fragment>
-            <span>{item}</span>
+            <span>{label}</span>
             <JSONInput
                 id='json_type_field'
                 placeholder={props.formData}

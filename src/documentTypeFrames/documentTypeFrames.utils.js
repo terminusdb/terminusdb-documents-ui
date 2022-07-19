@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import {getSubDocumentTitle, getSubDocumentDescription, getDefaultValue, isFilled, extractUIFrameSelectTemplate} from "../utils"
+import {getSubDocumentTitle, getSubDocumentDescription, getDefaultValue, isFilled, extractUIFrameSelectTemplate, getLabelFromDocumentation} from "../utils"
 import {CREATE, DOCUMENT, EDIT, VIEW, SELECT_STYLES, SUBDOCUMENT_TYPE} from "../constants"
 import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'
@@ -19,7 +19,7 @@ export function getCreateLayout (frame, item) {
 }
 
 // create ui layout
-export function getCreateUILayout (frame, item, onSelect, uiFrame) {
+export function getCreateUILayout (frame, item, onSelect, uiFrame, documentation) {
     let uiLayout= {}
     // create
     function displayEmptySelect(props) {
@@ -44,9 +44,9 @@ export function getCreateUILayout (frame, item, onSelect, uiFrame) {
 
         // extracting custom ui styles
         let selectStyle = extractUIFrameSelectTemplate(uiFrame) ? extractUIFrameSelectTemplate(uiFrame) : SELECT_STYLES
-
+        let label = getLabelFromDocumentation (item, documentation)
         return <EmptyDocumentSelect
-            label={props.name}
+            label={label}
             styles={selectStyle}
             placeholder={props.uiSchema["ui:placeholder"]}
             onChange={onChange}
@@ -84,7 +84,7 @@ export function getEditLayout (frame, item, formData) {
 }
 
 // edit ui layout
-export function getEditUILayout (frame, item, onSelect, defaultValue, uiFrame) {
+export function getEditUILayout (frame, item, onSelect, defaultValue, uiFrame, documentation) {
     let uiLayout= {}
 
     function displayFilledSelect(props) {
@@ -110,10 +110,11 @@ export function getEditUILayout (frame, item, onSelect, defaultValue, uiFrame) {
 
         // extracting custom ui styles
         let selectStyle = extractUIFrameSelectTemplate(uiFrame) ? extractUIFrameSelectTemplate(uiFrame) : SELECT_STYLES
+        let label = getLabelFromDocumentation (item, documentation)
 
         if (defaultValue) {
             return <FilledDocumentSelect
-                label={props.name}
+                label={label}
                 styles={selectStyle}
                 placeholder={props.uiSchema["ui:placeholder"]}
                 onChange={onChange}
@@ -160,7 +161,7 @@ export function getViewLayout(frame, item, formData) {
 }
 
 // View UI Layout
-export function getViewUILayout(frame, item, formData, onTraverse, uiFrame) {
+export function getViewUILayout(frame, item, formData, onTraverse, uiFrame, documentation) {
     let uiLayout= {}
 
     // hide widget if formData of item is empty
@@ -173,11 +174,11 @@ export function getViewUILayout(frame, item, formData, onTraverse, uiFrame) {
     }
     // extracting custom ui styles
     let selectStyle = extractUIFrameSelectTemplate(uiFrame) ? extractUIFrameSelectTemplate(uiFrame) : SELECT_STYLES
-
+    let label = getLabelFromDocumentation (item, documentation)
 
     function displayFilledSelect(props) {
         return <FilledDocumentViewSelect
-            item={item}
+            label={label}
             styles={selectStyle}
             defaultValue={props.formData}
             onTraverse={onTraverse}

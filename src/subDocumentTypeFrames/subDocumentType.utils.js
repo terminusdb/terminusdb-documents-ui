@@ -17,7 +17,7 @@ export function getCreateLayout (frame, item) {
 }
 
 // create ui layout
-export function getCreateUILayout (frame, item, uiFrame) {
+export function getCreateUILayout (frame, item, uiFrame, documentation) {
     let uiLayout= {}
     let subDocuemntBg = extractUIFrameSubDocumentTemplate(uiFrame) ? extractUIFrameSubDocumentTemplate(uiFrame) : 'bg-secondary'
     if(frame.hasOwnProperty("uiSchema")) {
@@ -30,7 +30,7 @@ export function getCreateUILayout (frame, item, uiFrame) {
     }
     uiLayout["classNames"]=`card ${subDocuemntBg} p-4 mt-4 mb-4`
     uiLayout["ui:description"]=getSubDocumentDescription(item)
-    uiLayout["ui:title"]=getSubDocumentTitle(item)
+    uiLayout["ui:title"]=getSubDocumentTitle(item, documentation)
     // custom ui:schema - add to default ui schema
     let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
     return addedCustomUI
@@ -56,7 +56,7 @@ export function getEditLayout (frame, item, formData) {
 }
 
 // edit ui layout
-export function getEditUILayout (frame, item, formData, uiFrame) {
+export function getEditUILayout (frame, item, formData, uiFrame, documentation) {
     let uiLayout= {}
     let subDocuemntBg = extractUIFrameSubDocumentTemplate(uiFrame) ? extractUIFrameSubDocumentTemplate(uiFrame) : 'bg-secondary'
 
@@ -70,7 +70,7 @@ export function getEditUILayout (frame, item, formData, uiFrame) {
     }
     uiLayout["classNames"]=`card ${subDocuemntBg} p-4 mt-4 mb-4`
     uiLayout["ui:description"]=getSubDocumentDescription(item)
-    uiLayout["ui:title"]=getSubDocumentTitle(item) 
+    uiLayout["ui:title"]=getSubDocumentTitle(item, documentation) 
 
     // custom ui:schema - add to default ui schema
     let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
@@ -104,7 +104,7 @@ export function getViewLayout(frame, item, formData) {
 }
 
 // View UI Layout
-export function getViewUILayout(frame, item, formData, uiFrame) {
+export function getViewUILayout(frame, item, formData, uiFrame, documentation) {
     let uiLayout= {}
     let subDocuemntBg = extractUIFrameSubDocumentTemplate(uiFrame) ? extractUIFrameSubDocumentTemplate(uiFrame) : 'bg-secondary'
     
@@ -124,7 +124,7 @@ export function getViewUILayout(frame, item, formData, uiFrame) {
     }
     uiLayout["classNames"]=`card ${subDocuemntBg} p-4 mt-4 mb-4`
     uiLayout["ui:description"]=getSubDocumentDescription(item)
-    uiLayout["ui:title"]=getSubDocumentTitle(item) 
+    uiLayout["ui:title"]=getSubDocumentTitle(item, documentation) 
     // custom ui:schema - add to default ui schema
     let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
     return addedCustomUI
