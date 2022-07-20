@@ -1,4 +1,4 @@
-import {getTitle, getDefaultValue, checkIfKey, isFilled, addCustomUI} from "../utils"
+import {getTitle, getDefaultValue, checkIfKey, getLabelFromDocumentation, isFilled, addCustomUI} from "../utils"
 import {
     ENUM
 } from "../constants"
@@ -19,9 +19,10 @@ export function getCreateLayout(frame, item) {
 
 // Create UI Layout 
 export function getCreateUILayout(frame, item, uiFrame, documentation) {
+    let label = getLabelFromDocumentation(item, documentation)
     let uiLayout = {
         "ui:title": getTitle(item, checkIfKey(item, frame[item]["@key"]), documentation),
-        "ui:placeholder": `Select ${frame[item]["@id"]} ...`,
+        "ui:placeholder": `Select ${label} ...`,
         classNames: "tdb__input mb-3 mt-3"
     }
     // custom ui:schema - add to default ui schema
@@ -47,9 +48,10 @@ export function getEditLayout(frame, item, formData) {
 
 // Edit UI Layout
 export function getEditUILayout(frame, item, formData, uiFrame, documentation) {
+    let label = getLabelFromDocumentation(item, documentation)
     let uiLayout = {
         "ui:title": getTitle(item, checkIfKey(item, frame[item]["@key"]), documentation),
-        "ui:placeholder": `Select ${frame[item]["@id"]} ...`,
+        "ui:placeholder": `Select ${label} ...`,
         classNames: "tdb__input mb-3 mt-3",
         "ui:disabled": checkIfKey(item, frame[item]["@key"]) && isFilled(formData, item) ? true : false
     }
@@ -86,9 +88,10 @@ export function getViewUILayout(frame, item, formData, uiFrame, documentation) {
         return uiLayout
     }
 
+    let label = getLabelFromDocumentation(item, documentation)
     uiLayout= {
         "ui:title": getTitle(item, checkIfKey(item, frame[item]["@key"]), documentation),
-        "ui:placeholder": `Select ${frame[item]["@id"]} ...`,
+        "ui:placeholder": `Select ${label} ...`,
         classNames: "tdb__input mb-3 mt-3 tdb__view__enum__input"
     }
     // custom ui:schema - add to default ui schema

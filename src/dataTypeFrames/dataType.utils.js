@@ -1,4 +1,4 @@
-import {getTitle, getDefaultValue, addCustomUI, checkIfKey, isFilled} from "../utils"
+import {getTitle, getDefaultValue, addCustomUI, getLabelFromDocumentation, checkIfKey, isFilled} from "../utils"
 import {
     getCreateJSONWidget, 
     getEditJSONWidget, 
@@ -15,12 +15,13 @@ import {
 import { BiLabel } from "react-icons/bi"
 
 // Create Layout
-export function getCreateLayout(frame, item) { 
+export function getCreateLayout(frame, item, documentation) { 
+    let label = getLabelFromDocumentation (item, documentation)
     let type=getDataType(frame[item])
     let layout = {
         type: type,
         info: DATA_TYPE,
-        title: item
+        title: label
     }
     if(frame[item] === XSD_DATE_TIME) layout["format"]="date-time"
     return layout 
@@ -29,18 +30,19 @@ export function getCreateLayout(frame, item) {
 
 // Create UI Layout
 export function getCreateUILayout(frame, item, uiFrame, documentation) {
- 
+    let title = getTitle(item, checkIfKey(item, frame["@key"]), documentation)
+    
     let uiLayout = {
         "ui:placeholder": frame[item],
-        "ui:title": getTitle(item, checkIfKey(item, frame["@key"]), documentation),
+        "ui:title": title,
         classNames: "tdb__input mb-3 mt-3"
     }   
     
     if(frame[item] === XSD_DATE_TIME) {
-        uiLayout=getDateTimeUIWidget() // if xsd:dateTime, use a separate widget to display
+        uiLayout=getDateTimeUIWidget(title) // if xsd:dateTime, use a separate widget to display
     }
     else if(frame[item] === XSD_DATE) {
-        uiLayout=getDateUIWidget()
+        uiLayout=getDateUIWidget(title)
     }
     // custom ui:schema - add to default ui schema
     let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
@@ -48,12 +50,13 @@ export function getCreateUILayout(frame, item, uiFrame, documentation) {
 }
 
 // Edit Layout
-export function getEditLayout(frame, item, formData) {
+export function getEditLayout(frame, item, formData, documentation) {
     let type=getDataType(frame[item])
+    let label = getLabelFromDocumentation (item, documentation)
     let layout = {
         type: type,
         info: DATA_TYPE,
-        title: item,
+        title: label,
     }
     // get default value
     let defaultValue=getDefaultValue(item, formData)
@@ -64,16 +67,19 @@ export function getEditLayout(frame, item, formData) {
 // Edit UI Layout
 export function getEditUILayout(frame, item, formData, uiFrame, documentation) {
 
+    let title = getTitle(item, checkIfKey(item, frame["@key"]), documentation)
+    
     let uiLayout = {
         "ui:placeholder": frame[item],
         "ui:disabled": checkIfKey(item, frame["@key"]) && isFilled(formData, item) ? true : false,
-        "ui:title": getTitle(item, checkIfKey(item, frame["@key"]), documentation),
+        "ui:title": title,
         classNames: "tdb__input mb-3 mt-3"
     }
 
     if(frame[item] === XSD_DATE_TIME) {
         uiLayout = {
             "ui:widget": "alt-datetime",
+            "ui:title": title,
             "ui:options": {
                 yearsRange: [1980, 2030],
                 hideNowButton: false,
@@ -83,7 +89,7 @@ export function getEditUILayout(frame, item, formData, uiFrame, documentation) {
         uiLayout["classNames"] = "tdb__input mb-3 mt-3 date-list-style"
     }
     else if(frame[item] === XSD_DATE) {
-        uiLayout=getDateUIWidget()
+        uiLayout=getDateUIWidget(title)
     }
 
     // custom ui:schema - add to default ui schema
@@ -92,12 +98,13 @@ export function getEditUILayout(frame, item, formData, uiFrame, documentation) {
 }
 
 // View Layout
-export function getViewLayout(frame, item, formData) {
+export function getViewLayout(frame, item, formData, documentation) {
     let type=getDataType(frame[item])
+    let label = getLabelFromDocumentation (item, documentation)
     let layout = {
         type: type,
         info: DATA_TYPE,
-        title: item
+        title: label
     }
     let defaultValue = getDefaultValue(item, formData)
     if(defaultValue) layout["default"]= defaultValue
@@ -118,16 +125,18 @@ export function getViewUILayout(frame, item, formData, uiFrame, documentation) {
         return uiLayout
     }
 
+    let title = getTitle(item, checkIfKey(item, frame["@key"]), documentation)
+
     let uiLayout = {
         "ui:placeholder": frame[item],
-        "ui:title": getTitle(item, checkIfKey(item, frame["@key"]), documentation),
+        "ui:title": title,
         classNames: "tdb__input mb-3 mt-3"
     } 
     if(frame[item] === XSD_DATE_TIME) {
-        uiLayout=getDateTimeUIWidget() // if xsd:dateTime, use a separate widget to display
+        uiLayout=getDateTimeUIWidget(title) // if xsd:dateTime, use a separate widget to display
     }
     else if(frame[item] === XSD_DATE) {
-        uiLayout=getDateUIWidget()
+        uiLayout=getDateUIWidget(title)
     }
 
     // custom ui:schema - add to default ui schema

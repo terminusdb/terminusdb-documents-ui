@@ -21,15 +21,15 @@ function dataTypeFrames (frame, item, uiFrame, mode, formData, documentation) {
     let properties={}, propertiesUI={}, layout ={}, uiLayout={}
 
     if (mode === CREATE) {
-        layout=getCreateLayout(frame, item)
+        layout=getCreateLayout(frame, item, documentation)
         uiLayout=getCreateUILayout(frame, item, uiFrame, documentation)
     }
     else if (mode === EDIT) {
-        layout=getEditLayout(frame, item, formData)
+        layout=getEditLayout(frame, item, formData, documentation)
         uiLayout=getEditUILayout(frame, item, formData, uiFrame, documentation)
     }
     else if (mode === VIEW) {
-        layout=getViewLayout(frame, item, formData)
+        layout=getViewLayout(frame, item, formData, documentation)
         uiLayout=getViewUILayout(frame, item, formData, uiFrame, documentation)
     }
 

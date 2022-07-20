@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react"
 import {ArrayFieldTemplate, addCustomUI, checkIfKey, getSetChoiceEmptyFrames, HideArrayFieldTemplate, extractUIFrameSelectTemplate, extractUIFrameSubDocumentTemplate, getSubDocumentTitle, getTitle, getDefaultValue, isFilled, getSetTitle, getLabelFromDocumentation} from "../utils"
-import {CREATE, DOCUMENT, EDIT, VIEW, SELECT_STYLES, SYS_JSON_TYPE, JSON_TYPE, ONEOFVALUES} from "../constants"
+import {CREATE, DOCUMENT, EDIT, VIEW, SELECT_STYLES, SYS_JSON_TYPE, JSON_TYPE, ONEOFVALUES, JSON_EDITOR_HEIGHT, JSON_EDITOR_WIDTH} from "../constants"
 import {FilledDocumentSelect, EmptyDocumentSelect, FilledDocumentViewSelect} from "../documentTypeFrames/DocumentSelects"
 import {Form} from "react-bootstrap"
 import JSONInput from 'react-json-editor-ajrm' 
@@ -420,7 +420,7 @@ export function getEditSetSysDataTypeLayout (frame, item, formData, documentatio
 // edit set sys data type ui layout
 export function getEditSetSysDataTypeUILayout (frame, item, uiFrame, documentation) {
     let uiLayout= {}
-    console.log("set sys frame", frame)
+    //console.log("set sys frame", frame)
 
     function getEmptyUiSchema(uiSchema) {
         let newUiStruct = {}
@@ -439,7 +439,8 @@ export function getEditSetSysDataTypeUILayout (frame, item, uiFrame, documentati
                         <JSONInput
                             id          = 'json_type_field'
                             locale      = { locale }
-                            height      = '500px'
+                            height={JSON_EDITOR_HEIGHT}
+                            width={JSON_EDITOR_WIDTH}
                             onBlur={handleInput}
                         />
                     </React.Fragment>

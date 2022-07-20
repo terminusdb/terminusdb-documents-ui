@@ -15,7 +15,9 @@ import {
     DATA_TYPE,
     JSON_TYPE,
     XSD_G_YEAR,
-    XSD_DATE
+    XSD_DATE,
+    JSON_EDITOR_HEIGHT,
+    JSON_EDITOR_WIDTH
 } from "../constants"
 
 //get data type xsd: or xdd:
@@ -41,7 +43,8 @@ export function getCreateJSONWidget(item, label) {
             <JSONInput
                 id          = 'json_type_field'
                 locale      = { locale }
-                height      = '500px'
+                height      ={JSON_EDITOR_HEIGHT}
+                width       ={JSON_EDITOR_WIDTH}
                 onBlur={handleInput}
             />
         </React.Fragment>
@@ -62,7 +65,8 @@ export function getViewJSONWidget(item, formData, label) {
                 id='json_type_field'
                 placeholder={props.formData}
                 locale={locale}
-                height='300px'
+                height={JSON_EDITOR_HEIGHT}
+                width={JSON_EDITOR_WIDTH}
                 viewOnly={true}
             />
         </React.Fragment>

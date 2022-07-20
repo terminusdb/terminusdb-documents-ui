@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react"
 import {ArrayFieldTemplate, getLabelFromDocumentation, addCustomUI, getSubDocumentTitle, getSubDocumentDescription, getDefaultValue, isFilled, getSetTitle} from "../utils"
-import {CREATE, DOCUMENT, EDIT, VIEW, SELECT_STYLES, SUBDOCUMENT_TYPE} from "../constants"
+import {CREATE, DOCUMENT, JSON_EDITOR_HEIGHT, JSON_EDITOR_WIDTH, EDIT, VIEW, SELECT_STYLES, SUBDOCUMENT_TYPE} from "../constants"
 import {FilledDocumentSelect, EmptyDocumentSelect} from "../documentTypeFrames/DocumentSelects"
 import JSONInput from 'react-json-editor-ajrm'
 import locale    from 'react-json-editor-ajrm/locale/en'
@@ -392,7 +392,8 @@ export function getEditListSysDataTypeUILayout (frame, item, uiFrame, documentat
                         <JSONInput
                             id          = 'json_type_field'
                             locale      = { locale }
-                            height      = '500px'
+                            height={JSON_EDITOR_HEIGHT}
+                            width={JSON_EDITOR_WIDTH}
                             onBlur={handleInput}
                         />
                     </React.Fragment>

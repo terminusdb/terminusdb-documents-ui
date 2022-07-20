@@ -15,10 +15,12 @@ import {
     XSD_DATE
 } from "../constants"
 
+
 // function to provide a ui widget to date
-export function getDateUIWidget() {
+export function getDateUIWidget(title) {
     let uiLayout = {}
     uiLayout["ui:widget"] = "date",
+    uiLayout["ui:title"] = title,
     uiLayout["ui:options"] = {
         "yearsRange": [
             1980,
@@ -30,9 +32,10 @@ export function getDateUIWidget() {
 }
 
 // function to provide a ui widget to dateTime
-export function getDateTimeUIWidget () {
-    let uiLayout = {}
+export function getDateTimeUIWidget (title) {
+    let uiLayout = {} 
     uiLayout["ui:widget"] = "alt-datetime",
+    uiLayout["ui:title"] = title,
     uiLayout["ui:options"] = {
         "yearsRange": [
             1980,

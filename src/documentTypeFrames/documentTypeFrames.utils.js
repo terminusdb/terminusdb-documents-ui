@@ -21,6 +21,8 @@ export function getCreateLayout (frame, item) {
 // create ui layout
 export function getCreateUILayout (frame, item, onSelect, uiFrame, documentation) {
     let uiLayout= {}
+    let label = getLabelFromDocumentation (item, documentation)
+
     // create
     function displayEmptySelect(props) {
 
@@ -44,7 +46,7 @@ export function getCreateUILayout (frame, item, onSelect, uiFrame, documentation
 
         // extracting custom ui styles
         let selectStyle = extractUIFrameSelectTemplate(uiFrame) ? extractUIFrameSelectTemplate(uiFrame) : SELECT_STYLES
-        let label = getLabelFromDocumentation (item, documentation)
+        
         return <EmptyDocumentSelect
             label={label}
             styles={selectStyle}
@@ -58,7 +60,7 @@ export function getCreateUILayout (frame, item, onSelect, uiFrame, documentation
     }
 
     uiLayout = {
-        "ui:placeholder": `Search for ${frame[item]} ...`,
+        "ui:placeholder": `Search for ${label} ...`,
         classNames: "tdb__input mb-3 mt-3",
         "ui:field": displayEmptySelect
     }
@@ -86,6 +88,7 @@ export function getEditLayout (frame, item, formData) {
 // edit ui layout
 export function getEditUILayout (frame, item, onSelect, defaultValue, uiFrame, documentation) {
     let uiLayout= {}
+    let label = getLabelFromDocumentation (item, documentation)
 
     function displayFilledSelect(props) {
         const [value, setValue]=useState(props.formData ? {value: props.formData, label: props.formData} : null)// select value
@@ -110,7 +113,6 @@ export function getEditUILayout (frame, item, onSelect, defaultValue, uiFrame, d
 
         // extracting custom ui styles
         let selectStyle = extractUIFrameSelectTemplate(uiFrame) ? extractUIFrameSelectTemplate(uiFrame) : SELECT_STYLES
-        let label = getLabelFromDocumentation (item, documentation)
 
         if (defaultValue) {
             return <FilledDocumentSelect
@@ -137,7 +139,7 @@ export function getEditUILayout (frame, item, onSelect, defaultValue, uiFrame, d
     }
 
     uiLayout = {
-        "ui:placeholder": `Search for ${frame[item]} ...`,
+        "ui:placeholder": `Search for ${label} ...`,
         classNames: "tdb__input mb-3 mt-3",
         "ui:field": displayFilledSelect
     }
@@ -163,6 +165,7 @@ export function getViewLayout(frame, item, formData) {
 // View UI Layout
 export function getViewUILayout(frame, item, formData, onTraverse, uiFrame, documentation) {
     let uiLayout= {}
+    let label = getLabelFromDocumentation (item, documentation)
 
     // hide widget if formData of item is empty
     // check for info - coz at this point there mayb be data
@@ -174,8 +177,7 @@ export function getViewUILayout(frame, item, formData, onTraverse, uiFrame, docu
     }
     // extracting custom ui styles
     let selectStyle = extractUIFrameSelectTemplate(uiFrame) ? extractUIFrameSelectTemplate(uiFrame) : SELECT_STYLES
-    let label = getLabelFromDocumentation (item, documentation)
-
+    
     function displayFilledSelect(props) {
         return <FilledDocumentViewSelect
             label={label}
@@ -187,7 +189,7 @@ export function getViewUILayout(frame, item, formData, onTraverse, uiFrame, docu
     }
 
     uiLayout = {
-        "ui:placeholder": `Search for ${frame[item]} ...`,
+        "ui:placeholder": `Search for ${label} ...`,
         classNames: "tdb__input mb-3 mt-3",
         "ui:field": displayFilledSelect
     }

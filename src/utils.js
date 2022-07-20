@@ -589,7 +589,7 @@ export function getSetChoiceEmptyFrames (frame, item) {
 export function getLabelFromDocumentation (item, documentation) {
 	if(!documentation) return item
 	if(documentation.hasOwnProperty("@properties")) {
-		for(var props in documentation["@properties"]) {
+		for(var props in documentation["@properties"]) { 
 			if(props === item) {
 				return documentation["@properties"][props]
 			}

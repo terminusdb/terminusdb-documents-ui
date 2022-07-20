@@ -6,7 +6,9 @@ import {
     XSD_DATE_TIME,
     SYS_JSON_TYPE,
     DATA_TYPE,
-    XSD_DATE
+    XSD_DATE,
+    JSON_EDITOR_HEIGHT,
+    JSON_EDITOR_WIDTH
 } from "../constants"
 import {
     getCreateJSONWidget, 
@@ -61,18 +63,17 @@ export function getEditLayout(frame, item, formData) {
 
 export function getEditUILayout (frame, item, defaultValue, uiFrame, documentation) {
     let uiLayout= {}
+    // get label from documentation
+    let label = getLabelFromDocumentation (item, documentation)
     
-    function displayEditJSONInput(props) {
+    function displayEditJSONInput(props) { 
 
-        // get label from documentation
-        let label = getLabelFromDocumentation (item, documentation)
-        
         function handleInput (data) {
             if(data.hasOwnProperty("jsObject") && Object.keys(data.jsObject).length > 0) {
                 props.onChange(data.jsObject)
             }
         }
-
+ 
         if(props.formData) {
             return <React.Fragment>
                 <span>{label}</span>
@@ -80,7 +81,8 @@ export function getEditUILayout (frame, item, defaultValue, uiFrame, documentati
                     id='json_type_field'
                     placeholder={props.formData}
                     locale={locale}
-                    height='500px'
+                    height={JSON_EDITOR_HEIGHT}
+                    width={JSON_EDITOR_WIDTH}
                     onBlur={handleInput}
                 />
             </React.Fragment>
@@ -92,7 +94,8 @@ export function getEditUILayout (frame, item, defaultValue, uiFrame, documentati
                     id='json_type_field'
                     placeholder={defaultValue}
                     locale={locale}
-                    height='500px'
+                    height={JSON_EDITOR_HEIGHT}
+                    width={JSON_EDITOR_WIDTH}
                     onBlur={handleInput}
                 />
             </React.Fragment>
@@ -103,14 +106,15 @@ export function getEditUILayout (frame, item, defaultValue, uiFrame, documentati
             <JSONInput
                 id='json_type_field'
                 locale={locale}
-                height='500px'
+                height={JSON_EDITOR_HEIGHT}
+                width={JSON_EDITOR_WIDTH}
                 onBlur={handleInput}
             />
         </React.Fragment>
     }
 
     uiLayout = {
-        "ui:placeholder": `Search for ${frame[item]} ...`,
+        "ui:placeholder": `Search for ${label} ...`,
         classNames: "tdb__input mb-3 mt-3",
         "ui:field": displayEditJSONInput
     }

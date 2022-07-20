@@ -180,3 +180,6 @@ export default L.icon({
     shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
 })
 
+export const JSON_EDITOR_HEIGHT="200px"
+export const JSON_EDITOR_WIDTH="100%"
+
