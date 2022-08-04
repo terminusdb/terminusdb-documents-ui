@@ -1025,10 +1025,10 @@ export function getViewSetEnumTypeUILayout (frame, item, formData) {
 
 /**************   Set Sub Choice Document Types       *****************/
 // create set Sub Choice Document type layout
-export function getCreateSetSubChoiceDocumentTypeLayout(frame, item) {
+export function getCreateSetSubChoiceDocumentTypeLayout(frame, item, documentation) {
     let layout={
         type: "array",
-        title: getSetTitle(item),
+        title: getSetTitle(item, documentation), //getSetTitle(item),
         items: frame.properties[item],
         additionalItems: frame.properties[item]
     }
@@ -1057,11 +1057,11 @@ export function getCreateSetSubChoiceDocumentTypeUILayout (frame, item, uiFrame)
 }
 
 // edit set Sub Choice Document type layout
-export function getEditSetChoiceSubDocumentTypeLayout(frame, item, formData) {
+export function getEditSetChoiceSubDocumentTypeLayout(frame, item, formData, documentation) {
     //console.log("!!!! CHOICE SET frame", frame)
     let layout={
         type: "array",
-        title: getSetTitle(item),
+        title: getSetTitle(item, documentation),
         items: frame.properties[item],
         additionalItems: frame.properties[item]
     }
@@ -1125,10 +1125,10 @@ export function getEditSetChoiceSubDocumentTypeUILayout (frame, item) {
 }
 
 // view set Sub Choice Document type layout
-export function getViewSetChoiceSubDocumentTypeLayout(frame, item, formData) {
+export function getViewSetChoiceSubDocumentTypeLayout(frame, item, formData, documentation) {
     let layout={
         type: "array",
-        title: getSetTitle(item),
+        title: getSetTitle(item, documentation),
         items: frame.properties[item],
         //additionalItems: frame.properties[item]
     }

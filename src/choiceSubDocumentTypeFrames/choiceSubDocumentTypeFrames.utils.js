@@ -1,27 +1,21 @@
-import {getTitle, getDefaultValue, addCustomUI, checkIfKey, isFilled, extractUIFrameSubDocumentTemplate} from "../utils"
+import {getTitle, extractChoiceDocumentLabels, addCustomUI, checkIfKey, isFilled, extractUIFrameSubDocumentTemplate, getLabelFromDocumentation} from "../utils"
 import {getProperties} from "../FrameHelpers"
 import {
-    XSD_STRING,
-    XSD_DECIMAL,
-    XSD_DATE_TIME,
     CHOICESUBCLASSES,
-    XSD_BOOLEAN,
-    STRING_TYPE,
-    NUMBER_TYPE,
-    BOOLEAN_TYPE,
-    DATE_TYPE,
-    DATA_TYPE
+    DOCUMENTATION
 } from "../constants"
-
+ 
 // get layout of document class
 function getDocumentLayout(documentClass, fullFrame, current, item, uiFrame, mode, formData, onTraverse, onSelect) {
     var layout = {}
     let documentClassIRI = `${documentClass}`
     let frame = fullFrame[documentClassIRI]
     let filledData = (formData && formData.hasOwnProperty(item))? formData[item] : {}
-    let exractedProperties = getProperties (fullFrame, current, frame, uiFrame, mode, filledData, onTraverse, onSelect)
+    let documentation= frame.hasOwnProperty(DOCUMENTATION) ? frame[DOCUMENTATION] : {}
+    let exractedProperties = getProperties (fullFrame, current, frame, uiFrame, mode, filledData, onTraverse, onSelect, documentation)
     //console.log("exractedProperties", exractedProperties)
     // add subdocument type as @type field
+    let docLabel=extractChoiceDocumentLabels(fullFrame, documentClass)
     exractedProperties.properties["@type"]={
         type: "string",
         title: documentClass,
@@ -31,17 +25,6 @@ function getDocumentLayout(documentClass, fullFrame, current, item, uiFrame, mod
     // hide @type field
     exractedProperties.uiSchema["@type"]={"ui:widget": "hidden"}
 
-    /*layout = {
-        title: documentClass,
-        properties: {
-            //[documentClass]: {
-                title: documentClass,
-                type: "object",
-                properties: exractedProperties.properties,
-                uiProperties:  exractedProperties.uiSchema
-            //}
-        }
-    } */
     layout = {
         title: documentClass,
         type: "object",
@@ -53,11 +36,11 @@ function getDocumentLayout(documentClass, fullFrame, current, item, uiFrame, mod
 
 
 // Create Layout
-export function getCreateLayout(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
+export function getCreateLayout(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation) {
 
     // get choice documents
     let anyOfArray = []
-    frame[item].map(fr => {
+    frame[item].map(fr => { 
         var documentName
         if(typeof fr === "object" && fr.hasOwnProperty("@class")) {
             // optional, set or list
@@ -67,24 +50,25 @@ export function getCreateLayout(fullFrame, current, frame, item, uiFrame, mode, 
         anyOfArray.push(getDocumentLayout(documentName, fullFrame, current, item, uiFrame, mode, formData, onTraverse, onSelect))
     })
 
+    let label = getLabelFromDocumentation (item, documentation)
     let layout = {
         type: 'object',
         info: CHOICESUBCLASSES,
-        title: item,
-        description: `Choose ${item} from the list ...`,
+        title: label,
+        description: `Choose ${label} from the list ...`,
         anyOf: anyOfArray
     }
     return layout
 }
 
 // Create UI Layout
-export function getCreateUILayout(frame, item, layout, uiFrame) {
+export function getCreateUILayout(frame, item, layout, uiFrame, documentation) {
 
     let subDocuemntBg = extractUIFrameSubDocumentTemplate(uiFrame) ? extractUIFrameSubDocumentTemplate(uiFrame) : 'bg-secondary'
 
 
     let uiLayout = {
-        "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
+        "ui:title": getTitle(item, checkIfKey(item, frame["@key"]), documentation),
         //classNames: "tdb__input mb-3 mt-3",
         classNames:`card ${subDocuemntBg} p-4 mt-4 mb-4`
     }
@@ -109,7 +93,7 @@ export function getCreateUILayout(frame, item, layout, uiFrame) {
 }
 
 // Edit Layout
-export function getEditLayout(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
+export function getEditLayout(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation) {
     // get choice documents
     let anyOfArray = []
     frame[item].map(fr => {
@@ -138,23 +122,23 @@ export function getEditLayout(fullFrame, current, frame, item, uiFrame, mode, fo
 
 
     })
-
+    let label = getLabelFromDocumentation (item, documentation)
     let layout = {
         type: 'object',
         info: CHOICESUBCLASSES,
-        title: item,
-        description: `Choose ${item} from the list ...`,
+        title: label,
+        description: `Choose ${label} from the list ...`,
         anyOf: anyOfArray
     }
     return layout
 }
 
 // Edit UI Layout
-export function getEditUILayout(frame, item, layout, uiFrame) {
+export function getEditUILayout(frame, item, layout, uiFrame, documentation) {
     let subDocuemntBg = extractUIFrameSubDocumentTemplate(uiFrame) ? extractUIFrameSubDocumentTemplate(uiFrame) : 'bg-secondary'
 
     let uiLayout = {
-        "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
+        "ui:title": getTitle(item, checkIfKey(item, frame["@key"]), documentation),
         classNames: `card ${subDocuemntBg} p-4 mt-4 mb-4`//"tdb__input mb-3 mt-3"
     }
 
@@ -175,7 +159,7 @@ export function getEditUILayout(frame, item, layout, uiFrame) {
 }
 
 // View Layout
-export function getViewLayout(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
+export function getViewLayout(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation) {
     // get choice documents
     let anyOfArray = []
     frame[item].map(fr => {
@@ -203,23 +187,24 @@ export function getViewLayout(fullFrame, current, frame, item, uiFrame, mode, fo
         }
 
     })
-
+    
+    let label = getLabelFromDocumentation (item, documentation)
     let layout = {
         type: 'object',
         info: CHOICESUBCLASSES,
-        title: item
+        title: label
     }
 
     if(isFilled(formData, item)) {
         layout["anyOf"]=anyOfArray
-        layout["description"]=`Choose ${item} from the list ...`
+        layout["description"]=`Choose ${label} from the list ...`
     }
 
     return layout
 }
 
 // View UI Layout
-export function getViewUILayout(frame, item, layout, uiFrame) {
+export function getViewUILayout(frame, item, layout, uiFrame, documentation) {
     // hide widget if formData of item is empty
     if(!layout.hasOwnProperty("anyOf")) {
         uiLayout={ "ui:widget" : "hidden" }
@@ -229,7 +214,7 @@ export function getViewUILayout(frame, item, layout, uiFrame) {
 
 
     let uiLayout = {
-        "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
+        "ui:title": getTitle(item, checkIfKey(item, frame["@key"]), documentation),
         classNames:  `card ${subDocuemntBg} p-4 mt-4 mb-4`//"tdb__input mb-3 mt-3"
     }
 

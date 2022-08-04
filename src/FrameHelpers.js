@@ -102,8 +102,8 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
 
     for(var item in frame) {
 
-        if(item === "nickname") {
-            console.log("nickname")
+        if(item === "asset_history") {
+            console.log("ubicación ")
         }
 
         if(item === "@key") continue
@@ -135,7 +135,7 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
         else if (frame[item] && isChoiceSubDocumentType(frame[item])) { // choice Sub Document
             //let constructedChoiceFrame = constructOptionalFrame(frame[item], item)
             //console.log("constructedChoiceFrame", constructedChoiceFrame)
-            let frames = makeChoiceSubDocumentTypeFrames(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect)
+            let frames = makeChoiceSubDocumentTypeFrames(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation)
             properties[item] = frames.properties[item]
             propertiesUI[item] = frames.propertiesUI[item]
             required.push(item)
@@ -158,7 +158,7 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
         else if(frame[item] && isPointType(frame[item], fullFrame)) {
             let subDocumentName=frame[item].hasOwnProperty("@class") ? frame[item]["@class"] : null
             let subDocumentFrame = constructSubDocumentFrame(fullFrame, item, frame[item], subDocumentName, uiFrame, mode, formData, onTraverse, onSelect)
-            let pointFrames = makeSubDocumentFrames(subDocumentFrame, item, uiFrame, mode, formData, onTraverse, onSelect)
+            let pointFrames = makeSubDocumentFrames(subDocumentFrame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation)
             //set properties and ui
             properties[item] = pointFrames.properties[item]
             propertiesUI[item] = pointFrames.propertiesUI[item]
@@ -166,7 +166,7 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
         }
         else if (frame[item] && (item === COORDINATES) && isDocumentClassArrayType(frame[item])) { // coordinates for geo json
             let newGeoFrame=getModifiedGeoFrame(frame)
-            let geoFrame = makeGeoFrames(newGeoFrame, item, uiFrame, mode, formData)
+            let geoFrame = makeGeoFrames(newGeoFrame, item, uiFrame, mode, formData, documentation)
             //set properties and ui
             properties[item] = geoFrame.properties[item]
             propertiesUI[item] = geoFrame.propertiesUI[item]

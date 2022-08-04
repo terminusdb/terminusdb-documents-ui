@@ -237,20 +237,9 @@ export function ArrayFieldTemplate(props) {
 	var variant="dark"
 	if(props.schema.info==="SUBDOCUMENT") variant="secondary"
 
-	/*if(props.hasOwnProperty("uiSchema")
-		&& props["uiSchema"].hasOwnProperty("ui:options")
-		&& props["uiSchema"]["ui:options"].hasOwnProperty("addable")
-		&& !props["uiSchema"]["ui:options"]["addable"])
-			return <div/>*/
-
-	/*
-		{props.TitleField && (props.schema.info==="SUBDOCUMENT") && getTitle(props.schema.title, "SUBDOCUMENT")}
-			{props.TitleField && (props.schema.info!=="SUBDOCUMENT") &&  getTitle(props.schema.title)}
-			{props.DescriptionField && (props.schema.info==="SUBDOCUMENT") && getDescription(props.schema.title)}
-			*/
 	return  (
 			<div className={props.className}>
-				<span>{props.title}</span>
+				<span className="control-label">{props.title}</span>
 				{/*<p className="text-muted fw-bold">{`${props.title} is a Set. To add ${props.title} click on the Add button`}</p>*/}
 				{props.items &&
 					props.items.map(element => (
@@ -606,8 +595,22 @@ export function getLabelFromDocumentation (item, documentation) {
  */
 export function extractDocumentation(frame, item) {
 	let documentation={}
-	if(frame[item].hasOwnProperty(DOCUMENTATION)) {
+	if(frame.hasOwnProperty(item) && frame[item].hasOwnProperty(DOCUMENTATION)) {
 		documentation = frame[item][DOCUMENTATION]
 	}
 	return documentation
+}
+
+/**
+ * 
+ * @param {*} fullFrame - full frame from a data product
+ * @param {*} documentClass - choice document classes 
+ */
+export function extractChoiceDocumentLabels(frame, choice) {
+	if(frame.hasOwnProperty(choice) && 
+		frame[choice].hasOwnProperty(DOCUMENTATION) && 
+		frame[choice][DOCUMENTATION].hasOwnProperty("@comment")) {
+			return frame[choice][DOCUMENTATION]["@comment"]
+	}
+	return choice
 }

@@ -13,9 +13,9 @@ import {multiPolygonType} from "./multiPolygonType"
 import {polygonType} from "./polygonType"
 
 
-function geoTypeFrames (frame, item, uiFrame, mode, formData) {
+function geoTypeFrames (frame, item, uiFrame, mode, formData, documentation) {
     if(frame.hasOwnProperty(DIMENSION) && frame[DIMENSION] === POINT_TYPE_DIMENSION)
-        return pointType(frame, item, uiFrame, mode, formData)
+        return pointType(frame, item, uiFrame, mode, formData, documentation)
     else if(frame.hasOwnProperty(DIMENSION) && frame[DIMENSION] === LINE_STRING_TYPE_DIMENSION)
         return lineStringType(frame, item, uiFrame, mode, formData)
     else if(frame.hasOwnProperty(DIMENSION) && 
@@ -29,8 +29,8 @@ function geoTypeFrames (frame, item, uiFrame, mode, formData) {
 }
 
 
-export const makeGeoFrames = (frame, item, uiFrame, mode, formData) => {
-    let madeFrames = geoTypeFrames(frame, item, uiFrame, mode, formData)
+export const makeGeoFrames = (frame, item, uiFrame, mode, formData, documentation) => {
+    let madeFrames = geoTypeFrames(frame, item, uiFrame, mode, formData, documentation)
     let properties = madeFrames.properties
     let propertiesUI = madeFrames.propertiesUI
     return {properties, propertiesUI}

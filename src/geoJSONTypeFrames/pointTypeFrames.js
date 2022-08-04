@@ -4,15 +4,16 @@ import {
     getPointTypeCreateEditUI,
     getPointTypeViewUI
 } from "./pointTypeFrames.utils"
+import {getLabelFromDocumentation} from "../utils"
 
 // example [125.6, 10.1]
-export function pointType (frame, item, uiFrame, mode, formData) {
+export function pointType (frame, item, uiFrame, mode, formData, documentation) {
 
     let properties={}, propertiesUI={}
-
+    let label = getLabelFromDocumentation (item, documentation)
     var  layout= {
         type: "array",
-        title: item,
+        title: label,
         [DIMENSION]: frame[DIMENSION],
         items: [{type: "number"}, {type: "number"}]
     }
@@ -27,11 +28,11 @@ export function pointType (frame, item, uiFrame, mode, formData) {
 
     if(mode !== VIEW) { // we do not allow to add extra on view mode
         //ui
-        let uiProperties=getPointTypeCreateEditUI(item)
+        let uiProperties=getPointTypeCreateEditUI(item, documentation)
         propertiesUI[item] = uiProperties[item]
     }
     else { //view
-        let uiProperties=getPointTypeViewUI (formData, item)
+        let uiProperties=getPointTypeViewUI (formData, item, documentation)
         propertiesUI[item] = uiProperties[item]
     }
 

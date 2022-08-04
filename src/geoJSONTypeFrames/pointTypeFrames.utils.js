@@ -1,6 +1,6 @@
 
 import React from "react"
-import {ArrayFieldTemplate} from "../utils"
+import {ArrayFieldTemplate, getLabelFromDocumentation} from "../utils"
 import {MapViewer} from "../maps/mapViewer"
 
 // get form data from single dimensions to display in view or edit modes
@@ -42,13 +42,14 @@ export function getPointTypeCreateEditUI (item) {
 }
 
 // get ui layout for single dimensions in view mode
-export function getPointTypeViewUI (formData, item) {
+export function getPointTypeViewUI (formData, item, documentation) {
     let ui = {}
     function getMapComponent(props) {
         if(!formData.hasOwnProperty(item)) return <div/>
         let cordinates = [{lat: formData[item][0], lng: formData[item][1]}]
+        let label = getLabelFromDocumentation (item, documentation)
         return <React.Fragment>
-            <span>{item}</span>
+            <span>{label}</span>
             <MapViewer documents={cordinates} scrollWheelZoom={true}/>
         </React.Fragment>
     }

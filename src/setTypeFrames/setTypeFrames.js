@@ -57,21 +57,21 @@ import {
 import { DEMO_DOCUMENT_TYPE } from "../../examples/src/sample"
 
 // set sub choice document types
-export function makeSetSubChoiceTypeFrames (frame, item, uiFrame, mode, formData) {
+export function makeSetSubChoiceTypeFrames (frame, item, uiFrame, mode, formData, documentation) {
     let properties={}, propertiesUI={}, layout ={}, uiLayout={}
 
     if (mode === CREATE) {
-        layout=getCreateSetSubChoiceDocumentTypeLayout(frame, item)
+        layout=getCreateSetSubChoiceDocumentTypeLayout(frame, item, documentation)
         uiLayout=getCreateSetSubChoiceDocumentTypeUILayout(frame, item, uiFrame)
     }
 
     if (mode === EDIT) {
-        layout=getEditSetChoiceSubDocumentTypeLayout(frame, item, formData)
+        layout=getEditSetChoiceSubDocumentTypeLayout(frame, item, formData, documentation)
         uiLayout=getEditSetChoiceSubDocumentTypeUILayout(frame, item)
     }
 
     if (mode === VIEW) {
-        layout=getViewSetChoiceSubDocumentTypeLayout(frame, item, formData)
+        layout=getViewSetChoiceSubDocumentTypeLayout(frame, item, formData, documentation)
         uiLayout=getViewSetChoiceSubDocumentTypeUILayout(frame, item, formData)
     }
 
@@ -335,7 +335,7 @@ export const makeSetTypeFrames = (frame, item, uiFrame, mode, formData, onTraver
     if(frame.hasOwnProperty("properties") && frame["properties"].hasOwnProperty(item)) {
         if(frame["properties"][item].hasOwnProperty("info")
             && frame["properties"][item]["info"] === CHOICESUBCLASSES)
-            madeFrames=makeSetSubChoiceTypeFrames(frame, item, uiFrame, mode, formData)
+            madeFrames=makeSetSubChoiceTypeFrames(frame, item, uiFrame, mode, formData, documentation)
     }
 
     // set Choice Document classes
