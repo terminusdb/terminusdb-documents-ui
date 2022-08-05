@@ -103,7 +103,7 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
     for(var item in frame) {
 
         if(item === "asset_history") {
-            console.log("ubicación ")
+            //console.log("ubicación ")
         }
 
         if(item === "@key") continue

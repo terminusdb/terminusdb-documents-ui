@@ -116,7 +116,11 @@ export const Output = ({schema, uiSchema, type, mode, formData}) => {
             "ui:widget": 'hidden'
         }
     }
- 
+
+    let submitJSON = {
+        classNames: "btn-danger",
+        text: "BLAH BLAH"
+    }
 
     return <React.Fragment>
         <h3 className="mt-5 mb-4 text-warning">{`Output - ${type}`}</h3>
@@ -130,6 +134,7 @@ export const Output = ({schema, uiSchema, type, mode, formData}) => {
             mode={mode}
             hideSubmit={mode==="View" ? true : false}
             onTraverse={handleTraverse}
+            submitButton={submitJSON}
             onSubmit={handleSubmit}/>
     </React.Fragment>
 }

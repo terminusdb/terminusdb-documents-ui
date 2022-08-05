@@ -51,7 +51,6 @@ const App= (props) =>{
         getFrames()
     }, [])
 
-    
     if(!frames) return <>{"Extracting franes ...."}</>
 
     return <Container fluid className="p-0 h-100 d-flex">

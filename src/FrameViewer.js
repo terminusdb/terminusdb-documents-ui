@@ -12,7 +12,7 @@ import {transformData} from "./extract"
 **  uiFrame   - ui json of a document
 **  type      - document type of interest
 **  mode      - create/ edit/ view
-**  documents - document list
+**  submitButton - submit button configuration json object
 **  formData  - filled value of the document
 **  onSubmit  - a function with have custom logic to process data submitted
 **  hideSubmit - hides Submit button - this is helpfull when you want to display nested FrameViewers
@@ -21,7 +21,7 @@ import {transformData} from "./extract"
 **  onTraverse - a js function which gets back the ID of a document on click
 **  FieldTemplate - a js function which you can pass at root level of FrameViewer to alter look and feel of fields
 */
-export function FrameViewer({frame, uiFrame, type, mode, documents, formData, onSubmit, onTraverse, onSelect, hideSubmit, onChange, FieldTemplate}){
+export function FrameViewer({frame, uiFrame, type, mode, submitButton, formData, onSubmit, onTraverse, onSelect, hideSubmit, onChange, FieldTemplate}){
 
     const [prefix, setPrefix]=useState(TDB_SCHEMA)
     const [schema, setSchema]=useState(false)
@@ -95,11 +95,20 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
             
             // order is set to place @documentation field at the start of the document
             uiSchema["ui:order"] = ["@documentation", "*"]
+            // styling submit button
+            uiSchema["ui:submitButtonOptions"]= {
+                "props": {
+                   "disabled": false,
+                   "className": submitButton.hasOwnProperty("classNames") ? submitButton["classNames"]  : "btn btn-info",
+                },
+                 "norender": false,
+                 "submitText": submitButton.hasOwnProperty("text") ? submitButton["text"] : "Submit"
+            }
 
             setUISchema(uiSchema)
         //}
         //catch(e) {
-            //setError("An error has occured in generating frames. Err - ", e)
+        //    setError("An error has occured in generating frames. Err - ", e)
         //}
 
     }, [frame, uiFrame, type, mode, formData]) 
@@ -148,10 +157,10 @@ export function FrameViewer({frame, uiFrame, type, mode, documents, formData, on
         );
       }*/
 
-    let submitButtonCss="btn-info"
+    /*let submitButtonCss="btn-info"
     if(uiFrame && Object.keys(uiFrame).length && uiFrame.hasOwnProperty(SUBMIT_BUTTON_STYLE_KEY)) {
         submitButtonCss=uiFrame[SUBMIT_BUTTON_STYLE_KEY]
-    }
+    }*/
 
     return <React.Fragment>
         {schema && message && message}
