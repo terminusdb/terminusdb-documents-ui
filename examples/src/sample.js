@@ -3,7 +3,7 @@ export const CREATE="Create"
 export const EDIT="Edit"
 export const VIEW="View"
 
-export const DEMO_ACTION=CREATE
+export const DEMO_ACTION=VIEW
 export const DEMO_DOCUMENT_TYPE="MandatoryChoiceProperty"
 
 const TEST_FD = {
@@ -78,6 +78,43 @@ export const MAP_SCHEMA = {
     	]
 	}
 }
+
+export const TEMP = {
+	"@id": "Asset/Santa%20Ana%20Fire%20Station%202",
+	"@type": "Asset",
+	"applicable_hazards": [
+	  {
+		"@id": "Asset/Santa%20Ana%20Fire%20Station%202/applicable_hazards/GradedHazard/3f6f67abff999136e960cdb396ff6afe795795a45e4e57ec6feb815ca797a856",
+		"@type": "GradedHazard",
+		"Grade": 3,
+		"hazard": "Huracanes, tifones o ciclones"
+	  }
+	],
+	"assetType": "Otros",
+	"asset_identifier": "Santa Ana Fire Station 2",
+	"commisioning_date": "2022-07-20T08:04:00Z",
+	"design_standards": "Santa Ana Fire Station",
+	"last_maintained": "2022-07-20T08:04:02Z",
+	"last_modified": "2022-07-20T08:04:03Z",
+	"location": {
+	  "@id": "Asset/Santa%20Ana%20Fire%20Station%202/location/Location/8bbd65b3519ce42d209c3d5877dfd029e3800c035fb0d7ceb54e2fd4fe3811a2",
+	  "@type": "Location",
+	  "city": "Santa Ana Fire Station",
+	  "geometry_location": {
+		"@id": "Asset/Santa%20Ana%20Fire%20Station%202/location/Asset/Santa%20Ana%20Fire%20Station%202/location/Location/8bbd65b3519ce42d209c3d5877dfd029e3800c035fb0d7ceb54e2fd4fe3811a2/geometry_location/Point/49dfb5f3b78a09bc95db2735ea44098e95863cb650a74fe048c88b7faede042b",
+		"@type": "Point",
+		"coordinates": [
+		  9.933526351675347,
+		  -84.185147229074
+		],
+		"type": "Point"
+	  },
+	  "postal_code": "Santa Ana Fire Station",
+	  "state": "Santa Ana Fire Station",
+	  "street": "Santa Ana Fire Station"
+	},
+	"name": "Santa Ana Fire Station"
+  }
 
 const JSON_TEST ={}/* {
 	"@id": "Problem/5f7fa87239986ef621c386b05d8aed3f54d766d82f8b8bfe756a14312125acc0",
@@ -712,5 +749,5 @@ const DEMO_FORM_DATA_MANDATORY_CHOICE_DOCUMENT_TYPES= {
 
 
 
-export const DEMO_FORM_DATA=JSON_TEST
+export const DEMO_FORM_DATA=TEMP
 

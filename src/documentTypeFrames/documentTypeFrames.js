@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import {getSubDocumentTitle, getSubDocumentDescription, addCustomUI} from "../utils"
+import {addCustomUI} from "../utils"
 import {CREATE, DOCUMENT, EDIT, VIEW, SELECT_STYLES} from "../constants"
 import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'

@@ -17,7 +17,7 @@ function getDocumentLayout(documentClass, fullFrame, current, item, uiFrame, mod
     // add subdocument type as @type field
     let docLabel=extractChoiceDocumentLabels(fullFrame, documentClass)
     exractedProperties.properties["@type"]={
-        type: "string",
+        type: "string", 
         title: documentClass,
         default: documentClass
     }

@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from "react"
-import {ArrayFieldTemplate, getSubDocumentDescription, addCustomUI} from "../utils"
 import {CREATE, DOCUMENT, EDIT, VIEW, CHOICESUBCLASSES, SYS_JSON_TYPE,ENUM, DATA_TYPE, SUBDOCUMENT_TYPE} from "../constants"
 import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'

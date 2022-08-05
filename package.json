@@ -92,7 +92,8 @@
     "webpack-dev-server": "^4.9.2"
   },
   "dependencies": {
-    "@terminusdb/rjsf-core": "^4.0.5",
+    "@rjsf/bootstrap-4": "^4.2.2",
+    "@rjsf/core": "^4.2.2",
     "@terminusdb/terminusdb-client": "^10.0.10",
     "babel-jest": "^27.4.6",
     "bootstrap": "^5.1.3",

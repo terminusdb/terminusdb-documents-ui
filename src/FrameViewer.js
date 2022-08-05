@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react"
-import Form from "@terminusdb/rjsf-core"
+//import Form from "@terminusdb/rjsf-core"
+import Form from "@rjsf/core"
 import {getProperties} from "./FrameHelpers"
 import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField"
 import {TDB_SCHEMA, SUBMIT_BUTTON_STYLE_KEY, VIEW, EDIT, CREATE, DOCUMENTATION} from "./constants"
@@ -96,15 +97,17 @@ export function FrameViewer({frame, uiFrame, type, mode, submitButton, formData,
             // order is set to place @documentation field at the start of the document
             uiSchema["ui:order"] = ["@documentation", "*"]
             // styling submit button
-            uiSchema["ui:submitButtonOptions"]= {
-                "props": {
-                   "disabled": false,
-                   "className": submitButton.hasOwnProperty("classNames") ? submitButton["classNames"]  : "btn btn-info",
-                },
-                 "norender": false,
-                 "submitText": submitButton.hasOwnProperty("text") ? submitButton["text"] : "Submit"
+            if(submitButton) {
+                uiSchema["ui:submitButtonOptions"]= {
+                    "props": {
+                       "disabled": false,
+                       "className": submitButton.hasOwnProperty("classNames") ? submitButton["classNames"]  : "btn btn-info",
+                    },
+                     "norender": false,
+                     "submitText": submitButton.hasOwnProperty("text") ? submitButton["text"] : "Submit"
+                }
             }
-
+            
             setUISchema(uiSchema)
         //}
         //catch(e) {

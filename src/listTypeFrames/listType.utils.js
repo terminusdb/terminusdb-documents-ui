@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import {ArrayFieldTemplate, getLabelFromDocumentation, addCustomUI, getSubDocumentTitle, getSubDocumentDescription, getDefaultValue, isFilled, getSetTitle} from "../utils"
+import {ArrayFieldTemplate, getLabelFromDocumentation, addCustomUI, getDefaultValue, isFilled, getSetTitle} from "../utils"
 import {CREATE, DOCUMENT, JSON_EDITOR_HEIGHT, JSON_EDITOR_WIDTH, EDIT, VIEW, SELECT_STYLES, SUBDOCUMENT_TYPE} from "../constants"
 import {FilledDocumentSelect, EmptyDocumentSelect} from "../documentTypeFrames/DocumentSelects"
 import JSONInput from 'react-json-editor-ajrm'
