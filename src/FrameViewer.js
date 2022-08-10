@@ -46,7 +46,7 @@ export function FrameViewer({frame, uiFrame, type, mode, submitButton, formData,
 
     useEffect(() => {
         //setPrefix(extractedPrefix)
-        //try{
+        try{
             //console.log("extractedPrefix", extractedPrefix)
             //console.log("frame", frame)
             //let properties = getProperties(frame, frame[current], uiFrame, documents, mode, formData, false, extractedPrefix, onTraverse, onSelect)
@@ -96,20 +96,20 @@ export function FrameViewer({frame, uiFrame, type, mode, submitButton, formData,
             // order is set to place @documentation field at the start of the document
             uiSchema["ui:order"] = ["@documentation", "*"]
             // styling submit button
-            uiSchema["ui:submitButtonOptions"]= {
+            /*uiSchema["ui:submitButtonOptions"]= {
                 "props": {
                    "disabled": false,
                    "className": submitButton.hasOwnProperty("classNames") ? submitButton["classNames"]  : "btn btn-info",
                 },
                  "norender": false,
                  "submitText": submitButton.hasOwnProperty("text") ? submitButton["text"] : "Submit"
-            }
+            }*/
 
             setUISchema(uiSchema)
-        //}
-        //catch(e) {
-        //    setError("An error has occured in generating frames. Err - ", e)
-        //}
+        }
+        catch(e) {
+            setError("An error has occured in generating frames. Err - ", e)
+        }
 
     }, [frame, uiFrame, type, mode, formData]) 
 
