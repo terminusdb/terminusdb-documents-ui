@@ -1,0 +1,208 @@
+
+.rjsf {
+    width: 100%;
+}
+
+.tdb__subdocument__collapse_headers{
+    background: none !important;
+    padding: 0 !important;
+    max-height: 20px;
+}
+
+.tdb__subdocument__collapse_headers > span {
+    color: #f9d891 !important;
+}
+
+.tdb__input > input, .tdb__input > select, .tdb__view__enum__input > select{
+    color: #adb5bd;
+    background-color: transparent !important;
+    border-color: rgb(102, 102, 102) !important;
+    line-height: 1.5;
+}
+
+
+/** selects ***/
+select, .rbt-input-main {
+    background-color: transparent !important;
+    color: #adb5bd !important;
+    border-color: rgb(102, 102, 102) !important;
+    line-height: 1.5;
+}
+
+.rbt-input-hint{ /** hide hint for typeahead select**/
+    display: none;
+}
+
+.rbt{
+    width: 100%;
+    height: fit-content;
+}
+
+/*** input layouts in view mode ***/
+.tdb__view__input, .tdb__view__enum__input{
+    display: flex;
+    color: #ccc;
+}
+
+.tdb__view__input > input,  .tdb__view__enum__input > select{
+    border: 0;
+    margin: -10px 0px;
+    /*color: #fff !important;*/
+}
+
+.tdb__view__input > span.tbd__view__select{
+    color: #fff !important;
+    margin-left: -10px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.tdb__view__input > span > select,
+.tdb__view__input > select,
+.tdb__view__input > span.tdb__span__select {
+    border: 0;
+    background-color: transparent !important;
+    background-image: none !important; /** hiding select carrot **/
+    margin: 0px 0px 0px -10px !important;
+    color: #fff !important;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.css-qc6sy-singleValue {
+    color: #fff !important;
+}
+
+.tdb__view__input > span > select:hover,
+.tdb__view__input > select:hover,
+.tdb__view__input > span.tdb__span__select:hover{
+    color: #2196f3 !important;
+}
+
+.tdb__view__input > label, .tdb__view__enum__input> label{
+    width: 300px;
+}
+
+.tdb__view__input > label > .required, .tdb__view__enum__input > label > .required{
+    display: none;
+}
+
+.required {
+    font-size: 20px;
+    color: #ffc107!important;
+    margin-left: 10px !important;
+}
+
+
+div.array-item {
+    display: flex !important;
+}
+
+div.array-item > div {
+    width: 100% !important;
+}
+
+.tdb__array__item__list {
+    height: 60px !important;
+    margin-top: 30px !important;
+}
+
+div.array-item > div.array-item-toolbox {
+    margin-left: 20px !important;
+}
+
+.array-item-remove{
+    color: #e74c3c !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
+}
+
+
+i.glyphicon-chevron-right::after {
+    content: 'Expand';
+    float: right;
+    font-style: normal;
+    color: #ccc;
+    font-size: 15px;
+}
+
+i.glyphicon-chevron-down::after {
+    content: 'Collapse';
+    float: right;
+    font-style: normal;
+    color: #ccc;
+    font-size: 15px;
+}
+
+.date-list-style > ul {
+    display: flex !important;
+}
+
+select > option {
+    background-color: #444 !important;
+}
+
+legend {
+    display: none;
+}
+
+
+.field-description {
+    color: #888;
+}
+
+#map-leaflet-id{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+ }
+
+
+
+ .norwayLink{
+    color: #0078A8;
+ }
+
+ .norwayLink:hover{
+    text-decoration: underline;
+    cursor: pointer;
+ }
+
+/** optimiz **/
+ .tdb__span__select {
+    border: 0;
+    background-color: transparent !important;
+    background-image: none !important; /** hiding select carrot **/
+    margin: 0px 0px 0px 50px !important;
+    color: #fff !important;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.btn-now,
+.btn-clear {
+    color: #444 !important;
+    background-color: #adb5bd !important;
+    border-color: #adb5bd !important;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    border-radius: 0.2rem;
+    margin: 5px;
+}
+
+div.leaflet-popup-content-wrapper > div.leaflet-popup-content {
+    color: #000;
+}
+
+/*
+div.form-group > ul > li > a.btn-info {
+    border: 0 !important;
+}
+
+div.form-group > ul > li {
+    border: 1px solid #ced4da;
+    border-radius: 4px; 
+}*/
+
+
